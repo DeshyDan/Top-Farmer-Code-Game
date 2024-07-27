@@ -1,0 +1,47 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl3mqmtt4hpof"]
+
+[ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://player_code_highlighter.tres" id="1_424wy"]
+[ext_resource type="Script" path="res://player_editor.gd" id="1_j8a5t"]
+
+[node name="CodeEditTest" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="CodeEdit" type="CodeEdit" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "extends CodeEdit
+
+@export var keyword_data_path: = \"res://keywords.json\"
+@export var class_color: = Color(0.6, 0.6, 1.0)
+@export var member_color: = Color(0.6, 1.0, 0.6)
+@export var keyword_color: = Color(1.0, 0.6, 0.6)
+@export var quotes_color: = Color(1.0, 1.0, 0.6)
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	var keyword_data = FileAccess.get_file_as_string(keyword_data_path)
+	var keywords = JSON.parse_string(keyword_data)
+	print(keywords)
+
+# Called every frame. 'delta' is the elapsed time since the previous frame. #
+func _process(delta):
+	pass
+"
+minimap_draw = true
+syntax_highlighter = ExtResource("1_424wy")
+highlight_current_line = true
+gutters_draw_line_numbers = true
+gutters_zero_pad_line_numbers = true
+code_completion_enabled = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = ExtResource("1_j8a5t")

@@ -1,0 +1,6 @@
+Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
+ 
+USER SCRIPT ERROR: Parse Error: Unexpected "Identifier" in class body.
+   at: GDScript::reload (res://player_code.gd:8)
+ERROR: Failed to load script "res://player_code.gd" with error "Par["Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org\r\n \r\nSCRIPT ERROR: Parse Error: Unexpected \"Identifier\" in class body.\r\n          at: GDScript::reload (res://player_code.gd:8)\r\nERROR: Failed to load script \"res://player_code.gd\" with error \"Parse error\".\r\n   at: load (modules/gdscript/gdscript.cpp:2775)\r\n"]
+1

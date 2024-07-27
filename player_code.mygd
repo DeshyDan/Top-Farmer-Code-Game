@@ -1,0 +1,19 @@
+extends Robot
+#comment
+var pivot_x = 300
+var pivot_y = 300
+var radius = 100
+var speed = 1
+var angle = 0.0
+
+func _ready():
+	MessageBus.print_log(["hi"], "Robot1", 9, 1)
+	position.x = pivot_x + radius
+	position.y = pivot_y
+
+func _process(delta):
+	angle += speed * delta
+	position.x = sin(angle) * radius
+	position.y = cos(angle) * radius
+	position.x += pivot_x
+	position.y += pivot_y
