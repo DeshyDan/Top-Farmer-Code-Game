@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c8jlymvahedim"]
+
+[ext_resource type="Texture2D" uid="uid://drwrmyx6udvcy" path="res://assets/icon.svg" id="1_anecl"]
+
+[node name="Robot" type="Sprite2D"]
+scale = Vector2(0.505, 0.502)
+texture = ExtResource("1_anecl")

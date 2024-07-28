@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c8jlymvahedim"]
-
-[ext_resource type="Texture2D" uid="uid://drwrmyx6udvcy" path="res://icon.svg" id="1_duopj"]
-
-[node name="Robot" type="Sprite2D"]
-scale = Vector2(1, 0.994083)
-texture = ExtResource("1_duopj")
