@@ -1,12 +1,4 @@
-Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
+Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
+OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
  
-USER SCRIPT ERROR: Compile Error: Identifier not found: MessageBus
-   at: GDScript::reload (res://r["Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org\r\n \r\nSCRIPT ERROR: Compile Error: Identifier not found: MessageBus\r\n          at: GDScript::reload (res://robot.gd:27)\r\nSCRIPT ERROR: Compile Error: \r\n          at: GDScript::reload (res://player_code.gd:-1)\r\nERROR: Failed to load script \"res://player_code.gd\" with error \"Compilation failed\".\r\n   at: load (modules/gdscript/gdscript.cpp:2775)\r\n"]
-0
-hi
-robot ready
-tick
-tick
-tick
-tick
-tick
+Token (INTEGER,1)
