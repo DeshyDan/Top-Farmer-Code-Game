@@ -4,14 +4,19 @@
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_at01e"]
 [ext_resource type="PackedScene" uid="uid://biby7lxgflo4u" path="res://scenes/farm.tscn" id="2_eyq06"]
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("code_window")]
 script = ExtResource("1_at01e")
+code_window = NodePath("Robot1")
 
-[node name="PanelContainer" parent="." instance=ExtResource("1_0h01p")]
+[node name="Robot1" parent="." instance=ExtResource("1_0h01p")]
 position = Vector2i(538, 86)
 size = Vector2i(550, 510)
 
 [node name="Farm" parent="." instance=ExtResource("2_eyq06")]
 position = Vector2(133, 215)
 
-[editable path="PanelContainer"]
+[connection signal="kill_button_pressed" from="Robot1" to="." method="_on_kill_pressed"]
+[connection signal="pause_button_pressed" from="Robot1" to="." method="_on_pause_pressed"]
+[connection signal="run_button_pressed" from="Robot1" to="." method="_on_button_pressed"]
+
+[editable path="Robot1"]

@@ -1,3 +1,4 @@
+class_name Console
 extends RichTextLabel
 
 func _ready():

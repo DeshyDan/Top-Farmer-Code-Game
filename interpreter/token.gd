@@ -3,23 +3,44 @@ class_name Token
 extends RefCounted
 
 enum Type {
+	VAR,
+	IDENT,
+	DOT,
 	INTEGER,
+	MUL,
+	DIV,
+	ASSIGN,
 	PLUS,
 	MINUS,
+	LPAREN,
+	RPAREN,
+	BEGIN,
+	END,
+	NL,
 	EOF
 }
 
 const TYPE_STRINGS =  {
+	Type.VAR: "VAR",
+	Type.IDENT: "IDENT",
 	Type.INTEGER: "INTEGER",
+	Type.MUL: "MUL",
+	Type.DIV: "DIV",
+	Type.ASSIGN: "ASSIGN",
 	Type.PLUS: "PLUS",
 	Type.MINUS: "MINUS",
+	Type.LPAREN: "LPAREN",
+	Type.RPAREN: "RPAREN",
+	Type.BEGIN: "BEGIN",
+	Type.END: "END",
+	Type.NL: "NL",
 	Type.EOF: "EOF"
 }
 
 var type
 var value
 
-func _init(type: Type, value: String):
+func _init(type: Type, value: Variant):
 	self.type = type
 	self.value = value
 

@@ -1,4 +1,46 @@
-Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
-OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
+Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
-Token (INTEGER,1)
+?
+["!=", "%", "%=", "&", "&=", "(", ")", "*", "**", "**=", "*=", "+", "+=", ",", "-", "-=", ".", "/", "//", "//=", "/=", ":", ";", "<", "<<", "<<=", "<=", "<>", "=", "==", ">", ">=", ">>", ">>=", "@", "[", "]", "^", "^=", "`", "{", "|", "|=", "}", "~"]
+
+		[ \t\f]*
+		(
+			(\\)?
+			([\n]|[\r][\n]|[\r])
+		|   (\#.*)
+		|   ( 
+				(?:     \.  [0-9]+
+				|   [0-9]+ \.  [0-9]+
+				|   [0-9]+ \.?
+				) [eE] [+-]? [0-9]+
+			|       \. [0-9]+
+			|   [0-9]+ \. [0-9]+
+			|   [0-9]+ \.
+			) ([jJ])?
+		|   ([0-9]+) [jJ]
+		|   (?:
+				( [1-9]   (?: _ [0-9]       )* )
+			|     0[oO] ( (?: _ [0-7]       )+ )
+			|     0[xX] ( (?: _ [0-9A-Fa-f] )+ ) 
+			|     0[bB] ( (?: _ [01]        )+ )
+			|   ( [0-9]   (?: _ [0-9]       )* )
+			)
+			[Ll]?
+		|   ([BbUu]?[Rr]?)
+			(?:
+				(""\"|''') ((?: \\?[\n] | \\. | . )*?) (\14)
+			|   ("   |'  ) ((?: \\ [\n] | \\. | . )*?) (\17)
+			|   (""\"|'''|"|')
+			)
+		|   ((?:and|as|assert|break|class|continue|def|del|elif|else|except|exec|finally|for|from|global|if|import|in|is|lambda|not|or|pass|print|raise|return|try|while|with|yield)\b|!=|%|%=|&|&=|(|)|*|**|**=|*=|+|+=|,|-|-=|.|/|//|//=|/=|:|;|<|<<|<<=|<=|<>|=|==|>|>=|>>|>>=|@|[|]|^|^=|`|{||||=|}|~)
+		|   ([A-Za-z_][A-Za-z0-9_]*\b)
+		|   ($)
+		)
+		
+USER ERROR: 830: quantifier does not follow a repeatable item
+   at: compile (modules/regex/regex.cpp:198)
+false
+USER ERROR: Condition "!is_valid()" is true. Returning: nullptr
+   at: search (modules/regex/regex.cpp:205)
+no match

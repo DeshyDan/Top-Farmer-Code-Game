@@ -1,110 +1,102 @@
 class_name Interpreter
 extends RefCounted
 
-var pos: int
-var current_token: Token
-var text: String
-var current_char: String
+var parser: Parser
 
-func _init(text: String):
-	self.text = text
-	pos = 0
-	current_char = self.text[pos]
-	current_token = null
+var interpreter_error: InterpreterError
+var error_pos = 0
 
-def error(self):
-	
+enum InterpreterError {
+	OK,
+	ERROR
+}
 
-def advance(self):
-	"""Advance the 'pos' pointer and set the 'current_char' variable."""
-	self.pos += 1
-	if self.pos > len(self.text) - 1:
-		self.current_char = None  # Indicates end of input
+var variables = {}
+var ast: AST
+
+func _init(parser: Parser):
+	self.parser = parser
+
+func reset():
+	parser.reset()
+
+func visit(ast_node: AST):
+	if ast_node is BinaryOP:
+		return visit_BinaryOp(ast_node)
+	elif ast_node is Number:
+		return visit_Number(ast_node)
+	elif ast_node is Assignment:
+		return visit_assignment(ast_node)
+	elif ast_node is UnaryOp:
+		return visit_unary_op(ast_node)
+	elif ast_node is Block:
+		return visit_block(ast_node)
+	elif ast_node is Var:
+		return visit_var(ast_node)
+	elif ast_node is NoOp:
+		return visit_no_op(ast_node)
 	else:
-		self.current_char = self.text[self.pos]
+		print("can't visit node")
 
-def skip_whitespace(self):
-	while self.current_char is not None and self.current_char.isspace():
-		self.advance()
+func visit_function_decl(node: FunctionDecl):
+	variables[node.name] = node.block
 
-def integer(self):
-	"""Return a (multidigit) integer consumed from the input."""
-	result = ''
-	while self.current_char is not None and self.current_char.isdigit():
-		result += self.current_char
-		self.advance()
-	return int(result)
+func visit_BinaryOp(node: BinaryOP):
+	if node.op.type == Token.Type.PLUS:
+		return visit(node.left) + visit(node.right)
+	elif node.op.type == Token.Type.MINUS:
+		return visit(node.left) - visit(node.right)
+	elif node.op.type == Token.Type.MUL:
+		return visit(node.left) * visit(node.right)
+	elif node.op.type == Token.Type.DIV:
+		return visit(node.left) / visit(node.right)
 
-def get_next_token(self):
-	"""Lexical analyzer (also known as scanner or tokenizer)
+func visit_unary_op(node: UnaryOp):
+	if node.op.type == Token.Type.MINUS:
+		return -1 * visit(node.right)
+	if node.op.type == Token.Type.PLUS:
+		return visit(node.right)
 
-	This method is responsible for breaking a sentence
-	apart into tokens.
-	"""
-	while self.current_char is not None:
+func visit_Number(node: Number):
+	return node.value
 
-		if self.current_char.isspace():
-			self.skip_whitespace()
-			continue
+func visit_assignment(node: Assignment):
+	variables[node.left.name] = visit(node.right)
+	print("assignment {0} = {1}".format([node.left.name,visit(node.right)]))
 
-		if self.current_char.isdigit():
-			return Token(INTEGER, self.integer())
+func visit_block(node: Block):
+	for child in node.children:
+		visit(child)
 
-		if self.current_char == '+':
-			self.advance()
-			return Token(PLUS, '+')
+func visit_var(node: Var):
+	return variables[node.name]
 
-		if self.current_char == '-':
-			self.advance()
-			return Token(MINUS, '-')
+func visit_no_op(node: NoOp):
+	return
 
-		self.error()
-
-	return Token(EOF, None)
-
-def eat(self, token_type):
-	# compare the current token type with the passed token
-	# type and if they match then "eat" the current token
-	# and assign the next token to the self.current_token,
-	# otherwise raise an exception.
-	if self.current_token.type == token_type:
-		self.current_token = self.get_next_token()
+func print_ast(node: AST, indent: int = 0):
+	parser.reset()
+	var indent_str = " ".repeat(indent)
+	if node is BinaryOP:
+		print("{0}BinaryOP: {1}".format([indent_str, node.op.value]))
+		print_ast(node.left, indent + 2)
+		print_ast(node.right, indent + 2)
+	elif node is Number:
+		print("{0}Number: {1}".format([indent_str, node.value]))
+	elif node is Assignment:
+		print("{0}Assignment: {1}".format([indent_str]))
+		print_ast(node.left, indent + 2)
+		print_ast(node.right, indent + 2)
+	elif node is UnaryOp:
+		print("{0}UnaryOp: {1}".format([indent_str, node.op.value]))
+		print_ast(node.right, indent + 2)
+	elif node is Block:
+		print("{0}Block:".format([indent_str]))
+		for child in node.children:
+			print_ast(child, indent + 2)
+	elif node is Var:
+		print("{0}Var: {1}".format([indent_str,node.name]))
+	elif node is NoOp:
+		print("{0}NoOp".format([indent_str]))
 	else:
-		self.error()
-
-def expr(self):
-	"""Parser / Interpreter
-
-	expr -> INTEGER PLUS INTEGER
-	expr -> INTEGER MINUS INTEGER
-	"""
-	# set current token to the first token taken from the input
-	self.current_token = self.get_next_token()
-
-	# we expect the current token to be an integer
-	left = self.current_token
-	self.eat(INTEGER)
-
-	# we expect the current token to be either a '+' or '-'
-	op = self.current_token
-	if op.type == PLUS:
-		self.eat(PLUS)
-	else:
-		self.eat(MINUS)
-
-	# we expect the current token to be an integer
-	right = self.current_token
-	self.eat(INTEGER)
-	# after the above call the self.current_token is set to
-	# EOF token
-
-	# at this point either the INTEGER PLUS INTEGER or
-	# the INTEGER MINUS INTEGER sequence of tokens
-	# has been successfully found and the method can just
-	# return the result of adding or subtracting two integers,
-	# thus effectively interpreting client input
-	if op.type == PLUS:
-		result = left.value + right.value
-	else:
-		result = left.value - right.value
-	return result
+		print("{0}Unknown node type: {1}".format([indent_str]))

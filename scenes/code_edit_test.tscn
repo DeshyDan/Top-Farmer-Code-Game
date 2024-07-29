@@ -55,30 +55,6 @@ size_flags_vertical = 3
 [node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/CodeEditTest"]
 layout_mode = 2
 size_flags_vertical = 3
-text = "extends Robot
-#comment
-var pivot_x = 300
-var pivot_y = 300
-var radius = 100
-var speed = 1
-var angle = 0.0
-
-func _ready():
-	print(\"hi\")
-	position.x = pivot_x + radius
-	position.y = pivot_y
-
-var x = 0
-var y = 0
-
-func _tick():
-	if y >=3 and x >= 3:
-		return	
-	plant(Vector2i(x,y))
-	if x >= 3:
-		x = 0
-		y += 1
-	"
 minimap_draw = true
 syntax_highlighter = ExtResource("1_424wy")
 highlight_current_line = true
@@ -130,6 +106,6 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2egim")
 text = "Kill"
 
 [connection signal="size_changed" from="." to="CanvasLayer/PanelContainer" method="_on_window_size_changed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Button" to="." method="_on_run_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Kill" to="." method="_on_kill_pressed"]
