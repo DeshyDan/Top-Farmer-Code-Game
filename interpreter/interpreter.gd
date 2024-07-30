@@ -12,6 +12,7 @@ enum InterpreterError {
 }
 
 var variables = {}
+var functions = {}
 var ast: AST
 
 func _init(parser: Parser):
@@ -21,6 +22,7 @@ func reset():
 	parser.reset()
 
 func visit(ast_node: AST):
+	# a = 2
 	if ast_node is BinaryOP:
 		return visit_BinaryOp(ast_node)
 	elif ast_node is Number:
@@ -35,6 +37,8 @@ func visit(ast_node: AST):
 		return visit_var(ast_node)
 	elif ast_node is NoOp:
 		return visit_no_op(ast_node)
+	elif ast_node is FunctionDecl:
+		return visit_function_decl(ast_node)
 	else:
 		print("can't visit node")
 
@@ -49,6 +53,10 @@ func visit_BinaryOp(node: BinaryOP):
 	elif node.op.type == Token.Type.MUL:
 		return visit(node.left) * visit(node.right)
 	elif node.op.type == Token.Type.DIV:
+		var right_eval = visit(node.right)
+		if right_eval == 0:
+			interpreter_error = InterpreterError.ERROR
+			return
 		return visit(node.left) / visit(node.right)
 
 func visit_unary_op(node: UnaryOp):
@@ -84,7 +92,7 @@ func print_ast(node: AST, indent: int = 0):
 	elif node is Number:
 		print("{0}Number: {1}".format([indent_str, node.value]))
 	elif node is Assignment:
-		print("{0}Assignment: {1}".format([indent_str]))
+		print("{0}Assignment:".format([indent_str]))
 		print_ast(node.left, indent + 2)
 		print_ast(node.right, indent + 2)
 	elif node is UnaryOp:

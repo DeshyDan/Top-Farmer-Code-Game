@@ -80,7 +80,7 @@ func expr():
 	return result
 
 func program():
-	var node = block()
+	var node = statement_list()
 	eat(Token.Type.EOF)
 	return node
 
@@ -108,11 +108,16 @@ func statement():
 		return block()
 	elif current_token.type == Token.Type.IDENT:
 		return assignment()
+	elif current_token.type == Token.Type.FUNC:
+		pass
+		#return func_decl()
 	else:
 		return empty()
 
 func assignment():
+	# 2
 	var left = variable()
+	# -<<
 	var token = current_token
 	eat(Token.Type.ASSIGN)
 	var right = expr()
@@ -122,6 +127,10 @@ func variable():
 	var node = Var.new(current_token)
 	eat(Token.Type.IDENT)
 	return node
+
+func func_decl():
+	eat(Token.Type.FUNC)
+	var func_name = 
 
 func empty():
 	return NoOp.new()

@@ -7,6 +7,7 @@
 script = ExtResource("1_r4hln")
 
 [node name="Window" parent="." instance=ExtResource("2_af6fe")]
-default_text = "a = 2"
+default_text = "a = 2
+	b = 3"
 
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

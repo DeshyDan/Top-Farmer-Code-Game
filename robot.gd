@@ -26,6 +26,9 @@ signal move_requested(direction: Direction)
 func plant(pos: Vector2i):
 	MessageBus.robot_plant_requested.emit(pos)
 
+func _tick():
+	pass
+
 func move(direction: Direction):
 	if state != State.Idle:
 		return

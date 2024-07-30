@@ -24,6 +24,10 @@ MessageBus="*res://autoload/message_bus.gd"
 file_logging/log_path="res://console.txt"
 file_logging/max_log_files=1
 
+[display]
+
+window/dpi/allow_hidpi=false
+
 [editor]
 
 export/convert_text_resources_to_binary=false

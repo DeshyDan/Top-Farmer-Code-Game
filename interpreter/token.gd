@@ -4,7 +4,9 @@ extends RefCounted
 
 enum Type {
 	VAR,
+	VAR_DECL,
 	IDENT,
+	FUNC,
 	DOT,
 	INTEGER,
 	MUL,
@@ -21,20 +23,23 @@ enum Type {
 }
 
 const TYPE_STRINGS =  {
-	Type.VAR: "VAR",
-	Type.IDENT: "IDENT",
-	Type.INTEGER: "INTEGER",
-	Type.MUL: "MUL",
-	Type.DIV: "DIV",
-	Type.ASSIGN: "ASSIGN",
-	Type.PLUS: "PLUS",
-	Type.MINUS: "MINUS",
-	Type.LPAREN: "LPAREN",
-	Type.RPAREN: "RPAREN",
-	Type.BEGIN: "BEGIN",
-	Type.END: "END",
-	Type.NL: "NL",
-	Type.EOF: "EOF"
+	Type.VAR : "VAR",
+	Type.VAR_DECL : "VAR_DECL",
+	Type.IDENT : "IDENT",
+	Type.FUNC : "FUNC",
+	Type.DOT : "DOT",
+	Type.INTEGER : "INTEGER",
+	Type.MUL : "MUL",
+	Type.DIV : "DIV",
+	Type.ASSIGN : "ASSIGN",
+	Type.PLUS : "PLUS",
+	Type.MINUS : "MINUS",
+	Type.LPAREN : "LPAREN",
+	Type.RPAREN : "RPAREN",
+	Type.BEGIN : "BEGIN",
+	Type.END : "END",
+	Type.NL : "NL",
+	Type.EOF : "EOF"
 }
 
 var type
