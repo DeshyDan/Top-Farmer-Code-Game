@@ -8,10 +8,19 @@ script = ExtResource("1_r4hln")
 
 [node name="Window" parent="." instance=ExtResource("2_af6fe")]
 position = Vector2i(0, 36)
-default_text = "a = 2
+default_text = "var a: int
+var b:int
+var c: int
+var three: int
+a = 2
 	b = 3
 c = a
 
-	three = 3"
+	three = 3
+
+func f(x:int, y:int):
+	z = x + y
+
+f(1,2)"
 
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

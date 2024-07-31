@@ -43,8 +43,11 @@ func factor() -> AST:
 		var result = expr()
 		eat(Token.Type.RPAREN)
 		return result
-	elif token.type == Token.Type.INTEGER:
-		eat(Token.Type.INTEGER)
+	elif token.type == Token.Type.INTEGER_CONST:
+		eat(Token.Type.INTEGER_CONST)
+		return Number.new(token)
+	elif token.type == Token.Type.REAL_CONST:
+		eat(Token.Type.REAL_CONST)
 		return Number.new(token)
 	elif token.type in [Token.Type.MINUS, Token.Type.PLUS]:
 		eat(token.type)
@@ -106,8 +109,10 @@ func statement_list():
 func statement():
 	if current_token.type == Token.Type.BEGIN:
 		return block()
-	#elif current_token.type == Token.Type.IDENT and peek().type == Token.Type.LPAREN:
-		#return func_call()
+	elif current_token.type == Token.Type.IDENT and lexer.current_char == "(":
+		return func_call()
+	elif current_token.type == Token.Type.VAR:
+		return var_decl()
 	elif current_token.type == Token.Type.IDENT:
 		return assignment()
 	elif current_token.type == Token.Type.FUNC:
@@ -124,27 +129,60 @@ func assignment():
 	var right = expr()
 	return Assignment.new(left, right)
 
+func var_decl():
+	eat(Token.Type.VAR)
+	var variable = variable()
+	eat(Token.Type.COLON)
+	var type = type_spec()
+	return VarDecl.new(variable,type)
+
 func variable():
 	var node = Var.new(current_token)
 	eat(Token.Type.IDENT)
+	return node
+
+func type_spec():
+	var token = current_token
+	if current_token.type == Token.Type.INTEGER:
+		eat(Token.Type.INTEGER)
+	else:
+		eat(Token.Type.FLOAT)
+	var node = Type.new(token)
 	return node
 
 func func_decl():
 	eat(Token.Type.FUNC)
 	var func_name = variable()
 	eat(Token.Type.LPAREN)
+	var args = []
+	while current_token.type != current_token.Type.RPAREN:
+		var arg_name = variable()
+		eat(Token.Type.COLON)
+		var arg_type = type_spec()
+		args.append(VarDecl.new(arg_name,arg_type))
+		if current_token.type == current_token.Type.RPAREN:
+			break
+		eat(Token.Type.COMMA)
 	eat(Token.Type.RPAREN)
 	eat(Token.Type.COLON)
 	eat(Token.Type.NL)
 	var block = block()
-	return FunctionDecl.new(func_name, null, block)
+	return FunctionDecl.new(func_name, args, block)
 
 func func_call():
 	var function = variable()
 	eat(Token.Type.IDENT)
+	eat(Token.Type.LPAREN)
+	var args = []
+	while current_token.type != current_token.Type.RPAREN:
+		var arg = expr()
+		args.append(arg)
+		if current_token.type == current_token.Type.RPAREN:
+			break
+		eat(Token.Type.COMMA)
 	eat(Token.Type.RPAREN)
 	#eat(Token.Type.LPAREN)
-	return FunctionCall.new(function)
+	return FunctionCall.new(function, args)
 
 func empty():
 	return NoOp.new()

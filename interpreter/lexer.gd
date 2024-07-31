@@ -13,6 +13,8 @@ var pending_indents = 0
 
 var keywords = {
 	"var": Token.Type.VAR,
+	"int": Token.Type.INTEGER,
+	"float": Token.Type.FLOAT,
 	"func": Token.Type.FUNC
 }
 const keyword_data_path = "res://keywords.json"
@@ -118,13 +120,28 @@ func skip_whitespace():
 			_:
 				return
 
-func integer() -> int:
+func number():
 	#"""Return a (multidigit) integer consumed from the input."""
 	var result = ''
+	var token: Token
 	while current_char != null and current_char.is_valid_int():
 		result += self.current_char
 		self.advance()
-	return int(result)
+	if current_char == '.':
+		result += self.current_char
+		self.advance()
+
+		while (
+			current_char != null and
+			current_char.is_valid_int()
+		):
+			result += current_char
+			advance()
+
+		token = Token.new(Token.Type.REAL_CONST, float(result))
+	else:
+		token = Token.new(Token.Type.INTEGER_CONST, int(result))
+	return token
 
 func name() -> Token:
 	#print("naming")
@@ -157,23 +174,22 @@ func check_indent():
 	
 	var mixed = false
 	var tab_size = 4
-	while not is_at_end():
-		var space = current_char
-		if space == '\t':
-			# Consider individual tab columns.
-			col_number += tab_size - 1
-			indent_count += tab_size
-		elif space == ' ':
-			indent_count += 1
-		else:
-			break
-	
-		mixed = mixed or space != current_indent_char;
-		advance()
-	
-
 	
 	while true:
+		while not is_at_end():
+			var space = current_char
+			if space == '\t':
+				# Consider individual tab columns.
+				col_number += tab_size - 1
+				indent_count += tab_size
+			elif space == ' ':
+				indent_count += 1
+			else:
+				break
+		
+			mixed = mixed or space != current_indent_char;
+			advance()
+	
 		var previous_indent = 0
 		if current_char == '\n':
 			# Empty line, keep going.
@@ -256,7 +272,7 @@ func get_next_token():
 	while current_char != null:
 
 		if current_char.is_valid_int():
-			result = Token.new(Token.Type.INTEGER, integer())
+			result = number()
 			break
 		
 		if current_char == "\n":
@@ -314,11 +330,17 @@ func get_next_token():
 			result = Token.new(Token.Type.MINUS, '-')
 			break
 		
-		else:
+		if current_char == ",":
+			advance()
+			result = Token.new(Token.Type.COMMA, ",")
+			break
+		
+		if current_char.is_valid_identifier():
 			result = name()
 			break
-
+		
 		error("get_next_token: {0}".format([current_char]))
+		current_char = null
 	#print(result)
 	return result
 
