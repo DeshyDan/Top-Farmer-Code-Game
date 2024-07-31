@@ -1,5 +1,5 @@
-Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
-OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
+Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
+OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
  
 Token (IDENT,a)
 Token (ASSIGN,=)
@@ -11,7 +11,33 @@ Token (ASSIGN,=)
 Token (INTEGER,3)
 Token (NL,<null>)
 Token (END,<null>)
+Token (NL,<null>)
 Token (IDENT,c)
 Token (ASSIGN,=)
 Token (IDENT,a)
 Token (NL,<null>)
+Token (IDENT,three)
+Token (ASSIGN,=)
+Token (INTEGER,3)
+Token (NL,<null>)
+assignment a = 2
+assignment b = 3
+assignment c = 2
+assignment three = 3
+{ "a": 2, "b": 3, "c": 2, "three": 3 }
+Block:
+  Assignment:
+    Var: a
+    Number: 2
+  Block:
+    Assignment:
+      Var: b
+      Number: 3
+    NoOp
+  Assignment:
+    Var: c
+    Var: a
+  Assignment:
+    Var: three
+    Number: 3
+  NoOp

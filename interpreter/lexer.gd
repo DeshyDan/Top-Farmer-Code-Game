@@ -247,6 +247,7 @@ func get_next_token():
 			return Token.new(Token.Type.BEGIN, null)
 		else:
 			pending_indents += 1
+			newline(true)
 			return Token.new(Token.Type.END, null)
 		
 	var result = Token.new(Token.Type.EOF, null)

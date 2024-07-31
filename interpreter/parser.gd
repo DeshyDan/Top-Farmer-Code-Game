@@ -98,7 +98,7 @@ func statement_list():
 	var result = [current_statement]
 	while current_token.type == Token.Type.NL:
 		eat(Token.Type.NL)
-		result.append(statement_list())
+		result.append(statement())
 	if current_token.type == Token.Type.IDENT:
 		error("statement list")
 	return result

@@ -27,7 +27,7 @@ func _on_window_run_button_pressed():
 	if interpreter.interpreter_error != Interpreter.InterpreterError.OK:
 		window.print_to_console(interpreter.get_error_text())
 		return
-	window.print_to_console(interpreter.visit(parser.parse()))
+	window.print_to_console(interpreter.visit(tree))
 	print(interpreter.variables)
 	interpreter.reset()
 	interpreter.print_ast(parser.parse())
