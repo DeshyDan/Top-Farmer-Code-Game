@@ -21,7 +21,8 @@ func _on_window_run_button_pressed():
 		print(token)
 		token = lexer.get_next_token()
 	lexer.reset()
-	var parser = Parser.new(lexer)
+	var parser = Parser.new(Lexer.new(source))
+	var tree = parser.parse()
 	var interpreter = Interpreter.new(parser)
 	if interpreter.interpreter_error != Interpreter.InterpreterError.OK:
 		window.print_to_console(interpreter.get_error_text())

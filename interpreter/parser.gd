@@ -98,7 +98,7 @@ func statement_list():
 	var result = [current_statement]
 	while current_token.type == Token.Type.NL:
 		eat(Token.Type.NL)
-		result.append(statement())
+		result.append(statement_list())
 	if current_token.type == Token.Type.IDENT:
 		error("statement list")
 	return result
@@ -106,11 +106,12 @@ func statement_list():
 func statement():
 	if current_token.type == Token.Type.BEGIN:
 		return block()
+	#elif current_token.type == Token.Type.IDENT and peek().type == Token.Type.LPAREN:
+		#return func_call()
 	elif current_token.type == Token.Type.IDENT:
 		return assignment()
 	elif current_token.type == Token.Type.FUNC:
-		pass
-		#return func_decl()
+		return func_decl()
 	else:
 		return empty()
 
@@ -130,10 +131,26 @@ func variable():
 
 func func_decl():
 	eat(Token.Type.FUNC)
-	var func_name = 
+	var func_name = variable()
+	eat(Token.Type.LPAREN)
+	eat(Token.Type.RPAREN)
+	eat(Token.Type.COLON)
+	eat(Token.Type.NL)
+	var block = block()
+	return FunctionDecl.new(func_name, null, block)
+
+func func_call():
+	var function = variable()
+	eat(Token.Type.IDENT)
+	eat(Token.Type.RPAREN)
+	#eat(Token.Type.LPAREN)
+	return FunctionCall.new(function)
 
 func empty():
 	return NoOp.new()
+
+func peek(offset = 1):
+	return lexer.get_next_token()
 
 func parse():
 	var root = Block.new()

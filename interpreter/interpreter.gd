@@ -39,11 +39,17 @@ func visit(ast_node: AST):
 		return visit_no_op(ast_node)
 	elif ast_node is FunctionDecl:
 		return visit_function_decl(ast_node)
+	elif ast_node is FunctionCall:
+		return visit_function_call(ast_node)
 	else:
 		print("can't visit node")
 
 func visit_function_decl(node: FunctionDecl):
 	variables[node.name] = node.block
+
+func visit_function_call(node: FunctionCall):
+	if functions.has(node.name):
+		visit(functions[node.name])
 
 func visit_BinaryOp(node: BinaryOP):
 	if node.op.type == Token.Type.PLUS:
@@ -104,7 +110,13 @@ func print_ast(node: AST, indent: int = 0):
 			print_ast(child, indent + 2)
 	elif node is Var:
 		print("{0}Var: {1}".format([indent_str,node.name]))
+	elif node is FunctionDecl:
+		print("{0}FunctionDecl: {1}".format([indent_str, node.name.name]))
+		print_ast(node.block, indent + 2)
+	elif node is FunctionCall:
+		print("{0}FunctionDecl: {1}".format([indent_str, node.name.name]))
+		print_ast(node.block, indent + 2)
 	elif node is NoOp:
 		print("{0}NoOp".format([indent_str]))
 	else:
-		print("{0}Unknown node type: {1}".format([indent_str]))
+		print("{0}Unknown node type: {1}".format([indent_str, node]))

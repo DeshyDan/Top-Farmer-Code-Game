@@ -45,6 +45,11 @@ func reset():
 	pos = 0
 	current_char = text[pos]
 	lexer_error = LexerError.OK
+	pending_newline = false
+	line_number = 0
+	col_number = 0
+	tab_size = 4
+	pending_indents = 0
 
 func error(from: String):
 	print("parse error at {0}, from {1}".format([pos,from]))
@@ -144,7 +149,8 @@ func check_indent():
 	var indent_count = 0
 	var current_indent_char = current_char #tabs or spaces?
 	if is_at_end(): # add missing dedents at end of file
-		print("filling ending indents")
+		if indent_level() != 0:
+			print("filling ending indents")
 		pending_indents -= indent_level()
 		indent_stack.clear()
 		return
@@ -183,7 +189,7 @@ func check_indent():
 		
 		
 		if indent_level() > 0:
-			previous_indent = indent_stack.pop_back();
+			previous_indent = indent_stack.back();
 
 		if indent_count == previous_indent:
 			# No change in indentation.
@@ -220,7 +226,8 @@ func indent_level() -> int:
 	return len(indent_stack)
 
 func is_at_end():
-	return pos >= len(text)
+	return current_char == null
+	#return pos >= len(text)
 
 func get_next_token():
 	#"""Lexical analyzer (also known as scanner or tokenizer)
@@ -235,7 +242,6 @@ func get_next_token():
 		return last_newline
 	
 	if pending_indents != 0:
-		print("INDENT!!")
 		if pending_indents > 0:
 			pending_indents -= 1
 			return Token.new(Token.Type.BEGIN, null)
@@ -265,6 +271,11 @@ func get_next_token():
 		if current_char == ".":
 			advance()
 			result = Token.new(Token.Type.DOT, ".")
+			break
+		
+		if current_char == ':':
+			advance()
+			result = Token.new(Token.Type.COLON, ':')
 			break
 		
 		if current_char == "=":
