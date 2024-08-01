@@ -22,6 +22,15 @@ func print_to_console(to_print: Variant):
 
 func reset_console():
 	console.text = ""
+	code_edit.clear_executing_lines()
+
+func set_error_line(lineno, colno):
+	code_edit.set_caret_line(lineno -1)
+	code_edit.set_caret_column(colno)
+	code_edit.set_code_hint("Error")
+	code_edit.set_code_hint_draw_below(true)
+	code_edit.clear_executing_lines()
+	code_edit.set_line_as_executing(lineno, true)
 
 func _on_run_button_pressed():
 	run_button_pressed.emit()

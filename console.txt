@@ -1,305 +1,38 @@
-Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
-OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
+Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
+OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
  
-Token (VAR,var)
-Token (IDENT,a)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (VAR,var)
-Token (IDENT,b)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (IDENT,a)
-Token (ASSIGN,=)
-Token (INTEGER,2)
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,a)
-Token (PLUS,+)
-Token (INTEGER,3)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-error from expected IDENT
-define int
-define float
+define builtin<int>
+define builtin<float>
 lookup int
-define <a:int>
+lookup a
+define <a:builtin<int>>
 lookup int
-define <b:int>
+lookup b
+define <b:builtin<int>>
+lookup int
+lookup c
+define <c:builtin<int>>
+lookup int
+lookup three
+define <three:builtin<int>>
 lookup a
 lookup b
+lookup c
 lookup a
-Symbols: { "int": int, "float": float, "a": <a:int>, "b": <b:int> }
-assignment a = 2
-assignment b = 5
-[5]
-{ "a": 2, "b": 5 }
-Block:
-  VarDecl: a:int
-  VarDecl: b:int
-  Assignment:
-    Var: a
-    Number: 2
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: a
-      Number: 3
-  FunctionCall: print
-    Var: b
-  NoOp
-Token (VAR,var)
-Token (IDENT,a)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (VAR,var)
-Token (IDENT,b)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (IDENT,a)
-Token (ASSIGN,=)
-Token (INTEGER,2)
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,a)
-Token (PLUS,+)
-Token (INTEGER,3)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,a)
-Token (RPAREN,()
-Token (NL,<null>)
-error from expected IDENT
-error from expected IDENT
-define int
-define float
+lookup three
+define <function(name=f,parameters=[])>
+define builtin<int>
+define builtin<float>
 lookup int
-define <a:int>
+define <x:builtin<int>>
 lookup int
-define <b:int>
-lookup a
-lookup b
-lookup a
-Symbols: { "int": int, "float": float, "a": <a:int>, "b": <b:int> }
-assignment a = 2
-assignment b = 5
-[5]
-[2]
-{ "a": 2, "b": 5 }
-Block:
-  VarDecl: a:int
-  VarDecl: b:int
-  Assignment:
-    Var: a
-    Number: 2
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: a
-      Number: 3
-  FunctionCall: print
-    Var: b
-  FunctionCall: print
-    Var: a
-  NoOp
-Token (VAR,var)
-Token (IDENT,a)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (VAR,var)
-Token (IDENT,b)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (IDENT,a)
-Token (ASSIGN,=)
-Token (INTEGER,2)
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,a)
-Token (PLUS,+)
-Token (INTEGER,3)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,a)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,b)
-Token (PLUS,+)
-Token (INTEGER,1)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-error from expected IDENT
-error from expected IDENT
-error from expected IDENT
-define int
-define float
-lookup int
-define <a:int>
-lookup int
-define <b:int>
-lookup a
-lookup b
-lookup a
-lookup b
-lookup b
-Symbols: { "int": int, "float": float, "a": <a:int>, "b": <b:int> }
-assignment a = 2
-assignment b = 5
-[5]
-[2]
-assignment b = 7
-[6]
-{ "a": 2, "b": 6 }
-Block:
-  VarDecl: a:int
-  VarDecl: b:int
-  Assignment:
-    Var: a
-    Number: 2
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: a
-      Number: 3
-  FunctionCall: print
-    Var: b
-  FunctionCall: print
-    Var: a
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: b
-      Number: 1
-  FunctionCall: print
-    Var: b
-  NoOp
-Token (VAR,var)
-Token (IDENT,a)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (VAR,var)
-Token (IDENT,b)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,<null>)
-Token (IDENT,a)
-Token (ASSIGN,=)
-Token (INTEGER,2)
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,a)
-Token (PLUS,+)
-Token (INTEGER,3)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,a)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (IDENT,b)
-Token (PLUS,+)
-Token (INTEGER,1)
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,a)
-Token (PLUS,+)
-Token (IDENT,b)
-Token (RPAREN,()
-Token (NL,<null>)
-error from expected IDENT
-error from expected IDENT
-error from expected IDENT
-error from expected IDENT
-define int
-define float
-lookup int
-define <a:int>
-lookup int
-define <b:int>
-lookup a
-lookup b
-lookup a
-lookup b
-lookup b
-Symbols: { "int": int, "float": float, "a": <a:int>, "b": <b:int> }
-assignment a = 2
-assignment b = 5
-[5]
-[2]
-assignment b = 7
-[6]
-[8]
-{ "a": 2, "b": 6 }
-Block:
-  VarDecl: a:int
-  VarDecl: b:int
-  Assignment:
-    Var: a
-    Number: 2
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: a
-      Number: 3
-  FunctionCall: print
-    Var: b
-  FunctionCall: print
-    Var: a
-  Assignment:
-    Var: b
-    BinaryOP: +
-      Var: b
-      Number: 1
-  FunctionCall: print
-    Var: b
-  FunctionCall: print
-    BinaryOP: +
-      Var: a
-      Var: b
-  NoOp
+define <y:builtin<int>>
+lookup z
+LOOKING UP IN PARENT
+lookup z
+ERROR LINE 12: Token (IDENT,z)
+lookup x
+lookup y
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "x": <x:builtin<int>>, "y": <y:builtin<int>> }
+USER ERROR: Invalid type: use Array or Dictionary.
+   at: format (core/string/ustring.cpp:3561)

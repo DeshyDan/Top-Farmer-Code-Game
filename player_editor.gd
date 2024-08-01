@@ -17,5 +17,7 @@ func _init():
 		add_code_completion_option(CodeEdit.KIND_MEMBER, keyword,keyword)
 		
 
+func draw_error(lineno, colno, length):
+	pass
 
 	

@@ -84,7 +84,7 @@ func visit_binary_op(node: BinaryOP):
 		var right_eval = visit(node.right)
 		if right_eval == 0:
 			interpreter_error = InterpreterError.ERROR
-			return
+			return visit(node.left)
 		return visit(node.left) / visit(node.right)
 
 func visit_unary_op(node: UnaryOp):

@@ -4,7 +4,7 @@ extends RefCounted
 var lexer: Lexer
 var current_token: Token
 
-var parser_error: ParserError
+var parser_error: GError
 var error_pos = 0
 
 enum ParserError {
@@ -15,16 +15,20 @@ enum ParserError {
 func _init(lexer: Lexer):
 	self.lexer = lexer
 	current_token = lexer.get_next_token()
-	parser_error = ParserError.OK
+	parser_error = GError.new(GError.ErrorCode.OK)
 
 func reset():
 	lexer.reset()
 	current_token = lexer.get_next_token()
-	parser_error = ParserError.OK
+	parser_error = GError.new(GError.ErrorCode.OK)
 
-func error(from: String):
-	print("error from ", from)
-	parser_error = ParserError.ERROR
+func error(error_code, token: Token, expected: Token):
+	parser_error = GError.new(
+		error_code,
+		token,
+		"Expected {0}".format(expected)
+	)
+	#current_token = Token.new(token.Type.EOF, null)
 
 func eat(token_type):
 	# compare the current token type with the passed token
@@ -34,7 +38,9 @@ func eat(token_type):
 	if current_token.type == token_type:
 		current_token = lexer.get_next_token()
 	else:
-		error("expected {0}".format([Token.TYPE_STRINGS[token_type]]))
+		error(GError.ErrorCode.UNEXPECTED_TOKEN,
+				current_token,
+				Token.new(token_type, null))
 
 func factor() -> AST:
 	var token = current_token
@@ -103,7 +109,7 @@ func statement_list():
 		eat(Token.Type.NL)
 		result.append(statement())
 	if current_token.type == Token.Type.IDENT:
-		error("statement list")
+		error(GError.ErrorCode.ID_NOT_FOUND,current_token,null)
 	return result
 
 func statement():
@@ -154,7 +160,7 @@ func func_decl():
 	eat(Token.Type.FUNC)
 	var func_name = variable()
 	eat(Token.Type.LPAREN)
-	var args = []
+	var args: Array[VarDecl] = []
 	while current_token.type != current_token.Type.RPAREN:
 		var arg_name = variable()
 		eat(Token.Type.COLON)
@@ -171,7 +177,6 @@ func func_decl():
 
 func func_call():
 	var function = variable()
-	eat(Token.Type.IDENT)
 	eat(Token.Type.LPAREN)
 	var args = []
 	while current_token.type != current_token.Type.RPAREN:

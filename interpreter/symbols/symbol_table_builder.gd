@@ -4,7 +4,10 @@ extends NodeVisitor
 var symtab: SymbolTable
 
 func _init():
-	symtab = SymbolTable.new()
+	symtab = SymbolTable.new("global",1)
+
+func symbol_table_err(from):
+	print("Semantic error from {0}".format(from))
 
 func visit_program(node):
 	visit(node.block)
@@ -24,14 +27,14 @@ func visit_assignment(node: Assignment):
 	var var_name = node.left.name
 	var var_symbol = symtab.lookup(var_name)
 	if var_symbol == null:
-		print("missing symbol")
+		print("symbol table assignment failed")
 	visit(node.right)
 
 func visit_var(node: Var):
 	var var_name = node.name
 	var var_symbol = symtab.lookup(var_name)
 	if var_symbol == null:
-		print("missing symbol")
+		symbol_table_err("symbol table lookup failed")
 
 func visit_var_decl(node: VarDecl):
 	var type_name = node.type_node.type_name

@@ -24,7 +24,6 @@ enum LexerError {
 	ERROR
 }
 
-
 func count_indentation(line):
 	#"""Count the number of leading spaces or tabs in a line."""
 	var count = 0
@@ -57,6 +56,7 @@ func error(from: String):
 	print("parse error at {0}, from {1}".format([pos,from]))
 	lexer_error = LexerError.ERROR
 	error_pos = pos
+	current_char = null
 
 func get_error_text() -> String:
 	var result = ""
@@ -80,16 +80,17 @@ func advance():
 
 var pending_newline = false
 var last_newline: Token
-var line_number: = 0
+var line_number: = 1
 var col_number = 0
 var tab_size = 4
 
-func newline(make_token: bool):
+func newline(make_token: bool, add_line: bool = true):
 	if make_token:
-		last_newline = Token.new(Token.Type.NL, null)
+		last_newline = make_token(Token.Type.NL)
 		pending_newline = true
-	line_number += 1
-	col_number = 0
+	if add_line:
+		line_number += 1
+		col_number = 0
 
 func skip_whitespace():
 	if pending_indents != 0:
@@ -138,9 +139,9 @@ func number():
 			result += current_char
 			advance()
 
-		token = Token.new(Token.Type.REAL_CONST, float(result))
+		token = make_token(Token.Type.REAL_CONST, float(result))
 	else:
-		token = Token.new(Token.Type.INTEGER_CONST, int(result))
+		token = make_token(Token.Type.INTEGER_CONST, int(result))
 	return token
 
 func name() -> Token:
@@ -157,9 +158,9 @@ func name() -> Token:
 		error("name")
 	
 	if keywords.has(result):
-		return Token.new(keywords[result], result)
+		return make_token(keywords[result], result)
 	
-	return Token.new(Token.Type.IDENT, result)
+	return make_token(Token.Type.IDENT, result)
 
 func check_indent():
 	#print("indenting")
@@ -245,6 +246,15 @@ func is_at_end():
 	return current_char == null
 	#return pos >= len(text)
 
+func make_token(token_type: Token.Type,
+				value=null,
+				lineno=line_number,
+				colno=col_number) -> Token:
+	var length = 1
+	if value != null:
+		length = len(str(value))
+	return Token.new(token_type, value, lineno, colno, length)
+
 func get_next_token():
 	#"""Lexical analyzer (also known as scanner or tokenizer)
 #
@@ -260,13 +270,13 @@ func get_next_token():
 	if pending_indents != 0:
 		if pending_indents > 0:
 			pending_indents -= 1
-			return Token.new(Token.Type.BEGIN, null)
+			return make_token(Token.Type.BEGIN)
 		else:
 			pending_indents += 1
-			newline(true)
-			return Token.new(Token.Type.END, null)
+			newline(true,false)
+			return make_token(Token.Type.END)
 		
-	var result = Token.new(Token.Type.EOF, null)
+	var result = make_token(Token.Type.EOF)
 	#print("token starting at {0}".format([current_char]))
 	
 	while current_char != null:
@@ -277,62 +287,61 @@ func get_next_token():
 		
 		if current_char == "\n":
 			advance()
-			result = Token.new(Token.Type.NL, "\n") #todo: dont create newling if line is empty
+			result = make_token(Token.Type.NL, "\n") #todo: dont create newline if line is empty
 			break
 		
 		if current_char == "\t":
 			advance()
-			# TODO
 			continue
 		
 		if current_char == ".":
 			advance()
-			result = Token.new(Token.Type.DOT, ".")
+			result = make_token(Token.Type.DOT, ".")
 			break
 		
 		if current_char == ':':
 			advance()
-			result = Token.new(Token.Type.COLON, ':')
+			result = make_token(Token.Type.COLON, ':')
 			break
 		
 		if current_char == "=":
 			advance()
-			result = Token.new(Token.Type.ASSIGN, '=')
+			result = make_token(Token.Type.ASSIGN, '=')
 			break
 		
 		if current_char == '*':
 			advance()
-			result = Token.new(Token.Type.MUL, '*')
+			result = make_token(Token.Type.MUL, '*')
 			break
 		
 		if current_char == '/':
 			advance()
-			result = Token.new(Token.Type.DIV, '/')
+			result = make_token(Token.Type.DIV, '/')
 			break
 
 		if current_char == '+':
 			advance()
-			result = Token.new(Token.Type.PLUS, '+')
+			result = make_token(Token.Type.PLUS, '+')
 			break
 		
 		if current_char == '(':
 			advance()
-			result = Token.new(Token.Type.LPAREN, '(')
+			result = make_token(Token.Type.LPAREN, '(')
 			break
 		
 		if current_char == ')':
 			advance()
-			result = Token.new(Token.Type.RPAREN, '(')
+			result = make_token(Token.Type.RPAREN, ')')
 			break
 
 		if current_char == '-':
 			advance()
-			result = Token.new(Token.Type.MINUS, '-')
+			result = make_token(Token.Type.MINUS, '-')
 			break
 		
 		if current_char == ",":
 			advance()
-			result = Token.new(Token.Type.COMMA, ",")
+			result = make_token(Token.Type.COMMA, ",")
 			break
 		
 		if current_char.is_valid_identifier():

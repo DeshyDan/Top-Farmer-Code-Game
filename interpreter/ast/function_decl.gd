@@ -2,7 +2,7 @@ class_name FunctionDecl
 extends AST
 
 var name: Var
-var args = []
+var args: Array[VarDecl]
 var block: Block
 
 func _init(name: Var, args, block: Block):

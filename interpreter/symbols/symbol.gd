@@ -2,8 +2,8 @@ class_name Symbol
 extends RefCounted
 
 var name: String
-var type: Variant
+var type: Symbol
 
-func _init(name,type=null):
+func _init(name, type: Symbol=null):
 	self.name = name
 	self.type = type
