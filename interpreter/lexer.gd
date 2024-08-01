@@ -15,7 +15,8 @@ var keywords = {
 	"var": Token.Type.VAR,
 	"int": Token.Type.INTEGER,
 	"float": Token.Type.FLOAT,
-	"func": Token.Type.FUNC
+	"func": Token.Type.FUNC,
+	"while": Token.Type.WHILE,
 }
 const keyword_data_path = "res://keywords.json"
 
@@ -307,6 +308,16 @@ func get_next_token():
 		if current_char == "=":
 			advance()
 			result = make_token(Token.Type.ASSIGN, '=')
+			break
+		
+		if current_char == "<":
+			advance()
+			result = make_token(Token.Type.LESS_THAN, '<')
+			break
+		
+		if current_char == ">":
+			advance()
+			result = make_token(Token.Type.GREATER_THAN, '>')
 			break
 		
 		if current_char == '*':

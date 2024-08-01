@@ -23,8 +23,13 @@ func visit(ast_node: AST):
 		return visit_function_decl(ast_node)
 	elif ast_node is FunctionCall:
 		return visit_function_call(ast_node)
+	elif ast_node is WhileLoop:
+		return visit_while_loop(ast_node)
 	else:
 		print("can't visit node")
+
+func visit_while_loop(node: WhileLoop):
+	pass
 
 func visit_function_decl(node: FunctionDecl):
 	pass

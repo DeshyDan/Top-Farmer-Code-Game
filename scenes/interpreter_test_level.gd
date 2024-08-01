@@ -44,4 +44,4 @@ func _on_window_run_button_pressed():
 	#interpreter.visit(tree)
 	#print(interpreter.variables)
 	#interpreter.reset()
-	#interpreter.print_ast(tree)
+	interpreter.print_ast(tree)

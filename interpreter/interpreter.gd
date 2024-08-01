@@ -51,6 +51,11 @@ func reset():
 func visit_function_decl(node: FunctionDecl):
 	variables[node.name.name] = node
 
+func visit_while_loop(node: WhileLoop):
+	print("visiting while loop")
+	while visit(node.condition):
+		visit(node.block)
+
 func visit_function_call(node: FunctionCall):
 	if node.name.name == "print":
 			print_requested.emit(node.args.map(func (arg: AST): return visit(arg)))
@@ -86,6 +91,10 @@ func visit_binary_op(node: BinaryOP):
 			interpreter_error = InterpreterError.ERROR
 			return visit(node.left)
 		return visit(node.left) / visit(node.right)
+	elif node.op.type == Token.Type.LESS_THAN:
+		return visit(node.left) < visit(node.right)
+	elif node.op.type == Token.Type.GREATER_THAN:
+		return visit(node.left) > visit(node.right)
 
 func visit_unary_op(node: UnaryOp):
 	if node.op.type == Token.Type.MINUS:
@@ -148,6 +157,12 @@ func print_ast(node: AST, indent: int = 0):
 		for arg in node.args:
 			print_ast(arg,indent + 2)
 		#print_ast(node.block, indent + 2)
+	elif node is WhileLoop:
+		print("{0}WhileLoop:".format([indent_str]))
+		indent_str = indent_str + " ".repeat(2)
+		print("{0}Condition:".format([indent_str]))
+		print_ast(node.condition, indent + 4)
+		print_ast(node.block, indent + 2)
 	elif node is NoOp:
 		print("{0}NoOp".format([indent_str]))
 	else:

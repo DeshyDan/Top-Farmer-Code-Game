@@ -1,38 +1,44 @@
-Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
-OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
+Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
+filling ending indents
 define builtin<int>
 define builtin<float>
+define builtin<true>
+define builtin<false>
 lookup int
 lookup a
 define <a:builtin<int>>
-lookup int
-lookup b
-define <b:builtin<int>>
-lookup int
-lookup c
-define <c:builtin<int>>
-lookup int
-lookup three
-define <three:builtin<int>>
 lookup a
-lookup b
-lookup c
-lookup a
-lookup three
-define <function(name=f,parameters=[])>
-define builtin<int>
-define builtin<float>
-lookup int
-define <x:builtin<int>>
-lookup int
-define <y:builtin<int>>
-lookup z
-LOOKING UP IN PARENT
-lookup z
-ERROR LINE 12: Token (IDENT,z)
-lookup x
-lookup y
-func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "x": <x:builtin<int>>, "y": <y:builtin<int>> }
-USER ERROR: Invalid type: use Array or Dictionary.
-   at: format (core/string/ustring.cpp:3561)
+assignment a = 0
+visiting while loop
+assignment a = 2
+[1]
+assignment a = 3
+[2]
+assignment a = 4
+[3]
+assignment a = 5
+[4]
+assignment a = 6
+[5]
+Block:
+  VarDecl: a:int
+  Assignment:
+    Var: a
+    Number: 0
+  WhileLoop:
+    Condition:
+      BinaryOP: <
+        Var: a
+        Number: 5
+    Block:
+      Assignment:
+        Var: a
+        BinaryOP: +
+          Var: a
+          Number: 1
+      FunctionCall: print
+        Var: a
+      NoOp
+  NoOp

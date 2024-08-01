@@ -4,6 +4,7 @@ extends RefCounted
 
 enum Type {
 	VAR,
+	WHILE,
 	VAR_DECL,
 	IDENT,
 	FUNC,
@@ -17,6 +18,8 @@ enum Type {
 	ASSIGN,
 	PLUS,
 	MINUS,
+	LESS_THAN,
+	GREATER_THAN,
 	LPAREN,
 	RPAREN,
 	COLON,
@@ -30,6 +33,7 @@ enum Type {
 
 const TYPE_STRINGS =  {
 	Type.VAR : "VAR",
+	Type.WHILE : "WHILE",
 	Type.VAR_DECL : "VAR_DECL",
 	Type.IDENT : "IDENT",
 	Type.FUNC : "FUNC",
@@ -43,6 +47,8 @@ const TYPE_STRINGS =  {
 	Type.ASSIGN : "ASSIGN",
 	Type.PLUS : "PLUS",
 	Type.MINUS : "MINUS",
+	Type.LESS_THAN : "LESS_THAN",
+	Type.GREATER_THAN : "GREATER_THAN",
 	Type.LPAREN : "LPAREN",
 	Type.RPAREN : "RPAREN",
 	Type.COLON : "COLON",

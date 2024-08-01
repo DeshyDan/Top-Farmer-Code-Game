@@ -26,7 +26,7 @@ func error(error_code, token: Token, expected: Token):
 	parser_error = GError.new(
 		error_code,
 		token,
-		"Expected {0}".format(expected)
+		"Expected {0}".format([expected])
 	)
 	#current_token = Token.new(token.Type.EOF, null)
 
@@ -78,12 +78,16 @@ func term() -> AST:
 func expr():
 	var result = term()
 
-	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
+	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS, Token.Type.LESS_THAN, Token.Type.GREATER_THAN]:
 		var token = self.current_token
 		if token.type == Token.Type.PLUS:
 			self.eat(Token.Type.PLUS)
 		elif token.type == Token.Type.MINUS:
 			self.eat(Token.Type.MINUS)
+		elif token.type == Token.Type.LESS_THAN:
+			eat(Token.Type.LESS_THAN)
+		elif token.type == Token.Type.GREATER_THAN:
+			eat(Token.Type.GREATER_THAN)
 		
 		result = BinaryOP.new(result, token, term())
 	return result
@@ -101,6 +105,14 @@ func block():
 	for node in nodes:
 		root.children.append(node)
 	return root
+
+func while_loop():
+	eat(Token.Type.WHILE)
+	var condition_node = expr()
+	eat(Token.Type.COLON)
+	eat(Token.Type.NL)
+	var block_node = block()
+	return WhileLoop.new(condition_node, block_node)
 
 func statement_list():
 	var current_statement = statement()
@@ -123,6 +135,8 @@ func statement():
 		return assignment()
 	elif current_token.type == Token.Type.FUNC:
 		return func_decl()
+	elif current_token.type == Token.Type.WHILE:
+		return while_loop()
 	else:
 		return empty()
 

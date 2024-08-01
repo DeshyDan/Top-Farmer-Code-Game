@@ -4,7 +4,7 @@ extends NodeVisitor
 var symtab: SymbolTable
 
 func _init():
-	symtab = SymbolTable.new("global",1)
+	symtab = SymbolTable.new("global",1,null)
 
 func symbol_table_err(from):
 	print("Semantic error from {0}".format(from))
