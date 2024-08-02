@@ -65,6 +65,16 @@ func visit_function_decl(node: FunctionDecl):
 	current_scope = function_scope.enclosing_scope
 	print("func scope: {0}".format([function_scope]))
 
+func visit_function_call(node: FunctionCall):
+	var func_symbol: Symbol = current_scope.lookup(node.name.name)
+	if len(node.args) != len(func_symbol.params):
+			error("Arg count mismatch",
+					GError.ErrorCode.UNEXPECTED_TOKEN,
+					node.token
+					)
+	for arg in node.args:
+		visit(arg)
+
 func visit_program(node):
 	visit(node.block)
 

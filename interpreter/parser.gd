@@ -201,7 +201,7 @@ func func_call():
 		eat(Token.Type.COMMA)
 	eat(Token.Type.RPAREN)
 	#eat(Token.Type.LPAREN)
-	return FunctionCall.new(function, args)
+	return FunctionCall.new(function, args, function.token)
 
 func empty():
 	return NoOp.new()

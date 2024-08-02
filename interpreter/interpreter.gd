@@ -64,8 +64,7 @@ func visit_function_call(node: FunctionCall):
 	if variables.has(node.name.name):
 		var function_decl: FunctionDecl = variables[node.name.name]
 		var new_block = Block.new()
-		if len(function_decl.args) != len(node.args):
-			print("argument length error")
+		
 		for i in range(len(function_decl.args)):
 			var arg_decl: VarDecl = function_decl.args[i]
 			var arg = node.args[i]

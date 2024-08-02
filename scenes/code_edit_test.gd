@@ -30,7 +30,8 @@ func set_error_line(lineno, colno):
 	code_edit.set_code_hint("Error")
 	code_edit.set_code_hint_draw_below(true)
 	code_edit.clear_executing_lines()
-	code_edit.set_line_as_executing(lineno, true)
+	if lineno < code_edit.get_line_count():
+		code_edit.set_line_as_executing(lineno, true)
 
 func _on_run_button_pressed():
 	run_button_pressed.emit()

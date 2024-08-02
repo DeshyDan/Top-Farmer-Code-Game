@@ -34,4 +34,5 @@ func _init_builtins():
 	define(BuiltinSymbol.new("int"))
 	define(BuiltinSymbol.new("float"))
 	define(BuiltinSymbol.new("true"))
+	define(BuiltinFuncSymbol.new("print", [0])) # TODO: what should this array actually contain?
 	define(BuiltinSymbol.new("false"))
