@@ -58,6 +58,8 @@ func factor() -> AST:
 	elif token.type in [Token.Type.MINUS, Token.Type.PLUS]:
 		eat(token.type)
 		return UnaryOp.new(token, factor())
+	elif current_token.type == Token.Type.IDENT and lexer.current_char == "(":
+		return func_call()
 	else:
 		return variable()
 
@@ -88,6 +90,7 @@ func expr():
 			eat(Token.Type.LESS_THAN)
 		elif token.type == Token.Type.GREATER_THAN:
 			eat(Token.Type.GREATER_THAN)
+		
 		
 		result = BinaryOP.new(result, token, term())
 	return result
@@ -137,8 +140,17 @@ func statement():
 		return func_decl()
 	elif current_token.type == Token.Type.WHILE:
 		return while_loop()
+	elif current_token.type == Token.Type.RETURN:
+		return return_statement()
 	else:
 		return empty()
+
+func return_statement():
+	eat(Token.Type.RETURN)
+	var right_node = NoOp.new()
+	if current_token.type != Token.Type.NL:
+		right_node = expr()
+	return ReturnStatement.new(right_node)
 
 func assignment():
 	# 2

@@ -13,12 +13,19 @@ enum InterpreterError {
 	ERROR
 }
 
-var variables = {}
-var functions = {}
+var call_stack: CallStack
+
 var ast: AST
 
 func _init(parser: Parser):
 	self.parser = parser
+	call_stack = CallStack.new()
+	var ar = ActivationRecord.new(
+		"test program",
+		ActivationRecord.ARType.PROGRAM,
+		1,
+	)
+	call_stack.push(ar)
 
 func reset():
 	parser.reset()
@@ -49,7 +56,8 @@ func reset():
 		#print("can't visit node")
 
 func visit_function_decl(node: FunctionDecl):
-	variables[node.name.name] = node
+	var ar = call_stack.peek()
+	ar.set_item(node.name.name, node)
 
 func visit_while_loop(node: WhileLoop):
 	print("visiting while loop")
@@ -57,29 +65,38 @@ func visit_while_loop(node: WhileLoop):
 		visit(node.block)
 
 func visit_function_call(node: FunctionCall):
-	if node.name.name == "print":
-			print_requested.emit(node.args.map(func (arg: AST): return visit(arg)))
-			return
 	
-	if variables.has(node.name.name):
-		var function_decl: FunctionDecl = variables[node.name.name]
-		var new_block = Block.new()
-		
-		for i in range(len(function_decl.args)):
-			var arg_decl: VarDecl = function_decl.args[i]
-			var arg = node.args[i]
-			new_block.children.append(arg_decl)
-			var assignment = Assignment.new(arg_decl.var_node,arg)
-			new_block.children.append(assignment)
-		
-		for statement in function_decl.block.children:
-			new_block.children.append(statement)
-		
-		return visit(new_block)
+	var ar = call_stack.peek()
+	var function_decl: FunctionDecl = ar.get_item(node.name.name)
+	if node.name.name == "print":
+		var to_print = []
+		for arg in node.args:
+			to_print.append(visit(arg))
+		print_requested.emit(to_print)
+		return
+	var new_ar = ActivationRecord.new(
+		function_decl.name.name,
+		ActivationRecord.ARType.FUNCTION_CALL,
+		ar.nesting_level + 1
+	)
+	
+	for i in range(len(function_decl.args)):
+		var arg_decl: VarDecl = function_decl.args[i]
+		var arg: AST = node.args[i]
+		var arg_val = visit(arg)
+		new_ar.set_item(arg_decl.var_node.name, arg_val)
+	call_stack.push(new_ar)
+	
+	var result = visit(function_decl.block)
+	print(call_stack)
+	call_stack.pop()
+	return result
 
 func visit_binary_op(node: BinaryOP):
 	if node.op.type == Token.Type.PLUS:
-		return visit(node.left) + visit(node.right)
+		var l = visit(node.left)
+		var r = visit(node.right)
+		return l + r
 	elif node.op.type == Token.Type.MINUS:
 		return visit(node.left) - visit(node.right)
 	elif node.op.type == Token.Type.MUL:
@@ -105,18 +122,30 @@ func visit_number(node: Number):
 	return node.value
 
 func visit_assignment(node: Assignment):
-	variables[node.left.name] = visit(node.right)
-	print("assignment {0} = {1}".format([node.left.name,visit(node.right)]))
+	var left_name = node.left.name
+	var var_value = visit(node.right)
+	
+	var ar = call_stack.peek()
+	ar.set_item(left_name, var_value)
+	print("assignment {0} = {1}".format([node.left.name,var_value]))
 
 func visit_block(node: Block):
 	for child in node.children:
+		if child is ReturnStatement:
+			return visit(child)
 		visit(child)
+
+func visit_return_statement(node: ReturnStatement):
+	var ar = call_stack.peek()
+	#ar.set_return(visit(node.right))
+	return visit(node.right)
 
 func visit_var_decl(node: VarDecl):
 	pass
 
 func visit_var(node: Var):
-	return variables[node.name]
+	var ar = call_stack.peek()
+	return ar.get_item(node.name)
 
 func visit_no_op(node: NoOp):
 	return

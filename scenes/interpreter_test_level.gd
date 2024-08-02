@@ -45,3 +45,4 @@ func _on_window_run_button_pressed():
 	#print(interpreter.variables)
 	#interpreter.reset()
 	interpreter.print_ast(tree)
+	print(interpreter.call_stack)

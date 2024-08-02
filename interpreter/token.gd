@@ -4,7 +4,9 @@ extends RefCounted
 
 enum Type {
 	VAR,
+	#PRINT,
 	WHILE,
+	RETURN,
 	VAR_DECL,
 	IDENT,
 	FUNC,
@@ -33,7 +35,9 @@ enum Type {
 
 const TYPE_STRINGS =  {
 	Type.VAR : "VAR",
+	#Type.PRINT : "PRINT",
 	Type.WHILE : "WHILE",
+	Type.RETURN : "RETURN",
 	Type.VAR_DECL : "VAR_DECL",
 	Type.IDENT : "IDENT",
 	Type.FUNC : "FUNC",
