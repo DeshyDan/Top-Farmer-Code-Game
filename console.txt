@@ -1,5 +1,5 @@
-Godot Engine v4.2.1.stable.official.b09f793f5 - https://godotengine.org
-OpenGL API 4.1 ATI-4.7.103 - Compatibility - Using Device: ATI Technologies Inc. - AMD Radeon R9 M370X OpenGL Engine
+Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
 define builtin<int>
 define builtin<float>
@@ -32,14 +32,224 @@ define <z:builtin<int>>
 lookup z
 lookup x
 lookup y
-lookup print
-lookup z
 func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>>, "y": <y:builtin<int>>, "z": <z:builtin<int>> }
-lookup print
-ERROR LINE 12: Token (IDENT,print)
-lookup add
+define <function(name=double,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+define <function(name=printbelow,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+lookup printbelow
+assignment a = 2
+assignment b = 3
+[3]
+[2]
+[1]
+Call Stack:
+5: 1 printbelow
+   x: 0
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223371938154412657>
+   double: <RefCounted#-9223371936661240397>
+   printbelow: <RefCounted#-9223371934396316204>
+
+Call Stack:
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223371938154412657>
+   double: <RefCounted#-9223371936661240397>
+   printbelow: <RefCounted#-9223371934396316204>
+
+Call Stack:
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223371938154412657>
+   double: <RefCounted#-9223371936661240397>
+   printbelow: <RefCounted#-9223371934396316204>
+
+Call Stack:
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223371938154412657>
+   double: <RefCounted#-9223371936661240397>
+   printbelow: <RefCounted#-9223371934396316204>
+
+Block:
+  VarDecl: a:int
+  Assignment:
+    Var: a
+    Number: 2
+  VarDecl: b:int
+  Assignment:
+    Var: b
+    Number: 3
+  FunctionDecl: add
+  Args:
+    VarDecl: x:int
+    VarDecl: y:int
+    Block:
+      VarDecl: z:int
+      Assignment:
+        Var: z
+        BinaryOP: +
+          Var: x
+          Var: y
+      Unknown node type: <RefCounted#-9223371938221521535>
+      NoOp
+  FunctionDecl: double
+  Args:
+    VarDecl: x:int
+    Block:
+      Unknown node type: <RefCounted#-9223371936728349267>
+      NoOp
+  FunctionDecl: printbelow
+  Args:
+    VarDecl: x:int
+    Block:
+      Unknown node type: <RefCounted#-9223371934463425070>
+      NoOp
+  FunctionCall: printbelow
+    Number: 3
+  NoOp
+Call Stack:
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223371938154412657>
+   double: <RefCounted#-9223371936661240397>
+   printbelow: <RefCounted#-9223371934396316204>
+
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
 lookup a
+define <a:builtin<int>>
+lookup a
+lookup int
 lookup b
+define <b:builtin<int>>
+lookup b
+define <function(name=printbelow,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+lookup printbelow
+assignment a = 2
+assignment b = 3
+[3]
+[2]
+[1]
+Call Stack:
+5: 1 printbelow
+   x: 0
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   printbelow: <RefCounted#-9223371711712328216>
+
+Call Stack:
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   printbelow: <RefCounted#-9223371711712328216>
+
+Call Stack:
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   printbelow: <RefCounted#-9223371711712328216>
+
+Call Stack:
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   printbelow: <RefCounted#-9223371711712328216>
+
+Block:
+  VarDecl: a:int
+  Assignment:
+    Var: a
+    Number: 2
+  VarDecl: b:int
+  Assignment:
+    Var: b
+    Number: 3
+  FunctionDecl: printbelow
+  Args:
+    VarDecl: x:int
+    Block:
+      Unknown node type: <RefCounted#-9223371711779437209>
+      NoOp
+  FunctionCall: printbelow
+    Number: 3
+  NoOp
+Call Stack:
+1: 0 test program
+   a: 2
+   b: 3
+   printbelow: <RefCounted#-9223371711712328216>
+
 define builtin<int>
 define builtin<float>
 define builtin<true>
@@ -63,33 +273,338 @@ lookup int
 define <x:builtin<int>>
 lookup int
 define <y:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>>, "y": <y:builtin<int>> }
+define <function(name=printbelow,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
 lookup int
-lookup z
-LOOKING UP IN PARENT
-lookup z
-define <z:builtin<int>>
-lookup z
-lookup x
-lookup y
-lookup print
-lookup z
-func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>>, "y": <y:builtin<int>>, "z": <z:builtin<int>> }
-lookup print
-lookup add
-lookup add
-lookup a
-lookup b
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+lookup printbelow
 assignment a = 2
 assignment b = 3
-assignment z = 5
-[5]
+[3]
 Call Stack:
-2: 1 add
-   x: 2
-   y: 3
-   z: 5
+3: 1 add
+   x: 3
+   y: -1
+2: 1 printbelow
+   x: 3
 1: 0 test program
    a: 2
    b: 3
-   add: <RefCounted#-9223371922014730870>
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+[2]
+Call Stack:
+4: 1 add
+   x: 2
+   y: -1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+[1]
+Call Stack:
+5: 1 add
+   x: 1
+   y: -1
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+Call Stack:
+5: 1 printbelow
+   x: 0
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+Call Stack:
+4: 1 printbelow
+   x: 1
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+Call Stack:
+3: 1 printbelow
+   x: 2
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+Call Stack:
+2: 1 printbelow
+   x: 3
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+Block:
+  VarDecl: a:int
+  Assignment:
+    Var: a
+    Number: 2
+  VarDecl: b:int
+  Assignment:
+    Var: b
+    Number: 3
+  FunctionDecl: add
+  Args:
+    VarDecl: x:int
+    VarDecl: y:int
+    Block:
+      Unknown node type: <RefCounted#-9223370283065276962>
+      NoOp
+  FunctionDecl: printbelow
+  Args:
+    VarDecl: x:int
+    Block:
+      Unknown node type: <RefCounted#-9223370280548694541>
+      NoOp
+  FunctionCall: printbelow
+    Number: 3
+  NoOp
+Call Stack:
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370282998168263>
+   printbelow: <RefCounted#-9223370280481585694>
+
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+lookup a
+define <a:builtin<int>>
+lookup a
+lookup int
+lookup b
+define <b:builtin<int>>
+lookup b
+define <function(name=add,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+lookup int
+define <y:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>>, "y": <y:builtin<int>> }
+define <function(name=printbelow,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+lookup printbelow
+assignment a = 2
+assignment b = 3
+[4]
+Call Stack:
+3: 1 add
+   x: 4
+   y: -1
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+[3]
+Call Stack:
+4: 1 add
+   x: 3
+   y: -1
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+[2]
+Call Stack:
+5: 1 add
+   x: 2
+   y: -1
+4: 1 printbelow
+   x: 2
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+[1]
+Call Stack:
+6: 1 add
+   x: 1
+   y: -1
+5: 1 printbelow
+   x: 1
+4: 1 printbelow
+   x: 2
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Call Stack:
+6: 1 printbelow
+   x: 0
+5: 1 printbelow
+   x: 1
+4: 1 printbelow
+   x: 2
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Call Stack:
+5: 1 printbelow
+   x: 1
+4: 1 printbelow
+   x: 2
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Call Stack:
+4: 1 printbelow
+   x: 2
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Call Stack:
+3: 1 printbelow
+   x: 3
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Call Stack:
+2: 1 printbelow
+   x: 4
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
+
+Block:
+  VarDecl: a:int
+  Assignment:
+    Var: a
+    Number: 2
+  VarDecl: b:int
+  Assignment:
+    Var: b
+    Number: 3
+  FunctionDecl: add
+  Args:
+    VarDecl: x:int
+    VarDecl: y:int
+    Block:
+      Unknown node type: <RefCounted#-9223370207718800071>
+      NoOp
+  FunctionDecl: printbelow
+  Args:
+    VarDecl: x:int
+    Block:
+      Unknown node type: <RefCounted#-9223370205202217654>
+      NoOp
+  FunctionCall: printbelow
+    Number: 4
+  NoOp
+Call Stack:
+1: 0 test program
+   a: 2
+   b: 3
+   add: <RefCounted#-9223370207651691097>
+   printbelow: <RefCounted#-9223370205135108739>
 

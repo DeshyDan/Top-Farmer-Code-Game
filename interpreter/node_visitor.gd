@@ -27,8 +27,13 @@ func visit(ast_node: AST):
 		return visit_return_statement(ast_node)
 	elif ast_node is WhileLoop:
 		return visit_while_loop(ast_node)
+	elif ast_node is IfStatement:
+		return visit_if_statement(ast_node)
 	else:
 		print("can't visit node")
+
+func visit_if_statement(node: IfStatement):
+	pass
 
 func visit_return_statement(node: ReturnStatement):
 	pass

@@ -16,9 +16,16 @@ b = 3
 func add(x:int, y:int):
 	var z:int
 	z = x + y
-	print(z)
 	return z
 
-b = add(a,b)"
+func double(x:int):
+	return add(x,x)
+
+func printbelow(x:int):
+	while x > 0:
+		print(x)
+		printbelow(x-1)
+
+printbelow(3)"
 
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

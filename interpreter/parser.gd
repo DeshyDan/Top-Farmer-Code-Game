@@ -30,6 +30,8 @@ func error(error_code, token: Token, expected: Token):
 	)
 	#current_token = Token.new(token.Type.EOF, null)
 
+
+
 func eat(token_type):
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
@@ -117,6 +119,14 @@ func while_loop():
 	var block_node = block()
 	return WhileLoop.new(condition_node, block_node)
 
+func if_statement():
+	eat(Token.Type.IF)
+	var condition_node = expr()
+	eat(Token.Type.COLON)
+	eat(Token.Type.NL)
+	var block_node = block()
+	return IfStatement.new(condition_node, block_node)
+
 func statement_list():
 	var current_statement = statement()
 	var result = [current_statement]
@@ -140,6 +150,8 @@ func statement():
 		return func_decl()
 	elif current_token.type == Token.Type.WHILE:
 		return while_loop()
+	elif current_token.type == Token.Type.IF:
+		return if_statement()
 	elif current_token.type == Token.Type.RETURN:
 		return return_statement()
 	else:

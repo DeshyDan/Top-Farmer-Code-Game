@@ -18,6 +18,7 @@ var keywords = {
 	"func": Token.Type.FUNC,
 	"while": Token.Type.WHILE,
 	"return": Token.Type.RETURN,
+	"if": Token.Type.IF,
 	#"print": Token.Type.PRINT,
 }
 const keyword_data_path = "res://keywords.json"

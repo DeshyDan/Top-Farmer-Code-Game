@@ -9,13 +9,15 @@ enum ARType {
 var name
 var type: ARType
 var nesting_level
+var enclosing_ar: ActivationRecord
 var members = {}
 var return_val
 
-func _init(name, type, nesting_level, return_val=null):
+func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, return_val=null):
 	self.name = name
 	self.type = type
 	self.nesting_level = nesting_level
+	self.enclosing_ar = enclosing_ar
 	self.return_val = return_val
 
 func set_return(val):
@@ -25,7 +27,12 @@ func set_item(key, value):
 	members[key] = value
 
 func get_item(key):
-	return members.get(key)
+	var result = members.get(key)
+	if result == null:
+		if enclosing_ar == null:
+			return null
+		return enclosing_ar.get_item(key)
+	return result
 
 func _to_string():
 	var lines = [

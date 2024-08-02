@@ -24,40 +24,22 @@ func _init(parser: Parser):
 		"test program",
 		ActivationRecord.ARType.PROGRAM,
 		1,
+		null
 	)
 	call_stack.push(ar)
 
 func reset():
 	parser.reset()
 
-#func visit(ast_node: AST):
-	## a = 2
-	#if ast_node is BinaryOP:
-		#return visit_binary_op(ast_node)
-	#elif ast_node is Number:
-		#return visit_number(ast_node)
-	#elif ast_node is Assignment:
-		#return visit_assignment(ast_node)
-	#elif ast_node is UnaryOp:
-		#return visit_unary_op(ast_node)
-	#elif ast_node is Block:
-		#return visit_block(ast_node)
-	#elif ast_node is VarDecl:
-		#return visit_vardecl(ast_node)
-	#elif ast_node is Var:
-		#return visit_var(ast_node)
-	#elif ast_node is NoOp:
-		#return visit_no_op(ast_node)
-	#elif ast_node is FunctionDecl:
-		#return visit_function_decl(ast_node)
-	#elif ast_node is FunctionCall:
-		#return visit_function_call(ast_node)
-	#else:
-		#print("can't visit node")
-
 func visit_function_decl(node: FunctionDecl):
 	var ar = call_stack.peek()
 	ar.set_item(node.name.name, node)
+
+func visit_if_statement(node: IfStatement):
+	var condition = node.condition
+	var block = node.block
+	if visit(condition):
+		return visit(node.block)
 
 func visit_while_loop(node: WhileLoop):
 	print("visiting while loop")
@@ -65,7 +47,6 @@ func visit_while_loop(node: WhileLoop):
 		visit(node.block)
 
 func visit_function_call(node: FunctionCall):
-	
 	var ar = call_stack.peek()
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
 	if node.name.name == "print":
@@ -77,7 +58,8 @@ func visit_function_call(node: FunctionCall):
 	var new_ar = ActivationRecord.new(
 		function_decl.name.name,
 		ActivationRecord.ARType.FUNCTION_CALL,
-		ar.nesting_level + 1
+		ar.nesting_level + 1,
+		ar
 	)
 	
 	for i in range(len(function_decl.args)):
