@@ -158,11 +158,12 @@ func statement():
 		return empty()
 
 func return_statement():
+	var ret_token = current_token
 	eat(Token.Type.RETURN)
 	var right_node = NoOp.new()
 	if current_token.type != Token.Type.NL:
 		right_node = expr()
-	return ReturnStatement.new(right_node)
+	return ReturnStatement.new(right_node, ret_token)
 
 func assignment():
 	# 2

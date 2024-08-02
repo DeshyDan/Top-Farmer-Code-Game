@@ -62,6 +62,7 @@ draw_tabs = true
 gutters_draw_line_numbers = true
 gutters_zero_pad_line_numbers = true
 code_completion_enabled = true
+indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 script = ExtResource("1_j8a5t")
