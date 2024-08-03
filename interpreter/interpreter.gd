@@ -4,6 +4,7 @@ extends NodeVisitor
 var parser: Parser
 
 signal print_requested(arg_list)
+signal move_requested(move)
 
 var interpreter_error: InterpreterError
 var error_pos = 0
@@ -48,6 +49,8 @@ func visit_if_statement(node: IfStatement):
 	var block = node.block
 	if await visit(condition):
 		return await visit(node.block)
+	else:
+		return await visit(node.else_block)
 
 func visit_while_loop(node: WhileLoop):
 	while await visit(node.condition):
@@ -61,6 +64,13 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			to_print.append(await visit(arg))
 		print_requested.emit(to_print)
+		await tracepoint_reached(node)
+		return
+	if node.name.name == "move":
+		var move = []
+		for arg in node.args:
+			move.append(await visit(arg))
+		move_requested.emit(move.front())
 		await tracepoint_reached(node)
 		return
 	
@@ -91,7 +101,7 @@ func visit_binary_op(node: BinaryOP):
 	var r = await visit(node.right)
 	await tracepoint_reached(node)
 	if node.op.type == Token.Type.PLUS:
-		return l + r
+		return l + 2
 	elif node.op.type == Token.Type.MINUS:
 		return l - r
 	elif node.op.type == Token.Type.MUL:
@@ -125,13 +135,16 @@ func visit_block(node: Block):
 	for child in node.children:
 		if child is ReturnStatement:
 			return await visit(child)
+		if call_stack.peek().should_return:
+			return call_stack.peek().return_val
 		await visit(child)
 
 func visit_return_statement(node: ReturnStatement):
 	var ar = call_stack.peek()
-	#ar.set_return(visit(node.right))
+	var result = await visit(node.right)
+	ar.set_return(result)
 	await tracepoint_reached(node)
-	return await visit(node.right)
+	return result
 
 func visit_var_decl(node: VarDecl):
 	await tracepoint_reached(node)

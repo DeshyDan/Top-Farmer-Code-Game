@@ -35,4 +35,5 @@ func _init_builtins():
 	define(BuiltinSymbol.new("float"))
 	define(BuiltinSymbol.new("true"))
 	define(BuiltinFuncSymbol.new("print", [0])) # TODO: what should this array actually contain?
+	define(BuiltinFuncSymbol.new("move", [0]))
 	define(BuiltinSymbol.new("false"))

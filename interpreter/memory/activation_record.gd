@@ -13,16 +13,18 @@ var enclosing_ar: ActivationRecord
 var members = {}
 var return_val
 var token: Token
+var should_return = false
 
-func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, token: Token, return_val=null):
+func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, token: Token):
 	self.name = name
 	self.type = type
 	self.nesting_level = nesting_level
 	self.enclosing_ar = enclosing_ar
-	self.return_val = return_val
+	self.return_val = null
 	self.token = token
 
 func set_return(val):
+	should_return = true
 	return_val = val
 
 func set_item(key, value):

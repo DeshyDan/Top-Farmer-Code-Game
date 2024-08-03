@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bj65424k018c7"]
+[gd_scene load_steps=5 format=3 uid="uid://bj65424k018c7"]
 
 [ext_resource type="Script" path="res://scenes/interpreter_test_level.gd" id="1_r4hln"]
 [ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_edit_test.tscn" id="2_af6fe"]
+[ext_resource type="Texture2D" uid="uid://drwrmyx6udvcy" path="res://assets/icon.svg" id="3_1g6dg"]
+[ext_resource type="Script" path="res://scenes/robot.gd" id="3_ekkoj"]
 
 [node name="InterpreterTestLevel" type="Node2D"]
 script = ExtResource("1_r4hln")
@@ -21,6 +23,11 @@ x = 0
 while x < 5:
 	print(x)
 	x = x + 1"
+
+[node name="Robot" type="Sprite2D" parent="."]
+position = Vector2(922, 285)
+texture = ExtResource("3_1g6dg")
+script = ExtResource("3_ekkoj")
 
 [connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

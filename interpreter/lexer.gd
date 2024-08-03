@@ -19,6 +19,7 @@ var keywords = {
 	"while": Token.Type.WHILE,
 	"return": Token.Type.RETURN,
 	"if": Token.Type.IF,
+	"else": Token.Type.ELSE,
 	#"print": Token.Type.PRINT,
 }
 const keyword_data_path = "res://keywords.json"
@@ -89,7 +90,7 @@ var col_number = 0
 var tab_size = 4
 
 func newline(make_token: bool, add_line: bool = true):
-	if make_token:
+	if make_token and not pending_newline:
 		last_newline = make_token(Token.Type.NL)
 		pending_newline = true
 	if add_line:
@@ -277,7 +278,7 @@ func get_next_token():
 			return make_token(Token.Type.BEGIN)
 		else:
 			pending_indents += 1
-			newline(true,false)
+			#newline(true,false)
 			return make_token(Token.Type.END)
 		
 	var result = make_token(Token.Type.EOF)

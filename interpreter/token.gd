@@ -6,6 +6,7 @@ enum Type {
 	VAR,
 	#PRINT,
 	IF,
+	ELSE,
 	WHILE,
 	RETURN,
 	VAR_DECL,
@@ -37,6 +38,7 @@ enum Type {
 const TYPE_STRINGS =  {
 	Type.VAR : "VAR",
 	#Type.PRINT : "PRINT",
+	Type.ELSE : "ELSE",
 	Type.WHILE : "WHILE",
 	Type.IF : "IF",
 	Type.RETURN : "RETURN",

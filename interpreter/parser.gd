@@ -12,6 +12,8 @@ enum ParserError {
 	ERROR
 }
 
+# TODO: cleanup!!!
+
 func _init(lexer: Lexer):
 	self.lexer = lexer
 	current_token = lexer.get_next_token()
@@ -101,19 +103,21 @@ func program():
 	return node
 
 func block():
+	return statement_or_suite()
 	var root = Block.new()
 	eat(Token.Type.BEGIN)
 	var nodes = statement_list()
 	eat(Token.Type.END)
 	for node in nodes:
 		root.children.append(node)
+	#eat(Token.Type.NL)
 	return root
 
 func while_loop():
 	eat(Token.Type.WHILE)
 	var condition_node = expr()
 	eat(Token.Type.COLON)
-	eat(Token.Type.NL)
+	#eat(Token.Type.NL)
 	var block_node = block()
 	return WhileLoop.new(condition_node, block_node)
 
@@ -121,9 +125,14 @@ func if_statement():
 	eat(Token.Type.IF)
 	var condition_node = expr()
 	eat(Token.Type.COLON)
-	eat(Token.Type.NL)
+	#eat(Token.Type.NL)
 	var block_node = block()
-	return IfStatement.new(condition_node, block_node)
+	var else_block = Block.new()
+	if current_token.type == Token.Type.ELSE:
+		eat(Token.Type.ELSE)
+		eat(Token.Type.COLON)
+		else_block = block()
+	return IfStatement.new(condition_node, block_node, else_block)
 
 func statement_list():
 	var current_statement = statement()
@@ -131,15 +140,35 @@ func statement_list():
 	while current_token.type == Token.Type.NL:
 		eat(Token.Type.NL)
 		result.append(statement())
-	if current_token.type == Token.Type.IDENT:
-		error(GError.ErrorCode.ID_NOT_FOUND,current_token,null)
+	#if current_token.type == Token.Type.IDENT:
+		#error(GError.ErrorCode.ID_NOT_FOUND,current_token,null)
+	return result
+
+func statement_or_suite():
+	var block = Block.new()
+	if current_token.type == Token.Type.NL:
+		eat(Token.Type.NL)
+		eat(Token.Type.BEGIN)
+		block.children = suite()
+		eat(Token.Type.END)
+	else:
+		block.children = [statement()]
+	return block
+
+func suite():
+	var current_statement = statement()
+	var result = [current_statement]
+	while current_token.type != Token.Type.END and current_token.type != Token.Type.EOF:
+		result.append(statement())
 	return result
 
 func statement():
-	if current_token.type == Token.Type.BEGIN:
-		return block()
-	elif current_token.type == Token.Type.IDENT and lexer.current_char == "(":
-		return func_call()
+	#if current_token.type == Token.Type.BEGIN:
+		#return block()
+	if current_token.type == Token.Type.IDENT and lexer.current_char == "(":
+		var result = func_call()
+		eat(Token.Type.NL)
+		return result
 	elif current_token.type == Token.Type.VAR:
 		return var_decl()
 	elif current_token.type == Token.Type.IDENT:
@@ -161,6 +190,7 @@ func return_statement():
 	var right_node = NoOp.new()
 	if current_token.type != Token.Type.NL:
 		right_node = expr()
+	eat(Token.Type.NL)
 	return ReturnStatement.new(right_node, ret_token)
 
 func assignment():
@@ -170,6 +200,7 @@ func assignment():
 	var token = current_token
 	eat(Token.Type.ASSIGN)
 	var right = expr()
+	eat(Token.Type.NL)
 	return Assignment.new(left, right, token)
 
 func var_decl():
@@ -177,6 +208,7 @@ func var_decl():
 	var variable = variable()
 	eat(Token.Type.COLON)
 	var type = type_spec()
+	eat(Token.Type.NL)
 	return VarDecl.new(variable,type)
 
 func variable():
@@ -208,7 +240,7 @@ func func_decl():
 		eat(Token.Type.COMMA)
 	eat(Token.Type.RPAREN)
 	eat(Token.Type.COLON)
-	eat(Token.Type.NL)
+	#eat(Token.Type.NL)
 	var block = block()
 	return FunctionDecl.new(func_name, args, block)
 
@@ -234,5 +266,5 @@ func peek(offset = 1):
 
 func parse():
 	var root = Block.new()
-	root.children = statement_list()
+	root.children = suite()
 	return root
