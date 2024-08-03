@@ -18,3 +18,9 @@ func _to_string():
 	var s = "Call Stack:\n"
 	s += "\n".join(rev)
 	return s + "\n"
+
+func shallow_copy() -> CallStack:
+	var new_callstack = CallStack.new()
+	for item in _items:
+		new_callstack.push(item)
+	return new_callstack

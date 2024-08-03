@@ -30,8 +30,6 @@ func error(error_code, token: Token, expected: Token):
 	)
 	#current_token = Token.new(token.Type.EOF, null)
 
-
-
 func eat(token_type):
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
@@ -172,7 +170,7 @@ func assignment():
 	var token = current_token
 	eat(Token.Type.ASSIGN)
 	var right = expr()
-	return Assignment.new(left, right)
+	return Assignment.new(left, right, token)
 
 func var_decl():
 	eat(Token.Type.VAR)

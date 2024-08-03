@@ -1,7 +1,7 @@
 class_name CodeWindow
 extends Window
 
-@export var code_edit: CodeEdit
+@export var code_edit: PlayerEdit
 @export var console: Console
 @export_multiline var default_text: String :
 	get:
@@ -19,6 +19,10 @@ func get_source_code() -> String:
 
 func print_to_console(to_print: Variant):
 	console.print_to_player_console([to_print],null, null, null)
+
+func highlight_line(lineno: int):
+	#print("window got lineno: %d" % lineno)
+	code_edit.highlight_line.call_deferred(lineno)
 
 func reset_console():
 	console.text = ""

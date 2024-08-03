@@ -1,3 +1,63 @@
 Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
 OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
+filling ending indents
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+define <function(name=printbelow,parameters=[])>
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<false>
+lookup int
+define <x:builtin<int>>
+func scope: Symbols: { "int": builtin<int>, "float": builtin<float>, "true": builtin<true>, "print": builtin<print>, "false": builtin<false>, "x": <x:builtin<int>> }
+lookup printbelow
+lookup int
+lookup x
+define <x:builtin<int>>
+lookup x
+highlighting caller on line 6
+highlighting caller on line 6
+[3]
+highlighting caller on line 6
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 6
+[2]
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+[1]
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 4
+highlighting caller on line 6
+[0]
+[1]
+[2]
+[3]
+[4]

@@ -4,31 +4,31 @@ extends RefCounted
 func visit(ast_node: AST):
 	# a = 2
 	if ast_node is BinaryOP:
-		return visit_binary_op(ast_node)
+		return await visit_binary_op(ast_node)
 	elif ast_node is Number:
-		return visit_number(ast_node)
+		return await visit_number(ast_node)
 	elif ast_node is Assignment:
-		return visit_assignment(ast_node)
+		return await visit_assignment(ast_node)
 	elif ast_node is UnaryOp:
-		return visit_unary_op(ast_node)
+		return await visit_unary_op(ast_node)
 	elif ast_node is Block:
-		return visit_block(ast_node)
+		return await visit_block(ast_node)
 	elif ast_node is VarDecl:
-		return visit_var_decl(ast_node)
+		return await visit_var_decl(ast_node)
 	elif ast_node is Var:
-		return visit_var(ast_node)
+		return await visit_var(ast_node)
 	elif ast_node is NoOp:
-		return visit_no_op(ast_node)
+		return await visit_no_op(ast_node)
 	elif ast_node is FunctionDecl:
-		return visit_function_decl(ast_node)
+		return await visit_function_decl(ast_node)
 	elif ast_node is FunctionCall:
-		return visit_function_call(ast_node)
+		return await visit_function_call(ast_node)
 	elif ast_node is ReturnStatement:
-		return visit_return_statement(ast_node)
+		return await visit_return_statement(ast_node)
 	elif ast_node is WhileLoop:
-		return visit_while_loop(ast_node)
+		return await visit_while_loop(ast_node)
 	elif ast_node is IfStatement:
-		return visit_if_statement(ast_node)
+		return await visit_if_statement(ast_node)
 	else:
 		print("can't visit node")
 

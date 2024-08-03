@@ -8,24 +8,19 @@ script = ExtResource("1_r4hln")
 
 [node name="Window" parent="." instance=ExtResource("2_af6fe")]
 position = Vector2i(0, 36)
-default_text = "var a: int
-a = 2
-var b: int
-b = 3
-
-func add(x:int, y:int):
-	var z:int
-	z = x + y
-	return z
-
-func double(x:int):
-	return add(x,x)
-
-func printbelow(x:int):
-	while x > 0:
+default_text = "func printbelow(x:int):
+	if x > 0:
 		print(x)
 		printbelow(x-1)
 
-printbelow(3)"
+printbelow(3)
 
+var x: int
+x = 0
+
+while x < 5:
+	print(x)
+	x = x + 1"
+
+[connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

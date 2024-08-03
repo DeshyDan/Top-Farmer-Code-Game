@@ -66,6 +66,7 @@ indent_automatic = true
 auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 script = ExtResource("1_j8a5t")
+executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
 layout_mode = 2

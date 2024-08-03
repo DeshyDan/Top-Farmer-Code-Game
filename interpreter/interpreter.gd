@@ -17,6 +17,9 @@ var call_stack: CallStack
 
 var ast: AST
 
+signal tick
+signal tracepoint(node: AST, call_stack: CallStack)
+
 func _init(parser: Parser):
 	self.parser = parser
 	call_stack = CallStack.new()
@@ -24,9 +27,14 @@ func _init(parser: Parser):
 		"test program",
 		ActivationRecord.ARType.PROGRAM,
 		1,
+		null,
 		null
 	)
 	call_stack.push(ar)
+
+func tracepoint_reached(node: AST):
+	tracepoint.emit(node, call_stack.shallow_copy())
+	await tick
 
 func reset():
 	parser.reset()
@@ -38,13 +46,12 @@ func visit_function_decl(node: FunctionDecl):
 func visit_if_statement(node: IfStatement):
 	var condition = node.condition
 	var block = node.block
-	if visit(condition):
-		return visit(node.block)
+	if await visit(condition):
+		return await visit(node.block)
 
 func visit_while_loop(node: WhileLoop):
-	print("visiting while loop")
-	while visit(node.condition):
-		visit(node.block)
+	while await visit(node.condition):
+		await visit(node.block)
 
 func visit_function_call(node: FunctionCall):
 	var ar = call_stack.peek()
@@ -52,78 +59,82 @@ func visit_function_call(node: FunctionCall):
 	if node.name.name == "print":
 		var to_print = []
 		for arg in node.args:
-			to_print.append(visit(arg))
+			to_print.append(await visit(arg))
 		print_requested.emit(to_print)
+		await tracepoint_reached(node)
 		return
+	
+	#await tracepoint_reached(function_decl)
 	var new_ar = ActivationRecord.new(
 		function_decl.name.name,
 		ActivationRecord.ARType.FUNCTION_CALL,
 		ar.nesting_level + 1,
-		ar
+		ar,
+		node.token
 	)
 	
 	for i in range(len(function_decl.args)):
 		var arg_decl: VarDecl = function_decl.args[i]
 		var arg: AST = node.args[i]
-		var arg_val = visit(arg)
+		var arg_val = await visit(arg)
 		new_ar.set_item(arg_decl.var_node.name, arg_val)
 	call_stack.push(new_ar)
 	
-	var result = visit(function_decl.block)
-	print(call_stack)
+	await tracepoint_reached(node)
+	var result = await visit(function_decl.block)
+	#print(call_stack)
 	call_stack.pop()
 	return result
 
 func visit_binary_op(node: BinaryOP):
+	var l = await visit(node.left)
+	var r = await visit(node.right)
+	await tracepoint_reached(node)
 	if node.op.type == Token.Type.PLUS:
-		var l = visit(node.left)
-		var r = visit(node.right)
 		return l + r
 	elif node.op.type == Token.Type.MINUS:
-		return visit(node.left) - visit(node.right)
+		return l - r
 	elif node.op.type == Token.Type.MUL:
-		return visit(node.left) * visit(node.right)
+		return l * r
 	elif node.op.type == Token.Type.DIV:
-		var right_eval = visit(node.right)
-		if right_eval == 0:
-			interpreter_error = InterpreterError.ERROR
-			return visit(node.left)
-		return visit(node.left) / visit(node.right)
+		return l / r
 	elif node.op.type == Token.Type.LESS_THAN:
-		return visit(node.left) < visit(node.right)
+		return l < r
 	elif node.op.type == Token.Type.GREATER_THAN:
-		return visit(node.left) > visit(node.right)
+		return l > r
 
 func visit_unary_op(node: UnaryOp):
 	if node.op.type == Token.Type.MINUS:
-		return -1 * visit(node.right)
+		return -1 * await visit(node.right)
 	if node.op.type == Token.Type.PLUS:
-		return visit(node.right)
+		return await visit(node.right)
 
 func visit_number(node: Number):
 	return node.value
 
 func visit_assignment(node: Assignment):
 	var left_name = node.left.name
-	var var_value = visit(node.right)
+	var var_value = await visit(node.right)
 	
 	var ar = call_stack.peek()
 	ar.set_item(left_name, var_value)
-	print("assignment {0} = {1}".format([node.left.name,var_value]))
+	#print("assignment {0} = {1}".format([node.left.name,var_value]))
+	await tracepoint_reached(node)
 
 func visit_block(node: Block):
 	for child in node.children:
 		if child is ReturnStatement:
-			return visit(child)
-		visit(child)
+			return await visit(child)
+		await visit(child)
 
 func visit_return_statement(node: ReturnStatement):
 	var ar = call_stack.peek()
 	#ar.set_return(visit(node.right))
-	return visit(node.right)
+	await tracepoint_reached(node)
+	return await visit(node.right)
 
 func visit_var_decl(node: VarDecl):
-	pass
+	await tracepoint_reached(node)
 
 func visit_var(node: Var):
 	var ar = call_stack.peek()

@@ -9,6 +9,5 @@ func print_to_player_console(args: Array, source_name, row, column):
 	for arg in args:
 		words.append(str(arg))
 	var line = " ".join(words)
-	text += line
-	text += "\n"
+	append_text.bind(line + "\n").call_deferred()
 	
