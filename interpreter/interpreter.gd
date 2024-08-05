@@ -54,7 +54,26 @@ func visit_if_statement(node: IfStatement):
 
 func visit_while_loop(node: WhileLoop):
 	while await visit(node.condition):
+		if call_stack.peek().should_return:
+			return call_stack.peek().return_val
 		await visit(node.block)
+
+func visit_for_loop(node: ForLoop):
+	var identifier: Var = node.identifier
+	var ar = call_stack.peek()
+	for item in (await visit(node.iterable)):
+		await tracepoint_reached(node)
+		if call_stack.peek().should_return:
+			return call_stack.peek().return_val
+		ar.set_item(identifier.name, item)
+		var result = await visit(node.block)
+		
+
+func visit_array_literal(node: ArrayNode):
+	var result = []
+	for item_node in node.items:
+		result.append(await visit(item_node))
+	return result
 
 func visit_function_call(node: FunctionCall):
 	var ar = call_stack.peek()
@@ -93,31 +112,48 @@ func visit_function_call(node: FunctionCall):
 	await tracepoint_reached(node)
 	var result = await visit(function_decl.block)
 	#print(call_stack)
+	var ret_val = call_stack.peek().return_val
 	call_stack.pop()
-	return result
+	return ret_val
 
 func visit_binary_op(node: BinaryOP):
 	var l = await visit(node.left)
 	var r = await visit(node.right)
 	await tracepoint_reached(node)
-	if node.op.type == Token.Type.PLUS:
-		return l + r
-	elif node.op.type == Token.Type.MINUS:
-		return l - r
-	elif node.op.type == Token.Type.MUL:
-		return l * r
-	elif node.op.type == Token.Type.DIV:
-		return l / r
-	elif node.op.type == Token.Type.LESS_THAN:
-		return l < r
-	elif node.op.type == Token.Type.GREATER_THAN:
-		return l > r
+	match node.op.type:
+		Token.Type.PLUS:
+			return l + r
+		Token.Type.MINUS:
+			return l - r
+		Token.Type.MUL:
+			return l * r
+		Token.Type.DIV:
+			return l / r
+		Token.Type.MOD:
+			return l % r
+		Token.Type.LESS_THAN:
+			return l < r
+		Token.Type.IS_EQUAL:
+			return l == r
+		Token.Type.LT_OR_EQ:
+			return l <= r
+		Token.Type.GREATER_THAN:
+			return l > r
+		Token.Type.GT_OR_EQ:
+			return l >= r
+		Token.Type.LOGIC_AND:
+			return l and r
+		Token.Type.LOGIC_OR:
+			return l or r
+	push_error("unrecognized binary operation: %s" % str(node.op.value))
 
 func visit_unary_op(node: UnaryOp):
 	if node.op.type == Token.Type.MINUS:
 		return -1 * await visit(node.right)
 	if node.op.type == Token.Type.PLUS:
 		return await visit(node.right)
+	if node.op.type == Token.Type.LOGIC_NOT:
+		return not await visit(node.right)
 
 func visit_number(node: Number):
 	return node.value
@@ -134,7 +170,9 @@ func visit_assignment(node: Assignment):
 func visit_block(node: Block):
 	for child in node.children:
 		if child is ReturnStatement:
-			return await visit(child)
+			var ret_val = await visit(child.right)
+			call_stack.peek().set_return(ret_val)
+			return ret_val
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
 		await visit(child)

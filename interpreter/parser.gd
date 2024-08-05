@@ -46,7 +46,7 @@ func eat(token_type):
 
 func for_statement():
 	eat(Token.Type.FOR)
-	var identifier = var_decl()
+	var identifier = variable()
 	eat(Token.Type.IN)
 	var iterable = expr()
 	eat(Token.Type.COLON)
@@ -74,6 +74,8 @@ func literal():
 		var result = expr()
 		eat(Token.Type.RPAREN)
 		return result
+	elif token.type == Token.Type.LSQUARE:
+		return array_decl()
 	elif token.type == Token.Type.INTEGER_CONST:
 		eat(Token.Type.INTEGER_CONST)
 		return Number.new(token)
@@ -126,7 +128,7 @@ func term() -> AST:
 	var result = factor()
 	
 
-	while current_token.type in [Token.Type.MUL, Token.Type.DIV]:
+	while current_token.type in [Token.Type.MUL, Token.Type.DIV, Token.Type.MOD]:
 		var token = self.current_token
 		if token.type == Token.Type.MUL:
 			self.eat(Token.Type.MUL)
@@ -167,7 +169,7 @@ func comparison():
 
 func logic_not():
 	if current_token.type == Token.Type.LOGIC_NOT:
-		var op_token = Token.Type.LOGIC_NOT
+		var op_token = current_token
 		eat(Token.Type.LOGIC_NOT)
 		return UnaryOp.new(op_token, logic_not())
 	return comparison()
@@ -176,7 +178,7 @@ func logic_and():
 	var result = logic_not()
 	
 	while current_token.type == Token.Type.LOGIC_AND:
-		var op_token = Token.Type.LOGIC_AND
+		var op_token = current_token
 		eat(Token.Type.LOGIC_AND)
 		result = BinaryOP.new(result, op_token, logic_not())
 	return result
@@ -185,7 +187,7 @@ func logic_or():
 	var result = logic_and()
 	
 	while current_token.type == Token.Type.LOGIC_OR:
-		var op_token = Token.Type.LOGIC_OR
+		var op_token = current_token
 		eat(Token.Type.LOGIC_OR)
 		result = BinaryOP.new(result, op_token, logic_and())
 	return result
@@ -278,6 +280,8 @@ func statement():
 		return assignment()
 	elif current_token.type == Token.Type.FUNC:
 		return func_decl()
+	elif current_token.type == Token.Type.FOR:
+		return for_statement()
 	elif current_token.type == Token.Type.WHILE:
 		return while_loop()
 	elif current_token.type == Token.Type.IF:

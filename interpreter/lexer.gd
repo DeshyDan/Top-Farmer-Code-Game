@@ -23,6 +23,7 @@ var keywords = {
 	"and": Token.Type.LOGIC_AND,
 	"or": Token.Type.LOGIC_OR,
 	"not": Token.Type.LOGIC_NOT,
+	"for": Token.Type.FOR,
 	"in": Token.Type.IN,
 	"true": Token.Type.TRUE,
 	"false": Token.Type.FALSE,
@@ -98,13 +99,14 @@ var tab_size = 4
 
 func newline(make_token: bool, add_line: bool = true):
 	if make_token and not pending_newline:
-		last_newline = make_token(Token.Type.NL)
+		last_newline = make_token(Token.Type.NL, "NL")
 		pending_newline = true
 	if add_line:
 		line_number += 1
 		col_number = 0
 
 func skip_whitespace():
+	
 	if pending_indents != 0:
 		return
 	
@@ -116,8 +118,10 @@ func skip_whitespace():
 	
 	while true:
 		match current_char:
-			null:
-				pass
+			#null:
+				#check_indent()
+				#newline(true) # add a newline at end of file no matter what
+				#break
 			" ":
 				advance()
 
@@ -259,7 +263,7 @@ func is_at_end():
 	#return pos >= len(text)
 
 func make_token(token_type: Token.Type,
-				value=null,
+				value,
 				lineno=line_number,
 				colno=col_number) -> Token:
 	var length = 1
@@ -286,13 +290,13 @@ func get_next_token():
 	if pending_indents != 0:
 		if pending_indents > 0:
 			pending_indents -= 1
-			return make_token(Token.Type.BEGIN)
+			return make_token(Token.Type.BEGIN, "BEGIN")
 		else:
 			pending_indents += 1
 			#newline(true,false)
-			return make_token(Token.Type.END)
+			return make_token(Token.Type.END, "END")
 		
-	var result = make_token(Token.Type.EOF)
+	var result = make_token(Token.Type.EOF, "EOF")
 	#print("token starting at {0}".format([current_char]))
 	
 	while current_char != null:
@@ -328,6 +332,7 @@ func get_next_token():
 		if current_char == '!':
 			advance()
 			if current_char == "=":
+				advance()
 				result = make_token(Token.Type.IS_NOT_EQUAL, "!=")
 				break
 			result = make_token(Token.Type.BANG, '!')
@@ -336,6 +341,7 @@ func get_next_token():
 		if current_char == "=":
 			advance()
 			if current_char == "=":
+				advance()
 				result = make_token(Token.Type.IS_EQUAL, "==")
 				break
 			result = make_token(Token.Type.ASSIGN, '=')
@@ -344,6 +350,7 @@ func get_next_token():
 		if current_char == "<":
 			advance()
 			if current_char == "=":
+				advance()
 				result = make_token(Token.Type.LT_OR_EQ, "<=")
 				break
 			result = make_token(Token.Type.LESS_THAN, '<')
@@ -352,6 +359,7 @@ func get_next_token():
 		if current_char == ">":
 			advance()
 			if current_char == "=":
+				advance()
 				result = make_token(Token.Type.GT_OR_EQ, ">=")
 				break
 			result = make_token(Token.Type.GREATER_THAN, '>')
@@ -400,6 +408,11 @@ func get_next_token():
 		if current_char == ",":
 			advance()
 			result = make_token(Token.Type.COMMA, ",")
+			break
+		
+		if current_char == "%":
+			advance()
+			result = make_token(Token.Type.MOD, "%")
 			break
 		
 		if current_char.is_valid_identifier():

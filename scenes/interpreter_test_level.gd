@@ -41,7 +41,7 @@ func _on_window_run_button_pressed():
 	thread = Thread.new()
 	mutex = Mutex.new()
 	thread.start(interpreter_thread)
-	var tick_length = 1.0/float(tick_rate)
+	var tick_length = 1.0/(float(tick_rate) + 0.00001)
 	timer = Timer.new()
 	add_child(timer)
 	timer.timeout.connect(_on_timer_tick)
@@ -75,6 +75,7 @@ func interpreter_thread():
 	await interpreter.visit(tree)
 	remove_child.call_deferred(timer) # todo: fix so spamming run button doesnt spawn new timers
 	print("finished")
+	thread.wait_to_finish.call_deferred()
 
 func _on_window_pause_button_pressed():
 	mutex.lock()

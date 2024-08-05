@@ -27,15 +27,26 @@ func visit(ast_node: AST):
 		return await visit_return_statement(ast_node)
 	elif ast_node is WhileLoop:
 		return await visit_while_loop(ast_node)
+	elif ast_node is ForLoop:
+		return await visit_for_loop(ast_node)
 	elif ast_node is IfStatement:
 		return await visit_if_statement(ast_node)
+	elif ast_node is ArrayNode:
+		return await visit_array_literal(ast_node)
 	else:
-		print("can't visit node")
+		push_error("can't visit node, pretending its a noop")
+		return await visit_no_op(NoOp.new())
 
 func visit_if_statement(node: IfStatement):
 	pass
 
 func visit_return_statement(node: ReturnStatement):
+	pass
+
+func visit_array_literal(ast_node: ArrayNode):
+	pass
+
+func visit_for_loop(node: ForLoop):
 	pass
 
 func visit_while_loop(node: WhileLoop):

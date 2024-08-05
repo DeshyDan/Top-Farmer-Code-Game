@@ -10,19 +10,10 @@ script = ExtResource("1_r4hln")
 
 [node name="Window" parent="." instance=ExtResource("2_af6fe")]
 position = Vector2i(0, 36)
-default_text = "func printbelow(x:int):
-	if x > 0:
-		print(x)
-		printbelow(x-1)
-
-printbelow(3)
-
-var x: int
-x = 0
-
-while x < 5:
-	print(x)
-	x = x + 1"
+default_text = "var b: int
+b = 0
+for x in [0,1,2]:
+	print(x)"
 
 [node name="Robot" type="Sprite2D" parent="."]
 position = Vector2(922, 285)

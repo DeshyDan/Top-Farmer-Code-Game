@@ -4,8 +4,10 @@ extends AST
 var identifier
 var iterable
 var block
+var token
 
 func _init(identifier, iterable, block):
-	self.identifer = identifier
+	self.identifier = identifier
 	self.iterable = iterable
 	self.block = block
+	token = identifier.token
