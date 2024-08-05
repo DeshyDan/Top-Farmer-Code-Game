@@ -84,10 +84,10 @@ func visit_function_call(node: FunctionCall):
 	)
 	
 	for i in range(len(function_decl.args)):
-		var arg_decl: VarDecl = function_decl.args[i]
-		var arg: AST = node.args[i]
-		var arg_val = await visit(arg)
-		new_ar.set_item(arg_decl.var_node.name, arg_val)
+		var arg_decl: VarDecl = function_decl.args[i] # x: int
+		var arg: AST = node.args[i] 
+		var arg_val = await visit(arg) # get the actual value of a
+		new_ar.set_item(arg_decl.var_node.name, arg_val) # x: int = value of a
 	call_stack.push(new_ar)
 	
 	await tracepoint_reached(node)
@@ -191,6 +191,30 @@ func print_ast(node: AST, indent: int = 0):
 		for arg in node.args:
 			print_ast(arg,indent + 2)
 		#print_ast(node.block, indent + 2)
+	elif node is IndexOp:
+		print("{0}Index:".format([indent_str]))
+		print_ast(node.left, indent + 2)
+		print_ast(node.index, indent + 2)
+	elif node is ArrayNode:
+		print("{0}ArrayDecl: ".format([indent_str]))
+		for item in node.items:
+			print_ast(item, indent + 2)
+	elif node is AttributeAccess:
+		print("{0}Attribute: ".format([indent_str]))
+		print_ast(node.parent, indent + 2)
+		print_ast(node.member, indent + 2)
+	elif node is IfStatement:
+		print("{0}If:".format([indent_str]))
+		print_ast(node.condition, indent + 2)
+		print_ast(node.block, indent + 2)
+	elif node is ForLoop:
+		print("{0}ForLoop:".format([indent_str]))
+		indent_str = indent_str + " ".repeat(2)
+		print("{0}Var:".format([indent_str]))
+		print_ast(node.identifier, indent + 4)
+		print("{0}Iterable:".format([indent_str]))
+		print_ast(node.iterable, indent + 4)
+		print_ast(node.block, indent + 2)
 	elif node is WhileLoop:
 		print("{0}WhileLoop:".format([indent_str]))
 		indent_str = indent_str + " ".repeat(2)

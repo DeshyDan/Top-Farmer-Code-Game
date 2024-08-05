@@ -2,6 +2,13 @@ extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var robot = $Robot
 
+var thread: Thread
+var interpreter: Interpreter
+var mutex: Mutex
+var timer: Timer
+
+@export var tick_rate = 4
+
 func _on_print_requested(arglist):
 	print(arglist)
 	window.print_to_console("".join(arglist))
@@ -29,13 +36,6 @@ func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	call_stack.pop()
 	_on_tracepoint_reached(func_decl, call_stack) # recursively walk up the call stack, highlighting any callers/func decls
 
-
-var thread: Thread
-var interpreter: Interpreter
-var mutex: Mutex
-var timer: Timer
-
-@export var tick_rate = 4
 
 func _on_window_run_button_pressed():
 	thread = Thread.new()

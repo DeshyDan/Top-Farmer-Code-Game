@@ -44,7 +44,30 @@ func eat(token_type):
 				current_token,
 				Token.new(token_type, null))
 
-func factor() -> AST:
+func for_statement():
+	eat(Token.Type.FOR)
+	var identifier = var_decl()
+	eat(Token.Type.IN)
+	var iterable = expr()
+	eat(Token.Type.COLON)
+	var block = statement_or_suite()
+	return ForLoop.new(identifier, iterable, block)
+
+func array_decl():
+	var result = ArrayNode.new()
+	eat(Token.Type.LSQUARE)
+	if current_token.type == Token.Type.RSQUARE:
+		eat(Token.Type.RSQUARE)
+		return result
+	var first = expr()
+	result.items.append(first)
+	while current_token.type == Token.Type.COMMA:
+		eat(Token.Type.COMMA)
+		result.items.append(expr())
+	eat(Token.Type.RSQUARE)
+	return result
+
+func literal():
 	var token = current_token
 	if token.type == Token.Type.LPAREN:
 		eat(Token.Type.LPAREN)
@@ -57,17 +80,51 @@ func factor() -> AST:
 	elif token.type == Token.Type.REAL_CONST:
 		eat(Token.Type.REAL_CONST)
 		return Number.new(token)
-	elif token.type in [Token.Type.MINUS, Token.Type.PLUS]:
+	elif token.type == Token.Type.TRUE:
+		eat(Token.Type.TRUE)
+		return Number.new(token) #TODO: bool literal leaf node
+	elif token.type == Token.Type.FALSE:
+		eat(Token.Type.FALSE)
+		return Number.new(token) #TODO: bool literal leaf node
+	elif token.type == Token.Type.NULL:
+		eat(Token.Type.NULL)
+		return NoOp.new() # TODO: null leaf node
+	elif token.type == Token.Type.PI_CONST:
+		eat(Token.Type.PI_CONST)
+		return Number.new(token)
+	else:
+		return variable()
+
+func subscription():
+	var result = literal()
+	if current_token.type == Token.Type.LSQUARE:
+		var index_token = current_token
+		eat(Token.Type.LSQUARE)
+		result = IndexOp.new(result, index_token, expr())
+		eat(Token.Type.RSQUARE)
+	return result
+	
+func attribute():
+	var result = subscription()
+	while current_token.type == Token.Type.DOT: # allow chaining attribute
+		var dot_token = current_token
+		eat(Token.Type.DOT)
+		result = AttributeAccess.new(result, dot_token, variable())
+	return result
+
+func factor() -> AST:
+	var token = current_token
+	if token.type in [Token.Type.MINUS, Token.Type.PLUS]:
 		eat(token.type)
 		return UnaryOp.new(token, factor())
 	elif current_token.type == Token.Type.IDENT and lexer.current_char == "(":
 		return func_call()
 	else:
-		return variable()
-
+		return attribute()
 
 func term() -> AST:
 	var result = factor()
+	
 
 	while current_token.type in [Token.Type.MUL, Token.Type.DIV]:
 		var token = self.current_token
@@ -75,31 +132,72 @@ func term() -> AST:
 			self.eat(Token.Type.MUL)
 		elif token.type == Token.Type.DIV:
 			self.eat(Token.Type.DIV)
+		elif token.type == Token.Type.MOD:
+			self.eat(Token.Type.MOD)
 		result = BinaryOP.new(result,token,factor())
 
 	return result
 
-func expr():
+func minus():	# TODO: maybe need to change precedence here?
 	var result = term()
 
-	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS, Token.Type.LESS_THAN, Token.Type.GREATER_THAN]:
+	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
 		var token = self.current_token
 		if token.type == Token.Type.PLUS:
 			self.eat(Token.Type.PLUS)
 		elif token.type == Token.Type.MINUS:
 			self.eat(Token.Type.MINUS)
-		elif token.type == Token.Type.LESS_THAN:
-			eat(Token.Type.LESS_THAN)
-		elif token.type == Token.Type.GREATER_THAN:
-			eat(Token.Type.GREATER_THAN)
-		
-		#NOT IN ARRAY ABOVE!!
-		elif token.type == Token.Type.LT_OR_EQ:
-			eat(Token.Type.LT_OR_EQ)
-		elif token.type == Token.Type.GT_OR_EQ:
-			eat(Token.Type.GT_OR_EQ)
 		
 		result = BinaryOP.new(result, token, term())
+	return result
+
+func comparison():
+	var result = minus()
+	while current_token.type in [Token.Type.LESS_THAN, # allow chaining of comparisons
+							  Token.Type.LT_OR_EQ,
+							  Token.Type.GREATER_THAN,
+							  Token.Type.GT_OR_EQ,
+							  Token.Type.IS_EQUAL,
+							  Token.Type.IS_NOT_EQUAL]:
+		var op_token = current_token
+		eat(current_token.type)
+		result = BinaryOP.new(result, op_token, minus())
+	return result
+	
+
+func logic_not():
+	if current_token.type == Token.Type.LOGIC_NOT:
+		var op_token = Token.Type.LOGIC_NOT
+		eat(Token.Type.LOGIC_NOT)
+		return UnaryOp.new(op_token, logic_not())
+	return comparison()
+
+func logic_and():
+	var result = logic_not()
+	
+	while current_token.type == Token.Type.LOGIC_AND:
+		var op_token = Token.Type.LOGIC_AND
+		eat(Token.Type.LOGIC_AND)
+		result = BinaryOP.new(result, op_token, logic_not())
+	return result
+
+func logic_or():
+	var result = logic_and()
+	
+	while current_token.type == Token.Type.LOGIC_OR:
+		var op_token = Token.Type.LOGIC_OR
+		eat(Token.Type.LOGIC_OR)
+		result = BinaryOP.new(result, op_token, logic_and())
+	return result
+
+func expr():
+	var result = logic_or()
+	if current_token.type == Token.Type.LSQUARE:
+		var op_token = current_token
+		eat(Token.Type.LSQUARE)
+		var index = expr()
+		eat(Token.Type.RSQUARE)
+		result = IndexOp.new(result, op_token, index)
 	return result
 
 func program():
@@ -200,7 +298,7 @@ func return_statement():
 
 func assignment():
 	# 2
-	var left = variable()
+	var left = subscription()
 	# -<<
 	var token = current_token
 	eat(Token.Type.ASSIGN)
@@ -250,7 +348,7 @@ func func_decl():
 	return FunctionDecl.new(func_name, args, block)
 
 func func_call():
-	var function = variable()
+	var function = attribute()
 	eat(Token.Type.LPAREN)
 	var args = []
 	while current_token.type != current_token.Type.RPAREN:

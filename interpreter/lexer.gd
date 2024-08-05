@@ -24,6 +24,9 @@ var keywords = {
 	"or": Token.Type.LOGIC_OR,
 	"not": Token.Type.LOGIC_NOT,
 	"in": Token.Type.IN,
+	"true": Token.Type.TRUE,
+	"false": Token.Type.FALSE,
+	"null": Token.Type.NULL,
 	#"print": Token.Type.PRINT,
 }
 const keyword_data_path = "res://keywords.json"
@@ -262,6 +265,10 @@ func make_token(token_type: Token.Type,
 	var length = 1
 	if value != null:
 		length = len(str(value))
+	if token_type == Token.Type.TRUE:
+		value = 1
+	if token_type == Token.Type.FALSE:
+		value = 0
 	return Token.new(token_type, value, lineno, colno, length)
 
 func get_next_token():
