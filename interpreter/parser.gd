@@ -93,6 +93,11 @@ func expr():
 		elif token.type == Token.Type.GREATER_THAN:
 			eat(Token.Type.GREATER_THAN)
 		
+		#NOT IN ARRAY ABOVE!!
+		elif token.type == Token.Type.LT_OR_EQ:
+			eat(Token.Type.LT_OR_EQ)
+		elif token.type == Token.Type.GT_OR_EQ:
+			eat(Token.Type.GT_OR_EQ)
 		
 		result = BinaryOP.new(result, token, term())
 	return result

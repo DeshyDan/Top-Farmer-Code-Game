@@ -74,6 +74,7 @@ func interpreter_thread():
 		return
 	await interpreter.visit(tree)
 	remove_child.call_deferred(timer) # todo: fix so spamming run button doesnt spawn new timers
+	print("finished")
 
 func _on_window_pause_button_pressed():
 	mutex.lock()

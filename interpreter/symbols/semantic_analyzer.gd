@@ -87,4 +87,4 @@ func visit_binary_op(node):
 	visit(node.right)
 
 func visit_unary_op(node):
-	visit(node.expr)
+	visit(node.right)

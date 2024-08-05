@@ -20,6 +20,10 @@ var keywords = {
 	"return": Token.Type.RETURN,
 	"if": Token.Type.IF,
 	"else": Token.Type.ELSE,
+	"and": Token.Type.LOGIC_AND,
+	"or": Token.Type.LOGIC_OR,
+	"not": Token.Type.LOGIC_NOT,
+	"in": Token.Type.IN,
 	#"print": Token.Type.PRINT,
 }
 const keyword_data_path = "res://keywords.json"
@@ -309,18 +313,40 @@ func get_next_token():
 			result = make_token(Token.Type.COLON, ':')
 			break
 		
+		if current_char == "%":
+			advance()
+			result = make_token(Token.Type.MOD, '%')
+			break
+		
+		if current_char == '!':
+			advance()
+			if current_char == "=":
+				result = make_token(Token.Type.IS_NOT_EQUAL, "!=")
+				break
+			result = make_token(Token.Type.BANG, '!')
+			break
+		
 		if current_char == "=":
 			advance()
+			if current_char == "=":
+				result = make_token(Token.Type.IS_EQUAL, "==")
+				break
 			result = make_token(Token.Type.ASSIGN, '=')
 			break
 		
 		if current_char == "<":
 			advance()
+			if current_char == "=":
+				result = make_token(Token.Type.LT_OR_EQ, "<=")
+				break
 			result = make_token(Token.Type.LESS_THAN, '<')
 			break
 		
 		if current_char == ">":
 			advance()
+			if current_char == "=":
+				result = make_token(Token.Type.GT_OR_EQ, ">=")
+				break
 			result = make_token(Token.Type.GREATER_THAN, '>')
 			break
 		
@@ -347,6 +373,16 @@ func get_next_token():
 		if current_char == ')':
 			advance()
 			result = make_token(Token.Type.RPAREN, ')')
+			break
+		
+		if current_char == "[":
+			advance()
+			result = make_token(Token.Type.LSQUARE, "[")
+			break
+		
+		if current_char == "]":
+			advance()
+			result = make_token(Token.Type.RSQUARE, "]")
 			break
 
 		if current_char == '-':

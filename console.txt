@@ -1,3 +1,471 @@
 Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
 OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+Token (NL,<null>)
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<move>
+define builtin<false>
+lookup int
+lookup x
+define <x:builtin<int>>
+lookup int
+lookup y
+define <y:builtin<int>>
+lookup x
+lookup y
+lookup x
+lookup x
+lookup x
+lookup y
+lookup y
+lookup x
+lookup y
+lookup print
+lookup y
+Block:
+  VarDecl: x:int
+  VarDecl: y:int
+  Assignment:
+    Var: x
+    Number: 0
+  Assignment:
+    Var: y
+    BinaryOP: +
+      Var: x
+      Number: 1
+  Assignment:
+    Var: x
+    BinaryOP: +
+      Var: x
+      Var: y
+  Assignment:
+    Var: y
+    BinaryOP: +
+      BinaryOP: +
+        Var: x
+        Var: y
+      Number: 1
+  FunctionCall: print
+    Var: y
+[3]
+finished
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+Token (NL,<null>)
+define builtin<int>
+define builtin<float>
+define builtin<true>
+define builtin<print>
+define builtin<move>
+define builtin<false>
+lookup int
+lookup x
+define <x:builtin<int>>
+lookup int
+lookup y
+define <y:builtin<int>>
+lookup x
+lookup y
+lookup x
+lookup x
+lookup x
+lookup y
+lookup y
+lookup x
+lookup y
+lookup print
+lookup y
+Block:
+  VarDecl: x:int
+  VarDecl: y:int
+  Assignment:
+    Var: x
+    Number: 0
+  Assignment:
+    Var: y
+    BinaryOP: +
+      Var: x
+      Number: 1
+  Assignment:
+    Var: x
+    BinaryOP: +
+      Var: x
+      Var: y
+  Assignment:
+    Var: y
+    BinaryOP: +
+      BinaryOP: +
+        Var: x
+        Var: y
+      Number: 1
+  FunctionCall: print
+    Var: y
+[3]
+finished
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))
+USER WARNING: A Thread object is being destroyed without its completion having been realized.
+Please call wait_to_finish() on it to ensure correct cleanup.
+   at: ~Thread (core/os/thread.cpp:102)
+Token (VAR,var)
+Token (IDENT,x)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (VAR,var)
+Token (IDENT,y)
+Token (COLON,:)
+Token (INTEGER,int)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (INTEGER,0)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,x)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (NL,<null>)
+Token (IDENT,y)
+Token (ASSIGN,=)
+Token (IDENT,x)
+Token (PLUS,+)
+Token (IDENT,y)
+Token (PLUS,+)
+Token (INTEGER,1)
+Token (NL,<null>)
+Token (IDENT,print)
+Token (LPAREN,()
+Token (IDENT,y)
+Token (RPAREN,))

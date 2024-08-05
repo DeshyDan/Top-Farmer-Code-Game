@@ -101,7 +101,7 @@ func visit_binary_op(node: BinaryOP):
 	var r = await visit(node.right)
 	await tracepoint_reached(node)
 	if node.op.type == Token.Type.PLUS:
-		return l + 2
+		return l + r
 	elif node.op.type == Token.Type.MINUS:
 		return l - r
 	elif node.op.type == Token.Type.MUL:
