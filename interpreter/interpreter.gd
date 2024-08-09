@@ -5,6 +5,7 @@ var parser: Parser
 
 signal print_requested(arg_list)
 signal move_requested(move)
+signal plant_requested(plant)
 
 var interpreter_error: InterpreterError
 var error_pos = 0
@@ -20,6 +21,7 @@ var ast: AST
 
 signal tick
 signal tracepoint(node: AST, call_stack: CallStack)
+signal finished
 
 func _init(parser: Parser):
 	self.parser = parser
@@ -67,7 +69,6 @@ func visit_for_loop(node: ForLoop):
 			return call_stack.peek().return_val
 		ar.set_item(identifier.name, item)
 		var result = await visit(node.block)
-		
 
 func visit_array_literal(node: ArrayNode):
 	var result = []
@@ -90,6 +91,13 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			move.append(await visit(arg))
 		move_requested.emit(move.front())
+		await tracepoint_reached(node)
+		return
+	if node.name.name == "plant":
+		var move = []
+		for arg in node.args:
+			move.append(await visit(arg))
+		plant_requested.emit(move.front())
 		await tracepoint_reached(node)
 		return
 	
@@ -194,6 +202,10 @@ func visit_var(node: Var):
 func visit_no_op(node: NoOp):
 	return
 
+func visit_program(node: Program):
+	await visit(node.block)
+	finished.emit()
+
 func print_ast(node: AST, indent: int = 0):
 	parser.reset()
 	var indent_str = " ".repeat(indent)
@@ -201,6 +213,9 @@ func print_ast(node: AST, indent: int = 0):
 		print("{0}BinaryOP: {1}".format([indent_str, node.op.value]))
 		print_ast(node.left, indent + 2)
 		print_ast(node.right, indent + 2)
+	elif node is Program:
+		print("{0}Program:".format([indent_str]))
+		print_ast(node.block, indent + 2)
 	elif node is Number:
 		print("{0}Number: {1}".format([indent_str, node.value]))
 	elif node is Assignment:

@@ -55,7 +55,6 @@ size_flags_vertical = 3
 [node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/CodeEditTest"]
 layout_mode = 2
 size_flags_vertical = 3
-minimap_draw = true
 syntax_highlighter = ExtResource("1_424wy")
 highlight_current_line = true
 draw_tabs = true

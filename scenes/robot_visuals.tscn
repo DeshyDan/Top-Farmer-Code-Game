@@ -2,6 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://drwrmyx6udvcy" path="res://assets/icon.svg" id="1_anecl"]
 
-[node name="Robot" type="Sprite2D"]
-scale = Vector2(0.505, 0.502)
+[node name="Robot root" type="Node2D"]
+
+[node name="Robot" type="Sprite2D" parent="."]
+scale = Vector2(0.329, 0.329)
 texture = ExtResource("1_anecl")

@@ -374,4 +374,4 @@ func peek(offset = 1):
 func parse():
 	var root = Block.new()
 	root.children = suite()
-	return root
+	return Program.new(root)

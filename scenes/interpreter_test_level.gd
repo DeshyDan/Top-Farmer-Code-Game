@@ -1,6 +1,6 @@
 extends Node2D
 @onready var window: CodeWindow = $Window
-@onready var robot = $Robot
+@onready var farm = $Farm
 
 var thread: Thread
 var interpreter: Interpreter
@@ -14,7 +14,11 @@ func _on_print_requested(arglist):
 	window.print_to_console("".join(arglist))
 
 func _on_move_requested(move: int):
-	robot.move.call_deferred(move)
+	#farm.move(move) on the next frame
+	farm.move.call_deferred(move)
+
+func _on_plant_requested(plant: int):
+	farm.plant.call_deferred(plant)
 
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	if node.get("token") == null:
@@ -36,12 +40,19 @@ func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	call_stack.pop()
 	_on_tracepoint_reached(func_decl, call_stack) # recursively walk up the call stack, highlighting any callers/func decls
 
+func _on_interpreter_finished():
+	print("INTERPRETER FINISHED")
+	if timer:
+		remove_child(timer)
 
 func _on_window_run_button_pressed():
 	thread = Thread.new()
 	mutex = Mutex.new()
-	thread.start(interpreter_thread)
+	#thread.start(interpreter_thread)
+	interpreter_thread()
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
+	if timer:
+		remove_child(timer)
 	timer = Timer.new()
 	add_child(timer)
 	timer.timeout.connect(_on_timer_tick)
@@ -52,10 +63,10 @@ func interpreter_thread():
 	var source = window.get_source_code()
 	var lexer = Lexer.new(source)
 	var token = lexer.get_next_token()
-	while token.type != Token.Type.EOF:
-		print(token)
-		token = lexer.get_next_token()
-	lexer.reset()
+	#while token.type != Token.Type.EOF:
+		#print(token)
+		#token = lexer.get_next_token()
+	#lexer.reset()
 	var parser = Parser.new(Lexer.new(source))
 	var tree = parser.parse()
 	if parser.parser_error.error_code:
@@ -64,7 +75,9 @@ func interpreter_thread():
 	interpreter = Interpreter.new(parser)
 	interpreter.print_requested.connect(_on_print_requested)
 	interpreter.move_requested.connect(_on_move_requested)
+	interpreter.plant_requested.connect(_on_plant_requested)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
+	interpreter.finished.connect(_on_interpreter_finished)
 	var sem = SemanticAnalyzer.new()
 	sem.visit(tree)
 	interpreter.print_ast(tree)
@@ -72,16 +85,16 @@ func interpreter_thread():
 		window.print_to_console(sem.semantic_error.message)
 		window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
 		return
-	await interpreter.visit(tree)
-	remove_child.call_deferred(timer) # todo: fix so spamming run button doesnt spawn new timers
-	print("finished")
-	thread.wait_to_finish.call_deferred()
+	interpreter.visit(tree)
+	#remove_child.call_deferred(timer) # todo: fix so spamming run button doesnt spawn new timers
+	print("interpreter started")
+	#thread.wait_to_finish.call_deferred()
 
 func _on_window_pause_button_pressed():
 	mutex.lock()
-	if not interpreter:
+	if not timer:
 		return
-	interpreter.tick.emit()
+	timer.paused = not timer.paused
 	mutex.unlock()
 
 func _on_timer_tick():

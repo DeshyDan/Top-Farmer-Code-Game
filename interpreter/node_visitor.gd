@@ -3,6 +3,8 @@ extends RefCounted
 
 func visit(ast_node: AST):
 	# a = 2
+	if ast_node is Program:
+		return await visit_program(ast_node)
 	if ast_node is BinaryOP:
 		return await visit_binary_op(ast_node)
 	elif ast_node is Number:
@@ -36,6 +38,9 @@ func visit(ast_node: AST):
 	else:
 		push_error("can't visit node, pretending its a noop")
 		return await visit_no_op(NoOp.new())
+
+func visit_program(node: Program):
+	pass
 
 func visit_if_statement(node: IfStatement):
 	pass

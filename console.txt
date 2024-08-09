@@ -1,35 +1,6 @@
 Godot Engine v4.2.stable.official.46dc27791 - https://godotengine.org
 OpenGL API 3.3.0 NVIDIA 546.01 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 3070 Ti
  
-Token (VAR,var)
-Token (IDENT,b)
-Token (COLON,:)
-Token (INTEGER,int)
-Token (NL,NL)
-Token (IDENT,b)
-Token (ASSIGN,=)
-Token (INTEGER_CONST,0)
-Token (NL,NL)
-Token (FOR,for)
-Token (IDENT,x)
-Token (IN,in)
-Token (LSQUARE,[)
-Token (INTEGER_CONST,0)
-Token (COMMA,,)
-Token (INTEGER_CONST,1)
-Token (COMMA,,)
-Token (INTEGER_CONST,2)
-Token (RSQUARE,])
-Token (COLON,:)
-Token (NL,NL)
-Token (BEGIN,BEGIN)
-Token (IDENT,print)
-Token (LPAREN,()
-Token (IDENT,x)
-filling ending indents
-Token (RPAREN,))
-Token (NL,NL)
-Token (END,END)
 filling ending indents
 define builtin<int>
 define builtin<float>
@@ -41,25 +12,34 @@ lookup int
 lookup b
 define <b:builtin<int>>
 lookup b
-Block:
-  VarDecl: b:int
-  Assignment:
-    Var: b
-    Number: 0
-  ForLoop:
-    Var:
-      Var: x
-    Iterable:
-      ArrayDecl: 
-        Number: 0
-        Number: 1
-        Number: 2
-    Block:
-      FunctionCall: print
+Program:
+  Block:
+    VarDecl: b:int
+    Assignment:
+      Var: b
+      Number: 0
+    ForLoop:
+      Var:
         Var: x
-[0]
-[1]
-[2]
-finished
+      Iterable:
+        ArrayDecl: 
+          Number: 0
+          Number: 1
+          Number: 2
+          Number: 3
+          Number: 4
+          Number: 5
+          Number: 6
+      Block:
+        FunctionCall: plant
+          Number: 0
+        FunctionCall: move
+          BinaryOP: +
+            BinaryOP: %
+              Var: x
+              Number: 2
+            Number: 1
+interpreter started
+INTERPRETER FINISHED
 USER WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
    at: cleanup (core/object/object.cpp:2208)
