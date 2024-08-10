@@ -1,0 +1,16 @@
+andy formless fo _ _123 _abc ab123
+abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_
+
+#expect
+
+Token (IDENT,andy)
+Token (IDENT,formless)
+Token (IDENT,fo)
+Token (IDENT,_)
+Token (IDENT,_123)
+Token (IDENT,_abc)
+Token (IDENT,ab123)
+Token (NL,NL)
+Token (IDENT,abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_)
+Token (NL,NL)
+Token (EOF,EOF)
