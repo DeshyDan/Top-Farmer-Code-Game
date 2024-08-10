@@ -1,10 +1,10 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dis0jxxlwbbbl"]
 
-[ext_resource type="Texture2D" uid="uid://b3jmaq302lo1i" path="res://assets/tiles/Tilemap/tilemap.png" id="1_4w22y"]
+[ext_resource type="Texture2D" uid="uid://b3jmaq302lo1i" path="res://assets/tiles/placeholder_farm_tiles/Tilemap/tilemap.png" id="1_tnn6q"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_n201g"]
 resource_name = "farm_tiles"
-texture = ExtResource("1_4w22y")
+texture = ExtResource("1_tnn6q")
 separation = Vector2i(1, 1)
 texture_region_size = Vector2i(18, 18)
 0:0/0 = 0
