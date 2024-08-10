@@ -3,8 +3,6 @@ extends Node
 
 signal print_requested(args, source_name, row, column)
 
-signal robot_move_requested(dir: Robot.Direction)
-
 signal robot_plant_requested(pos: Vector2i)
 
 func print_log(args, source_name, row, column):

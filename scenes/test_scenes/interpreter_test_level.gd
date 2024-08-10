@@ -51,7 +51,7 @@ func _on_window_run_button_pressed():
 	#thread.start(interpreter_thread)
 	interpreter_thread()
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
-	if timer:
+	if timer and timer.is_inside_tree():
 		remove_child(timer)
 	timer = Timer.new()
 	add_child(timer)
