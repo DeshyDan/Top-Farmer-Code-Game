@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds5a0h25he8vt"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_jdl7e"]
+color = Color(1, 0, 0, 1)
+grow_begin = -1.0
+grow_end = -1.0
+thickness = 10
+
+[sub_resource type="Theme" id="Theme_m3cyr"]
+PanelContainer/styles/panel = SubResource("StyleBoxLine_jdl7e")
+
+[node name="ErrorBox" type="PanelContainer"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 4
+theme = SubResource("Theme_m3cyr")

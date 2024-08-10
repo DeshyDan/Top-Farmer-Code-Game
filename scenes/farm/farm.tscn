@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://biby7lxgflo4u"]
+
+[ext_resource type="Script" path="res://scripts/farm/farm.gd" id="1_7bhk8"]
+[ext_resource type="TileSet" uid="uid://dis0jxxlwbbbl" path="res://resources/farm_tile_set.tres" id="1_r3wc3"]
+[ext_resource type="PackedScene" uid="uid://c8jlymvahedim" path="res://scenes/farm/robot_visuals.tscn" id="3_y8wql"]
+
+[node name="Farm" type="Node2D"]
+script = ExtResource("1_7bhk8")
+
+[node name="TileMap" type="TileMap" parent="."]
+texture_filter = 1
+scale = Vector2(2.505, 2.505)
+tile_set = ExtResource("1_r3wc3")
+format = 2
+layer_0/name = "base"
+layer_0/tile_data = PackedInt32Array(196608, 851968, 2, 196609, 917504, 2, 196610, 917504, 2, 196611, 917504, 2, 196612, 983040, 2, 0, 851968, 0, 65536, 851968, 1, 131072, 851968, 1, 1, 917504, 0, 65537, 917504, 1, 131073, 917504, 1, 2, 917504, 0, 65538, 917504, 1, 131074, 917504, 1, 3, 917504, 0, 65539, 917504, 1, 131075, 917504, 1, 4, 983040, 0, 65540, 983040, 1, 131076, 983040, 1, -65532, 589824, 2, -65533, 524288, 2, -65534, 524288, 2, -65535, 524288, 2, -65536, 458752, 2, 65535, 589824, 1610612738, 131071, 524288, 1610612738, 196607, 524288, 1610612738, 262143, 458752, 1610612738, 5, 458752, 1342177282, 65541, 524288, 1342177282, 131077, 524288, 1342177282, 196613, 589824, 1342177282, 262144, 589824, 805306370, 262145, 524288, 805306370, 262146, 524288, 805306370, 262147, 524288, 805306370, 262148, 458752, 805306370)
+layer_1/name = "plants"
+layer_1/tile_data = PackedInt32Array(131073, 524288, 5, 65538, 524288, 5)
+
+[node name="Robot" parent="TileMap" instance=ExtResource("3_y8wql")]
+scale = Vector2(0.399202, 0.399202)

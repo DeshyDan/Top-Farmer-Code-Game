@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bj65424k018c7"]
+
+[ext_resource type="Script" path="res://scenes/test_scenes/interpreter_test_level.gd" id="1_gsl3a"]
+[ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_window/code_window.tscn" id="2_7rsla"]
+[ext_resource type="PackedScene" uid="uid://biby7lxgflo4u" path="res://scenes/farm/farm.tscn" id="3_1g1t4"]
+
+[node name="InterpreterTestLevel" type="Node2D"]
+script = ExtResource("1_gsl3a")
+
+[node name="Window" parent="." instance=ExtResource("2_7rsla")]
+position = Vector2i(0, 36)
+default_text = "var b: int
+b = 0
+for x in [0,1,2,3,4,5,6]:
+	plant(0)
+	move(x%2 +1)
+	"
+
+[node name="Farm" parent="." instance=ExtResource("3_1g1t4")]
+position = Vector2(852, 205)
+
+[connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
+[connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]
