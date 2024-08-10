@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://dl3mqmtt4hpof"]
 
+[ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_h6gf0"]
 [ext_resource type="Script" path="res://scripts/code_editor/code_window.gd" id="1_p6ij5"]
-[ext_resource type="Theme" uid="uid://dorv4eu1o1eje" path="res://resources/code_window_theme.tres" id="2_840xh"]
 [ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="3_olf40"]
 [ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="4_1kxjy"]
 [ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="5_jutco"]
@@ -21,10 +21,12 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
 [node name="Window" type="Window" node_paths=PackedStringArray("code_edit", "console")]
+title = "My Robot"
 position = Vector2i(10, 36)
 size = Vector2i(735, 585)
+theme = ExtResource("1_h6gf0")
 script = ExtResource("1_p6ij5")
-code_edit = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/CodeEditTest/Robot1")
+code_edit = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/Robot1")
 console = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/PanelContainer/RichTextLabel")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -33,28 +35,26 @@ console = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/H
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -9.0
-offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_840xh")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource("2_840xh")
 
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="CodeEditTest" type="TabContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
+[node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/CodeEditTest"]
-layout_mode = 2
-size_flags_vertical = 3
+text = "var b: int
+b = 0
+for x in [0,1,2,3,4,5,6]:
+	plant(0)
+	move(x%2 +1)
+	"
 syntax_highlighter = ExtResource("3_olf40")
 highlight_current_line = true
 draw_tabs = true

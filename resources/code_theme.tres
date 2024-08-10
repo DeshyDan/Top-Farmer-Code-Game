@@ -1,0 +1,111 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://slu1u53svf6n"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rk8u"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpbk8"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6l51"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_45hm0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[resource]
+CodeEdit/colors/background_color = Color(0, 0, 0, 1)
+CodeEdit/colors/bookmark_color = Color(0, 0, 0, 1)
+CodeEdit/colors/brace_mismatch_color = Color(0, 0, 0, 1)
+CodeEdit/colors/breakpoint_color = Color(0, 0, 0, 1)
+CodeEdit/colors/caret_background_color = Color(0, 0, 0, 1)
+CodeEdit/colors/caret_color = Color(0, 0, 0, 1)
+CodeEdit/colors/code_folding_color = Color(0, 0, 0, 1)
+CodeEdit/colors/completion_background_color = Color(0, 0, 0, 1)
+CodeEdit/colors/completion_existing_color = Color(0, 0, 0, 1)
+CodeEdit/colors/completion_scroll_color = Color(0, 0, 0, 1)
+CodeEdit/colors/completion_scroll_hovered_color = Color(0, 0, 0, 1)
+CodeEdit/colors/completion_selected_color = Color(0, 0, 0, 1)
+CodeEdit/colors/current_line_color = Color(0, 0, 0, 1)
+CodeEdit/colors/executing_line_color = Color(0, 0, 0, 1)
+CodeEdit/colors/folded_code_region_color = Color(0, 0, 0, 1)
+CodeEdit/colors/font_color = Color(0, 0, 0, 1)
+CodeEdit/colors/font_outline_color = Color(0, 0, 0, 1)
+CodeEdit/colors/font_placeholder_color = Color(0, 0, 0, 1)
+CodeEdit/colors/font_readonly_color = Color(0, 0, 0, 1)
+CodeEdit/colors/font_selected_color = Color(0, 0, 0, 1)
+CodeEdit/colors/line_length_guideline_color = Color(0, 0, 0, 1)
+CodeEdit/colors/line_number_color = Color(0, 0, 0, 1)
+CodeEdit/colors/search_result_border_color = Color(0, 0, 0, 1)
+CodeEdit/colors/search_result_color = Color(0, 0, 0, 1)
+CodeEdit/colors/selection_color = Color(0, 0, 0, 1)
+CodeEdit/colors/word_highlighted_color = Color(0, 0, 0, 1)
+CodeEdit/constants/completion_lines = 0
+CodeEdit/constants/completion_max_width = 0
+CodeEdit/constants/completion_scroll_width = 0
+CodeEdit/constants/line_spacing = 0
+CodeEdit/constants/outline_size = 0
+CodeEdit/font_sizes/font_size = 16
+CodeEdit/fonts/font = null
+CodeEdit/icons/bookmark = null
+CodeEdit/icons/breakpoint = null
+CodeEdit/icons/can_fold = null
+CodeEdit/icons/can_fold_code_region = null
+CodeEdit/icons/executing_line = null
+CodeEdit/icons/folded = null
+CodeEdit/icons/folded_code_region = null
+CodeEdit/icons/folded_eol_icon = null
+CodeEdit/icons/space = null
+CodeEdit/icons/tab = null
+CodeEdit/styles/completion = SubResource("StyleBoxFlat_0rk8u")
+CodeEdit/styles/focus = SubResource("StyleBoxFlat_mpbk8")
+CodeEdit/styles/normal = SubResource("StyleBoxFlat_i6l51")
+CodeEdit/styles/read_only = SubResource("StyleBoxFlat_45hm0")
