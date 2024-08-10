@@ -10,27 +10,9 @@ config_version=5
 
 [application]
 
-config/name="code_edit_test"
-run/main_scene="res://scenes/interpreter_test_level.tscn"
+config/name="code_game"
 config/features=PackedStringArray("4.2", "GL Compatibility")
 config/icon="res://assets/icon.svg"
-
-[autoload]
-
-MessageBus="*res://autoload/message_bus.gd"
-
-[debug]
-
-file_logging/log_path="res://console.txt"
-file_logging/max_log_files=1
-
-[display]
-
-window/dpi/allow_hidpi=false
-
-[editor]
-
-export/convert_text_resources_to_binary=false
 
 [rendering]
 
