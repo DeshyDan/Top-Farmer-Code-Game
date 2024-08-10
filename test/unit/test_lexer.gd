@@ -25,17 +25,21 @@ func before_all():
 		param_values.append([source,expect])
 	params = ParameterFactory.named_parameters(param_names,param_values)
 
+func after_all():
+	pass
+
 func test_lexer(params=use_parameters(params)):
 	var lexer = Lexer.new(params.source)
 	var token = lexer.get_next_token()
 	var expected_index = 0
 	for expected in params.expected:
-		assert_eq(str(token), expected, get_token_source(token, params.source))
+		assert_eq(str(token), expected, get_token_source(token, params.source) + "{{0}}".format([expected_index]))
 		token = lexer.get_next_token()
+		expected_index += 1
 
 func get_token_source(token: Token, source: String):
 	var splitsource = source.split("\n")
 	if token.lineno >= len(splitsource):
 		return "Invalid token lineno, couldn't get source"
 	var line: String = splitsource[token.lineno]
-	return line.c_escape()
+	return line.c_escape() + "[{0}]".format([token.lineno])
