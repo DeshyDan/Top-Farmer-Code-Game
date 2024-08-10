@@ -37,6 +37,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_h6gf0")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
@@ -60,6 +61,7 @@ highlight_current_line = true
 draw_tabs = true
 gutters_draw_line_numbers = true
 gutters_zero_pad_line_numbers = true
+delimiter_comments = Array[String](["#"])
 code_completion_enabled = true
 indent_automatic = true
 auto_brace_completion_enabled = true

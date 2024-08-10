@@ -10,6 +10,7 @@ script = ExtResource("1_gsl3a")
 [node name="Window" parent="." instance=ExtResource("2_7rsla")]
 position = Vector2i(35, 91)
 size = Vector2i(535, 440)
+content_scale_mode = 2
 default_text = "var b: int
 b = 0
 for x in [0,1,2,3,4,5,6]:
