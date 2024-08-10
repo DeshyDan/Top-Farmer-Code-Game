@@ -2,3 +2,4 @@
 .godot/
 export
 *.tmp
+.DS_STORE
