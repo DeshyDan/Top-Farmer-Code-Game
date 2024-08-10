@@ -8,7 +8,6 @@
  ],
  "dirs": [
   "res://test/unit",
-  "res://test/integration",
   "res://test"
  ],
  "disable_colors": false,
