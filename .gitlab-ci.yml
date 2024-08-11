@@ -15,6 +15,7 @@ stages:
 unitTests:
   stage: test
   script:
+    - ls
     - godot -s addons/gut/gut_cmdln.gd -d --path "$PWD" -gdir=res://test/unit -gexit --headless --verbose
 #   - import-assets
 #   - export
