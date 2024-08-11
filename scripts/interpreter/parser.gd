@@ -36,13 +36,14 @@ func eat(token_type):
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
 	# and assign the next token to the self.current_token,
-	# otherwise raise an exception.
+	# otherwise set error and pretend we're at EOF
 	if current_token.type == token_type:
 		current_token = lexer.get_next_token()
 	else:
 		error(GError.ErrorCode.UNEXPECTED_TOKEN,
 				current_token,
 				Token.new(token_type, null))
+		current_token = Token.new(Token.Type.EOF, "EOF")
 
 func for_statement():
 	eat(Token.Type.FOR)
@@ -337,7 +338,7 @@ func func_decl():
 	var func_name = variable()
 	eat(Token.Type.LPAREN)
 	var args: Array[VarDecl] = []
-	while current_token.type != current_token.Type.RPAREN:
+	while current_token.type != current_token.Type.RPAREN and current_token.type != current_token.Type.EOF:
 		var arg_name = variable()
 		eat(Token.Type.COLON)
 		var arg_type = type_spec()
@@ -362,7 +363,6 @@ func func_call():
 			break
 		eat(Token.Type.COMMA)
 	eat(Token.Type.RPAREN)
-	#eat(Token.Type.LPAREN)
 	return FunctionCall.new(function, args, function.token)
 
 func empty():

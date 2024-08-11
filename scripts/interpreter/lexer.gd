@@ -50,7 +50,10 @@ func count_indentation(line):
 func _init(text: String):
 	self.text = text
 	pos = 0
-	current_char = self.text[pos]
+	if text == "":
+		current_char == null
+	else:
+		current_char = self.text[pos]
 	lexer_error = LexerError.OK
 	#var keyword_data = FileAccess.get_file_as_string(keyword_data_path)
 	#keywords = JSON.parse_string(keyword_data)['list']
@@ -180,7 +183,7 @@ func name() -> Token:
 
 func check_indent():
 	#print("indenting")
-	var indent_count = 0
+	
 	var current_indent_char = current_char #tabs or spaces?
 	if is_at_end(): # add missing dedents at end of file
 		if indent_level() != 0:
@@ -193,6 +196,7 @@ func check_indent():
 	var tab_size = 4
 	
 	while true:
+		var indent_count = 0
 		while not is_at_end():
 			var space = current_char
 			if space == '\t':
@@ -206,6 +210,7 @@ func check_indent():
 		
 			mixed = mixed or space != current_indent_char;
 			advance()
+			
 	
 		var previous_indent = 0
 		if current_char == '\n':
