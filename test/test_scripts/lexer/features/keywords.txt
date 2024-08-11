@@ -1,0 +1,17 @@
+and else false for func if null or return true var while
+#expect
+
+Token (LOGIC_AND,and)
+Token (ELSE,else)
+Token (FALSE,0)
+Token (FOR,for)
+Token (FUNC,func)
+Token (IF,if)
+Token (NULL,null)
+Token (LOGIC_OR,or)
+Token (RETURN,return)
+Token (TRUE,1)
+Token (VAR,var)
+Token (WHILE,while)
+Token (NL,NL)
+Token (EOF,EOF)
