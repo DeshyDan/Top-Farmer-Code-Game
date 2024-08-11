@@ -43,13 +43,13 @@ func test_parser_features(params=use_parameters(params_features)):
 	if expected_str.contains("\t"):
 		fail_test("Make sure the %s file is switched from tabs to spaces for testing" % params.filename)
 		return
-	print(tree_str)
+	#print(tree_str)
 	if assert_eq(len(tree_str), len(params.expected), "length mismatch"):
 		var expected_len = len(params.expected)
 		var actual_len = len(tree_str)
 		fail_test("\n" + tree_str + params.expected)
 		return
-	for i in range(len(tree_str)):
+	for i in range(min(len(tree_str),len(params.expected))):
 		assert_eq(tree_str[i], 
 				params.expected[i], 
 				"mismatch at {0}: {1} != {2}".format(

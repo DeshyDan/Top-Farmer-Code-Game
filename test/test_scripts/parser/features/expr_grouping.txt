@@ -1,0 +1,16 @@
+x = (5 - (3 - 1)) + -1
+#expect
+Program:
+  Block:
+    Assignment:
+    Left:
+      Var: x
+    Right:
+      BinaryOp: +
+        BinaryOp: -
+          Number: 5
+          BinaryOp: -
+            Number: 3
+            Number: 1
+        UnaryOp: -
+          Number: 1
