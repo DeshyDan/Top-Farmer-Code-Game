@@ -80,7 +80,7 @@ func interpreter_thread():
 	interpreter.finished.connect(_on_interpreter_finished)
 	var sem = SemanticAnalyzer.new()
 	sem.visit(tree)
-	interpreter.print_ast(tree)
+	print(tree)
 	if sem.semantic_error.error_code:
 		window.print_to_console(sem.semantic_error.message)
 		window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
