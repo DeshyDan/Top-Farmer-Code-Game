@@ -1,4 +1,4 @@
-image: barichello/godot-ci:4.2.0
+image: barichello/godot-ci:4.2.2
 
 # # NOTE: the `cd` command in each build stage is not necessary if your
 # # project.godot is at the repo root
@@ -16,7 +16,7 @@ unitTests:
   stage: test
   script:
     - ls
-    - godot -s addons/gut/gut_cmdln.gd -d --path "$PWD" -gdir=res://test/unit -gexit --headless --verbose
+    - godot -s addons/gut/gut_cmdln.gd -d --path "$PWD" -gconfig="test/test_config" -gexit --headless --verbose
 #   - import-assets
 #   - export
 #   - deploy
