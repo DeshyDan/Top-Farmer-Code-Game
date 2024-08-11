@@ -39,14 +39,15 @@ func test_parser_features(params=use_parameters(params_features)):
 	assert_eq(parser.parser_error.error_code, GError.ErrorCode.OK, "{0}: Unexpected parser error: {1}".format([params.filename, parser.parser_error.message]))
 	var tree_str = str(tree)
 	var expected_index = 0
+	var expected_str = params.expected as String
+	if expected_str.contains("\t"):
+		fail_test("Make sure the %s file is switched from tabs to spaces for testing" % params.filename)
+		return
+	print(tree_str)
 	if assert_eq(len(tree_str), len(params.expected), "length mismatch"):
 		var expected_len = len(params.expected)
 		var actual_len = len(tree_str)
 		fail_test("\n" + tree_str + params.expected)
-		return
-	var expected_str = params.expected as String
-	if expected_str.contains("\t"):
-		fail_test("Make sure the %s file is switched from tabs to spaces for testing" % params.filename)
 		return
 	for i in range(len(tree_str)):
 		assert_eq(tree_str[i], 
