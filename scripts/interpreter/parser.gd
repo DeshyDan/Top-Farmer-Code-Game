@@ -77,7 +77,8 @@ func literal():
 	if token.type == Token.Type.LPAREN:
 		eat(Token.Type.LPAREN)
 		var result = expr()
-		eat(Token.Type.RPAREN)
+		if not eat(Token.Type.RPAREN):
+			return
 		return result
 	elif token.type == Token.Type.LSQUARE:
 		return array_decl()
@@ -133,13 +134,13 @@ func term() -> AST:
 	var result = factor()
 	
 	while current_token.type in [Token.Type.MUL, Token.Type.DIV, Token.Type.MOD]:
-		var token = self.current_token
+		var token = current_token
 		if token.type == Token.Type.MUL:
-			self.eat(Token.Type.MUL)
+			eat(Token.Type.MUL)
 		elif token.type == Token.Type.DIV:
-			self.eat(Token.Type.DIV)
+			eat(Token.Type.DIV)
 		elif token.type == Token.Type.MOD:
-			self.eat(Token.Type.MOD)
+			eat(Token.Type.MOD)
 		result = BinaryOP.new(result,token,factor())
 
 	return result
@@ -147,12 +148,12 @@ func term() -> AST:
 func minus():	# TODO: maybe need to change precedence here?
 	var result = term()
 
-	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
-		var token = self.current_token
+	while current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
+		var token = current_token
 		if token.type == Token.Type.PLUS:
-			self.eat(Token.Type.PLUS)
+			eat(Token.Type.PLUS)
 		elif token.type == Token.Type.MINUS:
-			self.eat(Token.Type.MINUS)
+			eat(Token.Type.MINUS)
 		
 		result = BinaryOP.new(result, token, term())
 	return result
@@ -364,8 +365,10 @@ func func_call():
 		args.append(arg)
 		if current_token.type == current_token.Type.RPAREN:
 			break
-		eat(Token.Type.COMMA)
-	eat(Token.Type.RPAREN)
+		if not eat(Token.Type.COMMA):
+			return
+	if not eat(Token.Type.RPAREN):
+		return
 	return FunctionCall.new(function, args, function.token)
 
 func empty():
