@@ -16,7 +16,7 @@ unitTests:
   stage: test
   script:
     - ls
-    - godot --import --path "$PWD"
+    - godot --import --path "$PWD" --quit
     - godot -s addons/gut/gut_cmdln.gd -d  --path "$PWD" -gconfig="test/test_config" -gexit --headless --verbose
 #   - import-assets
 #   - export
