@@ -33,7 +33,6 @@ script = ExtResource("4_dfycg")
 [connection signal="finished" from="InterpreterClient" to="." method="_on_interpreter_client_finished"]
 [connection signal="harvest_requested" from="InterpreterClient" to="." method="_on_harvest_call"]
 [connection signal="move_requested" from="InterpreterClient" to="." method="_on_move_call"]
-[connection signal="plant_requested" from="InterpreterClient" to="." method="_on_print_call"]
 [connection signal="plant_requested" from="InterpreterClient" to="." method="_on_plant_call"]
 [connection signal="print_requested" from="InterpreterClient" to="." method="_on_print_call"]
 [connection signal="tracepoint_reached" from="InterpreterClient" to="." method="_on_tracepoint_reached"]

@@ -18,6 +18,8 @@ var timer: Timer
 # TODO: make it so that a tracepoint from the interpreter can wait n ticks
 # before continuing
 
+# TODO: keep track of the players score
+
 func _on_window_run_button_pressed():
 	# TODO: clear window.console
 	if not interpreter_client.load_source(window.get_source_code()):

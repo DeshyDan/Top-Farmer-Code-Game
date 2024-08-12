@@ -17,17 +17,14 @@ func _to_string():
 	return "Symbols: {0}".format([_symbols])
 
 func define(symbol: Symbol):
-	print("define {0}".format([symbol]))
 	_symbols[symbol.name] = symbol
 
 func lookup(name) -> Symbol:
-	print("lookup {0}".format([name]))
 	var symbol = _symbols.get(name)
 	if symbol != null:
 		return symbol
 	if enclosing_scope == null:
 		return null
-	print("LOOKING UP IN PARENT")
 	return enclosing_scope.lookup(name)
 
 func _init_builtins():
