@@ -20,6 +20,9 @@ func _on_move_requested(move: int):
 func _on_plant_requested(plant: int):
 	farm.plant.call_deferred()
 
+func _on_harvest_requested():
+	farm.harvest.call_deferred()
+
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	if node.get("token") == null:
 		return
@@ -76,6 +79,7 @@ func interpreter_thread():
 	interpreter.print_requested.connect(_on_print_requested)
 	interpreter.move_requested.connect(_on_move_requested)
 	interpreter.plant_requested.connect(_on_plant_requested)
+	interpreter.harvest_requested.connect(_on_harvest_requested)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
 	interpreter.finished.connect(_on_interpreter_finished)
 	var sem = SemanticAnalyzer.new()

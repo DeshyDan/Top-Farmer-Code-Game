@@ -6,6 +6,7 @@ var parser: Parser
 signal print_requested(arg_list)
 signal move_requested(move)
 signal plant_requested(plant)
+signal harvest_requested
 
 var interpreter_error: InterpreterError
 var error_pos = 0
@@ -79,6 +80,8 @@ func visit_array_literal(node: ArrayNode):
 func visit_function_call(node: FunctionCall):
 	var ar = call_stack.peek()
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
+	
+	# TODO: nice builtin function interface
 	if node.name.name == "print":
 		var to_print = []
 		for arg in node.args:
@@ -98,6 +101,10 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			move.append(await visit(arg))
 		plant_requested.emit(move.front())
+		await tracepoint_reached(node)
+		return
+	if node.name.name == "harvest":
+		harvest_requested.emit()
 		await tracepoint_reached(node)
 		return
 	

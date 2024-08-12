@@ -94,18 +94,18 @@ func move(dir, time=0.1):
 	
 	robot_tile_coords = robot.move(dir)
 	
-
-func _process(delta):
-	if Input.is_action_just_pressed("move_right"):
-		move.call_deferred(2)
-	if Input.is_action_just_pressed("move_up"):
-		move.call_deferred(0)
-	if Input.is_action_just_pressed("move_left"):
-		move.call_deferred(3)
-	if Input.is_action_just_pressed("move_down"):
-		move.call_deferred(1)
-	if Input.is_action_just_pressed("plant"):
-		plant.call_deferred()
-	if Input.is_action_just_pressed("harvest"):
-		harvest.call_deferred()
+#
+#func _process(delta):
+	#if Input.is_action_just_pressed("move_right"):
+		#move.call_deferred(2)
+	#if Input.is_action_just_pressed("move_up"):
+		#move.call_deferred(0)
+	#if Input.is_action_just_pressed("move_left"):
+		#move.call_deferred(3)
+	#if Input.is_action_just_pressed("move_down"):
+		#move.call_deferred(1)
+	#if Input.is_action_just_pressed("plant"):
+		#plant.call_deferred()
+	#if Input.is_action_just_pressed("harvest"):
+		#harvest.call_deferred()
 
