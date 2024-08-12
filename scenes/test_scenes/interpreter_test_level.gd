@@ -38,7 +38,9 @@ func _on_window_pause_button_pressed():
 	timer.paused = not timer.paused
 
 func _on_window_kill_button_pressed():
-	pass # Replace with function body.
+	if timer and timer.is_inside_tree():
+		remove_child(timer)
+	interpreter_client.kill()
 
 func _on_timer_tick():
 	# TODO: check for victory here
@@ -66,8 +68,8 @@ func _on_interpreter_client_finished():
 		remove_child(timer)
 	# TODO: show failure screen here
 
-
 func _on_interpreter_client_error(message):
 	window.print_to_console(message)
 
-
+func _exit_tree():
+	Node.print_orphan_nodes()

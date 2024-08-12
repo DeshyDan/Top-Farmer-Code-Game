@@ -52,6 +52,9 @@ func tick():
 		return
 	interpreter.tick.emit()
 
+func kill():
+	interpreter = null
+
 func show_error(message: String):
 	error.emit(message)
 
