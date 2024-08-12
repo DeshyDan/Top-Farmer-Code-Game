@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhawhebr1ybob"
-path="res://.godot/imported/Triangle Mouse icon 3.png-072a4f173f4978c002b331b8216c2a27.ctex"
+uid="uid://0skdj58p7au3"
+path="res://.godot/imported/chicken.png-1ca2477aa77901a7faea7e9ecdc53eec.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/Mouse sprites/Triangle Mouse icon 3.png"
-dest_files=["res://.godot/imported/Triangle Mouse icon 3.png-072a4f173f4978c002b331b8216c2a27.ctex"]
+source_file="res://assets/textures/characters/chicken.png"
+dest_files=["res://.godot/imported/chicken.png-1ca2477aa77901a7faea7e9ecdc53eec.ctex"]
 
 [params]
 

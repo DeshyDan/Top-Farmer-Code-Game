@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cleqr0tbmfed1"
-path="res://.godot/imported/Wood_Bridge.png-36e342dc6462cd883b05e8679305a49a.ctex"
+uid="uid://bt668qy200lhy"
+path="res://.godot/imported/Paths.png-ede81294fdce55585f02001ce5e07c27.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Objects/Wood_Bridge.png"
-dest_files=["res://.godot/imported/Wood_Bridge.png-36e342dc6462cd883b05e8679305a49a.ctex"]
+source_file="res://assets/textures/objects/Paths.png"
+dest_files=["res://.godot/imported/Paths.png-ede81294fdce55585f02001ce5e07c27.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dw51uyera6mht"
-path="res://.godot/imported/Small Happines-Sadness icons.png-f636cd0880b0c47bc5b0db72501242f0.ctex"
+uid="uid://c76xqu366g5t3"
+path="res://.godot/imported/Free_Chicken_House.png-9d3a87c497b9278862d200c011e81d24.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/Icons/special icons/Small Happines-Sadness icons.png"
-dest_files=["res://.godot/imported/Small Happines-Sadness icons.png-f636cd0880b0c47bc5b0db72501242f0.ctex"]
+source_file="res://assets/textures/objects/Free_Chicken_House.png"
+dest_files=["res://.godot/imported/Free_Chicken_House.png-9d3a87c497b9278862d200c011e81d24.ctex"]
 
 [params]
 

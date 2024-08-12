@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbdwtd3ae7tqj"
-path="res://.godot/imported/UI Big Play Button.png-80bce85b9508899c84562fec96bf9692.ctex"
+uid="uid://3k2enhjnqpuf"
+path="res://.godot/imported/egg_and_nest.png-d9d5dc089697f23831682985ca4ebd1f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/UI Big Play Button.png"
-dest_files=["res://.godot/imported/UI Big Play Button.png-80bce85b9508899c84562fec96bf9692.ctex"]
+source_file="res://assets/textures/characters/egg_and_nest.png"
+dest_files=["res://.godot/imported/egg_and_nest.png-d9d5dc089697f23831682985ca4ebd1f.ctex"]
 
 [params]
 

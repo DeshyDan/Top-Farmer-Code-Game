@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://br1tfnglahorh"
-path="res://.godot/imported/Square Buttons 19x26.png-d0f44641ee056dbc480d9661a2fee357.ctex"
+uid="uid://dfs4dqsa50jkr"
+path="res://.godot/imported/Basic_Grass_Biom_things.png-6b865e838c61ebdc3158220d835724b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/UI/buttons/Square Buttons 19x26.png"
-dest_files=["res://.godot/imported/Square Buttons 19x26.png-d0f44641ee056dbc480d9661a2fee357.ctex"]
+source_file="res://assets/textures/objects/Basic_Grass_Biom_things.png"
+dest_files=["res://.godot/imported/Basic_Grass_Biom_things.png-6b865e838c61ebdc3158220d835724b3.ctex"]
 
 [params]
 
