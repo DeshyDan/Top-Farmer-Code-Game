@@ -22,9 +22,6 @@ var builtin_funcs = DEFAULT_BUILTIN_FUNCS
 
 func load_source(source: String):
 	var lexer = Lexer.new(source)
-	if lexer.lexer_error:
-		show_error(lexer.get_error_text())
-		return false
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
 	if parser.parser_error.error_code:

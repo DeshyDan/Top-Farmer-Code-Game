@@ -62,7 +62,6 @@ func reset():
 	pending_indents = 0
 
 func error(from: String):
-	print("parse error at {0}, from {1}".format([pos,from]))
 	var fake_token = Token.new(Token.Type.IDENT, current_char, line_number, col_number)
 	var message = get_error_text()
 	lexer_error = LexerError.new(LexerError.ErrorCode.INVALID_CHAR,
@@ -161,7 +160,6 @@ func number():
 	return token
 
 func name() -> Token:
-	#print("naming")
 	var result = ""
 	current_char = current_char as String
 	var regex = RegEx.new()

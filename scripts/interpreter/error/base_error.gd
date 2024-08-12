@@ -2,7 +2,7 @@ class_name GError
 extends RefCounted
 
 enum ErrorCode {
-	OK,
+	OK = 0,
 	# lexer errors
 	INVALID_CHAR,
 	
