@@ -11,9 +11,10 @@ enum ErrorCode {
 	
 	# semantic errors
 	ID_NOT_FOUND,
-	DUPLICATE_ID
+	DUPLICATE_ID,
 	
 	# runtime errors
+	DIV_BY_ZERO,
 }
 
 var error_code: ErrorCode

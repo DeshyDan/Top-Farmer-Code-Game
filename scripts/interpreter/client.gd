@@ -36,6 +36,7 @@ func load_source(source: String):
 	interpreter = Interpreter.new(tree)
 	interpreter.builtin_func_call.connect(_on_builtin_func_call)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
+	interpreter.runtime_error.connect(_on_runtime_error)
 	return true
 
 func start():
@@ -66,6 +67,11 @@ func plant_call(args: Array):
 
 func harvest_call(args: Array):
 	harvest_requested.emit(args)
+
+func _on_runtime_error(err: RuntimeError):
+	show_error(err.message)
+	interpreter = null
+	finished.emit()
 
 func _on_builtin_func_call(func_name: String, args: Array):
 	builtin_funcs[func_name].call(args)
