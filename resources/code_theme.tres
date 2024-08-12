@@ -1,0 +1,95 @@
+[gd_resource type="Theme" load_steps=7 format=3 uid="uid://slu1u53svf6n"]
+
+[ext_resource type="FontFile" uid="uid://efvswurhd1t0" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="1_2d2ot"]
+[ext_resource type="StyleBox" uid="uid://jihs3xncffa6" path="res://resources/go_button_style_box.tres" id="1_7hwwl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rk8u"]
+content_margin_left = 0.0
+content_margin_top = 0.0
+content_margin_right = 0.0
+content_margin_bottom = 0.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mpbk8"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 1, 1, 0.75)
+draw_center = false
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6l51"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.6)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_45hm0"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.1, 0.1, 0.1, 0.3)
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 0.3)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 5
+
+[resource]
+default_font = ExtResource("1_2d2ot")
+Button/styles/normal = ExtResource("1_7hwwl")
+CodeEdit/constants/completion_lines = 0
+CodeEdit/constants/completion_max_width = 0
+CodeEdit/constants/completion_scroll_width = 0
+CodeEdit/constants/line_spacing = 0
+CodeEdit/constants/outline_size = 0
+CodeEdit/font_sizes/font_size = 22
+CodeEdit/fonts/font = ExtResource("1_2d2ot")
+CodeEdit/icons/bookmark = null
+CodeEdit/icons/breakpoint = null
+CodeEdit/icons/can_fold = null
+CodeEdit/icons/can_fold_code_region = null
+CodeEdit/icons/executing_line = null
+CodeEdit/icons/folded = null
+CodeEdit/icons/folded_code_region = null
+CodeEdit/icons/folded_eol_icon = null
+CodeEdit/icons/space = null
+CodeEdit/icons/tab = null
+CodeEdit/styles/completion = SubResource("StyleBoxFlat_0rk8u")
+CodeEdit/styles/focus = SubResource("StyleBoxFlat_mpbk8")
+CodeEdit/styles/normal = SubResource("StyleBoxFlat_i6l51")
+CodeEdit/styles/read_only = SubResource("StyleBoxFlat_45hm0")
+MarginContainer/constants/margin_bottom = 3
+MarginContainer/constants/margin_left = 3
+MarginContainer/constants/margin_right = 3
+MarginContainer/constants/margin_top = 3
+RichTextLabel/font_sizes/normal_font_size = 20

@@ -12,7 +12,6 @@ var _tweening_lines = []
 func _init():
 	var keyword_data = FileAccess.get_file_as_string(keyword_data_path)
 	var keywords = JSON.parse_string(keyword_data)
-	add_comment_delimiter("#","")
 	for keyword in keywords["list"]:
 		syntax_highlighter.keyword_colors[keyword] = Color.LIGHT_CORAL
 		add_code_completion_option(CodeEdit.KIND_MEMBER, keyword,keyword)
