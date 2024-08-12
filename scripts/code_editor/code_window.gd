@@ -37,13 +37,31 @@ func set_error_line(lineno, colno):
 	if lineno < code_edit.get_line_count():
 		code_edit.set_line_as_executing(lineno, true)
 
+func highlight_tracepoint(node: AST, call_stack: CallStack):
+	if node.get("token") == null:
+		return
+	var lineno = node.token.get("lineno")
+	if lineno != null:
+		highlight_line(lineno -1)
+	if call_stack.peek().enclosing_ar == null:
+		return
+	var enclosing_ar = call_stack.peek().enclosing_ar
+	var caller_token: Token = call_stack.peek().token
+	var func_decl: FunctionDecl = enclosing_ar.get_item(call_stack.peek().name)
+	var caller_lineno = caller_token.get("lineno")
+	if caller_lineno:
+		highlight_line(caller_lineno - 1)
+	else:
+		print("NO LINENO")
+	call_stack.pop()
+	# recursively walk up the call stack, highlighting any callers/func decls
+	highlight_tracepoint(func_decl, call_stack) 
+
 func _on_run_button_pressed():
 	run_button_pressed.emit()
 
-
 func _on_pause_pressed():
 	pause_button_pressed.emit()
-
 
 func _on_kill_pressed():
 	kill_button_pressed.emit()

@@ -1,0 +1,24 @@
+for y in [0,1]:
+	for x in [0,1,2,3]:
+		plant(0)
+		move(2)
+	plant(0)
+	move(1)
+	for x in [0,1,2,3]:
+		plant(0)
+		move(3)
+	plant(0)
+	move(1)
+for y in [0,1,2,3]:
+	move(0)
+for y in [0,1]:
+	for x in [0,1,2,3]:
+		harvest()
+		move(2)
+	harvest()
+	move(1)
+	for x in [0,1,2,3]:
+		harvest()
+		move(3)
+	harvest()
+	move(1)
