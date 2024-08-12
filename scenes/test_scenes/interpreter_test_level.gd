@@ -1,6 +1,6 @@
 extends Node2D
 @onready var window: CodeWindow = $Window
-@onready var farm = $Farm
+@onready var farm: FarmView = $Farm
 
 var thread: Thread
 var interpreter: Interpreter
@@ -14,11 +14,11 @@ func _on_print_requested(arglist):
 	window.print_to_console("".join(arglist))
 
 func _on_move_requested(move: int):
-	#farm.move(move) on the next frame
+	# move on the next frame
 	farm.move.call_deferred(move)
 
 func _on_plant_requested(plant: int):
-	farm.plant.call_deferred(plant)
+	farm.plant.call_deferred()
 
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	if node.get("token") == null:
