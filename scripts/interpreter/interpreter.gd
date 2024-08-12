@@ -1,12 +1,11 @@
 class_name Interpreter
 extends NodeVisitor
 
-var parser: Parser
-
 signal print_requested(arg_list)
 signal move_requested(move)
 signal plant_requested(plant)
 signal harvest_requested
+signal builtin_func_call(func_name, args)
 
 var interpreter_error: InterpreterError
 var error_pos = 0
@@ -24,8 +23,8 @@ signal tick
 signal tracepoint(node: AST, call_stack: CallStack)
 signal finished
 
-func _init(parser: Parser):
-	self.parser = parser
+func _init(tree: AST):
+	ast = tree
 	call_stack = CallStack.new()
 	var ar = ActivationRecord.new(
 		"test program",
@@ -36,12 +35,12 @@ func _init(parser: Parser):
 	)
 	call_stack.push(ar)
 
+func start():
+	await visit(ast)
+
 func tracepoint_reached(node: AST):
 	tracepoint.emit(node, call_stack.shallow_copy())
 	await tick
-
-func reset():
-	parser.reset()
 
 func visit_function_decl(node: FunctionDecl):
 	var ar = call_stack.peek()
@@ -82,31 +81,12 @@ func visit_function_call(node: FunctionCall):
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
 	
 	# TODO: nice builtin function interface
-	if node.name.name == "print":
-		var to_print = []
+	if node.name.name in ["print", "plant","move","harvest"]:
+		var args = []
 		for arg in node.args:
-			to_print.append(await visit(arg))
-		print_requested.emit(to_print)
-		await tracepoint_reached(node)
-		return
-	if node.name.name == "move":
-		var move = []
-		for arg in node.args:
-			move.append(await visit(arg))
-		move_requested.emit(move.front())
-		await tracepoint_reached(node)
-		return
-	if node.name.name == "plant":
-		var move = []
-		for arg in node.args:
-			move.append(await visit(arg))
-		plant_requested.emit(move.front())
-		await tracepoint_reached(node)
-		return
-	if node.name.name == "harvest":
-		harvest_requested.emit()
-		await tracepoint_reached(node)
-		return
+			args.append(await visit(arg))
+		builtin_func_call.emit(node.name.name, args)
+		return	# TODO: await input
 	
 	#await tracepoint_reached(function_decl)
 	var new_ar = ActivationRecord.new(
@@ -130,6 +110,9 @@ func visit_function_call(node: FunctionCall):
 	var ret_val = call_stack.peek().return_val
 	call_stack.pop()
 	return ret_val
+
+func visit_builtin_func_call(node: BuiltinFuncCall):
+	pass
 
 func visit_binary_op(node: BinaryOP):
 	var l = await visit(node.left)

@@ -1,58 +1,29 @@
 extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
+@onready var interpreter_client: InterpreterClient = $InterpreterClient
 
-var thread: Thread
-var interpreter: Interpreter
-var mutex: Mutex
 var timer: Timer
 
 @export var tick_rate = 4
 
-func _on_print_requested(arglist):
-	print(arglist)
-	window.print_to_console("".join(arglist))
+# TODO: make it so that an arbitrary farm goal and farm start state
+# can be set
 
-func _on_move_requested(move: int):
-	# move on the next frame
-	farm.move.call_deferred(move)
+# TODO: test that this scene can be instantiated from anywhere without
+# breaking
 
-func _on_plant_requested(plant: int):
-	farm.plant.call_deferred()
+# TODO: tick the farm after/before we tick the player. keep them in sync!
 
-func _on_harvest_requested():
-	farm.harvest.call_deferred()
-
-func _on_tracepoint_reached(node: AST, call_stack: CallStack):
-	if node.get("token") == null:
-		return
-	var lineno = node.token.get("lineno")
-	if lineno != null:
-		window.highlight_line(lineno -1)
-	if call_stack.peek().enclosing_ar == null:
-		return
-	var enclosing_ar = call_stack.peek().enclosing_ar
-	var caller_token: Token = call_stack.peek().token
-	var func_decl: FunctionDecl = enclosing_ar.get_item(call_stack.peek().name)
-	var caller_lineno = caller_token.get("lineno")
-	if caller_lineno:
-		#print("highlighting caller on line %d" % caller_lineno)
-		window.highlight_line(caller_lineno - 1)
-	else:
-		print("NO LINENO")
-	call_stack.pop()
-	_on_tracepoint_reached(func_decl, call_stack) # recursively walk up the call stack, highlighting any callers/func decls
-
-func _on_interpreter_finished():
-	print("INTERPRETER FINISHED")
-	if timer:
-		remove_child(timer)
+# TODO: make it so that a tracepoint from the interpreter can wait n ticks
+# before continuing
 
 func _on_window_run_button_pressed():
-	thread = Thread.new()
-	mutex = Mutex.new()
-	#thread.start(interpreter_thread)
-	interpreter_thread()
+	# TODO: clear window.console
+	if not interpreter_client.load_source(window.get_source_code()):
+		return
+	interpreter_client.start()
+	# TODO: tick length zero => pause timer 
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
 	if timer and timer.is_inside_tree():
 		remove_child(timer)
@@ -61,49 +32,42 @@ func _on_window_run_button_pressed():
 	timer.timeout.connect(_on_timer_tick)
 	timer.start(tick_length)
 
-func interpreter_thread():
-	window.reset_console.call_deferred()
-	var source = window.get_source_code()
-	var lexer = Lexer.new(source)
-	var token = lexer.get_next_token()
-	#while token.type != Token.Type.EOF:
-		#print(token)
-		#token = lexer.get_next_token()
-	#lexer.reset()
-	var parser = Parser.new(Lexer.new(source))
-	var tree = parser.parse()
-	if parser.parser_error.error_code:
-		window.print_to_console(parser.parser_error.message)
-		return
-	interpreter = Interpreter.new(parser)
-	interpreter.print_requested.connect(_on_print_requested)
-	interpreter.move_requested.connect(_on_move_requested)
-	interpreter.plant_requested.connect(_on_plant_requested)
-	interpreter.harvest_requested.connect(_on_harvest_requested)
-	interpreter.tracepoint.connect(_on_tracepoint_reached)
-	interpreter.finished.connect(_on_interpreter_finished)
-	var sem = SemanticAnalyzer.new()
-	sem.visit(tree)
-	print(tree)
-	if sem.semantic_error.error_code:
-		window.print_to_console(sem.semantic_error.message)
-		window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
-		return
-	interpreter.visit(tree)
-	#remove_child.call_deferred(timer) # todo: fix so spamming run button doesnt spawn new timers
-	print("interpreter started")
-	#thread.wait_to_finish.call_deferred()
-
 func _on_window_pause_button_pressed():
-	mutex.lock()
 	if not timer:
 		return
 	timer.paused = not timer.paused
-	mutex.unlock()
+
+func _on_window_kill_button_pressed():
+	pass # Replace with function body.
 
 func _on_timer_tick():
-	mutex.lock()
-	if not interpreter:
-		return
-	interpreter.tick.emit()
-	mutex.unlock()
+	# TODO: check for victory here
+	interpreter_client.tick()
+
+func _on_print_call(args: Array):
+	window.print_to_console(" ".join(args))
+
+func _on_move_call(args: Array):
+	farm.move(args[0])
+
+func _on_plant_call(args: Array):
+	farm.plant()
+
+func _on_harvest_call(args: Array):
+	farm.harvest()
+
+# the interpreter client has reached a line, we should highlight it
+func _on_tracepoint_reached(node: AST, call_stack: CallStack):
+	window.highlight_tracepoint(node, call_stack)
+
+func _on_interpreter_client_finished():
+	print("INTERPRETER FINISHED")
+	if timer:
+		remove_child(timer)
+	# TODO: show failure screen here
+
+
+func _on_interpreter_client_error(message):
+	window.print_to_console(message)
+
+
