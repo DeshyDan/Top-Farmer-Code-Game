@@ -3,9 +3,17 @@ extends RefCounted
 
 enum ErrorCode {
 	OK,
+	# lexer errors
+	INVALID_CHAR,
+	
+	# parser errors
 	UNEXPECTED_TOKEN,
+	
+	# semantic errors
 	ID_NOT_FOUND,
 	DUPLICATE_ID
+	
+	# runtime errors
 }
 
 var error_code: ErrorCode
@@ -19,7 +27,7 @@ func _init(error_code: ErrorCode,
 	self.token = token
 	# add exception class name before the message
 	if token:
-		self.message = "{0} [{1}:{2}]: {3}".format([str(self),token.lineno,token.colno,message])
+		self.message = "{0}: [{1}:{2}]: {3}".format([str(self),token.lineno,token.colno,message])
 	else:
 		self.message = "{0}: {2}".format([str(self),message])
 

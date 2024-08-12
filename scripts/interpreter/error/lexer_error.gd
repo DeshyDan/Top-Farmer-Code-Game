@@ -1,5 +1,5 @@
-#class_name LexerError
+class_name LexerError
 extends GError
 
 func _to_string():
-	return "LexerError"
+	return "Lexer error"
