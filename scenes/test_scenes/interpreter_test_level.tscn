@@ -19,6 +19,8 @@ for x in [0,1,2,3,4,5,6]:
 	"
 
 [node name="Farm" parent="." instance=ExtResource("3_yck3t")]
+position = Vector2(723, 169)
+scale = Vector2(3.60331, 3.60331)
 
 [connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
 [connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]

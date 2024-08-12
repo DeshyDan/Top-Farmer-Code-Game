@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://bgjp81bcq4m6c" path="res://scenes/robot/robot.tscn" id="3_iavny"]
 
 [node name="Farm" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_irbmt")
 
 [node name="Grid" type="TileMap" parent="."]
