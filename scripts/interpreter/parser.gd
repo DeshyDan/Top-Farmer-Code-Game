@@ -30,19 +30,24 @@ func error(error_code, token: Token, expected: Token):
 		token,
 		"Expected {0}".format([expected])
 	)
-	#current_token = Token.new(token.Type.EOF, null)
+	current_token = Token.new(token.Type.EOF, null)
 
-func eat(token_type):
+func eat(token_type) -> bool:
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
 	# and assign the next token to the self.current_token,
-	# otherwise raise an exception.
+	# otherwise set error and pretend we're at EOF.
+	# return a bool in case someone needs to proceed 
+	# conditionally
 	if current_token.type == token_type:
 		current_token = lexer.get_next_token()
+		return true
 	else:
 		error(GError.ErrorCode.UNEXPECTED_TOKEN,
 				current_token,
 				Token.new(token_type, null))
+		return false
+		#current_token = Token.new(Token.Type.EOF, "EOF")
 
 func for_statement():
 	eat(Token.Type.FOR)
@@ -72,7 +77,8 @@ func literal():
 	if token.type == Token.Type.LPAREN:
 		eat(Token.Type.LPAREN)
 		var result = expr()
-		eat(Token.Type.RPAREN)
+		if not eat(Token.Type.RPAREN):
+			return
 		return result
 	elif token.type == Token.Type.LSQUARE:
 		return array_decl()
@@ -127,15 +133,14 @@ func factor() -> AST:
 func term() -> AST:
 	var result = factor()
 	
-
 	while current_token.type in [Token.Type.MUL, Token.Type.DIV, Token.Type.MOD]:
-		var token = self.current_token
+		var token = current_token
 		if token.type == Token.Type.MUL:
-			self.eat(Token.Type.MUL)
+			eat(Token.Type.MUL)
 		elif token.type == Token.Type.DIV:
-			self.eat(Token.Type.DIV)
+			eat(Token.Type.DIV)
 		elif token.type == Token.Type.MOD:
-			self.eat(Token.Type.MOD)
+			eat(Token.Type.MOD)
 		result = BinaryOP.new(result,token,factor())
 
 	return result
@@ -143,12 +148,12 @@ func term() -> AST:
 func minus():	# TODO: maybe need to change precedence here?
 	var result = term()
 
-	while self.current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
-		var token = self.current_token
+	while current_token.type in [Token.Type.PLUS, Token.Type.MINUS]:
+		var token = current_token
 		if token.type == Token.Type.PLUS:
-			self.eat(Token.Type.PLUS)
+			eat(Token.Type.PLUS)
 		elif token.type == Token.Type.MINUS:
-			self.eat(Token.Type.MINUS)
+			eat(Token.Type.MINUS)
 		
 		result = BinaryOP.new(result, token, term())
 	return result
@@ -207,23 +212,12 @@ func program():
 	eat(Token.Type.EOF)
 	return node
 
-func block():
-	return statement_or_suite()
-	var root = Block.new()
-	eat(Token.Type.BEGIN)
-	var nodes = statement_list()
-	eat(Token.Type.END)
-	for node in nodes:
-		root.children.append(node)
-	#eat(Token.Type.NL)
-	return root
-
 func while_loop():
 	eat(Token.Type.WHILE)
 	var condition_node = expr()
 	eat(Token.Type.COLON)
 	#eat(Token.Type.NL)
-	var block_node = block()
+	var block_node = statement_or_suite()
 	return WhileLoop.new(condition_node, block_node)
 
 func if_statement():
@@ -231,12 +225,12 @@ func if_statement():
 	var condition_node = expr()
 	eat(Token.Type.COLON)
 	#eat(Token.Type.NL)
-	var block_node = block()
+	var block_node = statement_or_suite()
 	var else_block = Block.new()
 	if current_token.type == Token.Type.ELSE:
 		eat(Token.Type.ELSE)
 		eat(Token.Type.COLON)
-		else_block = block()
+		else_block = statement_or_suite()
 	return IfStatement.new(condition_node, block_node, else_block)
 
 func statement_list():
@@ -288,8 +282,13 @@ func statement():
 		return if_statement()
 	elif current_token.type == Token.Type.RETURN:
 		return return_statement()
-	else:
+	elif current_token.type == Token.Type.END or current_token.type == Token.Type.EOF:
 		return empty()
+	else:
+		error(GError.ErrorCode.UNEXPECTED_TOKEN,
+				current_token,
+				Token.new(current_token.type, null))
+		current_token = Token.new(Token.Type.EOF, "EOF")
 
 func return_statement():
 	var ret_token = current_token
@@ -313,22 +312,28 @@ func assignment():
 func var_decl():
 	eat(Token.Type.VAR)
 	var variable = variable()
-	eat(Token.Type.COLON)
+	if not eat(Token.Type.COLON):
+		return
 	var type = type_spec()
-	eat(Token.Type.NL)
+	if not eat(Token.Type.NL):
+		return
 	return VarDecl.new(variable,type)
 
 func variable():
-	var node = Var.new(current_token)
-	eat(Token.Type.IDENT)
+	var token = current_token
+	if not eat(Token.Type.IDENT):
+		return
+	var node = Var.new(token)
 	return node
 
 func type_spec():
 	var token = current_token
 	if current_token.type == Token.Type.INTEGER:
 		eat(Token.Type.INTEGER)
-	else:
+	elif current_token.type == Token.Type.FLOAT:
 		eat(Token.Type.FLOAT)
+	else:
+		return
 	var node = Type.new(token)
 	return node
 
@@ -337,7 +342,7 @@ func func_decl():
 	var func_name = variable()
 	eat(Token.Type.LPAREN)
 	var args: Array[VarDecl] = []
-	while current_token.type != current_token.Type.RPAREN:
+	while current_token.type != current_token.Type.RPAREN and current_token.type != current_token.Type.EOF:
 		var arg_name = variable()
 		eat(Token.Type.COLON)
 		var arg_type = type_spec()
@@ -348,7 +353,7 @@ func func_decl():
 	eat(Token.Type.RPAREN)
 	eat(Token.Type.COLON)
 	#eat(Token.Type.NL)
-	var block = block()
+	var block = statement_or_suite()
 	return FunctionDecl.new(func_name, args, block)
 
 func func_call():
@@ -360,9 +365,10 @@ func func_call():
 		args.append(arg)
 		if current_token.type == current_token.Type.RPAREN:
 			break
-		eat(Token.Type.COMMA)
-	eat(Token.Type.RPAREN)
-	#eat(Token.Type.LPAREN)
+		if not eat(Token.Type.COMMA):
+			return
+	if not eat(Token.Type.RPAREN):
+		return
 	return FunctionCall.new(function, args, function.token)
 
 func empty():

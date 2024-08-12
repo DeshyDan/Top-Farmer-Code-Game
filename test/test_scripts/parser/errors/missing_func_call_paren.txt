@@ -1,0 +1,5 @@
+func args(a:int, b:int):
+	return
+args(1,2
+#expect
+Error Expected closing parenthesis after function call

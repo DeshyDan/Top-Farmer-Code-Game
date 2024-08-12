@@ -1,0 +1,3 @@
+var a = (b + c
+#expect
+Error Expected closing parenthesis after expression

@@ -1,0 +1,21 @@
+func a():
+	line
+	
+	
+	
+	another
+	
+#expect
+Token (FUNC,func)
+Token (IDENT,a)
+Token (LPAREN,()
+Token (RPAREN,))
+Token (COLON,:)
+Token (NL,NL)
+Token (BEGIN,BEGIN)
+Token (IDENT,line)
+Token (NL,NL)
+Token (IDENT,another)
+Token (NL,NL)
+Token (END,END)
+Token (EOF,EOF)

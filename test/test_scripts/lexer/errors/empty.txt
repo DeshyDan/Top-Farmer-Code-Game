@@ -1,0 +1,2 @@
+#expect
+Token (EOF,EOF)
