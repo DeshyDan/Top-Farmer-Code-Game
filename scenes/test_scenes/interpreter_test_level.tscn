@@ -21,7 +21,7 @@ for x in [0,1,2,3,4,5,6]:
 
 [node name="Farm" parent="." instance=ExtResource("3_yck3t")]
 position = Vector2(723, 169)
-scale = Vector2(3.60331, 3.60331)
+scale = Vector2(2, 2)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("4_dfycg")

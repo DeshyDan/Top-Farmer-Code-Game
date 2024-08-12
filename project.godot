@@ -17,8 +17,6 @@ config/icon="res://assets/textures/icon.svg"
 
 [display]
 
-window/size/mode=3
-window/size/resizable=false
 window/stretch/mode="viewport"
 
 [editor_plugins]

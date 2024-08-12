@@ -66,7 +66,7 @@ func harvest():
 		print(robot_coords)
 		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
 		
-func plant(plant_id: int =2):
+func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)
 
@@ -87,30 +87,30 @@ func plant(plant_id: int =2):
 
 func get_plant_type(plant_id:int):
 	match(plant_id):
-		1:
+		0:
 			return Plant.CORN()
-		2:
+		1:
 			return Plant.TOMATO()
 
 func move(dir): 
 	robot_tile_coords = robot.move(dir)
 	
-	return dirt_terrain.map_to_local(coords)
+
 
 func get_tile_position(coords: Vector2i):
 	return dirt_terrain.map_to_local(coords)
 
-func _process(delta):
-	if Input.is_action_just_pressed("move_right"):
-		move.call_deferred(2)
-	if Input.is_action_just_pressed("move_up"):
-		move.call_deferred(0)
-	if Input.is_action_just_pressed("move_left"):
-		move.call_deferred(3)
-	if Input.is_action_just_pressed("move_down"):
-		move.call_deferred(1)
-	if Input.is_action_just_pressed("plant"):
-		plant.call_deferred()
-	if Input.is_action_just_pressed("harvest"):
-		harvest.call_deferred()
+#func _process(delta):
+	#if Input.is_action_just_pressed("move_right"):
+		#move.call_deferred(2)
+	#if Input.is_action_just_pressed("move_up"):
+		#move.call_deferred(0)
+	#if Input.is_action_just_pressed("move_left"):
+		#move.call_deferred(3)
+	#if Input.is_action_just_pressed("move_down"):
+		#move.call_deferred(1)
+	#if Input.is_action_just_pressed("plant"):
+		#plant.call_deferred()
+	#if Input.is_action_just_pressed("harvest"):
+		#harvest.call_deferred()
 
