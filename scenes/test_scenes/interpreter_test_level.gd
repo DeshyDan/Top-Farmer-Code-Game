@@ -55,7 +55,7 @@ func _on_move_call(args: Array):
 	farm.move(args[0])
 
 func _on_plant_call(args: Array):
-	farm.plant()
+	farm.plant(args[0])
 
 func _on_harvest_call(args: Array):
 	farm.harvest()
