@@ -46,6 +46,7 @@ func _on_window_kill_button_pressed():
 
 func _on_timer_tick():
 	# TODO: check for victory here
+	farm.tick()
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):
