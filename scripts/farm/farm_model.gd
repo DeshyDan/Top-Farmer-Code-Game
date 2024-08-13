@@ -33,3 +33,7 @@ func get_data():
 
 func get_index(coord:Vector2i):
 	return (coord.x * height) + coord.y
+	
+func get_plant_at_coord(coord:Vector2i):
+	print(get_index(coord))
+	return grid_map[get_index(coord)]
