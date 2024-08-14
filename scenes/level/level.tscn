@@ -10,6 +10,8 @@ script/source = "extends Node2D
 @onready var farm: FarmView = $Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 
+@onready var level_status_modal = preload(\"res://scenes/level/level_status.tscn\")
+
 var timer: Timer
 var victory_corn:int = 0
 
@@ -20,8 +22,12 @@ var victory_corn:int = 0
 
 func check_victory():
 	if farm.harvestables.size() >= 1:
-		
-		farm.reset()
+		if farm.harvestables[0] >= 1:
+			timer.stop()
+			
+			add_child(level_status_modal.instantiate())
+			farm.reset()
+			
 func set_level(width,height,victory_corn_quantity):
 	farm.plot_farm(width,height)
 	victory_corn = victory_corn_quantity

@@ -3,6 +3,7 @@
 [node name="level_status" type="Node"]
 
 [node name="Panel" type="Panel" parent="."]
+z_index = 999
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
