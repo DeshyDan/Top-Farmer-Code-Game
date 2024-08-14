@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxeid64nke54h"]
+[gd_scene load_steps=5 format=3 uid="uid://bxeid64nke54h"]
 
 [ext_resource type="Script" path="res://scripts/farm/farm_view.gd" id="1_irbmt"]
+[ext_resource type="PackedScene" uid="uid://nc5oh6noxx83" path="res://scenes/inventory_system/inventory.tscn" id="2_hxsj1"]
 [ext_resource type="TileSet" uid="uid://dkivxugfrllw6" path="res://resources/farm_tile_set.tres" id="2_qam0v"]
 [ext_resource type="PackedScene" uid="uid://bgjp81bcq4m6c" path="res://scenes/robot/robot.tscn" id="3_iavny"]
 
 [node name="Farm" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_irbmt")
+
+[node name="inventory" parent="." instance=ExtResource("2_hxsj1")]
 
 [node name="Grid" type="TileMap" parent="."]
 tile_set = ExtResource("2_qam0v")

@@ -24,8 +24,12 @@ func lookup(name) -> Symbol:
 	if symbol != null:
 		return symbol
 	if enclosing_scope == null:
-		return null
+		return symbol
 	return enclosing_scope.lookup(name)
+
+func init_builtin_consts(const_dict: Dictionary):
+	for key in const_dict.keys():
+		define(BuiltinSymbol.new(key))
 
 func _init_builtins():
 	define(BuiltinSymbol.new("int"))
@@ -33,4 +37,6 @@ func _init_builtins():
 	define(BuiltinSymbol.new("true"))
 	define(BuiltinFuncSymbol.new("print", [0])) # TODO: what should this array actually contain?
 	define(BuiltinFuncSymbol.new("move", [0]))
+	define(BuiltinFuncSymbol.new("plant", [0]))
+	define(BuiltinFuncSymbol.new("harvest", []))
 	define(BuiltinSymbol.new("false"))

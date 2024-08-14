@@ -1,3 +1,5 @@
+class_name Level
+
 extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
@@ -9,6 +11,16 @@ var timer: Timer
 
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
+
+func _check_victory():
+	#We want four carrots to be harvested
+	#if 4 == my_dict[0]:
+		#pass
+	pass
+
+func set_level(width, height):
+	farm.height = height
+	farm.width = width 
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -46,6 +58,7 @@ func _on_window_kill_button_pressed():
 
 func _on_timer_tick():
 	# TODO: check for victory here
+	farm.tick()
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):
@@ -55,7 +68,7 @@ func _on_move_call(args: Array):
 	farm.move(args[0])
 
 func _on_plant_call(args: Array):
-	farm.plant()
+	farm.plant(args[0])
 
 func _on_harvest_call(args: Array):
 	farm.harvest()
