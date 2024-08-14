@@ -38,20 +38,6 @@ func set_terrain_path(width: int, height: int):
 	return map
 
 
-## TODO: Move harvesting logic to Farm Model
-func handle_seeds(tile_map_pos, level, texture_source_id, atlas_coord, final_seed_level):
-		dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, atlas_coord)
-
-		var growth_state = {
-			"tile_map_pos": tile_map_pos,
-			"level": level,
-			"texture_source_id": texture_source_id,
-			"atlas_coord": atlas_coord,
-			"final_seed_level": final_seed_level
-		}
-
-		plant_growth_queue.append(growth_state)
-		
 func tick():
 	## TODO: Move harvesting logic to Farm Model
 	for plant: Plant in farm_model.get_data():
@@ -107,7 +93,6 @@ func plant(plant_id:int=1):
 			
 			dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
 			farm_model.add(plant_type, robot_tile_coords)
-			handle_seeds(robot_tile_coords, 0,plant_type.get_source_id(), atlas_coord, 3)
 		else:
 			print("Cannot place here")
 
