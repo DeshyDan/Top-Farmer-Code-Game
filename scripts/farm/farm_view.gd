@@ -77,12 +77,12 @@ func harvest():
 	# get age of plant under robot, if age >= plant.max_age -> harvest
 	# else remove plant, but dont add to inventory
 	var robot_coords:Vector2i = robot.get_coords()
-	if !farm_model.is_empty(robot_coords) and farm_model.is_harvestable(robot_coords):
-		
-		robot.harvest()
-		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
+	robot.harvest()
+	dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
+	
+	if farm_model.is_harvestable(robot_coords):
 		store(robot_coords)
-		farm_model.remove(robot_coords)
+	farm_model.remove(robot_coords)
 
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
@@ -128,19 +128,19 @@ func get_tile_position(coords: Vector2i):
 
 func get_harvestables():
 	return harvestables
-#func _process(delta):
-	#if Input.is_action_just_pressed("move_right"):
-		#move.call_deferred(2)
-	#if Input.is_action_just_pressed("move_up"):
-		#move.call_deferred(0)
-	#if Input.is_action_just_pressed("move_left"):
-		#move.call_deferred(3)
-	#if Input.is_action_just_pressed("move_down"):
-		#move.call_deferred(1)
-	#if Input.is_action_just_pressed("plantTomato"):
-		#plant.call_deferred()
-	#if Input.is_action_just_pressed("plantCorn"):
-		#plant(0)
-	#if Input.is_action_just_pressed("harvest"):
-		#harvest.call_deferred()
+func _process(delta):
+	if Input.is_action_just_pressed("move_right"):
+		move.call_deferred(2)
+	if Input.is_action_just_pressed("move_up"):
+		move.call_deferred(0)
+	if Input.is_action_just_pressed("move_left"):
+		move.call_deferred(3)
+	if Input.is_action_just_pressed("move_down"):
+		move.call_deferred(1)
+	if Input.is_action_just_pressed("plantTomato"):
+		plant.call_deferred()
+	if Input.is_action_just_pressed("plantCorn"):
+		plant(0)
+	if Input.is_action_just_pressed("harvest"):
+		harvest.call_deferred()
 
