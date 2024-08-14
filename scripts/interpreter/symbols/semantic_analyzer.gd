@@ -71,11 +71,18 @@ func visit_function_decl(node: FunctionDecl):
 
 func visit_function_call(node: FunctionCall):
 	var func_symbol: Symbol = current_scope.lookup(node.name.name)
-	if len(node.args) != len(func_symbol.params):
-			error("Arg count mismatch",
+	if not func_symbol:
+		error("Undefined function",
 					GError.ErrorCode.UNEXPECTED_TOKEN,
 					node.token
 					)
+		return
+	if len(node.args) != len(func_symbol.params):
+		error("Arg count mismatch",
+				GError.ErrorCode.UNEXPECTED_TOKEN,
+				node.token
+				)
+		return
 	for arg in node.args:
 		visit(arg)
 
