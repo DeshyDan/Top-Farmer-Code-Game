@@ -3,6 +3,10 @@ extends RefCounted
 
 var _items: Array[ActivationRecord]
 
+func set_error(runtime_error: RuntimeError):
+	for item in _items:
+		item.set_error(runtime_error)
+
 func push(x: ActivationRecord):
 	_items.push_back(x)
 

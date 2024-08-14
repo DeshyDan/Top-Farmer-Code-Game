@@ -19,6 +19,5 @@ func node_string(indent: int):
   result += identifier.node_string(indent + 2)
   result += "%sIterable:\n" % indent_str
   result += iterable.node_string(indent + 2)
-  result += "%sBlock:\n" % indent_str
   result += block.node_string(indent + 2)
   return result

@@ -46,13 +46,14 @@ func visit(node: AST):
 	if ar.error.error_code:
 		runtime_error.emit(ar.error)
 		ar.set_return(null)
-		await never		# hack for now
+		finished.emit()
+	if ar.should_return:
+		return ar.return_val
 	return await super(node)
 
 func error(error_code: RuntimeError.ErrorCode, token: Token, message: String):
-	var ar = call_stack.peek()
 	var r_error = RuntimeError.new(error_code, token, message)
-	ar.set_error(r_error)
+	call_stack.set_error(r_error)
 
 func tracepoint_reached(node: AST):
 	tracepoint.emit(node, call_stack.shallow_copy())
@@ -205,7 +206,7 @@ func visit_return_statement(node: ReturnStatement):
 	return result
 
 func visit_var_decl(node: VarDecl):
-	await tracepoint_reached(node)
+	return await tracepoint_reached(node)
 
 func visit_var(node: Var):
 	var ar = call_stack.peek()

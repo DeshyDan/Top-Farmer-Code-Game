@@ -3,8 +3,10 @@ extends GutTest
 var params_features
 var params_errors
 
-const test_features_path = "res://test/test_scripts/parser/features/"
-const test_errors_path = "res://test/test_scripts/parser/errors/"
+const test_features_path = "res://test/test_scripts/interpreter/features/"
+const test_errors_path = "res://test/test_scripts/interpreter/errors/"
+
+var interpreter_client: InterpreterClient
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -32,7 +34,7 @@ func before_all():
 		else:
 			params_errors = params
 
-func test_parser_features(params=use_parameters(params_features)):
+func test_interpreter_features(params=use_parameters(params_features)):
 	var lexer = Lexer.new(params.source)
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
@@ -53,12 +55,6 @@ func test_parser_features(params=use_parameters(params_features)):
 	)
 	interpreter.start()
 	#print(tree_str)
-
-func test_parser_errors(params=use_parameters(params_errors)):
-	var lexer = Lexer.new(params.source)
-	var parser = Parser.new(lexer)
-	var tree = parser.parse()
-	assert_ne(parser.parser_error.error_code, GError.ErrorCode.OK, "%s: Expected parser error" % params.filename)
 
 func get_token_source(token: Token, source: String):
 	var splitsource = source.split("\n")
