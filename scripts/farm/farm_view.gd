@@ -3,7 +3,7 @@ extends Node2D
 
 
 @onready var dirt_terrain = $Grid
-@onready var robot = $Grid/Robot
+@onready var robot: Robot = $Grid/Robot
 @onready var inventory = $inventory
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
@@ -54,22 +54,22 @@ func handle_seeds(tile_map_pos, level, texture_source_id, atlas_coord, final_see
 		
 func tick():
 	## TODO: Move harvesting logic to Farm Model
-	for growth_state in plant_growth_queue:
-		var tile_map_pos = growth_state["tile_map_pos"]
-		var level = growth_state["level"]
-		var texture_source_id = growth_state["texture_source_id"]
-		var atlas_coord = growth_state["atlas_coord"]
-		var final_seed_level = growth_state["final_seed_level"]
-  
-		if level == final_seed_level:
-			farm_model.set_harvestable(tile_map_pos)
-			plant_growth_queue.erase(growth_state)
-		else: 
-			var new_atlas: Vector2i = Vector2i(atlas_coord.x + 1, atlas_coord.y)
-			dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, new_atlas)
+	for plant: Plant in farm_model.get_data():
+		if not plant:
+			continue
+		plant.age += 1
+		if plant.age >= 3:
+			plant.set_harvestable()
+	redraw_farm()
 
-			growth_state["level"] += 1
-			growth_state["atlas_coord"] = new_atlas
+func redraw_farm():
+	for x in farm_model.width:
+		for y in farm_model.height:
+			var plant: Plant = farm_model.get_plant_at_coord(Vector2i(x,y))
+			if not plant:
+				continue
+			var atlas_x = min(plant.age, 3)
+			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), plant.get_source_id(), Vector2i(atlas_x, 0))
 
 func harvest():
 	# get age of plant under robot, if age >= plant.max_age -> harvest

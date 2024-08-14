@@ -5,6 +5,7 @@ const FINAL_SEED_LEVEL = 3
 
 var plant_type: int
 var age: int
+var max_age: int
 var harvestable: bool
 var growth_factor: int
 var texture_source_id:int
@@ -21,7 +22,7 @@ static func CORN():
 	return Plant.new(0, 1, 4)
 	
 static func TOMATO():
-	return Plant.new(1, 2,4 )
+	return Plant.new(1, 2, 4)
 	
 func get_id():
 	return self.id
