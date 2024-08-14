@@ -25,6 +25,8 @@ func is_harvestable(coord):
 	return plant.is_harvestable()
 	
 func set_harvestable(coord:Vector2i):
+	if not grid_map[get_index(coord)]:
+		return
 	grid_map[get_index(coord)].set_harvestable()
 
 func remove(coord: Vector2i):

@@ -14,8 +14,9 @@ var timer: Timer
 
 func _check_victory():
 	#We want four carrots to be harvested
-	if 4 == my_dict[0]:
-		
+	#if 4 == my_dict[0]:
+		#pass
+	pass
 
 func set_level(width, height):
 	farm.height = height
