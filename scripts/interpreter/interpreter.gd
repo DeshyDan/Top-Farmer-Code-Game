@@ -38,6 +38,11 @@ func _init(tree: AST):
 func start():
 	await visit(ast)
 
+func set_builtin_consts(const_dict: Dictionary):
+	var ar = call_stack.peek()
+	for key in const_dict.keys():
+		ar.set_item(key, const_dict[key])
+
 func tracepoint_reached(node: AST):
 	tracepoint.emit(node, call_stack.shallow_copy())
 	await tick
