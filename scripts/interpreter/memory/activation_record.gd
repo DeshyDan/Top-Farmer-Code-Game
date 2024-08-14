@@ -14,6 +14,7 @@ var members = {}
 var return_val
 var token: Token
 var should_return = false
+var error: RuntimeError
 
 func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, token: Token):
 	self.name = name
@@ -22,6 +23,13 @@ func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, token: Tok
 	self.enclosing_ar = enclosing_ar
 	self.return_val = null
 	self.token = token
+	error = RuntimeError.new(RuntimeError.ErrorCode.OK)
+
+func set_error(runtime_error: RuntimeError):
+	error = runtime_error
+	# recursively set error until top of stack
+	if enclosing_ar:
+		enclosing_ar.set_error(runtime_error)
 
 func set_return(val):
 	should_return = true

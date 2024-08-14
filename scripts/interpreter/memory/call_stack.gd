@@ -10,7 +10,7 @@ func pop() -> ActivationRecord:
 	return _items.pop_back()
 
 func peek() -> ActivationRecord:
-	return _items[-1]
+	return _items.back()
 
 func _to_string():
 	var rev = _items.duplicate()

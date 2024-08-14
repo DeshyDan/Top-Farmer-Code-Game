@@ -32,11 +32,6 @@ var keywords = {
 }
 const keyword_data_path = "res://keywords.json"
 
-enum LexerError {
-	OK,
-	ERROR
-}
-
 func count_indentation(line):
 	#"""Count the number of leading spaces or tabs in a line."""
 	var count = 0
@@ -54,14 +49,12 @@ func _init(text: String):
 		current_char == null
 	else:
 		current_char = self.text[pos]
-	lexer_error = LexerError.OK
-	#var keyword_data = FileAccess.get_file_as_string(keyword_data_path)
-	#keywords = JSON.parse_string(keyword_data)['list']
+	lexer_error = LexerError.new(LexerError.ErrorCode.OK)
 
 func reset():
 	pos = 0
 	current_char = text[pos]
-	lexer_error = LexerError.OK
+	lexer_error = LexerError.new(LexerError.ErrorCode.OK)
 	pending_newline = false
 	line_number = 0
 	col_number = 0
@@ -69,18 +62,21 @@ func reset():
 	pending_indents = 0
 
 func error(from: String):
-	print("parse error at {0}, from {1}".format([pos,from]))
-	lexer_error = LexerError.ERROR
+	var fake_token = Token.new(Token.Type.IDENT, current_char, line_number, col_number)
+	var message = get_error_text()
+	lexer_error = LexerError.new(LexerError.ErrorCode.INVALID_CHAR,
+								 fake_token,
+								 message)
 	error_pos = pos
 	current_char = null
 
 func get_error_text() -> String:
 	var result = ""
 	match lexer_error:
-		LexerError.OK:
+		LexerError.ErrorCode.OK:
 			result = "no error"
-		LexerError.ERROR:
-			result = "invalid char at {0}".format([error_pos])
+		_:
+			result = "invalid char"
 	return result
 
 func advance():
@@ -164,7 +160,6 @@ func number():
 	return token
 
 func name() -> Token:
-	#print("naming")
 	var result = ""
 	current_char = current_char as String
 	var regex = RegEx.new()
