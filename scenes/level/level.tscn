@@ -19,10 +19,10 @@ var victory_corn:int = 0
 # can be set
 
 func check_victory():
-	if farm.harvestables.has(0):
-		if victory_corn == farm.harvestables[0]:
-			print(\"Yay\")
+	if farm.harvestables.size() >= 1:
 		
+		
+		print(\"234\")
 func set_level(width,height,victory_corn_quantity):
 	farm.plot_farm(width,height)
 	victory_corn = victory_corn_quantity
