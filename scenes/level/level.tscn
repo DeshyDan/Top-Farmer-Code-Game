@@ -11,19 +11,24 @@ script/source = "extends Node2D
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 
 var timer: Timer
+var victory_corn:int = 0
 
 @export var tick_rate = 4
 
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
 
-func set_level(width,height):
+func check_victory():
+	if farm.harvestables.has(0):
+		if victory_corn == farm.harvestables[0]:
+			print(\"Yay\")
+		
+func set_level(width,height,victory_corn_quantity):
 	farm.plot_farm(width,height)
+	victory_corn = victory_corn_quantity
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
-
-# TODO: tick the farm after/before we tick the player. keep them in sync!
 
 # TODO: make it so that a tracepoint from the interpreter can wait n ticks
 # before continuing
@@ -56,6 +61,8 @@ func _on_window_kill_button_pressed():
 
 func _on_timer_tick():
 	# TODO: check for victory here
+	farm.tick()
+	check_victory()
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):

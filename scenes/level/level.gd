@@ -12,6 +12,11 @@ var timer: Timer
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
 
+func _check_victory():
+	#We want four carrots to be harvested
+	if 4 == my_dict[0]:
+		
+
 func set_level(width, height):
 	farm.height = height
 	farm.width = width 
@@ -52,6 +57,7 @@ func _on_window_kill_button_pressed():
 
 func _on_timer_tick():
 	# TODO: check for victory here
+	farm.tick()
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):

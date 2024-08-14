@@ -12,8 +12,9 @@ func _ready():
 	
 	var width:int = 2
 	var height:int = 2
+	var victory_corn_quantity:int = 4
 	
-	lvl.set_level(width,height)
+	lvl.set_level(width,height,victory_corn_quantity)
 	
 
 	
