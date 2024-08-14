@@ -1,0 +1,127 @@
+[gd_scene load_steps=5 format=3 uid="uid://bx5163jemrhj8"]
+
+[ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_window/code_window.tscn" id="1_cw1jq"]
+[ext_resource type="PackedScene" uid="uid://bxeid64nke54h" path="res://scenes/farm/farm.tscn" id="2_qaq0c"]
+[ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
+
+[sub_resource type="GDScript" id="GDScript_huwct"]
+script/source = "extends Node2D
+@onready var window: CodeWindow = $Window
+@onready var farm: FarmView = $Farm
+@onready var interpreter_client: InterpreterClient = $InterpreterClient
+
+var timer: Timer
+var victory_corn:int = 0
+
+@export var tick_rate = 4
+
+# TODO: make it so that an arbitrary farm goal and farm start state
+# can be set
+
+func check_victory():
+	if farm.harvestables.has(0):
+		if victory_corn == farm.harvestables[0]:
+			print(\"Yay\")
+		
+func set_level(width,height,victory_corn_quantity):
+	farm.plot_farm(width,height)
+	victory_corn = victory_corn_quantity
+
+# TODO: test that this scene can be instantiated from anywhere without
+# breaking
+
+# TODO: make it so that a tracepoint from the interpreter can wait n ticks
+# before continuing
+
+# TODO: keep track of the players score
+
+func _on_window_run_button_pressed():
+	# TODO: clear window.console
+	if not interpreter_client.load_source(window.get_source_code()):
+		return
+	interpreter_client.start()
+	# TODO: tick length zero => pause timer 
+	var tick_length = 1.0/(float(tick_rate) + 0.00001)
+	if timer and timer.is_inside_tree():
+		remove_child(timer)
+	timer = Timer.new()
+	add_child(timer)
+	timer.timeout.connect(_on_timer_tick)
+	timer.start(tick_length)
+
+func _on_window_pause_button_pressed():
+	if not timer:
+		return
+	timer.paused = not timer.paused
+
+func _on_window_kill_button_pressed():
+	if timer and timer.is_inside_tree():
+		remove_child(timer)
+	interpreter_client.kill()
+
+func _on_timer_tick():
+	# TODO: check for victory here
+	farm.tick()
+	check_victory()
+	interpreter_client.tick()
+
+func _on_print_call(args: Array):
+	window.print_to_console(\" \".join(args))
+
+func _on_move_call(args: Array):
+	farm.move(args[0])
+
+func _on_plant_call(args: Array):
+	farm.plant(args[0])
+
+func _on_harvest_call(args: Array):
+	farm.harvest()
+
+# the interpreter client has reached a line, we should highlight it
+func _on_tracepoint_reached(node: AST, call_stack: CallStack):
+	window.highlight_tracepoint(node, call_stack)
+
+func _on_interpreter_client_finished():
+	print(\"INTERPRETER FINISHED\")
+	if timer:
+		remove_child(timer)
+	# TODO: show failure screen here
+
+func _on_interpreter_client_error(message):
+	window.print_to_console(message)
+
+func _exit_tree():
+	Node.print_orphan_nodes()
+"
+
+[node name="Level" type="Node2D"]
+script = SubResource("GDScript_huwct")
+
+[node name="Window" parent="." instance=ExtResource("1_cw1jq")]
+position = Vector2i(35, 36)
+size = Vector2i(535, 440)
+content_scale_mode = 2
+default_text = "var b: int
+b = 0
+for x in [0,1,2,3,4,5,6]:
+	plant(0)
+	move(x%2 +1)
+	"
+
+[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+position = Vector2(723, 169)
+scale = Vector2(2, 2)
+
+[node name="InterpreterClient" type="Node" parent="."]
+script = ExtResource("3_1ed4d")
+
+[connection signal="kill_button_pressed" from="Window" to="." method="_on_window_kill_button_pressed"]
+[connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
+[connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]
+[connection signal="error" from="InterpreterClient" to="." method="_on_interpreter_client_error"]
+[connection signal="finished" from="InterpreterClient" to="." method="_on_interpreter_client_finished"]
+[connection signal="harvest_requested" from="InterpreterClient" to="." method="_on_harvest_call"]
+[connection signal="move_requested" from="InterpreterClient" to="." method="_on_move_call"]
+[connection signal="plant_requested" from="InterpreterClient" to="." method="_on_plant_call"]
+[connection signal="print_requested" from="InterpreterClient" to="." method="_on_print_call"]
+[connection signal="tracepoint_reached" from="InterpreterClient" to="." method="_on_tracepoint_reached"]

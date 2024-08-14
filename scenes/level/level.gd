@@ -1,3 +1,5 @@
+class_name Level
+
 extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
@@ -9,6 +11,15 @@ var timer: Timer
 
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
+
+func _check_victory():
+	#We want four carrots to be harvested
+	if 4 == my_dict[0]:
+		
+
+func set_level(width, height):
+	farm.height = height
+	farm.width = width 
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
