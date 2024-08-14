@@ -19,7 +19,9 @@ func add(plant:Plant, coord: Vector2i):
 	print(get_data())
 	
 func is_harvestable(coord):
-	var plant:Plant = grid_map[get_index(coord)]
+	var plant = grid_map[get_index(coord)]
+	if plant == null:
+		return false
 	return plant.is_harvestable()
 	
 func set_harvestable(coord:Vector2i):

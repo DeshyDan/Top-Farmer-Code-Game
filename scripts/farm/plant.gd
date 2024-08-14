@@ -1,6 +1,8 @@
 class_name Plant
 extends RefCounted
 
+const FINAL_SEED_LEVEL = 3
+
 var plant_type: int
 var age: int
 var harvestable: bool
@@ -13,6 +15,7 @@ func _init(id:int , texture_source_id:int , growth_factor:int ):
 	self.growth_factor = growth_factor
 	self.texture_source_id = texture_source_id
 	self.harvestable = false
+	self.age = 0 
 
 static func CORN():
 	return Plant.new(0, 1, 4)
@@ -28,6 +31,13 @@ func get_growth_factor():
 
 func get_source_id():
 	return self.texture_source_id
+func get_age():
+	return age
+	
+func grow():
+	age += age
+func get_final_seed_level():
+	return FINAL_SEED_LEVEL
 
 func is_harvestable():
 	return self.harvestable
