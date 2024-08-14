@@ -12,6 +12,8 @@ script/source = "extends Node2D
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 @onready var level_completed = $CanvasLayer/LevelCompleted
 
+@onready var level_status_modal = preload(\"res://scenes/level/level_status.tscn\")
+
 var timer: Timer
 var victory_crop:int = 0
 
