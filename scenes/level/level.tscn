@@ -21,8 +21,7 @@ var victory_corn:int = 0
 func check_victory():
 	if farm.harvestables.size() >= 1:
 		
-		
-		print(\"234\")
+		farm.reset()
 func set_level(width,height,victory_corn_quantity):
 	farm.plot_farm(width,height)
 	victory_corn = victory_corn_quantity
