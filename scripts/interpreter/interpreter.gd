@@ -86,6 +86,7 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			args.append(await visit(arg))
 		builtin_func_call.emit(node.name.name, args)
+		await tracepoint_reached(node)
 		return	# TODO: await input
 	
 	#await tracepoint_reached(function_decl)
