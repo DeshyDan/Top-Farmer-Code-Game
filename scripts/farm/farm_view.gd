@@ -18,8 +18,8 @@ const CAN_PLACE_SEEDS = "can_place_seeds"
 
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
-var plant_growth_queue = []
 var harvestables = {}
+
 
 func plot_farm(width:int , height:int):
 	var path = set_terrain_path(width, height)
@@ -39,7 +39,6 @@ func set_terrain_path(width: int, height: int):
 
 
 func tick():
-	## TODO: Move harvesting logic to Farm Model
 	for plant: Plant in farm_model.get_data():
 		if not plant:
 			continue
@@ -58,15 +57,17 @@ func redraw_farm():
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), plant.get_source_id(), Vector2i(atlas_x, 0))
 
 func harvest():
-	# get age of plant under robot, if age >= plant.max_age -> harvest
-	# else remove plant, but dont add to inventory
+
 	var robot_coords:Vector2i = robot.get_coords()
-	robot.harvest()
-	dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
-	
-	if farm_model.is_harvestable(robot_coords):
-		store(robot_coords)
-	farm_model.remove(robot_coords)
+	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
+
+	if tile_data:
+		robot.harvest()
+		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
+		
+		if farm_model.is_harvestable(robot_coords):
+			store(robot_coords)
+		farm_model.remove(robot_coords)
 
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
@@ -81,8 +82,8 @@ func store(plant_coord:Vector2i):
 func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)
-
-	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot.get_coords())
+	
+	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_tile_coords)
 
 	if tile_data:
 		var can_place_seed = tile_data.get_custom_data(CAN_PLACE_SEEDS)
@@ -111,6 +112,21 @@ func get_tile_position(coords: Vector2i):
 
 func get_harvestables():
 	return harvestables
+	
+func reset():
+	robot_tile_coords = Vector2i(0,0) 
+	robot.set_coords(robot_tile_coords)
+	robot.position = get_tile_position(robot.get_coords())
+	
+	farm_model.remove_all_plants()
+	harvestables.clear()
+	inventory.clear()
+	
+	for x in farm_model.width:
+		for y in farm_model.height:
+			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+	
+	
 #func _process(delta):
 	#if Input.is_action_just_pressed("move_right"):
 		#move.call_deferred(2)
@@ -123,7 +139,6 @@ func get_harvestables():
 	#if Input.is_action_just_pressed("plantTomato"):
 		#plant.call_deferred()
 	#if Input.is_action_just_pressed("plantCorn"):
-		#plant(0)
+		#reset()
 	#if Input.is_action_just_pressed("harvest"):
 		#harvest.call_deferred()
-

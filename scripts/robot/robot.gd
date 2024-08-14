@@ -45,6 +45,7 @@ func harvest():
 	
 func get_coords():
 	return robot_tile_coords
-	
+func set_coords(coords:Vector2i):
+	robot_tile_coords = coords
 func _process(delta):
 	pass
