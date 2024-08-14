@@ -4,6 +4,7 @@ extends Node2D
 
 @onready var dirt_terrain = $Grid
 @onready var robot = $Grid/Robot
+@onready var inventory = $inventory
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
 @export_range(2,15) var height:int = 5
@@ -16,8 +17,9 @@ const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
 
 var farm_model:FarmModel
-
 var robot_tile_coords: Vector2i = Vector2i(0,0)
+var plant_growth_queue = []
+var harvestables = {}
 
 func plot_farm(width:int , height:int):
 	var path = set_terrain_path(width, height)
@@ -36,34 +38,60 @@ func set_terrain_path(width: int, height: int):
 	return map
 
 
-func handle_seeds(tile_map_pos, level,texture_source_id, atlas_coord, final_seed_level):
-	dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, atlas_coord)
+## TODO: Move harvesting logic to Farm Model
+func handle_seeds(tile_map_pos, level, texture_source_id, atlas_coord, final_seed_level):
+		dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, atlas_coord)
 
-	await get_tree().create_timer(5.0).timeout
+		var growth_state = {
+			"tile_map_pos": tile_map_pos,
+			"level": level,
+			"texture_source_id": texture_source_id,
+			"atlas_coord": atlas_coord,
+			"final_seed_level": final_seed_level
+		}
 
-	if level == final_seed_level:
-		farm_model.set_harvestable(tile_map_pos)
-		return 
-	else:
-		var new_atlas: Vector2i = Vector2i(atlas_coord.x + 1, atlas_coord.y)
-		dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, new_atlas)
-		handle_seeds(tile_map_pos, level + 1,texture_source_id,  new_atlas,final_seed_level)
-
+		plant_growth_queue.append(growth_state)
+		
 func tick():
-	# go through farm data, if its a plant, increase its age by one
-	# then update the tiles
-	pass
+	## TODO: Move harvesting logic to Farm Model
+	for growth_state in plant_growth_queue:
+		var tile_map_pos = growth_state["tile_map_pos"]
+		var level = growth_state["level"]
+		var texture_source_id = growth_state["texture_source_id"]
+		var atlas_coord = growth_state["atlas_coord"]
+		var final_seed_level = growth_state["final_seed_level"]
+  
+		if level == final_seed_level:
+			farm_model.set_harvestable(tile_map_pos)
+			plant_growth_queue.erase(growth_state)
+		else: 
+			var new_atlas: Vector2i = Vector2i(atlas_coord.x + 1, atlas_coord.y)
+			dirt_terrain.set_cell(PLANT_LAYER, tile_map_pos, texture_source_id, new_atlas)
+
+			growth_state["level"] += 1
+			growth_state["atlas_coord"] = new_atlas
 
 func harvest():
 	# get age of plant under robot, if age >= plant.max_age -> harvest
 	# else remove plant, but dont add to inventory
 	var robot_coords:Vector2i = robot.get_coords()
-	if !farm_model.is_empty(robot_coords) and farm_model.is_harvestable(robot_coords):
-		farm_model.remove(robot_coords)
-		robot.harvest()
-		print(robot_coords)
-		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
-		
+	robot.harvest()
+	dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
+	
+	if farm_model.is_harvestable(robot_coords):
+		store(robot_coords)
+	farm_model.remove(robot_coords)
+
+func store(plant_coord:Vector2i):
+	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
+	var plant_id = harvested_plant.get_id()
+	if plant_id in harvestables:
+		var old_val = harvestables[plant_id]
+		harvestables[plant_id] = old_val + 1
+	else:
+		harvestables[plant_id] = 1
+	inventory.store(plant_id,harvestables[plant_id])
+	
 func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)
@@ -93,11 +121,11 @@ func get_plant_type(plant_id:int):
 func move(dir): 
 	robot_tile_coords = robot.move(dir)
 	
-
-
 func get_tile_position(coords: Vector2i):
 	return dirt_terrain.map_to_local(coords)
 
+func get_harvestables():
+	return harvestables
 #func _process(delta):
 	#if Input.is_action_just_pressed("move_right"):
 		#move.call_deferred(2)
@@ -107,8 +135,10 @@ func get_tile_position(coords: Vector2i):
 		#move.call_deferred(3)
 	#if Input.is_action_just_pressed("move_down"):
 		#move.call_deferred(1)
-	#if Input.is_action_just_pressed("plant"):
+	#if Input.is_action_just_pressed("plantTomato"):
 		#plant.call_deferred()
+	#if Input.is_action_just_pressed("plantCorn"):
+		#plant(0)
 	#if Input.is_action_just_pressed("harvest"):
 		#harvest.call_deferred()
 
