@@ -1,31 +1,32 @@
-class_name Level
-
 extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
+@onready var level_completed = $CanvasLayer/LevelCompleted
 
 var timer: Timer
+var victory_crop:int = 0
 
 @export var tick_rate = 4
 
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
 
-func _check_victory():
-	#We want four carrots to be harvested
-	#if 4 == my_dict[0]:
-		#pass
-	pass
-
-func set_level(width, height):
-	farm.height = height
-	farm.width = width 
+func check_victory():
+	if farm.harvestables.size() >= 1:
+		if farm.harvestables[0] >= victory_crop:
+			timer.stop()
+			
+			level_completed.show()
+			window.hide()
+			
+			
+func set_level(width,height,victory_crop_quantity):
+	farm.plot_farm(width,height)
+	victory_crop = victory_crop_quantity
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
-
-# TODO: tick the farm after/before we tick the player. keep them in sync!
 
 # TODO: make it so that a tracepoint from the interpreter can wait n ticks
 # before continuing
@@ -59,6 +60,7 @@ func _on_window_kill_button_pressed():
 func _on_timer_tick():
 	# TODO: check for victory here
 	farm.tick()
+	check_victory()
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):
@@ -88,3 +90,11 @@ func _on_interpreter_client_error(message):
 
 func _exit_tree():
 	Node.print_orphan_nodes()
+
+
+func _on_level_completed_next_level():
+	pass
+
+
+func _on_level_completed_retry():
+	get_tree().reload_current_scene()
