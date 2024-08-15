@@ -31,12 +31,16 @@ func init_builtin_consts(const_dict: Dictionary):
 	for key in const_dict.keys():
 		define(BuiltinSymbol.new(key))
 
+func init_builtin_funcs(func_dict: Dictionary):
+	for key in func_dict.keys():
+		if key in ["wait", "harvest"]:
+			define(BuiltinFuncSymbol.new(key,[]))
+			continue
+		define(BuiltinFuncSymbol.new(key,[0]))
+
 func _init_builtins():
 	define(BuiltinSymbol.new("int"))
 	define(BuiltinSymbol.new("float"))
 	define(BuiltinSymbol.new("true"))
-	define(BuiltinFuncSymbol.new("print", [0])) # TODO: what should this array actually contain?
-	define(BuiltinFuncSymbol.new("move", [0]))
-	define(BuiltinFuncSymbol.new("plant", [0]))
-	define(BuiltinFuncSymbol.new("harvest", []))
+	
 	define(BuiltinSymbol.new("false"))

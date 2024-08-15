@@ -56,6 +56,9 @@ func redraw_farm():
 			var atlas_x = min(plant.age, 3)
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), plant.get_source_id(), Vector2i(atlas_x, 0))
 
+func wait():
+	robot.wait()
+
 func harvest():
 
 	var robot_coords:Vector2i = robot.get_coords()
@@ -127,18 +130,3 @@ func reset():
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
 	
 	
-#func _process(delta):
-	#if Input.is_action_just_pressed("move_right"):
-		#move.call_deferred(2)
-	#if Input.is_action_just_pressed("move_up"):
-		#move.call_deferred(0)
-	#if Input.is_action_just_pressed("move_left"):
-		#move.call_deferred(3)
-	#if Input.is_action_just_pressed("move_down"):
-		#move.call_deferred(1)
-	#if Input.is_action_just_pressed("plantTomato"):
-		#plant.call_deferred()
-	#if Input.is_action_just_pressed("plantCorn"):
-		#reset()
-	#if Input.is_action_just_pressed("harvest"):
-		#harvest.call_deferred()

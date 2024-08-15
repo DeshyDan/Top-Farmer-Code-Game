@@ -1,3 +1,4 @@
+class_name Level
 extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
@@ -6,8 +7,12 @@ extends Node2D
 
 var timer: Timer
 var victory_crop:int = 0
+var robot_wait_tick = 0
 
 @export var tick_rate = 4
+
+signal victory
+signal failure
 
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
@@ -16,7 +21,7 @@ func check_victory():
 	if farm.harvestables.size() >= 1:
 		if farm.harvestables[0] >= victory_crop:
 			timer.stop()
-			
+			victory.emit()
 			level_completed.show()
 			window.hide()
 			
@@ -78,6 +83,9 @@ func _on_timer_tick():
 	farm.tick()
 	add_points()
 	check_victory()
+	if robot_wait_tick > 0:
+		robot_wait_tick -= 1
+		return
 	interpreter_client.tick()
 
 func _on_print_call(args: Array):
@@ -92,6 +100,10 @@ func _on_plant_call(args: Array):
 func _on_harvest_call(args: Array):
 	farm.harvest()
 
+func _on_wait_call(args: Array):
+	robot_wait_tick = 5
+	farm.wait()
+
 # the interpreter client has reached a line, we should highlight it
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	window.highlight_tracepoint(node, call_stack)
@@ -101,6 +113,7 @@ func _on_interpreter_client_finished():
 	if timer:
 		remove_child(timer)
 	# TODO: show failure screen here
+	failure.emit()
 
 func _on_interpreter_client_error(message):
 	window.print_to_console(message)

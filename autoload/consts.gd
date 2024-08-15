@@ -23,5 +23,5 @@ var DEFAULT_BUILTIN_CONSTS = {
 	"RIGHT": Const.Direction.EAST,
 	"LEFT": Const.Direction.WEST,
 	"GRAPE": Const.PlantType.PLANT_GRAPE,
-	"CORN": Const.PlantType.PLANT_GRAPE,
+	"CORN": Const.PlantType.PLANT_CORN,
 }
