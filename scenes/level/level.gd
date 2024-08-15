@@ -44,6 +44,13 @@ func update_score():
 	# Access the Score Label node and update its text
 	var score_label = $Score
 	score_label.text = "Score: " + str(score)
+	
+func reset_score():
+	# Access the Score Label node and update its text
+	score = 1000
+	var score_label = $Score
+	score_label.text = "Score: " + str(score)
+	
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -77,6 +84,7 @@ func _on_window_kill_button_pressed():
 		remove_child(timer)
 	interpreter_client.kill()
 	farm.reset()
+	reset_score()
 
 func _on_timer_tick():
 	# TODO: check for victory here
