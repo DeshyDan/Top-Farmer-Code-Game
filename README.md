@@ -4,8 +4,7 @@ You should be able to use loops, variables and
 if statements to plant and harvest four crops
 from the 2x2 grid. The syntax is very similar to
 gdscript, so check https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html for info 
-on how to program in the game. Most advanced things like
-classes, match statements, etc aren't implemented. You
+on how to program in the game. You
 also need to declare variables before using them (for now).
 
 ### Running the game:
