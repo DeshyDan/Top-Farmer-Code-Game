@@ -33,10 +33,10 @@ scale = Vector2(8.19, 8.19)
 script = ExtResource("3_1ed4d")
 
 [node name="Score" type="Label" parent="."]
-offset_left = 895.0
-offset_top = 23.0
-offset_right = 994.0
-offset_bottom = 55.0
+offset_left = 848.0
+offset_top = 21.0
+offset_right = 947.0
+offset_bottom = 53.0
 theme_override_font_sizes/font_size = 23
 text = "Score: 0"
 uppercase = true
