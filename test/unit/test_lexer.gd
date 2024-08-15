@@ -38,7 +38,7 @@ func test_lexer_errors(params=use_parameters(params_errors)):
 	var expected_index = 0
 	for expected: String in params.expected:
 		if expected.begins_with("Error"):
-			assert_ne(lexer.lexer_error, Lexer.LexerError.OK, params.filename)
+			assert_ne(lexer.lexer_error.error_code, LexerError.ErrorCode.OK, params.filename)
 			assert_eq(token.type, Token.Type.EOF)	# if we errored, should be EOF
 			assert_eq(lexer.get_next_token().type, Token.Type.EOF) # every succussive call should be EOF
 			break

@@ -22,6 +22,8 @@ var ast: AST
 signal tick
 signal tracepoint(node: AST, call_stack: CallStack)
 signal finished
+signal runtime_error(runtime_error: RuntimeError)
+signal never
 
 func _init(tree: AST):
 	ast = tree
@@ -37,6 +39,26 @@ func _init(tree: AST):
 
 func start():
 	await visit(ast)
+
+
+func visit(node: AST):
+	# check context for errors before every visit
+	var ar = call_stack.peek()
+	if ar.error.error_code:
+		runtime_error.emit(ar.error)
+		ar.set_return(null)
+		await never		# hack for now
+	return await super(node)
+
+func error(error_code: RuntimeError.ErrorCode, token: Token, message: String):
+	var ar = call_stack.peek()
+	var r_error = RuntimeError.new(error_code, token, message)
+	ar.set_error(r_error)
+
+func set_builtin_consts(const_dict: Dictionary):
+	var ar = call_stack.peek()
+	for key in const_dict.keys():
+		ar.set_item(key, const_dict[key])
 
 func tracepoint_reached(node: AST):
 	tracepoint.emit(node, call_stack.shallow_copy())
@@ -97,6 +119,7 @@ func visit_function_call(node: FunctionCall):
 		ar,
 		node.token
 	)
+	new_ar.set_error(ar.error)
 	
 	for i in range(len(function_decl.args)):
 		var arg_decl: VarDecl = function_decl.args[i] # x: int
@@ -127,6 +150,11 @@ func visit_binary_op(node: BinaryOP):
 		Token.Type.MUL:
 			return l * r
 		Token.Type.DIV:
+			if r == 0:
+				error(RuntimeError.ErrorCode.DIV_BY_ZERO,
+					  node.right.token,
+					  "Division by zero")
+				return
 			return l / r
 		Token.Type.MOD:
 			return l % r

@@ -16,6 +16,9 @@ func error(from, error_code: GError.ErrorCode, token: Token):
 		from
 		)
 
+func set_builtin_consts(const_dict: Dictionary):
+	current_scope.init_builtin_consts(const_dict)
+
 func visit_block(node: Block):
 	for statement in node.children:
 		visit(statement)

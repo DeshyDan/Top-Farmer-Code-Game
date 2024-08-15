@@ -3,26 +3,20 @@ extends CharacterBody2D
 
 var robot_tile_coords:Vector2i = Vector2i(0,0)
 @onready var animated_sprite = $AnimatedSprite2D
-enum Direction {
-	NORTH,
-	SOUTH, 
-	EAST,
-	WEST 
-}
 
-func move(dir:Direction):
+func move(dir:Const.Direction):
 	var vec: Vector2i
 	match dir:
-		Direction.NORTH:
+		Const.Direction.NORTH:
 			vec = Vector2i.UP
 			change_direction(vec)
-		Direction.SOUTH:
+		Const.Direction.SOUTH:
 			vec = Vector2i.DOWN
 			change_direction(vec)
-		Direction.EAST:
+		Const.Direction.EAST:
 			vec = Vector2i.RIGHT
 			change_direction(vec)
-		Direction.WEST:
+		Const.Direction.WEST:
 			vec = Vector2i.LEFT
 			change_direction(vec)
 	

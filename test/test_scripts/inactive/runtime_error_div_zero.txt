@@ -1,0 +1,4 @@
+var a: int
+a = 3/0
+#expect
+Error RuntimeError Division by zero

@@ -7,32 +7,27 @@ var current_token: Token
 var parser_error: GError
 var error_pos = 0
 
-enum ParserError {
-	OK,
-	ERROR
-}
-
 # TODO: cleanup!!!
 
 func _init(lexer: Lexer):
 	self.lexer = lexer
 	current_token = lexer.get_next_token()
-	parser_error = GError.new(GError.ErrorCode.OK)
+	parser_error = ParserError.new(GError.ErrorCode.OK)
 
 func reset():
 	lexer.reset()
 	current_token = lexer.get_next_token()
-	parser_error = GError.new(GError.ErrorCode.OK)
+	parser_error = ParserError.new(GError.ErrorCode.OK)
 
-func error(error_code, token: Token, expected: Token):
-	parser_error = GError.new(
-		error_code,
-		token,
-		"Expected {0}".format([expected])
-	)
+func error(error_code, token: Token, expected: Token, message):
+	parser_error = GError.new(error_code,
+							  token,
+							  message)
 	current_token = Token.new(token.Type.EOF, null)
 
-func eat(token_type) -> bool:
+func eat(token_type, message = null) -> bool:
+	
+	
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
 	# and assign the next token to the self.current_token,
@@ -40,14 +35,26 @@ func eat(token_type) -> bool:
 	# return a bool in case someone needs to proceed 
 	# conditionally
 	if current_token.type == token_type:
+		var prev_token = current_token
 		current_token = lexer.get_next_token()
-		return true
+		if lexer.lexer_error.error_code:
+			error(lexer.lexer_error.error_code,
+				  prev_token,
+				  null,
+				  lexer.get_error_text())
+			return false
 	else:
-		error(GError.ErrorCode.UNEXPECTED_TOKEN,
+		# if caller didn't give us a reason to expect this token,
+		# make a generic message
+		if not message:
+			var expected_string = Token.TYPE_STRINGS[token_type] 
+			message = "Expected {0}".format([expected_string])
+		error(ParserError.ErrorCode.UNEXPECTED_TOKEN,
 				current_token,
-				Token.new(token_type, null))
+				Token.new(token_type, null), message)
 		return false
 		#current_token = Token.new(Token.Type.EOF, "EOF")
+	return true
 
 func for_statement():
 	eat(Token.Type.FOR)
@@ -287,7 +294,7 @@ func statement():
 	else:
 		error(GError.ErrorCode.UNEXPECTED_TOKEN,
 				current_token,
-				Token.new(current_token.type, null))
+				Token.new(current_token.type, null), "Expected statement")
 		current_token = Token.new(Token.Type.EOF, "EOF")
 
 func return_statement():

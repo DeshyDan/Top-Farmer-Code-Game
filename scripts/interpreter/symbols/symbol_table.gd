@@ -27,6 +27,10 @@ func lookup(name) -> Symbol:
 		return symbol
 	return enclosing_scope.lookup(name)
 
+func init_builtin_consts(const_dict: Dictionary):
+	for key in const_dict.keys():
+		define(BuiltinSymbol.new(key))
+
 func _init_builtins():
 	define(BuiltinSymbol.new("int"))
 	define(BuiltinSymbol.new("float"))

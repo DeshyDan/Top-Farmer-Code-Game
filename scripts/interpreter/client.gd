@@ -22,23 +22,23 @@ var builtin_funcs = DEFAULT_BUILTIN_FUNCS
 
 func load_source(source: String):
 	var lexer = Lexer.new(source)
-	if lexer.lexer_error:
-		show_error(lexer.get_error_text())
-		return false
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
 	if parser.parser_error.error_code:
 		show_error(parser.parser_error.message)
 		return false
 	var sem = SemanticAnalyzer.new()
+	sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
 	sem.visit(tree)
 	if sem.semantic_error.error_code:
 		show_error(sem.semantic_error.message)
 		#window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
 		return false
 	interpreter = Interpreter.new(tree)
+	interpreter.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
 	interpreter.builtin_func_call.connect(_on_builtin_func_call)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
+	interpreter.runtime_error.connect(_on_runtime_error)
 	return true
 
 func start():
@@ -69,6 +69,11 @@ func plant_call(args: Array):
 
 func harvest_call(args: Array):
 	harvest_requested.emit(args)
+
+func _on_runtime_error(err: RuntimeError):
+	show_error(err.message)
+	interpreter = null
+	finished.emit()
 
 func _on_builtin_func_call(func_name: String, args: Array):
 	builtin_funcs[func_name].call(args)
