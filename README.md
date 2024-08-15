@@ -8,28 +8,26 @@ on how to program in the game. You
 also need to declare variables before using them (for now).
 
 ### Running the game:
-There should be a Windows, Linux, and MacOS executable file
-in the export folder.
-
-Alternatively, you can load project.godot file into Godot and press
-the play button.
-
-### Building from source:
 
 You need Godot for this step. Download Godot at
 https://godotengine.org/download/. Make sure you get v4.2.2.
+
+You can load project.godot file into Godot and press
+the play button. More info in the viewing the source code section.
+
+### Building from source:
 
 Follow this tutorial to export the source code into an executable:
 
 https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html
 
-You might need to download an export config.
+You might need to download an export preset.
 
 ### Viewing the source code:
 
 We recommend using Godot to view the source code. 
 
-Open the Godot executable you downloaded, and click the import button in the 
+Open the Godot engine executable you downloaded, and click the import button in the 
 projects window. Navigate to the `project.godot` file in our project root
 and double click.
 
