@@ -71,6 +71,7 @@ func _on_window_kill_button_pressed():
 	if timer and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
+	farm.reset()
 
 func _on_timer_tick():
 	# TODO: check for victory here
