@@ -18,14 +18,11 @@ signal failure
 # can be set
 
 func check_victory():
-	if farm.harvestables.size() >= 1:
-		if farm.harvestables[0] >= victory_crop:
-			timer.stop()
-			
-			level_completed.show()
-			window.hide()
-			
-			
+	if farm.inventory.corn_quantity.text == "4":
+		victory.emit()
+		window.hide()
+		level_completed.show()
+	
 func set_level(width,height,victory_crop_quantity):
 	farm.plot_farm(width,height)
 	victory_crop = victory_crop_quantity
