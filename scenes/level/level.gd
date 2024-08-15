@@ -18,7 +18,7 @@ signal failure
 
 func check_victory():
 	print("checking for victory")
-	if farm.inventory.tomato_quantity.text == "4":
+	if farm.inventory.corn_quantity.text == "4":
 		print("Yay")
 		victory.emit()
 		

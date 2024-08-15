@@ -39,7 +39,7 @@ func harvest():
 
 func wait():
 	animated_sprite.play("wait")
-	await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.1).timeout
 	animated_sprite.play("idle")
 	
 func get_coords():

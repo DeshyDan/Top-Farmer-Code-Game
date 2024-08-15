@@ -27,7 +27,7 @@ func test_demo_unoptimized():
 	lvl.timer.timeout.connect(func(): tick_count_unoptimized += 1)
 	if not await wait_for_signal(lvl.victory, 15.0):
 		fail_test("level took too long")
-	assert_true(lvl.farm.inventory.tomato_quantity.text == "4")
+	assert_true(lvl.farm.inventory.corn_quantity.text == "4")
 	
 
 func test_demo_optimized():
@@ -39,7 +39,7 @@ func test_demo_optimized():
 	lvl.timer.timeout.connect(func(): tick_count_optimized += 1)
 	if not await wait_for_signal(lvl.victory, 15.0):
 		fail_test("level took too long")
-	assert_true(lvl.farm.inventory.tomato_quantity.text == "4")
+	assert_true(lvl.farm.inventory.corn_quantity.text == "4")
 
 func after_each():
 	lvl.queue_free()
