@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://nc5oh6noxx83"]
 
-[ext_resource type="Texture2D" uid="uid://bkdl1er6vfnui" path="res://assets/textures/objects/tomatoIcon.png" id="1_8y1yf"]
+[ext_resource type="Texture2D" uid="uid://b5fdyh337qhnl" path="res://assets/textures/objects/tomatoIcon.png" id="1_8y1yf"]
 [ext_resource type="Script" path="res://scripts/inventory_system/inventory.gd" id="1_876d8"]
-[ext_resource type="Texture2D" uid="uid://dajrl33aiyky7" path="res://assets/textures/objects/CornIcon.png" id="4_phhff"]
+[ext_resource type="Texture2D" uid="uid://cwgrt7ih7y58n" path="res://assets/textures/objects/CornIcon.png" id="4_phhff"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g3yl8"]
 
