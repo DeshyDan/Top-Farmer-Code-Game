@@ -29,6 +29,21 @@ func check_victory():
 func set_level(width,height,victory_crop_quantity):
 	farm.plot_farm(width,height)
 	victory_crop = victory_crop_quantity
+	
+	
+var score = 0
+var count = 0
+
+func add_points():
+	# Increase the score by a certain number of points
+	count += 1
+	score = 1000/count
+	update_score()
+
+func update_score():
+	# Access the Score Label node and update its text
+	var score_label = $Score
+	score_label.text = "Score: " + str(score)
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -65,6 +80,7 @@ func _on_window_kill_button_pressed():
 func _on_timer_tick():
 	# TODO: check for victory here
 	farm.tick()
+	add_points()
 	check_victory()
 	if robot_wait_tick > 0:
 		robot_wait_tick -= 1

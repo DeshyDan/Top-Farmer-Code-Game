@@ -35,6 +35,15 @@ scale = Vector2(8.19, 8.19)
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
 
+[node name="Score" type="Label" parent="."]
+offset_left = 848.0
+offset_top = 21.0
+offset_right = 947.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 23
+text = "Score: 0"
+uppercase = true
+
 [connection signal="next_level" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_next_level"]
 [connection signal="retry" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_retry"]
 [connection signal="kill_button_pressed" from="Window" to="." method="_on_window_kill_button_pressed"]
