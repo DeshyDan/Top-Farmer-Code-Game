@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://bx5163jemrhj8"]
 
 [ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_window/code_window.tscn" id="1_cw1jq"]
-[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_yy85v"]
+[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_larfg"]
 [ext_resource type="PackedScene" uid="uid://bxeid64nke54h" path="res://scenes/farm/farm.tscn" id="2_qaq0c"]
 [ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
 [ext_resource type="PackedScene" uid="uid://2j3fycp65vjp" path="res://scenes/level/level_completed.tscn" id="4_ogycu"]
 
 [node name="Level" type="Node2D"]
-script = ExtResource("1_yy85v")
+script = ExtResource("1_larfg")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

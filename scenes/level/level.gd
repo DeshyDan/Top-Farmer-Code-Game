@@ -3,9 +3,10 @@ extends Node2D
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
+@onready var level_completed = $CanvasLayer/LevelCompleted
 
 var timer: Timer
-var victory_corn:int = 4
+var victory_crop:int = 0
 var robot_wait_tick = 0
 
 @export var tick_rate = 4
@@ -17,14 +18,17 @@ signal failure
 # can be set
 
 func check_victory():
-	print("checking for victory")
-	if farm.inventory.corn_quantity.text == "4":
-		print("Yay")
-		victory.emit()
-		
-func set_level(width,height,victory_corn_quantity):
+	if farm.harvestables.size() >= 1:
+		if farm.harvestables[0] >= victory_crop:
+			timer.stop()
+			
+			level_completed.show()
+			window.hide()
+			
+			
+func set_level(width,height,victory_crop_quantity):
 	farm.plot_farm(width,height)
-	victory_corn = victory_corn_quantity
+	victory_crop = victory_crop_quantity
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -99,3 +103,11 @@ func _on_interpreter_client_error(message):
 
 func _exit_tree():
 	Node.print_orphan_nodes()
+
+
+func _on_level_completed_next_level():
+	pass
+
+
+func _on_level_completed_retry():
+	get_tree().reload_current_scene()
