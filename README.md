@@ -38,7 +38,7 @@ the editor will present you with three main views: `2D`, `3D`, and `Script`.
 `3D` is irrelevant for this project. 
 
 `2D` is used to view and edit the `.tscn`
-files. This allows you to move stuff around and change node properties without editing
+files. This allows you to move Nodes around and change node properties without editing
 config files directly.
 
 `Script` is used to edit and view our code. You can double click on any `.gd` file
