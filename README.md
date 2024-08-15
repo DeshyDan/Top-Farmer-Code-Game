@@ -20,11 +20,9 @@ the play button.
 You need Godot for this step. Download Godot at
 https://godotengine.org/download/. Make sure you get v4.2.2.
 
-If you would like to build from source, use:
+Follow this tutorial to export the source code into an executable:
 
->`$ make`
-
-(make sure you're in the project root)
+https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html
 
 You might need to download an export config.
 
