@@ -21,7 +21,7 @@ func check_victory():
 	if farm.harvestables.size() >= 1:
 		if farm.harvestables[0] >= victory_crop:
 			timer.stop()
-			
+			victory.emit()
 			level_completed.show()
 			window.hide()
 			
