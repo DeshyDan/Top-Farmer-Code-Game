@@ -13,7 +13,7 @@ script/source = "extends Node2D
 @onready var level_completed = $CanvasLayer/LevelCompleted
 
 var timer: Timer
-var victory_corn:int = 0
+var victory_crop:int = 0
 
 @export var tick_rate = 4
 
@@ -22,16 +22,16 @@ var victory_corn:int = 0
 
 func check_victory():
 	if farm.harvestables.size() >= 1:
-		if farm.harvestables[0] >= 1:
+		if farm.harvestables[0] >= victory_crop:
 			timer.stop()
 			
 			level_completed.show()
 			window.hide()
 			
 			
-func set_level(width,height,victory_corn_quantity):
+func set_level(width,height,victory_crop_quantity):
 	farm.plot_farm(width,height)
-	victory_corn = victory_corn_quantity
+	victory_crop = victory_crop_quantity
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
