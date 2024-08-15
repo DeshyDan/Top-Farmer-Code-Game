@@ -71,6 +71,9 @@ func redraw_farm():
 			var atlas_x = min(plant.age, 3)
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), plant.get_source_id(), Vector2i(atlas_x, 0))
 
+func wait():
+	robot.wait()
+
 func harvest():
 	# get age of plant under robot, if age >= plant.max_age -> harvest
 	# else remove plant, but dont add to inventory

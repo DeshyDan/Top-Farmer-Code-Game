@@ -4,16 +4,19 @@ extends Node
 signal finished
 signal tracepoint_reached(node: AST, call_stack: CallStack)
 signal error(message: String)
+
 signal print_requested(args: Array)
 signal move_requested(args: Array)
 signal plant_requested(args: Array)
 signal harvest_requested(args: Array)
+signal wait_requested(args: Array)
 
 var DEFAULT_BUILTIN_FUNCS = {
 	"print": print_call,
 	"move": move_call,
 	"plant": plant_call,
-	"harvest": harvest_call
+	"harvest": harvest_call,
+	"wait": wait_call
 }
 
 var interpreter: Interpreter
@@ -29,6 +32,7 @@ func load_source(source: String):
 		return false
 	var sem = SemanticAnalyzer.new()
 	sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
+	sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
 	sem.visit(tree)
 	if sem.semantic_error.error_code:
 		show_error(sem.semantic_error.message)
@@ -39,6 +43,7 @@ func load_source(source: String):
 	interpreter.builtin_func_call.connect(_on_builtin_func_call)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
 	interpreter.runtime_error.connect(_on_runtime_error)
+	interpreter.finished.connect(_on_interpreter_finished)
 	return true
 
 func start():
@@ -69,6 +74,12 @@ func plant_call(args: Array):
 
 func harvest_call(args: Array):
 	harvest_requested.emit(args)
+
+func wait_call(args: Array):
+	wait_requested.emit(args)
+
+func _on_interpreter_finished():
+	finished.emit()
 
 func _on_runtime_error(err: RuntimeError):
 	show_error(err.message)

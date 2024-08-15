@@ -103,7 +103,7 @@ func visit_function_call(node: FunctionCall):
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
 	
 	# TODO: nice builtin function interface
-	if node.name.name in ["print", "plant","move","harvest"]:
+	if node.name.name in ["print", "plant","move","harvest","wait"]:
 		var args = []
 		for arg in node.args:
 			args.append(await visit(arg))

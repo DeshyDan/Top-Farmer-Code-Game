@@ -14,8 +14,3 @@ func _ready():
 	var victory_corn_quantity:int = 4
 	
 	lvl.set_level(width,height,victory_corn_quantity)
-	
-
-	
-	
-

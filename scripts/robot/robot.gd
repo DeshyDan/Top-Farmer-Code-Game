@@ -36,6 +36,11 @@ func harvest():
 	animated_sprite.play("harvesting")
 	await get_tree().create_timer(0.2).timeout
 	animated_sprite.play("idle")
+
+func wait():
+	animated_sprite.play("wait")
+	await get_tree().create_timer(0.2).timeout
+	animated_sprite.play("idle")
 	
 func get_coords():
 	return robot_tile_coords

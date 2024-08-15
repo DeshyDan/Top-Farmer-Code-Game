@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=30 format=3 uid="uid://b633heijf0big"]
+[gd_resource type="SpriteFrames" load_steps=31 format=3 uid="uid://b633heijf0big"]
 
 [ext_resource type="Texture2D" uid="uid://b7evufppml3hg" path="res://assets/tilesets/player/player.png" id="1_thw1q"]
 [ext_resource type="Texture2D" uid="uid://cb4nra15qsqdl" path="res://assets/tilesets/player/player_actions.png" id="2_ptnc7"]
@@ -111,6 +111,10 @@ region = Rect2(0, 288, 48, 48)
 atlas = ExtResource("2_ptnc7")
 region = Rect2(48, 288, 48, 48)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_brepf"]
+atlas = ExtResource("1_thw1q")
+region = Rect2(96, 288, 32, 32)
+
 [resource]
 animations = [{
 "frames": [{
@@ -222,5 +226,13 @@ animations = [{
 }],
 "loop": true,
 "name": &"planting",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_brepf")
+}],
+"loop": true,
+"name": &"wait",
 "speed": 10.0
 }]
