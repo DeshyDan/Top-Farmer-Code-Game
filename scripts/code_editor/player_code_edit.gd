@@ -18,6 +18,8 @@ func _init():
 
 func _ready():
 	_background_color = get_theme_color("background_color")
+	for key in Const.DEFAULT_BUILTIN_CONSTS:
+		syntax_highlighter.keyword_colors[key] = Color.AQUAMARINE
 
 func highlight_line(lineno):
 	var tween = get_tree().create_tween()

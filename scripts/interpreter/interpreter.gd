@@ -40,6 +40,7 @@ func _init(tree: AST):
 func start():
 	await visit(ast)
 
+
 func visit(node: AST):
 	# check context for errors before every visit
 	var ar = call_stack.peek()
@@ -54,6 +55,11 @@ func visit(node: AST):
 func error(error_code: RuntimeError.ErrorCode, token: Token, message: String):
 	var r_error = RuntimeError.new(error_code, token, message)
 	call_stack.set_error(r_error)
+
+func set_builtin_consts(const_dict: Dictionary):
+	var ar = call_stack.peek()
+	for key in const_dict.keys():
+		ar.set_item(key, const_dict[key])
 
 func tracepoint_reached(node: AST):
 	tracepoint.emit(node, call_stack.shallow_copy())
@@ -98,11 +104,12 @@ func visit_function_call(node: FunctionCall):
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
 	
 	# TODO: nice builtin function interface
-	if node.name.name in ["print", "plant","move","harvest"]:
+	if node.name.name in ["print", "plant","move","harvest","wait"]:
 		var args = []
 		for arg in node.args:
 			args.append(await visit(arg))
 		builtin_func_call.emit(node.name.name, args)
+		await tracepoint_reached(node)
 		return	# TODO: await input
 	
 	#await tracepoint_reached(function_decl)

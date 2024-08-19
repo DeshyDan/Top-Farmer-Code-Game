@@ -1,0 +1,7 @@
+var x:int
+x = 0
+while x < 4:
+	plant(CORN)
+	wait()
+	harvest()
+	x = x+1

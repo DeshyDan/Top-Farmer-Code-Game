@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://bx5163jemrhj8"]
+
+[ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_window/code_window.tscn" id="1_cw1jq"]
+[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_larfg"]
+[ext_resource type="PackedScene" uid="uid://bxeid64nke54h" path="res://scenes/farm/farm.tscn" id="2_qaq0c"]
+[ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
+[ext_resource type="PackedScene" uid="uid://2j3fycp65vjp" path="res://scenes/level/level_completed.tscn" id="4_ogycu"]
+
+[node name="Level" type="Node2D"]
+script = ExtResource("1_larfg")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
+visible = false
+
+[node name="Window" parent="." instance=ExtResource("1_cw1jq")]
+position = Vector2i(35, 36)
+size = Vector2i(535, 440)
+content_scale_mode = 2
+default_text = "for cycle in [0,1]:
+	for dir in [RIGHT, DOWN, LEFT, UP]:
+		if cycle == 0:
+			plant(GRAPE)
+		else:
+			harvest()
+		move(dir)
+
+	"
+
+[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+position = Vector2(723, 169)
+scale = Vector2(8.19, 8.19)
+
+[node name="InterpreterClient" type="Node" parent="."]
+script = ExtResource("3_1ed4d")
+
+[node name="Score" type="Label" parent="."]
+offset_left = 848.0
+offset_top = 21.0
+offset_right = 947.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 23
+text = "Score: 0"
+uppercase = true
+
+[connection signal="next_level" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_next_level"]
+[connection signal="retry" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_retry"]
+[connection signal="kill_button_pressed" from="Window" to="." method="_on_window_kill_button_pressed"]
+[connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
+[connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]
+[connection signal="error" from="InterpreterClient" to="." method="_on_interpreter_client_error"]
+[connection signal="finished" from="InterpreterClient" to="." method="_on_interpreter_client_finished"]
+[connection signal="harvest_requested" from="InterpreterClient" to="." method="_on_harvest_call"]
+[connection signal="move_requested" from="InterpreterClient" to="." method="_on_move_call"]
+[connection signal="plant_requested" from="InterpreterClient" to="." method="_on_plant_call"]
+[connection signal="print_requested" from="InterpreterClient" to="." method="_on_print_call"]
+[connection signal="tracepoint_reached" from="InterpreterClient" to="." method="_on_tracepoint_reached"]
+[connection signal="wait_requested" from="InterpreterClient" to="." method="_on_wait_call"]

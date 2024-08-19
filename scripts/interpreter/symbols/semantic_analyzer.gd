@@ -16,6 +16,12 @@ func error(from, error_code: GError.ErrorCode, token: Token):
 		from
 		)
 
+func set_builtin_consts(const_dict: Dictionary):
+	current_scope.init_builtin_consts(const_dict)
+
+func set_builtin_funcs(func_dict: Dictionary):
+	current_scope.init_builtin_funcs(func_dict)
+
 func visit_block(node: Block):
 	for statement in node.children:
 		visit(statement)
@@ -71,11 +77,18 @@ func visit_function_decl(node: FunctionDecl):
 
 func visit_function_call(node: FunctionCall):
 	var func_symbol: Symbol = current_scope.lookup(node.name.name)
-	if len(node.args) != len(func_symbol.params):
-			error("Arg count mismatch",
+	if not func_symbol:
+		error("Undefined function",
 					GError.ErrorCode.UNEXPECTED_TOKEN,
 					node.token
 					)
+		return
+	if len(node.args) != len(func_symbol.params):
+		error("Arg count mismatch",
+				GError.ErrorCode.UNEXPECTED_TOKEN,
+				node.token
+				)
+		return
 	for arg in node.args:
 		visit(arg)
 

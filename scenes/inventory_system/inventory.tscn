@@ -1,0 +1,108 @@
+[gd_scene load_steps=5 format=3 uid="uid://nc5oh6noxx83"]
+
+[ext_resource type="Texture2D" uid="uid://b5fdyh337qhnl" path="res://assets/textures/objects/tomatoIcon.png" id="1_8y1yf"]
+[ext_resource type="Script" path="res://scripts/inventory_system/inventory.gd" id="1_876d8"]
+[ext_resource type="Texture2D" uid="uid://cwgrt7ih7y58n" path="res://assets/textures/objects/CornIcon.png" id="4_phhff"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g3yl8"]
+
+[node name="inventory" type="Node"]
+script = ExtResource("1_876d8")
+
+[node name="inventoryWindow" type="Panel" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -143.0
+offset_bottom = 78.0
+grow_horizontal = 0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="GridContainer" type="GridContainer" parent="inventoryWindow"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -51.0
+offset_top = -24.0
+offset_right = 51.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 6
+columns = 2
+
+[node name="TomatoSlot" type="Panel" parent="inventoryWindow/GridContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/TomatoSlot"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "0"
+label_settings = SubResource("LabelSettings_g3yl8")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="inventoryWindow/GridContainer/TomatoSlot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_8y1yf")
+expand_mode = 1
+
+[node name="CornSlot" type="Panel" parent="inventoryWindow/GridContainer"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+
+[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/CornSlot"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "0"
+label_settings = SubResource("LabelSettings_g3yl8")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="inventoryWindow/GridContainer/CornSlot"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_phhff")
+expand_mode = 1
