@@ -7,6 +7,7 @@ const test_features_path = "res://test/test_scripts/interpreter/features/"
 const test_errors_path = "res://test/test_scripts/interpreter/errors/"
 
 var interpreter: Interpreter
+var mut = Mutex.new()
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -74,12 +75,19 @@ func test_interpreter_errors(params=use_parameters(params_errors)):
 		fail_test("Interpreter took too long to error")
 	var ar = interpreter.call_stack.peek()
 	assert_ne(ar.error.error_code, RuntimeError.ErrorCode.OK, "Expected runtime error to set ar error")
+	mut.lock()
 	interpreter = null
+	mut.unlock()
 	ticker_thread.wait_to_finish()
 
 func auto_tick():
 	while interpreter != null:
+		mut.lock()
+		if interpreter == null:
+			mut.unlock()
+			break
 		interpreter.tick.emit()
+		mut.unlock()
 
 func after_each():
 	interpreter = null
