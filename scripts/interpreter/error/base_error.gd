@@ -15,6 +15,8 @@ enum ErrorCode {
 	
 	# runtime errors
 	DIV_BY_ZERO,
+	RECURSION_ERR,
+	REF_ERROR,
 }
 
 var error_code: ErrorCode

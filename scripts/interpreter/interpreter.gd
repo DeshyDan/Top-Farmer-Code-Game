@@ -7,13 +7,7 @@ signal plant_requested(plant)
 signal harvest_requested
 signal builtin_func_call(func_name, args)
 
-var interpreter_error: InterpreterError
 var error_pos = 0
-
-enum InterpreterError {
-	OK,
-	ERROR
-}
 
 var call_stack: CallStack
 
@@ -24,6 +18,8 @@ signal tracepoint(node: AST, call_stack: CallStack)
 signal finished
 signal runtime_error(runtime_error: RuntimeError)
 signal never
+
+const MAX_RECURSION = 100
 
 func _init(tree: AST):
 	ast = tree
@@ -40,21 +36,13 @@ func _init(tree: AST):
 func start():
 	await visit(ast)
 
-
-func visit(node: AST):
-	# check context for errors before every visit
-	var ar = call_stack.peek()
-	if ar.error.error_code:
-		runtime_error.emit(ar.error)
-		ar.set_return(null)
-		finished.emit()
-	if ar.should_return:
-		return ar.return_val
-	return await super(node)
-
 func error(error_code: RuntimeError.ErrorCode, token: Token, message: String):
+	var ar = call_stack.peek()
 	var r_error = RuntimeError.new(error_code, token, message)
-	call_stack.set_error(r_error)
+	ar.set_error(r_error)
+	runtime_error.emit(ar.error)
+	ar.set_return(null)
+	await never		# hack for now
 
 func set_builtin_consts(const_dict: Dictionary):
 	var ar = call_stack.peek()
@@ -102,6 +90,11 @@ func visit_array_literal(node: ArrayNode):
 func visit_function_call(node: FunctionCall):
 	var ar = call_stack.peek()
 	var function_decl: FunctionDecl = ar.get_item(node.name.name)
+	
+	if ar.nesting_level >= MAX_RECURSION:
+		await error(RuntimeError.ErrorCode.RECURSION_ERR,
+					  node.token,
+					  "Max recursion depth reached")
 	
 	# TODO: nice builtin function interface
 	if node.name.name in ["print", "plant","move","harvest","wait"]:
@@ -152,12 +145,17 @@ func visit_binary_op(node: BinaryOP):
 			return l * r
 		Token.Type.DIV:
 			if r == 0:
-				error(RuntimeError.ErrorCode.DIV_BY_ZERO,
+				await error(RuntimeError.ErrorCode.DIV_BY_ZERO,
 					  node.right.token,
 					  "Division by zero")
 				return
 			return l / r
 		Token.Type.MOD:
+			if r == 0:
+				await error(RuntimeError.ErrorCode.DIV_BY_ZERO,
+					  node.right.token,
+					  "Division by zero")
+				return
 			return l % r
 		Token.Type.LESS_THAN:
 			return l < r
@@ -217,6 +215,11 @@ func visit_var_decl(node: VarDecl):
 
 func visit_var(node: Var):
 	var ar = call_stack.peek()
+	var value = ar.get_item(node.name)
+	if value == null:
+		await error(RuntimeError.ErrorCode.REF_ERROR,
+					  node.token,
+					  "Variable {0} is not defined".format([node.name]))
 	return ar.get_item(node.name)
 
 func visit_no_op(node: NoOp):
