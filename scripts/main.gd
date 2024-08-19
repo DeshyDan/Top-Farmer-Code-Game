@@ -2,6 +2,9 @@ extends Node2D
 
 @onready var level_scene:PackedScene = preload("res://scenes/level/level.tscn")
 
+const TOMATO = 1
+const CORN = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Instantiate the loaded scene
@@ -11,6 +14,9 @@ func _ready():
 	
 	var width:int = 2
 	var height:int = 2
-	var victory_corn_quantity:int = 4
+	var goal_harvest = {
+		CORN: 4, 
+		TOMATO: 4
+	}
 	
-	lvl.set_level(width,height,victory_corn_quantity)
+	lvl.set_level(width,height,goal_harvest)
