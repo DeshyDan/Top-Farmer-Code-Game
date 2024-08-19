@@ -6,7 +6,7 @@ var params_errors
 const test_features_path = "res://test/test_scripts/interpreter/features/"
 const test_errors_path = "res://test/test_scripts/interpreter/errors/"
 
-var interpreter_client: InterpreterClient
+var interpreter: Interpreter
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -44,7 +44,7 @@ func test_interpreter_features(params=use_parameters(params_features)):
 	var expected_str = params.expected as String
 	#print(tree_str)
 	var expected_print = expected_str.split("\n")
-	var interpreter = Interpreter.new(tree)
+	interpreter = Interpreter.new(tree)
 	interpreter.tracepoint.connect(func (_n,_c): interpreter.tick.emit())
 	interpreter.print_requested.connect(
 		func (args):
@@ -55,6 +55,34 @@ func test_interpreter_features(params=use_parameters(params_features)):
 	)
 	interpreter.start()
 	#print(tree_str)
+
+func test_interpreter_errors(params=use_parameters(params_errors)):
+	var lexer = Lexer.new(params.source)
+	var parser = Parser.new(lexer)
+	var tree = parser.parse()
+	assert_eq(parser.parser_error.error_code, GError.ErrorCode.OK, "{0}: Unexpected parser error: {1}".format([params.filename, parser.parser_error.message]))
+	var tree_str = str(tree)
+	var expected_index = 0
+	var expected_str = params.expected as String
+	#print(tree_str)
+	var expected_print = expected_str.split("\n")
+	interpreter = Interpreter.new(tree)
+	var ticker_thread = Thread.new()
+	ticker_thread.start(auto_tick)
+	interpreter.start()
+	if not await wait_for_signal(interpreter.runtime_error, 15, "Waiting for runtime error"):
+		fail_test("Interpreter took too long to error")
+	var ar = interpreter.call_stack.peek()
+	assert_ne(ar.error.error_code, RuntimeError.ErrorCode.OK, "Expected runtime error to set ar error")
+	interpreter = null
+	ticker_thread.wait_to_finish()
+
+func auto_tick():
+	while interpreter != null:
+		interpreter.tick.emit()
+
+func after_each():
+	interpreter = null
 
 func get_token_source(token: Token, source: String):
 	var splitsource = source.split("\n")

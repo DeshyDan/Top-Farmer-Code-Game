@@ -1,0 +1,6 @@
+func recurse():
+	return recurse()
+
+recurse()
+#expect
+Error RuntimeError Max recursion depth reached
