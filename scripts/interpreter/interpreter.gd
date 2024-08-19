@@ -41,6 +41,7 @@ func error(error_code: RuntimeError.ErrorCode, token: Token, message: String):
 	var r_error = RuntimeError.new(error_code, token, message)
 	ar.set_error(r_error)
 	runtime_error.emit(ar.error)
+	finished.emit()
 	ar.set_return(null)
 	await never		# hack for now
 

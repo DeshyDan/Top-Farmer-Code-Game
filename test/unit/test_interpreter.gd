@@ -8,6 +8,7 @@ const test_errors_path = "res://test/test_scripts/interpreter/errors/"
 
 var interpreter: Interpreter
 var mut = Mutex.new()
+var ticker_thread: Thread
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -55,7 +56,7 @@ func test_interpreter_features(params=use_parameters(params_features)):
 			assert_eq(expected_print.pop_front(), args.get(0), "Incorrect print")
 	)
 	interpreter.start()
-	#print(tree_str)
+	wait_for_signal(interpreter.finished, 5, "waiting for interpreter to finish")
 
 func test_interpreter_errors(params=use_parameters(params_errors)):
 	var lexer = Lexer.new(params.source)
@@ -68,28 +69,21 @@ func test_interpreter_errors(params=use_parameters(params_errors)):
 	#print(tree_str)
 	var expected_print = expected_str.split("\n")
 	interpreter = Interpreter.new(tree)
-	var ticker_thread = Thread.new()
-	ticker_thread.start(auto_tick)
 	interpreter.start()
-	if not await wait_for_signal(interpreter.runtime_error, 15, "Waiting for runtime error"):
-		fail_test("Interpreter took too long to error")
+	await wait_until(check_error, 15)
 	var ar = interpreter.call_stack.peek()
-	assert_ne(ar.error.error_code, RuntimeError.ErrorCode.OK, "Expected runtime error to set ar error")
-	mut.lock()
-	interpreter = null
-	mut.unlock()
-	ticker_thread.wait_to_finish()
+	assert_ne(ar.error.error_code, RuntimeError.ErrorCode.OK, "Expected parser error")
 
-func auto_tick():
-	while interpreter != null:
-		mut.lock()
-		if interpreter == null:
-			mut.unlock()
-			break
-		interpreter.tick.emit()
-		mut.unlock()
+func check_error():
+	var ar = interpreter.call_stack.peek()
+	var result = ar.error.error_code != RuntimeError.ErrorCode.OK
+	interpreter.tick.emit()
+	return result
 
 func after_each():
+	interpreter = null
+
+func after_all():
 	interpreter = null
 
 func get_token_source(token: Token, source: String):

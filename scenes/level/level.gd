@@ -118,8 +118,8 @@ func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 
 func _on_interpreter_client_finished():
 	print("INTERPRETER FINISHED")
-	if timer:
-		remove_child(timer)
+	if is_instance_valid(timer):
+		timer.queue_free()
 	# TODO: show failure screen here
 	failure.emit()
 
