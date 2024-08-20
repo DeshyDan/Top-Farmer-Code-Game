@@ -15,8 +15,8 @@ func _ready():
 	var width:int = 2
 	var height:int = 2
 	var goal_harvest = {
-		CORN: 4, 
-		TOMATO: 4
+		Const.PlantType.PLANT_CORN: 4, 
+		Const.PlantType.PLANT_GRAPE: 4
 	}
 	
 	lvl.set_level(width,height,goal_harvest)
