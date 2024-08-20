@@ -28,6 +28,7 @@ func plot_farm(width:int , height:int):
 	farm_model = FarmModel.new(width, height)
 	
 	robot.position = get_tile_position(robot.get_coords())
+	robot.set_boundaries(width, height)
 
 func set_terrain_path(width: int, height: int):
 	var map = []
@@ -128,5 +129,4 @@ func reset():
 	for x in farm_model.width:
 		for y in farm_model.height:
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
-	
-	
+

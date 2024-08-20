@@ -1,6 +1,10 @@
 class_name Robot
 extends CharacterBody2D
 
+
+var x_max_boundary :int
+var y_max_boundary :int
+
 var robot_tile_coords:Vector2i = Vector2i(0,0)
 @onready var animated_sprite = $AnimatedSprite2D
 
@@ -9,23 +13,23 @@ func move(dir:Const.Direction):
 	match dir:
 		Const.Direction.NORTH:
 			vec = Vector2i.UP
-			change_direction(vec)
 		Const.Direction.SOUTH:
 			vec = Vector2i.DOWN
-			change_direction(vec)
 		Const.Direction.EAST:
 			vec = Vector2i.RIGHT
-			change_direction(vec)
 		Const.Direction.WEST:
 			vec = Vector2i.LEFT
-			change_direction(vec)
-	
+			
+	if is_out_of_bounds(self.robot_tile_coords + vec):
+		return robot_tile_coords
+		
+	change_direction(vec)
 	self.robot_tile_coords += vec
 	return robot_tile_coords
 	
 func change_direction(vec:Vector2i):
-	position.x += vec.x  *16
-	position.y += vec.y*16
+	position.x += vec.x * 16
+	position.y += vec.y * 16
 	
 func plant():
 	animated_sprite.play("planting")
@@ -46,5 +50,11 @@ func get_coords():
 	return robot_tile_coords
 func set_coords(coords:Vector2i):
 	robot_tile_coords = coords
-func _process(delta):
-	pass
+
+func set_boundaries(width:int , height:int):
+	x_max_boundary = width
+	y_max_boundary = height
+
+func is_out_of_bounds(coords: Vector2i):
+	return coords.x >= x_max_boundary or coords.x < 0 or coords.y >= y_max_boundary or coords.y < 0
+	
