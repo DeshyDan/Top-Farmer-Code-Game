@@ -1,15 +1,18 @@
 class_name Level
 extends Node2D
+
 @onready var window: CodeWindow = $Window
 @onready var farm: FarmView = $Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 @onready var level_completed = $CanvasLayer/LevelCompleted
 
-var timer: Timer
-var victory_crop:int = 0
-var robot_wait_tick = 0
-
 @export var tick_rate = 4
+
+var timer: Timer
+var robot_wait_tick = 0
+var score = 0
+var count = 0
+var goal_harvest:Dictionary
 
 signal victory
 signal failure
@@ -18,21 +21,28 @@ signal failure
 # can be set
 
 func check_victory():
-	if farm.harvestables.size() >= 1:
-		if farm.harvestables[0] >= victory_crop:
+	if(is_goal_harvest()):
 			timer.stop()
 			victory.emit()
 			level_completed.show()
 			window.hide()
 			
-			
-func set_level(width,height,victory_crop_quantity):
+func is_goal_harvest():
+	if farm.harvestables.size() != goal_harvest.size():
+		return false
+
+	for key in goal_harvest:
+		if not farm.harvestables.has(key):
+			return false
+
+		if farm.harvestables[key] < goal_harvest[key]:
+			return false
+
+	return true
+	
+func set_level(width,height,goal_harvest):
 	farm.plot_farm(width,height)
-	victory_crop = victory_crop_quantity
-	
-	
-var score = 0
-var count = 0
+	self.goal_harvest = goal_harvest
 
 func add_points():
 	# Increase the score by a certain number of points
