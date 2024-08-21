@@ -77,7 +77,7 @@ func _on_window_run_button_pressed():
 	interpreter_client.start()
 	# TODO: tick length zero => pause timer 
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
-	if timer and timer.is_inside_tree():
+	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
 	timer = Timer.new()
 	add_child(timer)
