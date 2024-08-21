@@ -28,7 +28,11 @@ default_text = "for cycle in [0,1]:
 
 	"
 
-[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+[node name="Camera2D" type="Camera2D" parent="."]
+limit_left = 0
+limit_top = 0
+
+[node name="Farm" parent="Camera2D" instance=ExtResource("2_qaq0c")]
 position = Vector2(723, 169)
 scale = Vector2(8.19, 8.19)
 

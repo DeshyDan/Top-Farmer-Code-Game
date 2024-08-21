@@ -2,7 +2,7 @@ class_name Level
 extends Node2D
 
 @onready var window: CodeWindow = $Window
-@onready var farm: FarmView = $Farm
+@onready var farm: FarmView = $Camera2D/Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 @onready var level_completed = $CanvasLayer/LevelCompleted
 
