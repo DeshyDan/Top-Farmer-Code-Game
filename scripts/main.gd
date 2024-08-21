@@ -2,9 +2,6 @@ extends Node2D
 
 @onready var level_scene:PackedScene = preload("res://scenes/level/level.tscn")
 
-const TOMATO = 1
-const CORN = 0
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Instantiate the loaded scene
