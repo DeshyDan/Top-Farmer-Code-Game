@@ -17,6 +17,9 @@ var goal_harvest:Dictionary
 signal victory
 signal failure
 
+var width = 0
+var height = 0
+
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
 
@@ -40,9 +43,23 @@ func is_goal_harvest():
 
 	return true
 	
-func set_level(width,height,goal_harvest):
+func set_level(lvl_skeleton,goal_harvest):
+	var lvl_skeleton_data = lvl_skeleton.get_as_text()
+	
+	var lvl_array = []
+	var lines = lvl_skeleton_data.split("\n")
+	
+	for line in lines:
+		if line != "":
+			var items = line.split(",")
+			lvl_array.append(items)
+			width = len(items)
+			height += 1
+	
 	farm.plot_farm(width,height)
 	self.goal_harvest = goal_harvest
+	
+
 
 func add_points():
 	# Increase the score by a certain number of points

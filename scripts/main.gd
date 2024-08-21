@@ -9,11 +9,12 @@ func _ready():
 	# Add the instance to the current scene
 	add_child(lvl)
 	
-	var width:int = 2
-	var height:int = 2
+	var file_path = "res://assets/levels/lvl3.txt"
+	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
+	
 	var goal_harvest = {
-		Const.PlantType.PLANT_CORN: 4, 
+		Const.PlantType.PLANT_CORN: 4,
 		Const.PlantType.PLANT_GRAPE: 4
 	}
 	
-	lvl.set_level(width,height,goal_harvest)
+	lvl.set_level(lvl_skeleton,goal_harvest)
