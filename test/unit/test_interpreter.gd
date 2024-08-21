@@ -3,8 +3,12 @@ extends GutTest
 var params_features
 var params_errors
 
-const test_features_path = "res://test/test_scripts/parser/features/"
-const test_errors_path = "res://test/test_scripts/parser/errors/"
+const test_features_path = "res://test/test_scripts/interpreter/features/"
+const test_errors_path = "res://test/test_scripts/interpreter/errors/"
+
+var interpreter: Interpreter
+var mut = Mutex.new()
+var ticker_thread: Thread
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -32,7 +36,7 @@ func before_all():
 		else:
 			params_errors = params
 
-func test_parser_features(params=use_parameters(params_features)):
+func test_interpreter_features(params=use_parameters(params_features)):
 	var lexer = Lexer.new(params.source)
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
@@ -42,7 +46,7 @@ func test_parser_features(params=use_parameters(params_features)):
 	var expected_str = params.expected as String
 	#print(tree_str)
 	var expected_print = expected_str.split("\n")
-	var interpreter = Interpreter.new(tree)
+	interpreter = Interpreter.new(tree)
 	interpreter.tracepoint.connect(func (_n,_c): interpreter.tick.emit())
 	interpreter.print_requested.connect(
 		func (args):
@@ -52,13 +56,35 @@ func test_parser_features(params=use_parameters(params_features)):
 			assert_eq(expected_print.pop_front(), args.get(0), "Incorrect print")
 	)
 	interpreter.start()
-	#print(tree_str)
+	wait_for_signal(interpreter.finished, 5, "waiting for interpreter to finish")
 
-func test_parser_errors(params=use_parameters(params_errors)):
+func test_interpreter_errors(params=use_parameters(params_errors)):
 	var lexer = Lexer.new(params.source)
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
-	assert_ne(parser.parser_error.error_code, GError.ErrorCode.OK, "%s: Expected parser error" % params.filename)
+	assert_eq(parser.parser_error.error_code, GError.ErrorCode.OK, "{0}: Unexpected parser error: {1}".format([params.filename, parser.parser_error.message]))
+	var tree_str = str(tree)
+	var expected_index = 0
+	var expected_str = params.expected as String
+	#print(tree_str)
+	var expected_print = expected_str.split("\n")
+	interpreter = Interpreter.new(tree)
+	interpreter.start()
+	await wait_until(check_error, 15)
+	var ar = interpreter.call_stack.peek()
+	assert_ne(ar.error.error_code, RuntimeError.ErrorCode.OK, "Expected parser error")
+
+func check_error():
+	var ar = interpreter.call_stack.peek()
+	var result = ar.error.error_code != RuntimeError.ErrorCode.OK
+	interpreter.tick.emit()
+	return result
+
+func after_each():
+	interpreter = null
+
+func after_all():
+	interpreter = null
 
 func get_token_source(token: Token, source: String):
 	var splitsource = source.split("\n")

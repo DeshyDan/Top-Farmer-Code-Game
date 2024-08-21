@@ -4,26 +4,4 @@ func add(x:int, y:int):
 print(add(add(2,3),4))
 
 #expect
-Program:
-  Block:
-    FunctionDecl: add
-      VarDecl:
-        Var: x
-        Type: int
-      VarDecl:
-        Var: y
-        Type: int
-      Block:
-        ReturnStatement:
-          BinaryOp: +
-            Var: x
-            Var: y
-    FunctionCall:
-      Var: print
-      FunctionCall:
-        Var: add
-        FunctionCall:
-          Var: add
-          Number: 2
-          Number: 3
-        Number: 4
+9

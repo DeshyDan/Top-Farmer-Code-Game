@@ -48,8 +48,8 @@ func _end_wait():
 	elif(_wait_frames > 0):
 		_did_last_wait_timeout = _elapsed_frames >= _wait_frames
 
-	if(_signal_to_wait_on != null and _signal_to_wait_on.is_connected(_signal_callback)):
-		_signal_to_wait_on.disconnect(_signal_callback)
+	#if(_signal_to_wait_on != null and _signal_to_wait_on.is_connected(_signal_callback)):
+		#_signal_to_wait_on.disconnect(_signal_callback)
 
 	_wait_time = 0.0
 	_wait_frames = 0

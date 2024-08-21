@@ -26,7 +26,10 @@ func error(error_code, token: Token, expected: Token, message):
 	current_token = Token.new(token.Type.EOF, null)
 
 func eat(token_type, message = null) -> bool:
-	
+	# if we're already in an error state, return 
+	# so we don't overwrite the current error
+	if parser_error.error_code != GError.ErrorCode.OK:
+		return false
 	
 	# compare the current token type with the passed token
 	# type and if they match then "eat" the current token
@@ -59,9 +62,9 @@ func eat(token_type, message = null) -> bool:
 func for_statement():
 	eat(Token.Type.FOR)
 	var identifier = variable()
-	eat(Token.Type.IN)
+	eat(Token.Type.IN, "Expected 'in' after '%s'" % identifier.name)
 	var iterable = expr()
-	eat(Token.Type.COLON)
+	eat(Token.Type.COLON, "Expected ':' after for loop declaration")
 	var block = statement_or_suite()
 	return ForLoop.new(identifier, iterable, block)
 
@@ -76,7 +79,7 @@ func array_decl():
 	while current_token.type == Token.Type.COMMA:
 		eat(Token.Type.COMMA)
 		result.items.append(expr())
-	eat(Token.Type.RSQUARE)
+	eat(Token.Type.RSQUARE, "Expected closing ']' after array declaration")
 	return result
 
 func literal():
@@ -84,7 +87,7 @@ func literal():
 	if token.type == Token.Type.LPAREN:
 		eat(Token.Type.LPAREN)
 		var result = expr()
-		if not eat(Token.Type.RPAREN):
+		if not eat(Token.Type.RPAREN, "Expected closing ')'"):
 			return
 		return result
 	elif token.type == Token.Type.LSQUARE:
@@ -116,7 +119,7 @@ func subscription():
 		var index_token = current_token
 		eat(Token.Type.LSQUARE)
 		result = IndexOp.new(result, index_token, expr())
-		eat(Token.Type.RSQUARE)
+		eat(Token.Type.RSQUARE, "Expected closing ']'")
 	return result
 	
 func attribute():
@@ -210,7 +213,7 @@ func expr():
 		var op_token = current_token
 		eat(Token.Type.LSQUARE)
 		var index = expr()
-		eat(Token.Type.RSQUARE)
+		eat(Token.Type.RSQUARE, "Expected closing ']'")
 		result = IndexOp.new(result, op_token, index)
 	return result
 
@@ -222,7 +225,7 @@ func program():
 func while_loop():
 	eat(Token.Type.WHILE)
 	var condition_node = expr()
-	eat(Token.Type.COLON)
+	eat(Token.Type.COLON, "Expected ':' after while loop")
 	#eat(Token.Type.NL)
 	var block_node = statement_or_suite()
 	return WhileLoop.new(condition_node, block_node)
@@ -230,13 +233,13 @@ func while_loop():
 func if_statement():
 	eat(Token.Type.IF)
 	var condition_node = expr()
-	eat(Token.Type.COLON)
+	eat(Token.Type.COLON, "Expected ':' after if statement")
 	#eat(Token.Type.NL)
 	var block_node = statement_or_suite()
 	var else_block = Block.new()
 	if current_token.type == Token.Type.ELSE:
 		eat(Token.Type.ELSE)
-		eat(Token.Type.COLON)
+		eat(Token.Type.COLON, "Expected ':' after else statement")
 		else_block = statement_or_suite()
 	return IfStatement.new(condition_node, block_node, else_block)
 
@@ -254,9 +257,9 @@ func statement_or_suite():
 	var block = Block.new()
 	if current_token.type == Token.Type.NL:
 		eat(Token.Type.NL)
-		eat(Token.Type.BEGIN)
+		eat(Token.Type.BEGIN, "Expected new indentation block")
 		block.children = suite()
-		eat(Token.Type.END)
+		eat(Token.Type.END, "Expected end of indentation block")
 	else:
 		block.children = [statement()]
 	return block
@@ -303,7 +306,7 @@ func return_statement():
 	var right_node = NoOp.new()
 	if current_token.type != Token.Type.NL:
 		right_node = expr()
-	eat(Token.Type.NL)
+	eat(Token.Type.NL, "Expected new line after return statement")
 	return ReturnStatement.new(right_node, ret_token)
 
 func assignment():
@@ -313,22 +316,22 @@ func assignment():
 	var token = current_token
 	eat(Token.Type.ASSIGN)
 	var right = expr()
-	eat(Token.Type.NL)
+	eat(Token.Type.NL, "Expected newline after assigning a value to a variable")
 	return Assignment.new(left, right, token)
 
 func var_decl():
 	eat(Token.Type.VAR)
 	var variable = variable()
-	if not eat(Token.Type.COLON):
+	if not eat(Token.Type.COLON, "Expected ':' after variable declaration"):
 		return
 	var type = type_spec()
-	if not eat(Token.Type.NL):
+	if not eat(Token.Type.NL, "Expected new line after variable declaration"):
 		return
 	return VarDecl.new(variable,type)
 
 func variable():
 	var token = current_token
-	if not eat(Token.Type.IDENT):
+	if not eat(Token.Type.IDENT, "Expected identifier/variable"):
 		return
 	var node = Var.new(token)
 	return node
@@ -347,18 +350,18 @@ func type_spec():
 func func_decl():
 	eat(Token.Type.FUNC)
 	var func_name = variable()
-	eat(Token.Type.LPAREN)
+	eat(Token.Type.LPAREN, "Expected opening '(' after function declaration")
 	var args: Array[VarDecl] = []
 	while current_token.type != current_token.Type.RPAREN and current_token.type != current_token.Type.EOF:
 		var arg_name = variable()
-		eat(Token.Type.COLON)
+		eat(Token.Type.COLON, "Expected ':' followed by a type in function declaration")
 		var arg_type = type_spec()
 		args.append(VarDecl.new(arg_name,arg_type))
 		if current_token.type == current_token.Type.RPAREN:
 			break
-		eat(Token.Type.COMMA)
-	eat(Token.Type.RPAREN)
-	eat(Token.Type.COLON)
+		eat(Token.Type.COMMA, "Expected closing ')' after function declaration, or a ',' between parameters")
+	eat(Token.Type.RPAREN, "Expected closing ')' after function declaration")
+	eat(Token.Type.COLON, "Expected ':' after function declaration")
 	#eat(Token.Type.NL)
 	var block = statement_or_suite()
 	return FunctionDecl.new(func_name, args, block)
@@ -372,9 +375,9 @@ func func_call():
 		args.append(arg)
 		if current_token.type == current_token.Type.RPAREN:
 			break
-		if not eat(Token.Type.COMMA):
+		if not eat(Token.Type.COMMA, "Expected closing ')' after function call, or a ',' between arguments"):
 			return
-	if not eat(Token.Type.RPAREN):
+	if not eat(Token.Type.RPAREN, "Expected closing ')' after function call"):
 		return
 	return FunctionCall.new(function, args, function.token)
 

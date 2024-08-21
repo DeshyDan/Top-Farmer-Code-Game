@@ -42,7 +42,9 @@ func test_demo_optimized():
 	assert_true(lvl.farm.inventory.corn_quantity.text == "4")
 
 func after_each():
-	lvl.queue_free()
+	remove_child(lvl)
+	lvl.free()
+	
 
 func after_all():
 	print(tick_count_optimized)

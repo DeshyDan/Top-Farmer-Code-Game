@@ -1,0 +1,11 @@
+func zero():
+	if 1:
+		if 1:
+			if 1:
+				if 0:
+					return 1
+				else:
+					return 0
+print(zero())
+#expect
+0

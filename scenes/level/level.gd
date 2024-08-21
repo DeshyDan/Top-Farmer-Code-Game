@@ -114,20 +114,17 @@ func _on_wait_call(args: Array):
 
 # the interpreter client has reached a line, we should highlight it
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
-	window.highlight_tracepoint(node, call_stack)
+	window.highlight_tracepoint.bind(node, call_stack).call_deferred()
 
 func _on_interpreter_client_finished():
 	print("INTERPRETER FINISHED")
-	if timer:
-		remove_child(timer)
+	if is_instance_valid(timer):
+		timer.queue_free()
 	# TODO: show failure screen here
 	failure.emit()
 
 func _on_interpreter_client_error(message):
 	window.print_to_console(message)
-
-func _exit_tree():
-	Node.print_orphan_nodes()
 
 
 func _on_level_completed_next_level():
