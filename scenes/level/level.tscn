@@ -38,7 +38,8 @@ default_text = "for cycle in [0,1]:
 	"
 
 [node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
-position = Vector2(867, 381)
+position = Vector2(723, 169)
+scale = Vector2(8.19, 8.19)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
