@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://nc5oh6noxx83" path="res://scenes/inventory_system/inventory.tscn" id="2_hxsj1"]
 [ext_resource type="TileSet" uid="uid://dkivxugfrllw6" path="res://resources/farm_tile_set.tres" id="2_qam0v"]
 [ext_resource type="PackedScene" uid="uid://bgjp81bcq4m6c" path="res://scenes/robot/robot.tscn" id="3_iavny"]
-[ext_resource type="Script" path="res://scenes/farm/Camera2D.gd" id="4_peov6"]
+[ext_resource type="PackedScene" uid="uid://cv0ij7py5kg50" path="res://scenes/camera/camera.tscn" id="3_y7u26"]
 
 [node name="Farm" type="Node2D"]
 texture_filter = 1
@@ -14,6 +14,8 @@ script = ExtResource("1_irbmt")
 
 [node name="inventory" parent="CanvasLayer" instance=ExtResource("2_hxsj1")]
 
+[node name="camera" parent="." instance=ExtResource("3_y7u26")]
+
 [node name="Grid" type="TileMap" parent="."]
 tile_set = ExtResource("2_qam0v")
 format = 2
@@ -21,13 +23,6 @@ layer_0/name = "Plant"
 layer_0/z_index = 999
 layer_1/name = "Soil"
 layer_1/tile_data = PackedInt32Array()
-
-[node name="Camera2D" type="Camera2D" parent="Grid"]
-anchor_mode = 0
-drag_left_margin = 0.0
-drag_top_margin = 0.0
-drag_bottom_margin = 0.0
-script = ExtResource("4_peov6")
 
 [node name="Robot" parent="Grid" instance=ExtResource("3_iavny")]
 position = Vector2(7, 11)
