@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxmx1dbvlr6w2"]
+
+[ext_resource type="Script" path="res://scenes/code_window/window_ui.gd" id="1_l7ydm"]
+[ext_resource type="PackedScene" uid="uid://l1gdp5ne82s6" path="res://scenes/code_window/code_editor_ui.tscn" id="2_517op"]
+
+[node name="WindowUi" type="VBoxContainer" node_paths=PackedStringArray("code_editor_ui")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_l7ydm")
+code_editor_ui = NodePath("CodeEditorUI")
+default_text = "for cycle in [0,1]:
+	for dir in [RIGHT, DOWN, LEFT, UP]:
+		if cycle == 0:
+			plant(GRAPE)
+		else:
+			harvest()
+		move(dir)"
+
+[node name="WindowBar" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+
+[node name="CodeEditorUI" parent="." instance=ExtResource("2_517op")]
+layout_mode = 2
+
+[node name="ResizePanel" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 11.835)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="Panel" type="Panel" parent="ResizePanel"]
+custom_minimum_size = Vector2(12.56, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="gui_input" from="WindowBar" to="." method="_on_window_bar_gui_input"]
+[connection signal="mouse_entered" from="WindowBar" to="." method="_on_window_bar_mouse_entered"]
+[connection signal="mouse_exited" from="WindowBar" to="." method="_on_window_bar_mouse_exited"]
+[connection signal="kill_pressed" from="CodeEditorUI" to="." method="_on_kill_pressed"]
+[connection signal="pause_pressed" from="CodeEditorUI" to="." method="_on_pause_pressed"]
+[connection signal="run_pressed" from="CodeEditorUI" to="." method="_on_run_button_pressed"]
+[connection signal="gui_input" from="ResizePanel/Panel" to="." method="_on_panel_gui_input"]
+[connection signal="mouse_entered" from="ResizePanel/Panel" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="ResizePanel/Panel" to="." method="_on_panel_mouse_exited"]

@@ -1,114 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://dl3mqmtt4hpof"]
+[gd_scene load_steps=3 format=3 uid="uid://dl3mqmtt4hpof"]
 
-[ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_h6gf0"]
 [ext_resource type="Script" path="res://scripts/code_editor/code_window.gd" id="1_p6ij5"]
-[ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="3_olf40"]
-[ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="4_1kxjy"]
-[ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="5_jutco"]
+[ext_resource type="PackedScene" uid="uid://l1gdp5ne82s6" path="res://scenes/code_window/code_editor_ui.tscn" id="2_a6qud"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td1fi"]
-bg_color = Color(0.247059, 0.443137, 0.584314, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2egim"]
-bg_color = Color(0.603922, 0.321569, 0.376471, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-
-[node name="Window" type="Window" node_paths=PackedStringArray("code_edit", "console")]
-title = "My Robot"
-position = Vector2i(10, 36)
-size = Vector2i(735, 585)
-theme = ExtResource("1_h6gf0")
+[node name="Window" type="Window"]
+position = Vector2i(0, 36)
+size = Vector2i(690, 430)
+content_scale_size = Vector2i(550, 260)
+content_scale_stretch = 1
 script = ExtResource("1_p6ij5")
-code_edit = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/Robot1")
-console = NodePath("CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/PanelContainer/RichTextLabel")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_h6gf0")
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-text = "var b: int
-b = 0
-for x in [0,1,2,3,4,5,6]:
-	plant(0)
-	move(x%2 +1)
-	"
-syntax_highlighter = ExtResource("3_olf40")
-highlight_current_line = true
-draw_tabs = true
-gutters_draw_line_numbers = true
-gutters_zero_pad_line_numbers = true
-delimiter_comments = Array[String](["#"])
-code_completion_enabled = true
-indent_automatic = true
-auto_brace_completion_enabled = true
-auto_brace_completion_highlight_matching = true
-script = ExtResource("4_1kxjy")
-executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
-layout_mode = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 2.83
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/PanelContainer"]
-layout_mode = 2
-scroll_following = true
-script = ExtResource("5_jutco")
-
-[node name="GridContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-alignment = 2
-
-[node name="Button" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Go"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="Pause" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_td1fi")
-text = "Pause"
-
-[node name="Kill" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_styles/normal = SubResource("StyleBoxFlat_2egim")
-text = "Kill"
-
-[connection signal="size_changed" from="." to="CanvasLayer/PanelContainer" method="_on_window_size_changed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Button" to="." method="_on_run_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
-[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Kill" to="." method="_on_kill_pressed"]
+[node name="PanelContainer" parent="." instance=ExtResource("2_a6qud")]

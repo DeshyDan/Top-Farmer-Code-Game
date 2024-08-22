@@ -1,4 +1,15 @@
-extends Window
+class_name CodeWindow
+extends VBoxContainer
+
+var dragging = false
+var mouse_in = false
+var draggingDistance
+var dir
+var newPosition = Vector2()
+var resizing = false
+var mouse_in_resize = false
+
+@onready var resize_panel = $ResizePanel
 
 var code_edit: PlayerEdit
 var console: Console
@@ -67,3 +78,56 @@ func _on_pause_pressed():
 
 func _on_kill_pressed():
 	kill_button_pressed.emit()
+
+
+func _on_window_bar_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.is_pressed() && mouse_in:
+			draggingDistance = position.distance_to(get_viewport().get_mouse_position())
+			dir = (get_viewport().get_mouse_position() - position).normalized()
+			dragging = true
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+		else:
+			dragging = false
+			
+	elif event is InputEventMouseMotion:
+		if dragging:
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+			position = newPosition
+
+func _on_window_bar_mouse_entered():
+	mouse_in = true
+
+func _on_window_bar_mouse_exited():
+	mouse_in = false
+
+
+#func _on_child_entered_tree(node):
+	#move_child.call_deferred(resize_panel,-1)
+
+func _on_panel_mouse_entered():
+	mouse_in_resize = true
+
+
+func _on_panel_mouse_exited():
+	mouse_in_resize = false
+
+
+func _on_panel_gui_input(event):
+	
+	if event is InputEventMouseButton:
+		if event.is_pressed() && mouse_in_resize:
+			draggingDistance = position.distance_to(get_viewport().get_mouse_position())
+			dir = (get_viewport().get_mouse_position() - position).normalized()
+			resizing = true
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+		else:
+			resizing = false
+			
+	elif event is InputEventMouseMotion:
+		if resizing:
+			print("RESIZING")
+			newPosition = get_viewport().get_mouse_position()
+			size = newPosition - position
+
+
