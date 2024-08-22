@@ -24,5 +24,15 @@ layer_0/z_index = 999
 layer_1/name = "Soil"
 layer_1/tile_data = PackedInt32Array()
 
+[node name="draggable" type="Button" parent="Grid"]
+modulate = Color(1, 1, 1, 0)
+self_modulate = Color(1, 1, 1, 0)
+offset_right = 8.0
+offset_bottom = 8.0
+size_flags_horizontal = 4
+
 [node name="Robot" parent="Grid" instance=ExtResource("3_iavny")]
-position = Vector2(7, 11)
+position = Vector2(8, 24)
+
+[connection signal="button_down" from="Grid/draggable" to="." method="_on_drag"]
+[connection signal="button_up" from="Grid/draggable" to="." method="_on_drop"]

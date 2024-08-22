@@ -10,14 +10,11 @@ var target_zoom: float = 1.0
 var tween: Tween 
 
 func _ready():
-	var tween = get_tree().create_tween()
+	tween = get_tree().create_tween()
 func _physics_process(delta: float) -> void:
 	zoom = lerp(zoom, target_zoom * Vector2.ONE, ZOOM_RATE * delta)
 	set_physics_process(not is_equal_approx(zoom.x, target_zoom))
 
-
-func _input(event):
-	print(event, " in device ", event.device)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
@@ -32,6 +29,7 @@ func _unhandled_input(event: InputEvent) -> void:
 func zoom_in() -> void:
 	target_zoom = max(target_zoom - ZOOM_INCREMENT, MIN_ZOOM)
 	set_physics_process(true)
+	
 func zoom_out() -> void:
 	target_zoom = min(target_zoom + ZOOM_INCREMENT, MAX_ZOOM)
 	set_physics_process(true)

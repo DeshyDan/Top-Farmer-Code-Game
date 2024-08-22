@@ -3,4 +3,5 @@
 [ext_resource type="Script" path="res://scripts/camera/camera.gd" id="1"]
 
 [node name="camera" type="Camera2D"]
+drag_top_margin = 0.0
 script = ExtResource("1")
