@@ -15,8 +15,3 @@ extends Resource
 @export var title: String
 @export_multiline var content: String
 
-#func _init(_title: String, _content: String, _category: String):
-	#title = _title
-	#content = _content
-	#category = _category
-#
