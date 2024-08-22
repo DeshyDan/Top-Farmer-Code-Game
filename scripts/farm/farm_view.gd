@@ -2,9 +2,10 @@ class_name FarmView
 extends Node2D
 
 
-@onready var dirt_terrain = $Grid
+@onready var dirt_terrain =$Grid
 @onready var robot: Robot = $Grid/Robot
-@onready var inventory = $inventory
+@onready var inventory = $CanvasLayer/inventory
+
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
 @export_range(2,15) var height:int = 5

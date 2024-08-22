@@ -2,10 +2,10 @@ class_name Level
 extends Node2D
 
 @onready var window: CodeWindow = $Window
-@onready var farm: FarmView = $Camera2D/Farm
+@onready var farm: FarmView = $Farm
 @onready var interpreter_client: InterpreterClient = $InterpreterClient
 @onready var level_completed = $CanvasLayer/LevelCompleted
-
+@onready var score_label = $CanvasLayer/Score
 @export var tick_rate = 4
 
 var timer: Timer
@@ -99,13 +99,11 @@ func add_points():
 
 func update_score():
 	# Access the Score Label node and update its text
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 
