@@ -6,4 +6,7 @@
 script = ExtResource("1_rrncm")
 category = "Functions"
 title = "move(direction: int)"
-content = "move moves you in a direction"
+content = "Move the robot in a direction. You can use a [url=Directions]direction[/url] built in constant as an argument. The [url=Directions]direction[/url] is an [url=Types][code]int[/code][/url], so if you want, you can just use a number as well.
+[code]
+move(RIGHT)
+[/code]"

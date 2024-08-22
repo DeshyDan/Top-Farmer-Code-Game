@@ -1,31 +1,13 @@
-@tool
+class_name HelpContents
 extends Tree
 
 var categories = {}
 signal help_contents_item_selected(help_item: HelpItem)
-var help_pages: Array[HelpItem] = []
 var contents_root: TreeItem
 # Connect signals from the Tree
 func _ready():
 	item_selected.connect(_on_tree_item_selected)
 	item_edited.connect(_on_tree_item_edited)
-	
-	
-	help_pages = load_help_pages()
-	update_tree(help_pages)
-
-func load_help_pages() -> Array[HelpItem]:
-	var result: Array[HelpItem] = []
-	var dirname = "res://resources/help_pages/"
-	var dir = DirAccess.open(dirname)
-	if dir:
-		for file_name in dir.get_files():
-			var help_item = ResourceLoader.load(dirname + "/" + file_name, "HelpItem")
-			if help_item is HelpItem:
-				result.append(help_item)
-	else:
-		push_error("Failed to find help_pages directory")
-	return result
 
 # This draws the tree from a data structure provided ("model")
 func update_tree(model: Array[HelpItem]):
