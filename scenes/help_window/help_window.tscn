@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c51c32vmgquan"]
+
+[ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_tixb0"]
+[ext_resource type="PackedScene" uid="uid://ck1m23r5xyxot" path="res://scenes/help_window/help_window_ui.tscn" id="1_tme7i"]
+
+[node name="Window" type="Window"]
+title = "Help"
+position = Vector2i(10, 36)
+size = Vector2i(735, 585)
+unfocusable = true
+theme = ExtResource("1_tixb0")
+
+[node name="HelpWindowUI" parent="." instance=ExtResource("1_tme7i")]

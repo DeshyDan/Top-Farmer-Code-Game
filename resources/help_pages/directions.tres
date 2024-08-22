@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://bfncq5jkk85kr"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_21kqq"]
+
+[resource]
+script = ExtResource("1_21kqq")
+category = "Builtin constants"
+title = "Directions"
+content = "You can use NORTH, SOUTH, EAST, WEST
+as directions for move()"
