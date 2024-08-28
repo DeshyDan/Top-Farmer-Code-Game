@@ -1,6 +1,2 @@
-1,l,2,l
-l,l,l,l
-s,s,s,s
-s,s,s,s
-s,s,s,s
-l,l,l,l
+s,l
+s,l
