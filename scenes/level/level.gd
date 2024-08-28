@@ -55,8 +55,7 @@ func set_level(lvl_skeleton,goal_harvest):
 			lvl_array.append(items)
 			width = len(items)
 			height += 1
-	print(height)
-	print(width)
+
 	var farm_model:FarmModel = FarmModel.new(width,height)
 	
 	for i in range(0,height):
@@ -68,8 +67,8 @@ func set_level(lvl_skeleton,goal_harvest):
 			# r -> rock
 			# l -> transparent water
 			# w -> water
+			## TODO: use some kind of enum to map symbol to obstacle name
 			var coord: Vector2i = Vector2i(j, i)
-			print(item)
 			if item == "#":
 				pass
 			elif item == "s":
@@ -87,7 +86,7 @@ func set_level(lvl_skeleton,goal_harvest):
 				var water = Obstacle.WATER()
 				water.set_transparency(255)
 				farm_model.add_obstacle(water,coord)
-
+			
 
 	
 	farm.plot_farm(farm_model)
