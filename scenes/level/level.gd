@@ -17,6 +17,9 @@ var goal_harvest:Dictionary
 signal victory
 signal failure
 
+var width = 0
+var height = 0
+
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
 
@@ -40,9 +43,57 @@ func is_goal_harvest():
 
 	return true
 	
-func set_level(width,height,goal_harvest):
-	farm.plot_farm(width,height)
+func set_level(lvl_skeleton,goal_harvest):
+	var lvl_skeleton_data = lvl_skeleton.get_as_text()
+	
+	var lvl_array = []
+	var lines = lvl_skeleton_data.split("\n")
+	
+	for line in lines:
+		if line != "":
+			var items = line.split(",")
+			lvl_array.append(items)
+			width = len(items)
+			height += 1
+
+	var farm_model:FarmModel = FarmModel.new(width,height)
+	
+	for i in range(0,height):
+		for j in range(0,width):
+			var item = lvl_array[i][j]
+			print(str(i) +" "+ str(j))
+			# # -> bare land
+			# s -> transparent rock
+			# r -> rock
+			# l -> transparent water
+			# w -> water
+			## TODO: use some kind of enum to map symbol to obstacle name
+			var coord: Vector2i = Vector2i(j, i)
+			if item == "#":
+				pass
+			elif item == "s":
+				var rock = Obstacle.ROCK()
+				farm_model.add_obstacle(rock,coord)
+				
+			elif item == "r":
+				var rock = Obstacle.ROCK()
+				rock.set_transparency(255)
+				farm_model.add_obstacle(rock,coord)
+			elif item == "l":
+				var water = Obstacle.WATER()
+				farm_model.add_obstacle(water,coord)
+			elif item == "w":
+				var water = Obstacle.WATER()
+				water.set_transparency(255)
+				farm_model.add_obstacle(water,coord)
+			
+
+	
+	farm.plot_farm(farm_model)
+	
 	self.goal_harvest = goal_harvest
+	
+
 
 func add_points():
 	# Increase the score by a certain number of points

@@ -20,15 +20,15 @@ var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
 
-
-func plot_farm(width:int , height:int):
-	var path = set_terrain_path(width, height)
+##CHANGE MADE
+func plot_farm(farm_model:FarmModel):
+	var path = set_terrain_path(farm_model.get_width(), farm_model.get_height())
 	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
 	
-	farm_model = FarmModel.new(width, height)
+	self.farm_model = farm_model
 	
 	robot.position = get_tile_position(robot.get_coords())
-	robot.set_boundaries(width, height)
+	robot.set_boundaries(farm_model.get_width(), farm_model.get_height())
 
 func set_terrain_path(width: int, height: int):
 	var map = []
