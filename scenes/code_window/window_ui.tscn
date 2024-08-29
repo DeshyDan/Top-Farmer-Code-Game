@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cxmx1dbvlr6w2"]
 
-[ext_resource type="Script" path="res://scenes/code_window/window_ui.gd" id="1_l7ydm"]
+[ext_resource type="Script" path="res://scripts/code_editor/window_ui.gd" id="1_l7ydm"]
 [ext_resource type="PackedScene" uid="uid://l1gdp5ne82s6" path="res://scenes/code_window/code_editor_ui.tscn" id="2_517op"]
 
 [node name="WindowUi" type="VBoxContainer" node_paths=PackedStringArray("code_editor_ui")]

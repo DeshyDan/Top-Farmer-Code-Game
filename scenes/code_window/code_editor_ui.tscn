@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://l1gdp5ne82s6"]
 
 [ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_pxwf1"]
+[ext_resource type="Script" path="res://scripts/code_editor/code_editor_ui.gd" id="2_2nwbc"]
 [ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="2_80csa"]
-[ext_resource type="Script" path="res://scenes/code_window/code_editor_ui.gd" id="2_n33bb"]
 [ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="3_6fi8a"]
 [ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="3_g1itb"]
 
@@ -30,7 +30,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_pxwf1")
-script = ExtResource("2_n33bb")
+script = ExtResource("2_2nwbc")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
