@@ -1,9 +1,7 @@
 class_name Obstacle
-extends RefCounted
+extends FarmItem
 
 var transparency: int
-var texture_source_id:int
-var id: int
 
 func _init(id:int , texture_source_id:int , transparency:int ):
 	self.id = id
