@@ -25,7 +25,7 @@ unitTests:
     paths:
       - "results*.xml"
     reports:
-      junit: "results.xml"
+      junit: "results*.xml"
     expire_in: 30 days
 #   - import-assets
 #   - export
