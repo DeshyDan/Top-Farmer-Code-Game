@@ -23,7 +23,7 @@ unitTests:
   artifacts:
     when: always
     paths:
-      - "results.xml"
+      - "results*.xml"
     reports:
       junit: "results.xml"
     expire_in: 30 days
