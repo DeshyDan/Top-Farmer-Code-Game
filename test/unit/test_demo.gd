@@ -14,9 +14,11 @@ func before_each():
 	
 	var width:int = 2
 	var height:int = 2
-	var victory_corn_quantity:int = 4
+	var goal_harvest = {
+		Const.PlantType.PLANT_CORN: 4, 
+	}
 	
-	lvl.set_level(width,height,victory_corn_quantity)
+	lvl.set_level(width,height,goal_harvest)
 
 func test_demo_unoptimized():
 	lvl = lvl as Level
