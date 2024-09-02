@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dl3mqmtt4hpof"]
+[gd_scene load_steps=9 format=3 uid="uid://dl3mqmtt4hpof"]
 
 [ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_h6gf0"]
 [ext_resource type="Script" path="res://scripts/code_editor/code_window.gd" id="1_p6ij5"]
 [ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="3_olf40"]
 [ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="4_1kxjy"]
 [ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="5_jutco"]
+[ext_resource type="PackedScene" uid="uid://ds5a0h25he8vt" path="res://scenes/code_window/error_box.tscn" id="6_xlhre"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td1fi"]
 bg_color = Color(0.247059, 0.443137, 0.584314, 1)
@@ -47,7 +48,7 @@ size_flags_vertical = 3
 [node name="VSplitContainer" type="VSplitContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
+[node name="Robot1" type="CodeEdit" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer" node_paths=PackedStringArray("error_box")]
 layout_mode = 2
 size_flags_vertical = 3
 text = "var b: int
@@ -68,6 +69,18 @@ auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 script = ExtResource("4_1kxjy")
 executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
+error_box = NodePath("ErrorBox")
+
+[node name="ErrorBox" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/Robot1" instance=ExtResource("6_xlhre")]
+visible = false
+layout_mode = 0
+anchors_preset = 0
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 0.0
+offset_right = 410.0
+offset_bottom = 33.0
+grow_vertical = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer"]
 layout_mode = 2
@@ -109,6 +122,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_2egim")
 text = "Kill"
 
 [connection signal="size_changed" from="." to="CanvasLayer/PanelContainer" method="_on_window_size_changed"]
+[connection signal="text_changed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/Robot1" to="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/Robot1" method="_on_text_changed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Button" to="." method="_on_run_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Kill" to="." method="_on_kill_pressed"]
