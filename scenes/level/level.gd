@@ -125,7 +125,8 @@ func reset_score():
 # TODO: keep track of the players score
 
 func _on_window_run_button_pressed():
-	player_save.update_level_code(3, window.get_source_code())
+	if player_save:
+		player_save.update_level_code(3, window.get_source_code())
 	# TODO: clear window.console
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
