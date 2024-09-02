@@ -1,7 +1,7 @@
 class_name FarmModel
 extends RefCounted
 
-var grid_map:Array[Plant] = []
+var grid_map = []
 var width:int
 var height:int 
 
@@ -14,9 +14,16 @@ func _init(width:int , height:int):
 func is_empty(coord: Vector2i)->bool:
 	return ( grid_map[get_index(coord)] == null )
 	
-func add(plant:Plant, coord: Vector2i):
-	grid_map[get_index(coord)] = plant
+func add_farm_item(farm_item: FarmItem, coord: Vector2i):
+	grid_map[get_index(coord)] = farm_item
 	print(get_data())
+	
+
+func get_height():
+	return height
+	
+func get_width():
+	return width
 	
 func is_harvestable(coord):
 	var plant = grid_map[get_index(coord)]

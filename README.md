@@ -68,13 +68,13 @@ something wrong.
 ```
 class_name ParentClass
 func my_virtual_function():
-    pass
+	pass
 ```
 ```
 class_name ChildClass
 extends ParentClass
 func my_virtual_function():
-    do_something()
+	do_something()
 ```
 
 #### Signals
@@ -92,10 +92,10 @@ UI, or it's connected programmatically:
 
 ```
 func receiver_function(data):
-    do_something()
+	do_something()
 
 func _ready():
-    my_signal.connect(receiver_function)
+	my_signal.connect(receiver_function)
 ```
 
 #### Builtin engine types

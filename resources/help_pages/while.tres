@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://ctnkunxqlb7jg"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_8m26j"]
+
+[resource]
+script = ExtResource("1_8m26j")
+category = "Loops"
+title = "While loops"
+content = "You can make a loop using the [code]while[/code] keyword followed by a block of code. The lines inside a [code]while[/code] loop will be run over and over until the expression after the [code]while[/code] keyword fails:
+[code]
+var counter:int
+counter = 0
+while counter < 3:
+	print(counter)
+	counter = counter + 1
+[/code]
+This should check if [code]counter[/code] is less than three, if not, print it, and increase it by one, and repeat. After 3 loops, the value of [code]counter[/code] will be [code]3[/code], so the check will fail and the loop will exit.
+
+This should print:
+[code]0
+1
+2
+[/code]"

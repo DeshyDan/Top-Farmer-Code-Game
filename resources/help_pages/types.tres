@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://bnnvgw2iaa36w"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_4otme"]
+
+[resource]
+script = ExtResource("1_4otme")
+category = "Basic syntax"
+title = "Types"
+content = "The only types right now are [code]int[/code] and [code]float[/code]."
