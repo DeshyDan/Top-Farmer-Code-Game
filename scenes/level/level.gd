@@ -31,8 +31,8 @@ func check_victory():
 			window.hide()
 			
 func is_goal_harvest():
-	if farm.harvestables.size() != goal_harvest.size():
-		return false
+	#if farm.harvestables.size() != goal_harvest.size():
+		#return false
 
 	for key in goal_harvest:
 		if not farm.harvestables.has(key):
