@@ -107,7 +107,14 @@ func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
 	score_label.text = "Score: " + str(score)
-	
+
+func update_tick_rate():
+	var tick_length = 1.0/(float(tick_rate) + 0.00001)
+	if is_instance_valid(timer) and timer.is_inside_tree():
+		timer.stop()
+		if tick_rate == 0:
+			return
+		timer.start(tick_length)
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -190,3 +197,8 @@ func _on_level_completed_next_level():
 
 func _on_level_completed_retry():
 	get_tree().reload_current_scene()
+
+
+func _on_window_ui_exec_speed_changed(value):
+	tick_rate = value
+	update_tick_rate()

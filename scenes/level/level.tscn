@@ -47,7 +47,6 @@ offset_left = 17.0
 offset_top = 17.0
 offset_right = -661.0
 offset_bottom = -273.0
-default_text = ""
 
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
@@ -62,6 +61,7 @@ position = Vector2(639, 360)
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
 
+[connection signal="exec_speed_changed" from="CanvasLayer/WindowUi" to="." method="_on_window_ui_exec_speed_changed"]
 [connection signal="kill_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_kill_button_pressed"]
 [connection signal="pause_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_pause_button_pressed"]
 [connection signal="run_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_run_button_pressed"]
