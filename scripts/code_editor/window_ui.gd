@@ -31,24 +31,18 @@ func get_source_code() -> String:
 	return code_edit.text
 
 func print_to_console(to_print: Variant):
-	console.print_to_player_console([to_print],null, null, null)
+	console.print_to_player_console([to_print])
 
 func highlight_line(lineno: int):
-	#print("window got lineno: %d" % lineno)
 	code_edit.highlight_line.call_deferred(lineno)
 
 func reset_console():
-	console.text = ""
-	code_edit.clear_executing_lines()
+	console.clear()
 
-func set_error_line(lineno, colno):
-	code_edit.set_caret_line(lineno -1)
-	code_edit.set_caret_column(colno)
-	code_edit.set_code_hint("Error")
-	code_edit.set_code_hint_draw_below(true)
-	code_edit.clear_executing_lines()
-	if lineno < code_edit.get_line_count():
-		code_edit.set_line_as_executing(lineno, true)
+func set_error(err: GError):
+	code_edit.draw_error(err.token.lineno, err.token.colno, err.raw_message)
+	
+	console.print_to_player_console([err.message], Color.RED * 0.9)
 
 func highlight_tracepoint(node: AST, call_stack: CallStack):
 	if node.get("token") == null:

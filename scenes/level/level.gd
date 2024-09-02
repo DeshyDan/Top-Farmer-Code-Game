@@ -118,7 +118,8 @@ func reset_score():
 # TODO: keep track of the players score
 
 func _on_window_run_button_pressed():
-	# TODO: clear window.console
+	window.reset_console()
+	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
 	interpreter_client.start()
@@ -180,9 +181,8 @@ func _on_interpreter_client_finished():
 	# TODO: show failure screen here
 	failure.emit()
 
-func _on_interpreter_client_error(message):
-	window.print_to_console(message)
-
+func _on_interpreter_client_error(err: GError):
+	window.set_error(err)
 
 func _on_level_completed_next_level():
 	pass
