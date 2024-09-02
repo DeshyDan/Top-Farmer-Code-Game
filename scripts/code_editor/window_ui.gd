@@ -102,9 +102,6 @@ func _on_window_bar_mouse_exited():
 	mouse_in = false
 
 
-#func _on_child_entered_tree(node):
-	#move_child.call_deferred(resize_panel,-1)
-
 func _on_panel_mouse_entered():
 	mouse_in_resize = true
 

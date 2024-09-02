@@ -32,7 +32,7 @@ custom_minimum_size = Vector2(0, 11.835)
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="Panel" type="Panel" parent="ResizePanel"]
+[node name="Resize grabber" type="Panel" parent="ResizePanel"]
 custom_minimum_size = Vector2(12.56, 0)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -44,6 +44,6 @@ size_flags_horizontal = 8
 [connection signal="kill_pressed" from="CodeEditorUI" to="." method="_on_kill_pressed"]
 [connection signal="pause_pressed" from="CodeEditorUI" to="." method="_on_pause_pressed"]
 [connection signal="run_pressed" from="CodeEditorUI" to="." method="_on_run_button_pressed"]
-[connection signal="gui_input" from="ResizePanel/Panel" to="." method="_on_panel_gui_input"]
-[connection signal="mouse_entered" from="ResizePanel/Panel" to="." method="_on_panel_mouse_entered"]
-[connection signal="mouse_exited" from="ResizePanel/Panel" to="." method="_on_panel_mouse_exited"]
+[connection signal="gui_input" from="ResizePanel/Resize grabber" to="." method="_on_panel_gui_input"]
+[connection signal="mouse_entered" from="ResizePanel/Resize grabber" to="." method="_on_panel_mouse_entered"]
+[connection signal="mouse_exited" from="ResizePanel/Resize grabber" to="." method="_on_panel_mouse_exited"]
