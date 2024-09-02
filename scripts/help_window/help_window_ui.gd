@@ -3,6 +3,8 @@ extends Control
 @export var help_contents: HelpContents
 @export var help_text: RichTextLabel
 
+signal help_window_close_pressed()
+
 func _ready():
 	var help_pages = load_help_pages()
 	help_contents.update_tree(help_pages)
@@ -44,3 +46,7 @@ func _on_keyword_clicked(metadata):
 	
 	if target_page == null:
 		push_error("BBCode URL tag \"%s\" could not be found in help window contents" % str(metadata))
+
+
+func _on_help_window_close_button_pressed():
+	help_window_close_pressed.emit()
