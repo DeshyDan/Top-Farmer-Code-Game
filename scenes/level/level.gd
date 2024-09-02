@@ -8,6 +8,8 @@ extends Node2D
 
 @export var tick_rate = 4
 
+@onready var score_label = $CanvasLayer/Score
+
 var timer: Timer
 var robot_wait_tick = 0
 var score = 0
