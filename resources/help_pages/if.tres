@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://i2g5nidda5ux"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_3lsqq"]
+
+[resource]
+script = ExtResource("1_3lsqq")
+category = "Control flow"
+title = "If Statements"
+content = "You can use [code]if[/code] statements to control whether certain lines of code get run or not. Using the [code]if[/code] keyword followed by an expression you want to check allows you to skip that code if the check returns 0, and run the code otherwise.
+[code]
+var my_int:int
+my_int = 1
+if my_int:
+	print(my_int)
+[/code]
+This should print [code]1[/code]!
+
+You can also use boolean expressions in your if statements:
+[code]
+var my_int:int
+my_int = 1
+if my_int != 1:
+	print(my_int)
+[/code]
+This should skip the print line, since [code]my_int != 1[/code] returns [code]0[/code].
+
+If statements can be followed by [url=Else][code]else[/code][/url] statements."
