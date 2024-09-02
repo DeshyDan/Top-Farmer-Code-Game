@@ -44,3 +44,5 @@ func draw_error(lineno, colno, length):
 func _on_text_changed():
 	request_code_completion()
 
+func _on_code_completion_requested():
+	MessageBus.request_code_completion(text)

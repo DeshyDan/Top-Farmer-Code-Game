@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=3 uid="uid://l1gdp5ne82s6"]
+
+[ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_pxwf1"]
+[ext_resource type="Script" path="res://scripts/code_editor/code_editor_ui.gd" id="2_2nwbc"]
+[ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="3_6fi8a"]
+[ext_resource type="PackedScene" uid="uid://dcdxoyul15muo" path="res://scenes/code_window/player_edit.tscn" id="3_t8iyg"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td1fi"]
+bg_color = Color(0.247059, 0.443137, 0.584314, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2egim"]
+bg_color = Color(0.603922, 0.321569, 0.376471, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="CodeEditorUI" type="PanelContainer" node_paths=PackedStringArray("player_code_edit", "console")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_pxwf1")
+script = ExtResource("2_2nwbc")
+player_code_edit = NodePath("MarginContainer/VSplitContainer/CodeEdit")
+console = NodePath("MarginContainer/VSplitContainer/HBoxContainer/PanelContainer/RichTextLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="CodeEdit" parent="MarginContainer/VSplitContainer" instance=ExtResource("3_t8iyg")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.83
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MarginContainer/VSplitContainer/HBoxContainer/PanelContainer"]
+texture_filter = 2
+layout_mode = 2
+theme = ExtResource("1_pxwf1")
+fit_content = true
+scroll_following = true
+script = ExtResource("3_6fi8a")
+
+[node name="GridContainer" type="VBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="Run" type="Button" parent="MarginContainer/VSplitContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Go"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Pause" type="Button" parent="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_td1fi")
+text = "Pause"
+
+[node name="Kill" type="Button" parent="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("StyleBoxFlat_2egim")
+text = "Kill"
+
+[connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Run" to="." method="_on_run_pressed"]
+[connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
+[connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Kill" to="." method="_on_kill_pressed"]

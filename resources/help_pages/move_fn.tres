@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://klbql3tho6yl"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_rrncm"]
+
+[resource]
+script = ExtResource("1_rrncm")
+category = "Functions"
+title = "move(direction: int)"
+content = "Move the robot in a direction. You can use a [url=Directions]direction[/url] built in constant as an argument. The [url=Directions]direction[/url] is an [url=Types][code]int[/code][/url], so if you want, you can just use a number as well.
+[code]
+move(RIGHT)
+[/code]"

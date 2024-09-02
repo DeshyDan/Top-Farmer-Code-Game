@@ -1,20 +1,31 @@
 class_name CodeWindow
-extends Window
+extends VBoxContainer
 
-@export var code_edit: PlayerEdit
-@export var console: Console
-@export_multiline var default_text: String :
-	get:
-		return default_text
-	set(value):
-		default_text = value
-		code_edit.text = default_text
+var dragging = false
+var mouse_in = false
+var draggingDistance
+var dir
+var newPosition = Vector2()
+var resizing = false
+var mouse_in_resize = false
+
+@onready var resize_panel = $ResizePanel
+
+var code_edit: PlayerEdit
+var console: Console
+
+@export var code_editor_ui: Node
+
+@export_multiline var default_text: String
 
 signal run_button_pressed
 signal pause_button_pressed
 signal kill_button_pressed
 
 func _ready():
+	code_edit = code_editor_ui.get_code_edit()
+	console = code_editor_ui.get_console()
+	code_edit.text = default_text
 	MessageBus.code_completion_set.connect(_on_code_completion_set)
 
 func get_source_code() -> String:
@@ -28,8 +39,7 @@ func highlight_line(lineno: int):
 	code_edit.highlight_line.call_deferred(lineno)
 
 func reset_console():
-	console.text = ""
-	code_edit.clear_executing_lines()
+	console.clear()
 
 func set_error_line(lineno, colno):
 	code_edit.set_caret_line(lineno -1)
@@ -69,8 +79,51 @@ func _on_pause_pressed():
 func _on_kill_pressed():
 	kill_button_pressed.emit()
 
-func _on_code_edit_code_completion_requested():
-	MessageBus.request_code_completion(code_edit.text)
+
+func _on_window_bar_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.is_pressed() && mouse_in:
+			draggingDistance = position.distance_to(get_viewport().get_mouse_position())
+			dir = (get_viewport().get_mouse_position() - position).normalized()
+			dragging = true
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+		else:
+			dragging = false
+			
+	elif event is InputEventMouseMotion:
+		if dragging:
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+			position = newPosition
+
+func _on_window_bar_mouse_entered():
+	mouse_in = true
+
+func _on_window_bar_mouse_exited():
+	mouse_in = false
+
+
+func _on_panel_mouse_entered():
+	mouse_in_resize = true
+
+
+func _on_panel_mouse_exited():
+	mouse_in_resize = false
+
+
+func _on_panel_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.is_pressed() && mouse_in_resize:
+			draggingDistance = position.distance_to(get_viewport().get_mouse_position())
+			dir = (get_viewport().get_mouse_position() - position).normalized()
+			resizing = true
+			newPosition = get_viewport().get_mouse_position() - draggingDistance * dir
+		else:
+			resizing = false
+			
+	elif event is InputEventMouseMotion:
+		if resizing:
+			newPosition = get_viewport().get_mouse_position()
+			size = newPosition - position
 
 func _on_code_completion_set(options: Array[CodeCompletionOption]):
 	for option in options:
