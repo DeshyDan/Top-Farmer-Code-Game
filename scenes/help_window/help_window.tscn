@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://c51c32vmgquan"]
+
+[ext_resource type="Theme" uid="uid://dvwbbu28fsu4k" path="res://resources/help_theme.tres" id="1_2e3fb"]
+[ext_resource type="Script" path="res://scripts/help_window/help_window.gd" id="1_tbty1"]
+[ext_resource type="PackedScene" uid="uid://ck1m23r5xyxot" path="res://scenes/help_window/help_window_ui.tscn" id="1_tme7i"]
+
+[node name="HelpWindow" type="MarginContainer" node_paths=PackedStringArray("help_window_ui", "help_button")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -575.0
+offset_top = -269.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_2e3fb")
+script = ExtResource("1_tbty1")
+help_window_ui = NodePath("HelpWindowUI")
+help_button = NodePath("AspectRatioContainer/HelpWindowToggleButton")
+
+[node name="HelpWindowUI" parent="." instance=ExtResource("1_tme7i")]
+visible = false
+layout_mode = 2
+
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+stretch_mode = 1
+alignment_horizontal = 2
+alignment_vertical = 2
+
+[node name="HelpWindowToggleButton" type="Button" parent="AspectRatioContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+toggle_mode = true
+text = "?"
+
+[connection signal="help_window_close_pressed" from="HelpWindowUI" to="." method="_on_help_window_toggle_button_toggled"]
+[connection signal="pressed" from="AspectRatioContainer/HelpWindowToggleButton" to="." method="_on_help_window_toggle_button_toggled"]

@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://dvwbbu28fsu4k"]
+
+[ext_resource type="FontFile" uid="uid://efvswurhd1t0" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="1_fqxdx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yoajd"]
+
+[resource]
+RichTextLabel/font_sizes/mono_font_size = 16
+RichTextLabel/fonts/mono_font = ExtResource("1_fqxdx")
+RichTextLabel/styles/focus = SubResource("StyleBoxEmpty_yoajd")
