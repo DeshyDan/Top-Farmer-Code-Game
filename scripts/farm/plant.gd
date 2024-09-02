@@ -1,5 +1,5 @@
 class_name Plant
-extends RefCounted
+extends FarmItem
 
 const FINAL_SEED_LEVEL = 3
 
@@ -8,8 +8,6 @@ var age: int
 var max_age: int
 var harvestable: bool
 var growth_factor: int
-var texture_source_id:int
-var id: int
 
 func _init(id:int , texture_source_id:int , growth_factor:int ):
 	self.id = id
