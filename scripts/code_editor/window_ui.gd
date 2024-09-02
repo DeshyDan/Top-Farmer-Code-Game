@@ -21,6 +21,7 @@ var console: Console
 signal run_button_pressed
 signal pause_button_pressed
 signal kill_button_pressed
+signal exec_speed_changed(value)
 
 func _ready():
 	code_edit = code_editor_ui.get_code_edit()
@@ -120,4 +121,5 @@ func _on_panel_gui_input(event):
 			newPosition = get_viewport().get_mouse_position()
 			size = newPosition - position
 
-
+func _on_exec_speed_slider_value_changed(value):
+	exec_speed_changed.emit(value)
