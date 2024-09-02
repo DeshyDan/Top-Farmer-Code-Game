@@ -22,17 +22,23 @@ var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
 var dragging = false
 var drag_offset = Vector2(0,0)
-func plot_farm(farm_model:FarmModel):
-	var path = set_terrain_path(farm_model.get_width(), farm_model.get_height())
-		dirt_terrain.position = get_local_mouse_position()
-	if dragging:
+
 func _process(delta):
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
-	draggable.set_size(Vector2(width*16, height*16))
+	if dragging:
+		dirt_terrain.position = get_local_mouse_position() - drag_offset
+
+func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
+	var height = farm_model.get_height()
+	var width = farm_model.get_width()
+	var path = set_terrain_path(width, height)
+	
+	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
+	draggable.set_size(Vector2(width * 16 , height * 16))
+	
 	
 	robot.position = get_tile_position(robot.get_coords())
-	robot.set_boundaries(farm_model.get_width(), farm_model.get_height())
+	robot.set_boundaries(width,height)
 
 func set_terrain_path(width: int, height: int):
 	var map = []
