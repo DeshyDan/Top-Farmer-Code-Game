@@ -8,6 +8,8 @@ extends Node2D
 
 @export var tick_rate = 4
 
+@onready var score_label = $CanvasLayer/Score
+
 var timer: Timer
 var robot_wait_tick = 0
 var score = 0
@@ -106,13 +108,11 @@ func add_points():
 
 func update_score():
 	# Access the Score Label node and update its text
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 

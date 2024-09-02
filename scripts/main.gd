@@ -10,6 +10,7 @@ func _ready():
 	
 	# Instantiate the loaded scene
 	var lvl:Node = level_scene.instantiate()
+	lvl.position = Vector2(0,0)
 	# Add the instance to the current scene
 	add_child(lvl)
 	
