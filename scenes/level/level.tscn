@@ -42,7 +42,6 @@ offset_left = 60.0
 offset_top = 121.0
 offset_right = 539.0
 offset_bottom = 534.0
-default_text = ""
 
 [node name="HelpWindow" parent="." instance=ExtResource("6_y3t0h")]
 anchors_preset = 0
