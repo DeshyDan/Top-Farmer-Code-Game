@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
 [ext_resource type="PackedScene" uid="uid://cxmx1dbvlr6w2" path="res://scenes/code_window/window_ui.tscn" id="3_8s5ws"]
 [ext_resource type="PackedScene" uid="uid://2j3fycp65vjp" path="res://scenes/level/level_completed.tscn" id="4_ogycu"]
+[ext_resource type="PackedScene" uid="uid://cv0ij7py5kg50" path="res://scenes/camera/camera.tscn" id="5_o6pwp"]
 [ext_resource type="PackedScene" uid="uid://c51c32vmgquan" path="res://scenes/help_window/help_window.tscn" id="6_y3t0h"]
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
@@ -18,9 +19,23 @@ level_completed = NodePath("CanvasLayer/LevelCompleted")
 layer = 128
 follow_viewport_enabled = true
 
+[node name="Score" type="Label" parent="CanvasLayer"]
+offset_left = 848.0
+offset_top = 21.0
+offset_right = 947.0
+offset_bottom = 53.0
+theme_override_font_sizes/font_size = 23
+text = "Score: 0"
+uppercase = true
+
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
 
+[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+scale = Vector2(1.5, 1.5)
+position = Vector2(725, 175)
+[node name="camera" parent="." instance=ExtResource("5_o6pwp")]
+position = Vector2(576, 324)
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
 

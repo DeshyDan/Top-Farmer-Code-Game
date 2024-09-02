@@ -99,13 +99,11 @@ func add_points():
 
 func update_score():
 	# Access the Score Label node and update its text
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
-	var score_label = $Score
 	score_label.text = "Score: " + str(score)
 	
 
