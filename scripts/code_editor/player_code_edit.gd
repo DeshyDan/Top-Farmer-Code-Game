@@ -5,6 +5,7 @@ extends CodeEdit
 
 @export var executing_color: Color
 @export var executing_highlight_length: float = 1
+@export var comment_color: Color
 
 var _background_color: Color
 var _tweening_lines = []
@@ -14,12 +15,15 @@ func _init():
 	var keywords = JSON.parse_string(keyword_data)
 	for keyword in keywords["list"]:
 		syntax_highlighter.keyword_colors[keyword] = Color.LIGHT_CORAL
-		add_code_completion_option(CodeEdit.KIND_MEMBER, keyword,keyword)
+		add_code_completion_option(CodeEdit.KIND_MEMBER, keyword, keyword)
 
 func _ready():
 	_background_color = get_theme_color("background_color")
 	for key in Const.DEFAULT_BUILTIN_CONSTS:
 		syntax_highlighter.keyword_colors[key] = Color.AQUAMARINE
+	#syntax_highlighter.add_color_region("#","", comment_color)
+	# have to do this otherwise random godot functions show up
+	update_code_completion_options(true)
 
 func highlight_line(lineno):
 	var tween = create_tween()
@@ -37,4 +41,6 @@ func _process(delta):
 func draw_error(lineno, colno, length):
 	pass
 
-	
+func _on_text_changed():
+	request_code_completion()
+

@@ -18,6 +18,7 @@ config/icon="res://assets/textures/icon.svg"
 [autoload]
 
 Const="*res://autoload/consts.gd"
+MessageBus="*res://autoload/message_bus.gd"
 
 [display]
 

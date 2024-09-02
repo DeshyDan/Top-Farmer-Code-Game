@@ -14,6 +14,9 @@ signal run_button_pressed
 signal pause_button_pressed
 signal kill_button_pressed
 
+func _ready():
+	MessageBus.code_completion_set.connect(_on_code_completion_set)
+
 func get_source_code() -> String:
 	return code_edit.text
 
@@ -65,3 +68,15 @@ func _on_pause_pressed():
 
 func _on_kill_pressed():
 	kill_button_pressed.emit()
+
+func _on_code_edit_code_completion_requested():
+	MessageBus.request_code_completion(code_edit.text)
+
+func _on_code_completion_set(options: Array[CodeCompletionOption]):
+	for option in options:
+		code_edit.add_code_completion_option(
+			option.kind,
+			option.display,
+			option.replacement, 
+			Color.WHITE, null, 0)
+	code_edit.update_code_completion_options(false)

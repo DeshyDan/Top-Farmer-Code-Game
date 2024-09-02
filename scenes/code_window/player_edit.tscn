@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://dcdxoyul15muo"]
+
+[ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_pfs3w"]
+[ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="2_u5kt0"]
+[ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="2_xasy8"]
+
+[node name="CodeEdit" type="CodeEdit"]
+size_flags_vertical = 3
+theme = ExtResource("1_pfs3w")
+text = "var b: int
+b = 0
+for x in [0,1,2,3,4,5,6]:
+	plant(0)
+	move(x%2 +1)
+	"
+syntax_highlighter = ExtResource("2_u5kt0")
+highlight_current_line = true
+draw_tabs = true
+gutters_draw_line_numbers = true
+gutters_zero_pad_line_numbers = true
+delimiter_comments = Array[String](["#"])
+code_completion_enabled = true
+indent_automatic = true
+auto_brace_completion_enabled = true
+auto_brace_completion_highlight_matching = true
+script = ExtResource("2_xasy8")
+executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
+comment_color = Color(0.458824, 0.470588, 0.490196, 1)
+
+[connection signal="text_changed" from="." to="." method="_on_text_changed"]
