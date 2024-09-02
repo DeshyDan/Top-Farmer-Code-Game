@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://dqiy44q7f85k6"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_8hsl7"]
+
+[resource]
+script = ExtResource("1_8hsl7")
+category = "Control flow"
+title = "Else Statements"
+content = "You can use the [code]else[/code] keyword after an [url=If][code]if[/code][/url] statement to run a block of code when the if statement fails, and skip the block when the if statement succeeds:
+[code]
+if 0 == 1:
+	print(0)
+else:
+	print(42)
+[/code]
+This should print [code]42[/code]!"

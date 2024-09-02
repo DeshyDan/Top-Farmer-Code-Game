@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://yr57u2mruiiy"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_0g0s7"]
+
+[resource]
+script = ExtResource("1_0g0s7")
+category = "Basic syntax"
+title = "Variables"
+content = "You can declare variables using the [code]var[/code] keyword. You have to specify its type after the variable name using a colon and the type of the variables.
+
+[code]var my_int: int[/code]
+
+After declaring a variable, you can assign it a value using [code]=[/code]:
+
+[code]my_var = 42[/code]
+
+You can assign variables to other declared, assigned variables:
+[code]
+var my_var1: int
+var my_var2: int
+my_var1 = 6
+my_var2 = my_var1
+[/code]
+Or you can use expressions to calculate something and assign it to the variable:
+[code]
+my_var2 = 7*my_var1
+print(my_var2)
+[/code]
+This should print [code]42[/code]!"
