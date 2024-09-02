@@ -3,10 +3,9 @@ extends Node2D
 
 @onready var dirt_terrain = $Grid
 @onready var robot: Robot = $Grid/Robot
-@onready var inventory = $inventory
+@onready var inventory = $CanvasLayer/inventory
 @onready var pickup_scene = preload("res://scenes/inventory_system/pickups/pickup.tscn")
 
-@onready var inventory = $CanvasLayer/inventory
 @onready var draggable:Button = $Grid/draggable
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
