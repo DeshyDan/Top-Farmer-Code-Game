@@ -21,7 +21,7 @@ var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
 var dragging = false
-
+var drag_offset = Vector2(0,0)
 func plot_farm(farm_model:FarmModel):
 	var path = set_terrain_path(farm_model.get_width(), farm_model.get_height())
 		dirt_terrain.position = get_local_mouse_position()
@@ -138,6 +138,7 @@ func reset():
 
 func _on_drag():
 	dragging = true
+	drag_offset = get_local_mouse_position() - dirt_terrain.position
 
 func _on_drop():
 	dragging = false
