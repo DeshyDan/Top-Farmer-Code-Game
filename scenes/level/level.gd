@@ -61,7 +61,6 @@ func set_level(lvl_skeleton,goal_harvest):
 	for i in range(0,height):
 		for j in range(0,width):
 			var item = lvl_array[i][j]
-			print(str(i) +" "+ str(j))
 			# # -> bare land
 			# s -> transparent rock
 			# r -> rock
@@ -74,7 +73,6 @@ func set_level(lvl_skeleton,goal_harvest):
 			elif item == "s":
 				var rock = Obstacle.ROCK()
 				farm_model.add_obstacle(rock,coord)
-				
 			elif item == "r":
 				var rock = Obstacle.ROCK()
 				rock.set_transparency(255)
@@ -87,8 +85,6 @@ func set_level(lvl_skeleton,goal_harvest):
 				water.set_transparency(255)
 				farm_model.add_obstacle(water,coord)
 			
-
-	
 	farm.plot_farm(farm_model)
 	
 	self.goal_harvest = goal_harvest

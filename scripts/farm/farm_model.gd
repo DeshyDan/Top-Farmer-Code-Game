@@ -14,13 +14,10 @@ func _init(width:int , height:int):
 func is_empty(coord: Vector2i)->bool:
 	return ( grid_map[get_index(coord)] == null )
 	
-func add_plant(plant:Plant, coord: Vector2i):
-	grid_map[get_index(coord)] = plant
+func add_farm_item(farm_item: FarmItem, coord: Vector2i):
+	grid_map[get_index(coord)] = farm_item
 	print(get_data())
 	
-func add_obstacle(obstacle:Obstacle, coord: Vector2i):
-	grid_map[get_index(coord)] = obstacle
-	print(get_data())
 
 func get_height():
 	return height
