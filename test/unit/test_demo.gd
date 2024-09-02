@@ -7,18 +7,17 @@ var tick_count_unoptimized=0
 # Called when the node enters the scene tree for the first time.
 func before_each():
 	# Instantiate the loaded scene
-	lvl = level_scene.instantiate()
-	
-	# Add the instance to the current scene
+	lvl = level_scene.instantiate() as Level
 	add_child(lvl)
 	
-	var width:int = 2
-	var height:int = 2
+	var file_path = "res://assets/levels/demo_lvl.txt"
+	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
+	
 	var goal_harvest = {
-		Const.PlantType.PLANT_CORN: 4, 
+		Const.PlantType.PLANT_CORN: 4
 	}
 	
-	lvl.set_level(width,height,goal_harvest)
+	lvl.set_level(lvl_skeleton, goal_harvest)
 
 func test_demo_unoptimized():
 	lvl = lvl as Level
