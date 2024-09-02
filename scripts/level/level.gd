@@ -1,10 +1,10 @@
 class_name Level
 extends Node2D
 
-@onready var window: CodeWindow = $Window
-@onready var farm: FarmView = $Farm
-@onready var interpreter_client: InterpreterClient = $InterpreterClient
-@onready var level_completed = $CanvasLayer/LevelCompleted
+@export var window: CodeWindow
+@export var farm: FarmView
+@export var interpreter_client: InterpreterClient
+@export var level_completed: Node
 
 @export var tick_rate = 4
 
@@ -38,8 +38,8 @@ func check_victory():
 			window.hide()
 			
 func is_goal_harvest():
-	#if farm.harvestables.size() != goal_harvest.size():
-		#return false
+	if farm.harvestables.size() != goal_harvest.size():
+		return false
 
 	for key in goal_harvest:
 		if not farm.harvestables.has(key):

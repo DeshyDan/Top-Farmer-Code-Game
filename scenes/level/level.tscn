@@ -1,36 +1,25 @@
-[gd_scene load_steps=6 format=3 uid="uid://bx5163jemrhj8"]
+[gd_scene load_steps=7 format=3 uid="uid://bx5163jemrhj8"]
 
-[ext_resource type="PackedScene" uid="uid://dl3mqmtt4hpof" path="res://scenes/code_window/code_window.tscn" id="1_cw1jq"]
-[ext_resource type="Script" path="res://scripts/level/level.gd" id="1_ij3b0"]
+[ext_resource type="Script" path="res://scripts/level/level.gd" id="1_v4856"]
 [ext_resource type="PackedScene" uid="uid://bxeid64nke54h" path="res://scenes/farm/farm.tscn" id="2_qaq0c"]
 [ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
+[ext_resource type="PackedScene" uid="uid://cxmx1dbvlr6w2" path="res://scenes/code_window/window_ui.tscn" id="3_8s5ws"]
 [ext_resource type="PackedScene" uid="uid://2j3fycp65vjp" path="res://scenes/level/level_completed.tscn" id="4_ogycu"]
+[ext_resource type="PackedScene" uid="uid://c51c32vmgquan" path="res://scenes/help_window/help_window.tscn" id="6_y3t0h"]
 
-[node name="Level" type="Node2D"]
-script = ExtResource("1_ij3b0")
+[node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
+script = ExtResource("1_v4856")
+window = NodePath("WindowUi")
+farm = NodePath("Farm")
+interpreter_client = NodePath("InterpreterClient")
+level_completed = NodePath("CanvasLayer/LevelCompleted")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 128
+follow_viewport_enabled = true
 
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
-
-[node name="Window" parent="." instance=ExtResource("1_cw1jq")]
-position = Vector2i(35, 36)
-size = Vector2i(535, 440)
-content_scale_mode = 2
-default_text = "for cycle in [0,1]:
-	for dir in [RIGHT, DOWN, LEFT, UP]:
-		if cycle == 0:
-			plant(GRAPE)
-		else:
-			harvest()
-		move(dir)
-
-	"
-
-[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
-position = Vector2(723, 169)
-scale = Vector2(8.19, 8.19)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
@@ -44,11 +33,34 @@ theme_override_font_sizes/font_size = 23
 text = "Score: 0"
 uppercase = true
 
+[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+position = Vector2(723, 169)
+scale = Vector2(8.19, 8.19)
+
+[node name="WindowUi" parent="." instance=ExtResource("3_8s5ws")]
+offset_left = 60.0
+offset_top = 121.0
+offset_right = 539.0
+offset_bottom = 534.0
+default_text = ""
+
+[node name="HelpWindow" parent="." instance=ExtResource("6_y3t0h")]
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 702.0
+offset_top = 449.0
+offset_right = 1277.0
+offset_bottom = 718.0
+grow_horizontal = 1
+grow_vertical = 1
+size_flags_horizontal = 8
+metadata/_edit_use_anchors_ = true
+
 [connection signal="next_level" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_next_level"]
 [connection signal="retry" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_retry"]
-[connection signal="kill_button_pressed" from="Window" to="." method="_on_window_kill_button_pressed"]
-[connection signal="pause_button_pressed" from="Window" to="." method="_on_window_pause_button_pressed"]
-[connection signal="run_button_pressed" from="Window" to="." method="_on_window_run_button_pressed"]
 [connection signal="error" from="InterpreterClient" to="." method="_on_interpreter_client_error"]
 [connection signal="finished" from="InterpreterClient" to="." method="_on_interpreter_client_finished"]
 [connection signal="harvest_requested" from="InterpreterClient" to="." method="_on_harvest_call"]
@@ -57,3 +69,6 @@ uppercase = true
 [connection signal="print_requested" from="InterpreterClient" to="." method="_on_print_call"]
 [connection signal="tracepoint_reached" from="InterpreterClient" to="." method="_on_tracepoint_reached"]
 [connection signal="wait_requested" from="InterpreterClient" to="." method="_on_wait_call"]
+[connection signal="kill_button_pressed" from="WindowUi" to="." method="_on_window_kill_button_pressed"]
+[connection signal="pause_button_pressed" from="WindowUi" to="." method="_on_window_pause_button_pressed"]
+[connection signal="run_button_pressed" from="WindowUi" to="." method="_on_window_run_button_pressed"]
