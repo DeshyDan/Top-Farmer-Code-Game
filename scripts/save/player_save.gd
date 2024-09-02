@@ -7,6 +7,9 @@ var _source_codes = {}
 var _level_high_scores = {}
 var _unlocked_levels = []
 
+func set_level_high_score(level, score):
+	_level_high_scores[str(level)] = score
+
 func get_level_high_score(level):
 	return _level_high_scores.get(level)
 
@@ -17,7 +20,7 @@ func get_level_source(level) -> String:
 	_source_codes[level] = ""
 	return ""
 
-func update_level_code(level, source: String):
+func update_level_source(level, source: String):
 	level = str(level)
 	_source_codes[level] = source
 	save_progress()
@@ -49,4 +52,3 @@ func load_progress():
 	_unlocked_levels = JSON.parse_string(file.get_line())
 	_source_codes = JSON.parse_string(file.get_line())
 	_level_high_scores = JSON.parse_string(file.get_line())
-	print(_unlocked_levels)
