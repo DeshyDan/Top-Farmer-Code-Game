@@ -11,13 +11,12 @@
 [node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
 script = ExtResource("1_larfg")
 window = NodePath("CanvasLayer/WindowUi")
-farm = NodePath("camera/Farm")
+farm = NodePath("Farm")
 interpreter_client = NodePath("InterpreterClient")
 level_completed = NodePath("CanvasLayer/LevelCompleted")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 128
-follow_viewport_enabled = true
 
 [node name="Score" type="Label" parent="CanvasLayer"]
 offset_left = 848.0
@@ -44,21 +43,21 @@ size_flags_horizontal = 8
 metadata/_edit_use_anchors_ = true
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
-offset_left = 60.0
-offset_top = 121.0
-offset_right = 539.0
-offset_bottom = 534.0
+offset_left = 17.0
+offset_top = 17.0
+offset_right = -661.0
+offset_bottom = -273.0
 default_text = ""
 
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
 
+[node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
+position = Vector2(725, 175)
+scale = Vector2(1.5, 1.5)
+
 [node name="camera" parent="." instance=ExtResource("5_o6pwp")]
 position = Vector2(639, 360)
-
-[node name="Farm" parent="camera" instance=ExtResource("2_qaq0c")]
-position = Vector2(86, -185)
-scale = Vector2(1.5, 1.5)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")

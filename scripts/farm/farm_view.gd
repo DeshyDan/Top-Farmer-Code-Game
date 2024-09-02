@@ -27,6 +27,14 @@ func _process(delta):
 	if dragging:
 		dirt_terrain.position = get_local_mouse_position() - drag_offset
 
+func _input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_MIDDLE:
+			if event.is_pressed():
+				_on_drag()
+			else:
+				_on_drop()
+
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
 	var height = farm_model.get_height()
@@ -140,11 +148,11 @@ func reset():
 		for y in farm_model.height:
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
 
-
-
 func _on_drag():
 	dragging = true
 	drag_offset = get_local_mouse_position() - dirt_terrain.position
 
 func _on_drop():
 	dragging = false
+
+
