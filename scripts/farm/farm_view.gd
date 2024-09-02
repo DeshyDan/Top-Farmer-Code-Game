@@ -4,7 +4,7 @@ extends Node2D
 @onready var dirt_terrain = $Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $inventory
-var pickup = preload("res://scenes/inventory_system/pickups/pickup.tscn")
+@onready var pickup_scene = preload("res://scenes/inventory_system/pickups/pickup.tscn")
 
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
@@ -17,7 +17,7 @@ const SOIL_TERRAIN_SET = 0
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
 
-const GRID_NODE_PATH = "Farm/Grid"
+const GRID_NODE_PATH = "/root/Main/Level"
 
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
@@ -88,17 +88,22 @@ func store(plant_coord:Vector2i):
 		harvestables[plant_id] = 1
 	inventory.store(plant_id,harvestables[plant_id])
 
-func instance_pickup(i):
-	pass
+func instance_pickup(init_pos):
+	var pickup:Node = pickup_scene.instantiate()
+	pickup.global_position = init_pos
+	pickup.name += str(init_pos)
+	get_node(GRID_NODE_PATH).add_child(pickup)
 	
 func animate_pickup( init_pos:Vector2, final_pos:Vector2):
 	pickup_tween = get_tree().create_tween()
-	for i in range(3):
-		instance_pickup(i)
-		var plant = get_tree().get_root().get_node(GRID_NODE_PATH+str(i))
-		pickup_tween.interpolate_property(plant,"rect_position",init_pos,final_pos,0.8,Tween.TRANS_CUBIC,Tween.EASE_IN_OUT)
-		pickup_tween.play()
 
+	instance_pickup( init_pos)
+	var plant = get_node(GRID_NODE_PATH+"/pickup"+str(init_pos))
+	pickup_tween.tween_property(plant, "position", Vector2(1010,0),0.5)
+
+	pickup_tween.play()
+	remove_child(get_node(GRID_NODE_PATH+"/pickup"+str(init_pos)))
+	
 		
 func plant(plant_id:int=1):
 	
