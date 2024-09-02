@@ -7,10 +7,12 @@ const ZOOM_INCREMENT: float = 0.1
 
 var target_zoom: float = 1.0
 
-var tween: Tween 
+@onready var tween: Tween 
 
 func _ready():
 	tween = get_tree().create_tween()
+	tween.stop()
+	
 func _physics_process(delta: float) -> void:
 	zoom = lerp(zoom, target_zoom * Vector2.ONE, ZOOM_RATE * delta)
 	set_physics_process(not is_equal_approx(zoom.x, target_zoom))

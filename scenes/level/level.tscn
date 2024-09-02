@@ -39,7 +39,7 @@ default_text = "for cycle in [0,1]:
 	"
 
 [node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
-position = Vector2(825, 170)
+position = Vector2(623, 159)
 
 [node name="camera" parent="." instance=ExtResource("5_o6pwp")]
 position = Vector2(582, 332)
