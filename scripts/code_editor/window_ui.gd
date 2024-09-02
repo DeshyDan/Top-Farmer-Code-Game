@@ -123,7 +123,6 @@ func _on_panel_gui_input(event):
 			
 	elif event is InputEventMouseMotion:
 		if resizing:
-			print("RESIZING")
 			newPosition = get_viewport().get_mouse_position()
 			size = newPosition - position
 

@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ck1m23r5xyxot"]
 
 [ext_resource type="Script" path="res://scripts/help_window/help_window_ui.gd" id="1_buopv"]
-[ext_resource type="Theme" path="res://resources/help_theme.tres" id="1_ciyua"]
+[ext_resource type="Theme" uid="uid://dvwbbu28fsu4k" path="res://resources/help_theme.tres" id="1_ciyua"]
 [ext_resource type="Script" path="res://scripts/help_window/help_contents_view.gd" id="1_f1sko"]
 [ext_resource type="Script" path="res://scripts/help_window/help_window_content.gd" id="4_fw03e"]
 
@@ -46,6 +46,7 @@ theme_override_constants/margin_top = 5
 
 [node name="Tree" type="Tree" parent="PanelContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer"]
 layout_mode = 2
+theme = ExtResource("1_ciyua")
 hide_root = true
 script = ExtResource("1_f1sko")
 
