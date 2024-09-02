@@ -19,7 +19,14 @@ unitTests:
   script:
     - ls
     - godot --import --path "$PWD" --headless --quit
-    - godot -s addons/gut/gut_cmdln.gd -d  --path "$PWD" -gconfig="test/test_config" -gexit --headless --verbose
+    - godot -s addons/gut/gut_cmdln.gd --path "$PWD" -gconfig="test/test_config" -gexit --headless --verbose -gjunit_xml_file="results.xml" -gjunit_xml_timestamp=true
+  artifacts:
+    when: always
+    paths:
+      - "results*.xml"
+    reports:
+      junit: "results*.xml"
+    expire_in: 30 days
 #   - import-assets
 #   - export
 #   - deploy
