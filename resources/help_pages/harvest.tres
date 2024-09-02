@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://2s7krr4rry25"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_kfufo"]
+
+[resource]
+script = ExtResource("1_kfufo")
+category = "Functions"
+title = "harvest()"
+content = "You can use [code]harvest()[/code] to harvest the tile directly underneath the farmer and collect the resource growing there.
+
+Note: using [code]harvest()[/code] on a plant that hasn't finished growing yet removes your plant but doesn't collect any resources!"

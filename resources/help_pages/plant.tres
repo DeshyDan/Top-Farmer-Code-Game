@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://uqx5k0dby6oc"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_trap5"]
+
+[resource]
+script = ExtResource("1_trap5")
+category = "Functions"
+title = "plant(crop:int)"
+content = "You can use [code]plant[/code] to plant a specified crop directly underneath the farmer. You can use a [url=Plants]builtin plant[/url] to easily specify which type of crop to plant:
+[code]
+plant(CORN)
+[/code]
+This will plant a corn seedling underneath the farmer!
+
+Note: the function just takes an int, so you can experiment and try passing a normal number to the function if you want."

@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://d22k6bxb2eb5h"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_1283r"]
+
+[resource]
+script = ExtResource("1_1283r")
+category = "Functions"
+title = "Custom Functions"
+content = "You can declare your own functions to make programming the farmer a lot easier. You can do this using the [code]func[/code] keyword, the name of your function, and a list of parameters the function takes. This is a function declaration.
+[code]
+func my_function(num1:int, num2:int):
+[/code]
+
+By itself, the function declaration just tells the farmer what the function takes as input, and isn't very useful (and will cause an error!).
+
+To specify what the function does, use a block of code to do something with the inputs. 
+[code]
+func my_add_function(num1:int, num2:int):
+	var result:int
+	result = num1 + num2
+[/code]
+
+Use the [code]return[/code] keyword to get your function to return a value:
+
+[code]
+func my_add_function(num1:int, num2:int):
+	var result:int
+	result = num1 + num2
+	return result
+[/code]
+
+To use functions elsewhere in your code, you need to specify the input arguments, and make sure their type matches the inputs of the function declaration:
+[code]
+var my_added_num:int
+my_added_num = my_add_function(1,2)
+print(my_added_num)
+[/code]
+This should print [code]3[/code]!"
