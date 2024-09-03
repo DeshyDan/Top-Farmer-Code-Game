@@ -14,6 +14,10 @@ var timer: Timer
 var robot_wait_tick = 0
 var score = 0
 var count = 0
+var level = 0
+var paused = false
+var lvl_skeleton_data
+var farm_model:FarmModel
 var goal_harvest:Dictionary
 
 signal victory
@@ -27,10 +31,10 @@ var height = 0
 
 func check_victory():
 	if(is_goal_harvest()):
-			timer.stop()
-			victory.emit()
-			level_completed.show()
-			window.hide()
+		timer.stop()
+		victory.emit()
+		level_completed.show()
+		window.hide()
 			
 func is_goal_harvest():
 	if farm.harvestables.size() != goal_harvest.size():
@@ -45,11 +49,18 @@ func is_goal_harvest():
 
 	return true
 	
-func set_level(lvl_skeleton,goal_harvest):
-	var lvl_skeleton_data = lvl_skeleton.get_as_text()
+func set_level(lvl_skeleton,goal_harvest,level):
+	self.level = level
 	
+	lvl_skeleton_data = lvl_skeleton.get_as_text()
+	
+	_create_farm_model(lvl_skeleton_data)
+	
+	self.goal_harvest = goal_harvest
+
+func _create_farm_model(data:String):
 	var lvl_array = []
-	var lines = lvl_skeleton_data.split("\n")
+	var lines = data.split("\n")
 	
 	for line in lines:
 		if line != "":
@@ -58,7 +69,7 @@ func set_level(lvl_skeleton,goal_harvest):
 			width = len(items)
 			height += 1
 
-	var farm_model:FarmModel = FarmModel.new(width,height)
+	farm_model = FarmModel.new(width,height)
 	
 	for i in range(0,height):
 		for j in range(0,width):
@@ -71,27 +82,48 @@ func set_level(lvl_skeleton,goal_harvest):
 			## TODO: use some kind of enum to map symbol to obstacle name
 			var coord: Vector2i = Vector2i(j, i)
 			if item == "#":
-				pass
+				pass 
 			elif item == "s":
 				var rock = Obstacle.ROCK()
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "r":
 				var rock = Obstacle.ROCK()
 				rock.set_transparency(255)
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "l":
 				var water = Obstacle.WATER()
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			elif item == "w":
 				var water = Obstacle.WATER()
 				water.set_transparency(255)
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
 	
-	self.goal_harvest = goal_harvest
 	
+func _randomize(data:String):
+	var lines = data.strip_edges().split("\n")
+	var transformed_lines = []
+	
+	for line in lines:
+			if "s" in line:
+				var transformed_line = ""
+				for c in line:
+					if c == "s":
+						transformed_line += "r" if randf() < 0.5 else "#"
+					else:
+						transformed_line += c
+				transformed_lines.append(transformed_line)
+			elif "l" in line:
 
+				if randf() < 0.5:
+					transformed_lines.append("w".repeat(line.length()))
+				else:
+					transformed_lines.append("#".repeat(line.length()))
+			else:
+				transformed_lines.append(line)
+	
+	_create_farm_model("\n".join(transformed_lines))
 
 func add_points():
 	# Increase the score by a certain number of points
@@ -117,21 +149,15 @@ func update_tick_rate():
 			return
 		timer.start(tick_length)
 
-# TODO: test that this scene can be instantiated from anywhere without
-# breaking
-
-# TODO: make it so that a tracepoint from the interpreter can wait n ticks
-# before continuing
-
-# TODO: keep track of the players score
-
 func _on_window_run_button_pressed():
 	window.reset_console()
 	
+	if level == 3 and paused == false:
+		randomize()
+	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
-	interpreter_client.start()
-	# TODO: tick length zero => pause timer 
+	interpreter_client.start() 
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
 	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
@@ -143,6 +169,7 @@ func _on_window_run_button_pressed():
 func _on_window_pause_button_pressed():
 	if not timer:
 		return
+	paused = true
 	timer.paused = not timer.paused
 
 func _on_window_kill_button_pressed():
@@ -150,6 +177,7 @@ func _on_window_kill_button_pressed():
 		remove_child(timer)
 	interpreter_client.kill()
 	reset_score()
+	paused = false
 	farm.reset()
 	
 

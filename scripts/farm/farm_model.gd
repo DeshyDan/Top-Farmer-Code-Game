@@ -10,7 +10,6 @@ func _init(width:int , height:int):
 	self.width = width
 	self.height =height
 	
-
 func is_empty(coord: Vector2i)->bool:
 	return ( grid_map[get_index(coord)] == null )
 	
@@ -18,7 +17,6 @@ func add_farm_item(farm_item: FarmItem, coord: Vector2i):
 	grid_map[get_index(coord)] = farm_item
 	print(get_data())
 	
-
 func get_height():
 	return height
 	
@@ -27,14 +25,18 @@ func get_width():
 	
 func is_harvestable(coord):
 	var plant = grid_map[get_index(coord)]
-	if plant == null:
-		return false
-	return plant.is_harvestable()
+	if plant is Plant:
+		if plant == null:
+			return false
+		return plant.is_harvestable()
+	else:
+		pass
 	
 func set_harvestable(coord:Vector2i):
 	if not grid_map[get_index(coord)]:
 		return
-	grid_map[get_index(coord)].set_harvestable()
+	if grid_map[get_index(coord)] is Plant:
+		grid_map[get_index(coord)].set_harvestable()
 
 func remove(coord: Vector2i):
 	grid_map[get_index(coord)] = null
@@ -50,4 +52,5 @@ func get_plant_at_coord(coord:Vector2i):
 	
 func remove_all_plants():
 	for i in range(grid_map.size()):
-		grid_map[i] = null
+		if grid_map[i] is Plant:
+			grid_map[i] = null
