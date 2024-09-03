@@ -25,7 +25,6 @@ auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 script = ExtResource("2_xasy8")
 executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
-comment_color = Color(0.458824, 0.470588, 0.490196, 1)
 
 [connection signal="code_completion_requested" from="." to="." method="_on_code_completion_requested"]
 [connection signal="text_changed" from="." to="." method="_on_text_changed"]
