@@ -1,4 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ds5a0h25he8vt"]
+[gd_scene load_steps=5 format=3 uid="uid://ds5a0h25he8vt"]
+
+[ext_resource type="Script" path="res://scenes/code_window/error_box.gd" id="1_j10j8"]
+[ext_resource type="Texture2D" uid="uid://6wra5rxmfsrl" path="res://addons/gut/gui/arrow.png" id="1_jmhxu"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_jdl7e"]
 color = Color(1, 0, 0, 1)
@@ -9,13 +12,43 @@ thickness = 10
 [sub_resource type="Theme" id="Theme_m3cyr"]
 PanelContainer/styles/panel = SubResource("StyleBoxLine_jdl7e")
 
-[node name="ErrorBox" type="PanelContainer"]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -10.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_vertical = 4
+[node name="ErrorBox" type="HBoxContainer" node_paths=PackedStringArray("label")]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -14.5
+offset_right = 241.0
+offset_bottom = 14.5
+grow_vertical = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_j10j8")
+label = NodePath("PanelContainer/MarginContainer/ErrorBox")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+modulate = Color(0.180392, 0.180392, 0.180392, 1)
+layout_mode = 2
+texture = ExtResource("1_jmhxu")
+stretch_mode = 4
+flip_h = true
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="ErrorBox" type="RichTextLabel" parent="PanelContainer/MarginContainer"]
+layout_direction = 2
+layout_mode = 2
 theme = SubResource("Theme_m3cyr")
+text = "This is what an error looks like"
+fit_content = true
+autowrap_mode = 0

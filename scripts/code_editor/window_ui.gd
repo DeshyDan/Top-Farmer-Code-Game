@@ -21,34 +21,29 @@ var console: Console
 signal run_button_pressed
 signal pause_button_pressed
 signal kill_button_pressed
+signal exec_speed_changed(value)
 
 func _ready():
 	code_edit = code_editor_ui.get_code_edit()
 	console = code_editor_ui.get_console()
 	code_edit.text = default_text
-	MessageBus.code_completion_set.connect(_on_code_completion_set)
 
 func get_source_code() -> String:
 	return code_edit.text
 
 func print_to_console(to_print: Variant):
-	console.print_to_player_console([to_print],null, null, null)
+	console.print_to_player_console([to_print])
 
 func highlight_line(lineno: int):
-	#print("window got lineno: %d" % lineno)
 	code_edit.highlight_line.call_deferred(lineno)
 
 func reset_console():
 	console.clear()
 
-func set_error_line(lineno, colno):
-	code_edit.set_caret_line(lineno -1)
-	code_edit.set_caret_column(colno)
-	code_edit.set_code_hint("Error")
-	code_edit.set_code_hint_draw_below(true)
-	code_edit.clear_executing_lines()
-	if lineno < code_edit.get_line_count():
-		code_edit.set_line_as_executing(lineno, true)
+func set_error(err: GError):
+	code_edit.draw_error(err.token.lineno, err.token.colno, err.raw_message)
+	
+	console.print_to_player_console([err.message], Color.RED * 0.9)
 
 func highlight_tracepoint(node: AST, call_stack: CallStack):
 	if node.get("token") == null:
@@ -111,6 +106,7 @@ func _on_panel_mouse_exited():
 
 
 func _on_panel_gui_input(event):
+	
 	if event is InputEventMouseButton:
 		if event.is_pressed() && mouse_in_resize:
 			draggingDistance = position.distance_to(get_viewport().get_mouse_position())
@@ -125,11 +121,5 @@ func _on_panel_gui_input(event):
 			newPosition = get_viewport().get_mouse_position()
 			size = newPosition - position
 
-func _on_code_completion_set(options: Array[CodeCompletionOption]):
-	for option in options:
-		code_edit.add_code_completion_option(
-			option.kind,
-			option.display,
-			option.replacement, 
-			Color.WHITE, null, 0)
-	code_edit.update_code_completion_options(false)
+func _on_exec_speed_slider_value_changed(value):
+	exec_speed_changed.emit(value)
