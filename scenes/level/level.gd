@@ -106,6 +106,7 @@ func update_score():
 func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
+	count = 0
 	score_label.text = "Score: " + str(score)
 
 func update_tick_rate():
@@ -148,8 +149,9 @@ func _on_window_kill_button_pressed():
 	if timer and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
-	farm.reset()
 	reset_score()
+	farm.reset()
+	
 
 func _on_timer_tick():
 	# TODO: check for victory here
