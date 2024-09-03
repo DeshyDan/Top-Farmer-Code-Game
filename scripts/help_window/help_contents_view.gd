@@ -4,10 +4,17 @@ extends Tree
 var categories = {}
 signal help_contents_item_selected(help_item: HelpItem)
 var contents_root: TreeItem
+
+func _init():
+	var test_root = create_item()
+	var test_item = create_item(test_root)
+	test_item.set_text(0, "Test Category")
+
 # Connect signals from the Tree
 func _ready():
 	item_selected.connect(_on_tree_item_selected)
 	item_edited.connect(_on_tree_item_edited)
+	
 
 # This draws the tree from a data structure provided ("model")
 func update_tree(model: Array[HelpItem]):
