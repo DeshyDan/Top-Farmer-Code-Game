@@ -103,12 +103,7 @@ func _on_code_completion_requested(source: String):
 		options.append(CodeCompletionOption.const_option(builtin_const_name, true))
 		
 	var symboltable = last_valid_symbol_table
-
-	# make a best effort to parse the current program and add player
-	# defined symbols to the code completion options, otherwise fall
-	# back to last valid symbol table
 	
-	# TODO: change symbols based on the scope enclosing the caret
 	var lexer = Lexer.new(source)
 	
 	for keyword in lexer.keywords:
@@ -117,27 +112,37 @@ func _on_code_completion_requested(source: String):
 			# TODO: fix this
 			continue
 		options.append(CodeCompletionOption.keyword_option(keyword))
-	
-	var parser = Parser.new(lexer)
-	var tree = parser.parse()
-	
-	if not parser.parser_error.error_code:
-		var sem = SemanticAnalyzer.new()
-		sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
-		sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
-		sem.visit(tree)
-		if not sem.semantic_error.error_code:
-			symboltable = sem.current_scope
-			last_valid_symbol_table = symboltable
-	
-	if not symboltable:
-		MessageBus.set_code_completion_options(options)
-		return
-	
-	for symbol_name in symboltable._symbols.keys():
-		var symbol = symboltable.lookup(symbol_name)
-		if symbol is FunctionSymbol:
-			options.append(CodeCompletionOption.func_option(symbol_name))
-		if symbol is VarSymbol:
-			options.append(CodeCompletionOption.var_option(symbol_name))
 	MessageBus.set_code_completion_options(options)
+	
+	# uncomment this when the interpreter is stable enough 
+	# to parse on every keystroke
+	
+	# make a best effort to parse the current program and add player
+	# defined symbols to the code completion options, otherwise fall
+	# back to last valid symbol table
+	
+	# TODO: change symbols based on the scope enclosing the caret
+	
+	#var parser = Parser.new(lexer)
+	#var tree = parser.parse()
+	#
+	#if not parser.parser_error.error_code:
+		#var sem = SemanticAnalyzer.new()
+		#sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
+		#sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
+		#sem.visit(tree)
+		#if not sem.semantic_error.error_code:
+			#symboltable = sem.current_scope
+			#last_valid_symbol_table = symboltable
+	#
+	#if not symboltable:
+		#MessageBus.set_code_completion_options(options)
+		#return
+	
+	#for symbol_name in symboltable._symbols.keys():
+		#var symbol = symboltable.lookup(symbol_name)
+		#if symbol is FunctionSymbol:
+			#options.append(CodeCompletionOption.func_option(symbol_name))
+		#if symbol is VarSymbol:
+			#options.append(CodeCompletionOption.var_option(symbol_name))
+	

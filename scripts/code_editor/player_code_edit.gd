@@ -25,6 +25,7 @@ func _ready():
 	#syntax_highlighter.add_color_region("#","", comment_color)
 	# have to do this otherwise random godot functions show up
 	update_code_completion_options(true)
+	MessageBus.code_completion_set.connect(_on_code_completion_set)
 
 func highlight_line(lineno):
 	var tween = create_tween()
@@ -48,7 +49,6 @@ func draw_error(lineno, colno, raw_message):
 	error_box.set_text(raw_message)
 	error_box.visible = true
 
-
 func _on_text_changed():
 	request_code_completion()
 	error_box.visible = false
@@ -57,3 +57,12 @@ func _on_text_changed():
 
 func _on_code_completion_requested():
 	MessageBus.request_code_completion(text)
+
+func _on_code_completion_set(options: Array[CodeCompletionOption]):
+	for option in options:
+		add_code_completion_option(
+			option.kind,
+			option.display,
+			option.replacement, 
+			Color.WHITE, null, 0)
+	update_code_completion_options(false)

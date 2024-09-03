@@ -125,6 +125,7 @@ offset_right = 410.0
 offset_bottom = 33.0
 grow_vertical = 1
 
+[connection signal="code_completion_requested" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_code_completion_requested"]
 [connection signal="text_changed" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_text_changed"]
 [connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
