@@ -10,7 +10,7 @@ func _ready():
 	# Add the instance to the current scene
 	add_child(lvl)
 	
-	var file_path = "res://assets/levels/lvl3.txt"
+	var file_path = "res://assets/levels/demo_lvl.txt"
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
 	
 	var goal_harvest = {
