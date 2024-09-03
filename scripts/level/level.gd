@@ -114,7 +114,14 @@ func reset_score():
 	# Access the Score Label node and update its text
 	score = 1000
 	score_label.text = "Score: " + str(score)
-	
+
+func update_tick_rate():
+	var tick_length = 1.0/(float(tick_rate) + 0.00001)
+	if is_instance_valid(timer) and timer.is_inside_tree():
+		timer.stop()
+		if tick_rate == 0:
+			return
+		timer.start(tick_length)
 
 # TODO: test that this scene can be instantiated from anywhere without
 # breaking
@@ -125,9 +132,11 @@ func reset_score():
 # TODO: keep track of the players score
 
 func _on_window_run_button_pressed():
+	window.reset_console()
+	
 	if player_save:
 		player_save.update_level_source(3, window.get_source_code())
-	# TODO: clear window.console
+	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
 	interpreter_client.start()
@@ -189,9 +198,8 @@ func _on_interpreter_client_finished():
 	# TODO: show failure screen here
 	failure.emit()
 
-func _on_interpreter_client_error(message):
-	window.print_to_console(message)
-
+func _on_interpreter_client_error(err: GError):
+	window.set_error(err)
 
 func _on_level_completed_next_level():
 	pass
@@ -199,3 +207,8 @@ func _on_level_completed_next_level():
 
 func _on_level_completed_retry():
 	get_tree().reload_current_scene()
+
+
+func _on_window_ui_exec_speed_changed(value):
+	tick_rate = value
+	update_tick_rate()

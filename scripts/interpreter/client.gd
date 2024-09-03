@@ -3,7 +3,7 @@ extends Node
 
 signal finished
 signal tracepoint_reached(node: AST, call_stack: CallStack)
-signal error(message: String)
+signal error(err: GError)
 
 signal print_requested(args: Array)
 signal move_requested(args: Array)
@@ -28,15 +28,14 @@ func load_source(source: String):
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
 	if parser.parser_error.error_code:
-		show_error(parser.parser_error.message)
+		show_error(parser.parser_error)
 		return false
 	var sem = SemanticAnalyzer.new()
 	sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
 	sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
 	sem.visit(tree)
 	if sem.semantic_error.error_code:
-		show_error(sem.semantic_error.message)
-		#window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
+		show_error(sem.semantic_error)
 		return false
 	interpreter = Interpreter.new(tree)
 	interpreter.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
@@ -60,8 +59,8 @@ func tick():
 func kill():
 	interpreter = null
 
-func show_error(message: String):
-	error.emit(message)
+func show_error(err: GError):
+	error.emit(err)
 
 func print_call(args):
 	print_requested.emit(args)
@@ -82,7 +81,7 @@ func _on_interpreter_finished():
 	finished.emit()
 
 func _on_runtime_error(err: RuntimeError):
-	show_error(err.message)
+	show_error(err)
 	interpreter = null
 	finished.emit()
 
