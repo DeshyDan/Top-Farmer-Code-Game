@@ -89,7 +89,11 @@ func harvest():
 		
 		if farm_model.is_harvestable(robot_coords):
 			store(robot_coords)
+			MessageBus.send_input(true)
+		else:
+			MessageBus.send_input(false)
 		farm_model.remove(robot_coords)
+		
 
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
@@ -116,8 +120,10 @@ func plant(plant_id:int=1):
 			
 			dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
 			farm_model.add_farm_item(plant_type, robot_tile_coords)
+			MessageBus.send_input(true)
 		else:
 			print("Cannot place here")
+			MessageBus.send_input(false)
 
 func get_plant_type(plant_id:int):
 	match(plant_id):
