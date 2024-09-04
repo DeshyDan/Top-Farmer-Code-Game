@@ -85,7 +85,7 @@ func harvest():
 	var robot_coords:Vector2i = robot.get_coords()
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
 
-	if tile_data:
+	if tile_data and farm_model.get_item_at_coord(robot_coords) is Plant:
 		robot.harvest()
 		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
 		
@@ -141,11 +141,11 @@ func reset():
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
-	remove_plants()
+	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
 	
-func remove_plants():
+func remove_all_plants():
 	for x in farm_model.width:
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
