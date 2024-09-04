@@ -82,18 +82,18 @@ func set_level(lvl_skeleton,goal_harvest):
 				pass
 			elif item == "s":
 				var rock = Obstacle.ROCK()
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "r":
 				var rock = Obstacle.ROCK()
 				rock.set_transparency(255)
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "l":
 				var water = Obstacle.WATER()
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			elif item == "w":
 				var water = Obstacle.WATER()
 				water.set_transparency(255)
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
 	

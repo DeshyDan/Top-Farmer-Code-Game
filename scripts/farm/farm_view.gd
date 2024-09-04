@@ -112,8 +112,25 @@ func get_plant_type(plant_id:int):
 			return Plant.TOMATO()
 
 func move(dir): 
-	robot_tile_coords = robot.move(dir)
-	
+	var vec: Vector2i
+	match dir:
+		Const.Direction.NORTH:
+			vec = Vector2i.UP
+		Const.Direction.SOUTH:
+			vec = Vector2i.DOWN
+		Const.Direction.EAST:
+			vec = Vector2i.RIGHT
+		Const.Direction.WEST:
+			vec = Vector2i.LEFT
+			
+	if (is_out_of_bounds(robot_tile_coords + vec)) or (farm_model.is_obstacle(robot_tile_coords + vec)):
+		return
+	robot_tile_coords = robot.move(vec)
+	print(robot_tile_coords)
+
+func is_out_of_bounds(coords: Vector2i):
+	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
+
 func get_tile_position(coords: Vector2i):
 	return dirt_terrain.map_to_local(coords)
 
