@@ -8,9 +8,8 @@ z_index = 4096
 script = ExtResource("1_kwdwu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -12)
-scale = Vector2(0.25, 0.25)
+position = Vector2(0, -16)
 sprite_frames = ExtResource("2_775mp")
-animation = &"idle"
+animation = &"wait"
 autoplay = "idle"
-frame_progress = 0.0302001
+frame_progress = 0.509351

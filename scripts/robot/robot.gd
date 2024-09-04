@@ -32,19 +32,19 @@ func change_direction(vec:Vector2i):
 	position.y += vec.y * 16
 	
 func plant():
-	#animated_sprite.play("planting")
+	animated_sprite.play("planting")
 	await get_tree().create_timer(0.2).timeout
-	#animated_sprite.play("idle")
+	animated_sprite.play("idle")
 	
 func harvest():
-	#animated_sprite.play("harvesting")
+	animated_sprite.play("harvesting")
 	await get_tree().create_timer(0.2).timeout
-	#animated_sprite.play("idle")
+	animated_sprite.play("idle")
 
 func wait():
-	#animated_sprite.play("wait")
-	await get_tree().create_timer(0.1).timeout
-	#animated_sprite.play("idle")
+	animated_sprite.play("wait")
+	await get_tree().create_timer(0.4).timeout
+	animated_sprite.play("idle")
 	
 func get_coords():
 	return robot_tile_coords
