@@ -9,10 +9,10 @@ func _init(id:int , texture_source_id:int , transparency:int ):
 	self.texture_source_id = texture_source_id
 
 static func ROCK():
-	return Obstacle.new(0, 3, 127)
+	return Obstacle.new(0, 3, 255)
 
 static func WATER():
-	return Obstacle.new(1, 4, 127)
+	return Obstacle.new(1, 4, 255)
 	
 func get_id():
 	return self.id
