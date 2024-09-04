@@ -52,8 +52,8 @@ func fit_zoom_to_farm(farm: FarmView):
 	var viewport_width = get_viewport_rect().size.x
 	var target_relative_size = 0.5
 	var relative_size = farm_width / viewport_width
-	var zoom_factor = (target_relative_size / relative_size) / 1.2
-	position = Vector2(farm.position.x, farm.position.y + farm_width /2)
+	var zoom_factor = (target_relative_size / relative_size) / 1.5
+	position = Vector2(farm.position.x - farm_width / 4, farm.position.y + farm_width / 4)
 	reset_smoothing()
 	zoom_factor = max(zoom_factor, MIN_ZOOM)
 	zoom_factor = min(zoom_factor, MAX_ZOOM)
