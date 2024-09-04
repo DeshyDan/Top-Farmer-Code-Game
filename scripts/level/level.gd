@@ -9,6 +9,7 @@ extends Node2D
 @export var tick_rate = 4
 
 @onready var score_label = $CanvasLayer/Score
+@onready var camera = $camera
 
 var timer: Timer
 var robot_wait_tick = 0
@@ -97,7 +98,7 @@ func set_level(lvl_skeleton,goal_harvest):
 	farm.plot_farm(farm_model)
 	
 	self.goal_harvest = goal_harvest
-	
+	camera.fit_zoom_to_farm(farm)
 
 
 func add_points():
