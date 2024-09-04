@@ -150,12 +150,12 @@ func _on_window_run_button_pressed():
 	timer.start(tick_length)
 
 func _on_window_pause_button_pressed():
-	if not timer:
+	if not is_instance_valid(timer):
 		return
 	timer.paused = not timer.paused
 
 func _on_window_kill_button_pressed():
-	if timer and timer.is_inside_tree():
+	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
 	farm.reset()
