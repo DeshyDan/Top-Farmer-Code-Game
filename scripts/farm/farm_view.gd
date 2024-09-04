@@ -42,6 +42,7 @@ func plot_farm(farm_model:FarmModel):
 	var path = set_terrain_path(width, height)
 	
 	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
+	redraw_farm()
 	draggable.set_size(Vector2(width * 16 , height * 16))
 	
 	
@@ -69,11 +70,13 @@ func tick():
 func redraw_farm():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			var farm_item: FarmItem = farm_model.get_plant_at_coord(Vector2i(x,y))
-			if not (farm_item is Plant):
-				continue
-			var atlas_x = min(farm_item.age, 3)
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Obstacle):
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+
+			elif (farm_item is Plant):
+				var atlas_x = min(farm_item.age, 3)
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
 
 func wait():
 	robot.wait()
@@ -92,7 +95,7 @@ func harvest():
 		farm_model.remove(robot_coords)
 
 func store(plant_coord:Vector2i):
-	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
+	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
