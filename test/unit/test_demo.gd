@@ -10,14 +10,16 @@ func before_each():
 	lvl = level_scene.instantiate() as Level
 	add_child(lvl)
 	
-	var file_path = "res://assets/levels/demo_lvl.txt"
+	var level = 4
+	
+	var file_path = "res://assets/levels/lvl_"+str(level)+".txt"
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4
 	}
 	
-	lvl.set_level(lvl_skeleton, goal_harvest)
+	lvl.set_level(lvl_skeleton, goal_harvest,level)
 
 func test_demo_unoptimized():
 	lvl = lvl as Level
