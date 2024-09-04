@@ -1,6 +1,8 @@
 class_name PlayerSave
 extends Resource
 
+const DEFAULT_LEVEL = 3.0
+
 static var save_path = "user://code_game/save_file.save"
 
 var _source_codes = {}
@@ -46,7 +48,7 @@ func load_progress():
 	if not FileAccess.file_exists(save_path):
 		var dir = DirAccess.open("user://")
 		dir.make_dir("code_game")
-		_unlocked_levels.append(3)
+		_unlocked_levels.append(DEFAULT_LEVEL)
 		save_progress()
 	var file = FileAccess.open(save_path, FileAccess.READ)
 	_unlocked_levels = JSON.parse_string(file.get_line())
