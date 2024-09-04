@@ -1,7 +1,6 @@
 class_name FarmView
 extends Node2D
 
-
 @onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
@@ -12,7 +11,7 @@ extends Node2D
 
 const PLANT_LAYER = 0
 const SOIL_LAYER = 2
-const WATER_LAYER = 1
+const ROCK_LAYER = 1
 const SOIL_TERRAIN = 0
 const WATER_TERRAIN = 1
 
@@ -23,7 +22,6 @@ var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
 
-
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
 	var height = farm_model.get_height()
@@ -31,7 +29,21 @@ func plot_farm(farm_model:FarmModel):
 	var path = set_terrain_path(width, height)
 
 	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
-	draggable.set_size(Vector2(width * 16 , height * 16))
+	for x in farm_model.width:
+		for y in farm_model.height:
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Obstacle):
+				#water
+				if farm_item.get_id() == 1:
+					dirt_terrain.set_cells_terrain_connect(
+						SOIL_LAYER,
+						[Vector2i(x, y)],
+						0,
+						WATER_TERRAIN
+					)
+					continue
+				#rocks
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
 	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
@@ -58,13 +70,7 @@ func redraw_farm():
 	for x in farm_model.width:
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
-			if (farm_item is Obstacle):
-				if farm_item.get_id() == 1:
-					dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, [Vector2i(x, y)], 0, WATER_TERRAIN)
-					continue
-				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
-					
-			elif (farm_item is Plant):
+			if (farm_item is Plant):
 				var atlas_x = min(farm_item.age, 3)
 				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
 
