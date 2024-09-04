@@ -84,14 +84,14 @@ func set_level(lvl_skeleton,goal_harvest):
 				farm_model.add_farm_item(rock,coord)
 			elif item == "s":
 				var rock = Obstacle.ROCK()
-				rock.set_transparency(127)
+				rock.set_visibility("#ffffffba")
 				farm_model.add_farm_item(rock,coord)
 			elif item == "w":
 				var water = Obstacle.WATER()
 				farm_model.add_farm_item(water,coord)
 			elif item == "l":
 				var water = Obstacle.WATER()
-				water.set_transparency(127)
+				water.set_visibility("#ffffffba")
 				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
