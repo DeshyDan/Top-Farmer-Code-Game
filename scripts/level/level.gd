@@ -22,8 +22,15 @@ signal failure
 var width = 0
 var height = 0
 
+var player_save: PlayerSave
 # TODO: make it so that an arbitrary farm goal and farm start state
 # can be set
+
+func set_player_save(save: PlayerSave):
+	player_save = save
+
+func set_source_code(source: String):
+	window.code_edit.text = source
 
 func check_victory():
 	if(is_goal_harvest()):
@@ -126,6 +133,9 @@ func update_tick_rate():
 
 func _on_window_run_button_pressed():
 	window.reset_console()
+	
+	if player_save:
+		player_save.update_level_source(3, window.get_source_code())
 	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
