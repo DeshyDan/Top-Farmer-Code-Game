@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://ck1m23r5xyxot"]
+[gd_scene load_steps=4 format=3 uid="uid://ck1m23r5xyxot"]
 
 [ext_resource type="Script" path="res://scripts/help_window/help_window_ui.gd" id="1_buopv"]
 [ext_resource type="Theme" uid="uid://dvwbbu28fsu4k" path="res://resources/help_theme.tres" id="1_ciyua"]
 [ext_resource type="Script" path="res://scripts/help_window/help_contents_view.gd" id="1_f1sko"]
-[ext_resource type="Script" path="res://scripts/help_window/help_window_content.gd" id="4_fw03e"]
 
 [node name="HelpWindowUI" type="Control" node_paths=PackedStringArray("help_contents", "help_text")]
 layout_mode = 3
@@ -104,7 +103,6 @@ bbcode_enabled = true
 text = "Select an item in the contents tab to show help"
 fit_content = true
 selection_enabled = true
-script = ExtResource("4_fw03e")
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer/HelpWindowCloseButton" to="." method="_on_help_window_close_button_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer/ZoomOutButton" to="." method="_on_zoom_out_button_pressed"]
