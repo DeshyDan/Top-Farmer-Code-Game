@@ -19,14 +19,14 @@ func move(dir:Const.Direction):
 			vec = Vector2i.RIGHT
 		Const.Direction.WEST:
 			vec = Vector2i.LEFT
-			
+
 	if is_out_of_bounds(self.robot_tile_coords + vec):
 		MessageBus.send_input(false)
 		return robot_tile_coords
-		
+
 	change_direction(vec)
 	self.robot_tile_coords += vec
-	MessageBus.send_input(false)
+	MessageBus.send_input(true)
 	return robot_tile_coords
 	
 func change_direction(vec:Vector2i):
