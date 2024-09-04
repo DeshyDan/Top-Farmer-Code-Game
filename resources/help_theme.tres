@@ -5,6 +5,8 @@
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yoajd"]
 
 [resource]
-RichTextLabel/font_sizes/mono_font_size = 16
+RichTextLabel/font_sizes/mono_font_size = 13
+RichTextLabel/font_sizes/normal_font_size = 13
 RichTextLabel/fonts/mono_font = ExtResource("1_fqxdx")
 RichTextLabel/styles/focus = SubResource("StyleBoxEmpty_yoajd")
+Tree/font_sizes/font_size = 13

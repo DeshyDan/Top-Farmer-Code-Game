@@ -1,11 +1,11 @@
 
 extends Node
 
-signal print_requested(args, source_name, row, column)
+signal code_completion_requested(source: String)
+signal code_completion_set(options: Array[CodeCompletionOption])
 
-signal robot_plant_requested(pos: Vector2i)
+func request_code_completion(source: String):
+	code_completion_requested.emit(source)
 
-func print_log(args, source_name, row, column):
-	print_requested.emit(args,source_name,row,column)
-	for arg in args:
-		prints(arg)
+func set_code_completion_options(options: Array[CodeCompletionOption]):
+	code_completion_set.emit(options)

@@ -2,10 +2,10 @@ class_name FarmView
 extends Node2D
 
 
-@onready var dirt_terrain =$Grid
+@onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
-@onready var draggable:Button = $Grid/draggable
+
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
 @export_range(2,15) var height:int = 5
@@ -20,20 +20,7 @@ const CAN_PLACE_SEEDS = "can_place_seeds"
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
-var dragging = false
-var drag_offset = Vector2(0,0)
 
-func _process(delta):
-	if dragging:
-		dirt_terrain.position = get_local_mouse_position() - drag_offset
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_MIDDLE:
-			if event.is_pressed():
-				_on_drag()
-			else:
-				_on_drop()
 
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
@@ -42,8 +29,6 @@ func plot_farm(farm_model:FarmModel):
 	var path = set_terrain_path(width, height)
 	
 	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
-	draggable.set_size(Vector2(width * 16 , height * 16))
-	
 	
 	robot.position = get_tile_position(robot.get_coords())
 	robot.set_boundaries(width,height)
@@ -149,11 +134,5 @@ func reset(original_farm_model : FarmModel):
 		for y in farm_model.height:
 			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
 
-func _on_drag():
-	dragging = true
-	drag_offset = get_local_mouse_position() - dirt_terrain.position
-
-func _on_drop():
-	dragging = false
 
 
