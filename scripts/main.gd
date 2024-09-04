@@ -10,7 +10,7 @@ func _ready():
 	# Add the instance to the current scene
 	add_child(lvl)
 	
-	var level = 4
+	var level = 3
 	
 	var file_path = "res://assets/levels/lvl_" + str(level) + ".txt"
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)

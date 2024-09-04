@@ -135,7 +135,8 @@ func get_tile_position(coords: Vector2i):
 func get_harvestables():
 	return harvestables
 	
-func reset():
+func reset(original_farm_model : FarmModel):
+	self.farm_model = original_farm_model
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())

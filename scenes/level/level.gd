@@ -18,6 +18,7 @@ var level = 0
 var paused = false
 var lvl_skeleton_data
 var farm_model:FarmModel
+var original_farm_model:FarmModel
 var goal_harvest:Dictionary
 
 signal victory
@@ -54,7 +55,7 @@ func set_level(lvl_skeleton,goal_harvest,level):
 	
 	lvl_skeleton_data = lvl_skeleton.get_as_text()
 	
-	_create_farm_model(lvl_skeleton_data)
+	original_farm_model = _create_farm_model(lvl_skeleton_data)
 	
 	self.goal_harvest = goal_harvest
 
@@ -99,7 +100,7 @@ func _create_farm_model(data:String):
 				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
-	
+	return farm_model
 	
 func _randomize(data:String):
 	var lines = data.strip_edges().split("\n")
@@ -178,7 +179,7 @@ func _on_window_kill_button_pressed():
 	interpreter_client.kill()
 	reset_score()
 	paused = false
-	farm.reset()
+	farm.reset(original_farm_model)
 	
 
 func _on_timer_tick():
