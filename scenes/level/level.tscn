@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bx5163jemrhj8"]
 
-[ext_resource type="Script" path="res://scenes/level/level.gd" id="1_larfg"]
+[ext_resource type="Script" path="res://scripts/level/level.gd" id="1_bo5t6"]
 [ext_resource type="PackedScene" uid="uid://bxeid64nke54h" path="res://scenes/farm/farm.tscn" id="2_qaq0c"]
 [ext_resource type="Script" path="res://scripts/interpreter/client.gd" id="3_1ed4d"]
 [ext_resource type="PackedScene" uid="uid://cxmx1dbvlr6w2" path="res://scenes/code_window/window_ui.tscn" id="3_8s5ws"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c51c32vmgquan" path="res://scenes/help_window/help_window.tscn" id="6_y3t0h"]
 
 [node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
-script = ExtResource("1_larfg")
+script = ExtResource("1_bo5t6")
 window = NodePath("CanvasLayer/WindowUi")
 farm = NodePath("Farm")
 interpreter_client = NodePath("InterpreterClient")
@@ -28,26 +28,13 @@ text = "Score: 0"
 uppercase = true
 
 [node name="HelpWindow" parent="CanvasLayer" instance=ExtResource("6_y3t0h")]
-anchors_preset = 0
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 0.0
-anchor_bottom = 0.0
-offset_left = 702.0
-offset_top = 449.0
-offset_right = 1277.0
-offset_bottom = 718.0
-grow_horizontal = 1
-grow_vertical = 1
 size_flags_horizontal = 8
-metadata/_edit_use_anchors_ = true
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
 offset_left = 17.0
 offset_top = 17.0
 offset_right = -661.0
 offset_bottom = -273.0
-default_text = ""
 
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
@@ -62,6 +49,7 @@ position = Vector2(639, 360)
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
 
+[connection signal="exec_speed_changed" from="CanvasLayer/WindowUi" to="." method="_on_window_ui_exec_speed_changed"]
 [connection signal="kill_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_kill_button_pressed"]
 [connection signal="pause_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_pause_button_pressed"]
 [connection signal="run_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_run_button_pressed"]

@@ -6,6 +6,8 @@ extends CodeEdit
 @export var executing_color: Color
 @export var executing_highlight_length: float = 1
 
+@export var error_box: Control
+
 var _background_color: Color
 var _tweening_lines = []
 # Called when the node enters the scene tree for the first time.
@@ -31,10 +33,20 @@ func highlight_line(lineno):
 		executing_highlight_length
 		).set_ease(Tween.EASE_IN)
 
-func _process(delta):
-	pass
-
-func draw_error(lineno, colno, length):
-	pass
-
+func draw_error(lineno, colno, raw_message):
+	set_line_background_color(lineno-1, Color.RED * 0.4)
+	set_caret_column(colno)
+	set_caret_line(lineno - 1)
 	
+	error_box.position = get_caret_draw_pos()
+	# get_caret_draw_pos() is bugged so have to correct it:
+	error_box.position.y -= get_line_height()
+	
+	error_box.set_text(raw_message)
+	error_box.visible = true
+
+
+func _on_text_changed():
+	error_box.visible = false
+	for line in get_line_count():
+		set_line_background_color(line, _background_color)
