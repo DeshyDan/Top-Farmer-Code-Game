@@ -41,10 +41,9 @@ func plot_farm(farm_model:FarmModel):
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
 	
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
-	redraw_farm()
+	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)	
 	draggable.set_size(Vector2(width * 16 , height * 16))
-	
+	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
 	robot.set_boundaries(width,height)
@@ -73,7 +72,7 @@ func redraw_farm():
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
 			if (farm_item is Obstacle):
 				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
-
+					
 			elif (farm_item is Plant):
 				var atlas_x = min(farm_item.age, 3)
 				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
