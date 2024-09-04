@@ -6,7 +6,7 @@ var x_max_boundary :int
 var y_max_boundary :int
 
 var robot_tile_coords:Vector2i = Vector2i(0,0)
-@onready var animated_sprite = $AnimatedSprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func move(dir:Const.Direction):
 	var vec: Vector2i
@@ -45,7 +45,16 @@ func wait():
 	animated_sprite.play("wait")
 	await get_tree().create_timer(0.4).timeout
 	animated_sprite.play("idle")
-	
+
+func idle():
+	animated_sprite.play("idle")
+
+func error():
+	animated_sprite.play("fright")
+	animated_sprite.animation_finished.connect(
+		func(): animated_sprite.play("error_idle")
+	)
+
 func get_coords():
 	return robot_tile_coords
 func set_coords(coords:Vector2i):
