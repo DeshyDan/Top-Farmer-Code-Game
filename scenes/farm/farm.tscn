@@ -18,8 +18,10 @@ tile_set = ExtResource("2_qam0v")
 format = 2
 layer_0/name = "Plant"
 layer_0/z_index = 999
-layer_1/name = "Soil"
+layer_1/name = "Rocks"
 layer_1/tile_data = PackedInt32Array()
+layer_2/name = "Soil"
+layer_2/tile_data = PackedInt32Array()
 
 [node name="draggable" type="Button" parent="Grid"]
 modulate = Color(1, 1, 1, 0)

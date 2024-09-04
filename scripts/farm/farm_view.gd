@@ -11,9 +11,10 @@ extends Node2D
 @export_range(2,15) var height:int = 5
 
 const PLANT_LAYER = 0
-const SOIL_LAYER = 1
-const SOIL_TERRAIN_SET = 0
-const WATER_TERRAIN_SET = 0
+const SOIL_LAYER = 2
+const WATER_LAYER = 1
+const SOIL_TERRAIN = 0
+const WATER_TERRAIN = 1
 
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
@@ -42,7 +43,7 @@ func plot_farm(farm_model:FarmModel):
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
 
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
+	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
 	draggable.set_size(Vector2(width * 16 , height * 16))
 	redraw_farm()
 	
@@ -56,7 +57,6 @@ func set_terrain_path(width: int, height: int):
 			map.append(Vector2i(x, y))
 
 	return map
-
 
 func tick():
 	for farm_item: FarmItem in farm_model.get_data():
@@ -73,7 +73,7 @@ func redraw_farm():
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
 			if (farm_item is Obstacle):
 				if farm_item.get_id() == 1:
-					dirt_terrain.set_cells_terrain_connect(PLANT_LAYER, [Vector2i(x, y)], WATER_TERRAIN_SET, 1)
+					dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, [Vector2i(x, y)], 0, WATER_TERRAIN)
 					continue
 				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
 					
