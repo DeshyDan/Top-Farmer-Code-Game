@@ -1,6 +1,7 @@
-[gd_resource type="SpriteFrames" load_steps=31 format=3 uid="uid://b633heijf0big"]
+[gd_resource type="SpriteFrames" load_steps=34 format=3 uid="uid://b633heijf0big"]
 
 [ext_resource type="Texture2D" uid="uid://b7evufppml3hg" path="res://assets/tilesets/player/player.png" id="1_thw1q"]
+[ext_resource type="Texture2D" uid="uid://b86cw6wcgldnq" path="res://assets/tilesets/player/Jetpackfarmer_placeholder.png" id="2_g8scn"]
 [ext_resource type="Texture2D" uid="uid://cb4nra15qsqdl" path="res://assets/tilesets/player/player_actions.png" id="2_ptnc7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uvppr"]
@@ -14,6 +15,14 @@ region = Rect2(32, 192, 32, 32)
 [sub_resource type="AtlasTexture" id="AtlasTexture_cnnq3"]
 atlas = ExtResource("1_thw1q")
 region = Rect2(64, 192, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0avai"]
+atlas = ExtResource("2_g8scn")
+region = Rect2(0, 0, 48, 96)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ye61"]
+atlas = ExtResource("2_g8scn")
+region = Rect2(48, 0, 48, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fhxk5"]
 atlas = ExtResource("1_thw1q")
@@ -133,6 +142,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_0avai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ye61")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_fhxk5")
 }, {
 "duration": 1.0,
@@ -151,7 +171,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_iq1r7")
 }],
 "loop": true,
-"name": &"idle",
+"name": &"idle_old",
 "speed": 10.0
 }, {
 "frames": [{
