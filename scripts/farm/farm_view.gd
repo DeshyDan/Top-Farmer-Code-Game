@@ -141,15 +141,18 @@ func reset():
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
-	
-	farm_model.remove_all_plants()
+	remove_plants()
 	harvestables.clear()
 	inventory.clear()
 	
+func remove_plants():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
-
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Plant):
+				farm_model.remove(Vector2i(x,y))
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+				
 func _on_drag():
 	dragging = true
 	drag_offset = get_local_mouse_position() - dirt_terrain.position
