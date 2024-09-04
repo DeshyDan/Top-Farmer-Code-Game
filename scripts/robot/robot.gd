@@ -32,21 +32,18 @@ func change_direction(vec:Vector2i):
 	position.y += vec.y * 16
 	
 func plant():
-	pass
 	#animated_sprite.play("planting")
-	#await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.2).timeout
 	#animated_sprite.play("idle")
 	
 func harvest():
-	pass
 	#animated_sprite.play("harvesting")
-	#await get_tree().create_timer(0.2).timeout
+	await get_tree().create_timer(0.2).timeout
 	#animated_sprite.play("idle")
 
 func wait():
-	pass
 	#animated_sprite.play("wait")
-	#await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.1).timeout
 	#animated_sprite.play("idle")
 	
 func get_coords():
