@@ -30,7 +30,10 @@ func is_harvestable(coord):
 	if plant == null:
 		return false
 	return plant.is_harvestable()
-	
+
+func is_obstacle(coord):
+	return grid_map[get_index(coord)] is Obstacle
+
 func set_harvestable(coord:Vector2i):
 	if not grid_map[get_index(coord)]:
 		return
