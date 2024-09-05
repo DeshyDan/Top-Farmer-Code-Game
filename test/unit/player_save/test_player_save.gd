@@ -8,6 +8,9 @@ const TEST_SAVE_FILE = "test_save_path.save"
 
 func before_all():
 	PlayerSave.save_path = TEST_SAVE_PATH
+	var default_player_save = PlayerSave.new()
+	default_player_save.load_progress()
+
 	var dir = DirAccess.open(TEST_SAVE_DIR)
 	if dir == null:
 		fail_test("Unable to open user://save")
@@ -15,8 +18,7 @@ func before_all():
 	if dir.file_exists(TEST_SAVE_FILE):
 		var result = dir.remove(TEST_SAVE_FILE)
 		assert_eq(result, OK, "Unable to remove test save file")
-	var default_player_save = PlayerSave.new()
-	default_player_save.load_progress()
+	
 	var default_level = PlayerSave.DEFAULT_LEVEL
 	assert_eq(default_player_save.get_level_source(default_level), "", "Expected empty source")
 	assert_eq(default_player_save.get_level_high_score(default_level), null, "Expected no high score")
