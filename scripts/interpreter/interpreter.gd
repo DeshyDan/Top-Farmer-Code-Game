@@ -185,6 +185,9 @@ func visit_unary_op(node: UnaryOp):
 func visit_number(node: Number):
 	return node.value
 
+func visit_boolean(node: Boolean):
+	return node.value
+
 func visit_assignment(node: Assignment):
 	var left_name = node.left.name
 	var var_value = await visit(node.right)

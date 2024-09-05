@@ -35,11 +35,16 @@ func visit(ast_node: AST):
 		return await visit_if_statement(ast_node)
 	elif ast_node is ArrayNode:
 		return await visit_array_literal(ast_node)
+	elif ast_node is Boolean:
+		return await visit_boolean(ast_node)
 	else:
 		push_error("can't visit node, pretending its a noop")
 		return await visit_no_op(NoOp.new())
 
 func visit_program(node: Program):
+	pass
+
+func visit_boolean(node: Boolean):
 	pass
 
 func visit_if_statement(node: IfStatement):

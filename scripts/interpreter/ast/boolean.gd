@@ -1,8 +1,8 @@
-class_name Number
+class_name Boolean
 extends AST
 
 var token: Token
-var value
+var value: bool
 
 func _init(token):
 	self.token = token
@@ -10,6 +10,6 @@ func _init(token):
 
 func node_string(indent: int):
 	var indent_str = " ".repeat(indent)
-	var result = '%sNumber: ' % indent_str
-	result += "%d\n" % value
+	var result = '%sBoolean: ' % indent_str
+	result += "{0}\n".format([value])
 	return result

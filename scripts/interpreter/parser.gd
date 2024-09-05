@@ -100,10 +100,10 @@ func literal():
 		return Number.new(token)
 	elif token.type == Token.Type.TRUE:
 		eat(Token.Type.TRUE)
-		return Number.new(token) #TODO: bool literal leaf node
+		return Boolean.new(token)
 	elif token.type == Token.Type.FALSE:
 		eat(Token.Type.FALSE)
-		return Number.new(token) #TODO: bool literal leaf node
+		return Boolean.new(token)
 	elif token.type == Token.Type.NULL:
 		eat(Token.Type.NULL)
 		return NoOp.new() # TODO: null leaf node

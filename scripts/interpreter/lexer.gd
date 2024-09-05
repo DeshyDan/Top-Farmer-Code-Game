@@ -270,9 +270,9 @@ func make_token(token_type: Token.Type,
 	if value != null:
 		length = len(str(value))
 	if token_type == Token.Type.TRUE:
-		value = 1
+		value = true
 	if token_type == Token.Type.FALSE:
-		value = 0
+		value = false
 	return Token.new(token_type, value, lineno, colno, length)
 
 func get_next_token():
