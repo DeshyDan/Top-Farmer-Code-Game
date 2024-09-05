@@ -1,7 +1,6 @@
 class_name FarmView
 extends Node2D
 
-
 @onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
@@ -11,8 +10,10 @@ extends Node2D
 @export_range(2,15) var height:int = 5
 
 const PLANT_LAYER = 0
-const SOIL_LAYER = 1
-const SOIL_TERRAIN_SET = 0
+const SOIL_LAYER = 2
+const ROCK_LAYER = 1
+const SOIL_TERRAIN = 0
+const WATER_TERRAIN = 1
 
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
@@ -21,14 +22,29 @@ var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
 
-
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
 	var height = farm_model.get_height()
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
-	
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
+
+	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
+	for x in farm_model.width:
+		for y in farm_model.height:
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Obstacle):
+				#water
+				if farm_item.get_id() == 1:
+					dirt_terrain.set_cells_terrain_connect(
+						SOIL_LAYER,
+						[Vector2i(x, y)],
+						0,
+						WATER_TERRAIN
+					)
+					continue
+				#rocks
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
 	robot.set_boundaries(width,height)
@@ -40,7 +56,6 @@ func set_terrain_path(width: int, height: int):
 			map.append(Vector2i(x, y))
 
 	return map
-
 
 func tick():
 	for farm_item: FarmItem in farm_model.get_data():
@@ -54,11 +69,10 @@ func tick():
 func redraw_farm():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			var farm_item: FarmItem = farm_model.get_plant_at_coord(Vector2i(x,y))
-			if not (farm_item is Plant):
-				continue
-			var atlas_x = min(farm_item.age, 3)
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Plant):
+				var atlas_x = min(farm_item.age, 3)
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
 
 func wait():
 	robot.wait()
@@ -68,7 +82,7 @@ func harvest():
 	var robot_coords:Vector2i = robot.get_coords()
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
 
-	if tile_data:
+	if tile_data and farm_model.get_item_at_coord(robot_coords) is Plant:
 		robot.harvest()
 		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
 		
@@ -77,7 +91,7 @@ func harvest():
 		farm_model.remove(robot_coords)
 
 func store(plant_coord:Vector2i):
-	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
+	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
@@ -124,14 +138,17 @@ func reset():
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
-	
-	farm_model.remove_all_plants()
+	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
 	
+func remove_all_plants():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Plant):
+				farm_model.remove(Vector2i(x,y))
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
 
 
 
