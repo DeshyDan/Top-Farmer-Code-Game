@@ -54,6 +54,7 @@ text = "for cycle in [0,1]:
 		else:
 			harvest()
 		move(dir)"
+wrap_mode = 1
 syntax_highlighter = ExtResource("3_g1itb")
 highlight_current_line = true
 draw_tabs = true
