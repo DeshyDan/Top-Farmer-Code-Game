@@ -87,8 +87,12 @@ func test_source_save():
 	assert_eq(player_save.get_level_source(player_save.DEFAULT_LEVEL), "test")
 
 func test_highscore_save():
-	assert_true(true)
-	pass
+	player_save.load_progress()
+	player_save.set_level_high_score(player_save.DEFAULT_LEVEL, 10)
+	player_save = null
+	player_save = PlayerSave.new()
+	player_save.load_progress()
+	assert_eq(player_save.get_level_high_score(player_save.DEFAULT_LEVEL), 10)
 
 func after_each():
 	player_save = null
