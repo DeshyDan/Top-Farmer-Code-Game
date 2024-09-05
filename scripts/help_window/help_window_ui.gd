@@ -53,3 +53,19 @@ func _on_keyword_clicked(metadata):
 
 func _on_help_window_close_button_pressed():
 	help_window_close_pressed.emit()
+
+func add_font_size(x:int):
+	var font_size = theme.get_font_size("normal_font_size","RichTextLabel")
+	theme.set_font_size("normal_font_size","RichTextLabel",font_size + x)
+	font_size = theme.get_font_size("mono_font_size","RichTextLabel")
+	theme.set_font_size("mono_font_size","RichTextLabel",font_size + x)
+	font_size = theme.get_font_size("font_size","Tree")
+	theme.set_font_size("font_size","Tree",font_size + x)
+	font_size = theme.get_font_size("title_button_font_size","Tree")
+	theme.set_font_size("title_button_font_size","Tree",font_size + x)
+
+func _on_zoom_out_button_pressed():
+	add_font_size(-1)
+
+func _on_zoom_in_button_pressed():
+	add_font_size(1)

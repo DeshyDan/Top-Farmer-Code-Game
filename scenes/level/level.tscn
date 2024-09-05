@@ -44,7 +44,7 @@ position = Vector2(725, 175)
 scale = Vector2(1.5, 1.5)
 
 [node name="camera" parent="." instance=ExtResource("5_o6pwp")]
-position = Vector2(639, 360)
+position = Vector2(725, 175)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")

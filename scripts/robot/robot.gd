@@ -1,5 +1,5 @@
 class_name Robot
-extends CharacterBody2D
+extends Node2D
 
 
 var x_max_boundary :int
@@ -43,7 +43,7 @@ func harvest():
 
 func wait():
 	animated_sprite.play("wait")
-	await get_tree().create_timer(0.1).timeout
+	await get_tree().create_timer(0.4).timeout
 	animated_sprite.play("idle")
 	
 func get_coords():
