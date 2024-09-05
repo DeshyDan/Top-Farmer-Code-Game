@@ -70,6 +70,12 @@ func visit_while_loop(node: WhileLoop):
 	while await visit(node.condition):
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_break:
+			call_stack.peek().reset_break()
+			break
+		if call_stack.peek().should_continue:
+			call_stack.peek().reset_continue()
+			continue
 		await visit(node.block)
 
 func visit_for_loop(node: ForLoop):
@@ -79,6 +85,12 @@ func visit_for_loop(node: ForLoop):
 		await tracepoint_reached(node)
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_break:
+			call_stack.peek().reset_break()
+			break
+		if call_stack.peek().should_continue:
+			call_stack.peek().reset_continue()
+			continue
 		ar.set_item(identifier.name, item)
 		var result = await visit(node.block)
 
@@ -213,6 +225,18 @@ func visit_return_statement(node: ReturnStatement):
 	ar.set_return(result)
 	await tracepoint_reached(node)
 	return result
+
+func visit_break(node: Break):
+	var ar = call_stack.peek()
+	ar.set_break()
+	await tracepoint_reached(node)
+	return
+
+func visit_continue(node: Continue):
+	var ar = call_stack.peek()
+	ar.set_continue()
+	await tracepoint_reached(node)
+	return
 
 func visit_var_decl(node: VarDecl):
 	return await tracepoint_reached(node)

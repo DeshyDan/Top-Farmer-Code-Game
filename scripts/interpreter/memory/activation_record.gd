@@ -14,6 +14,8 @@ var members = {}
 var return_val
 var token: Token
 var should_return = false
+var should_break = false
+var should_continue = false
 var error: RuntimeError
 
 func _init(name, type, nesting_level, enclosing_ar: ActivationRecord, token: Token):
@@ -34,6 +36,18 @@ func set_error(runtime_error: RuntimeError):
 func set_return(val):
 	should_return = true
 	return_val = val
+
+func set_break():
+	should_break = true
+
+func set_continue():
+	should_continue = true
+
+func reset_break():
+	should_break = false
+
+func reset_continue():
+	should_continue = false
 
 func set_item(key, value):
 	members[key] = value

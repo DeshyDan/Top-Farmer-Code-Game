@@ -37,6 +37,10 @@ func visit(ast_node: AST):
 		return await visit_array_literal(ast_node)
 	elif ast_node is Boolean:
 		return await visit_boolean(ast_node)
+	elif ast_node is Break:
+		return await visit_break(ast_node)
+	elif ast_node is Continue:
+		return await visit_continue(ast_node)
 	else:
 		push_error("can't visit node, pretending its a noop")
 		return await visit_no_op(NoOp.new())
@@ -51,6 +55,12 @@ func visit_if_statement(node: IfStatement):
 	pass
 
 func visit_return_statement(node: ReturnStatement):
+	pass
+
+func visit_break(node: Break):
+	pass
+
+func visit_continue(node: Continue):
 	pass
 
 func visit_array_literal(ast_node: ArrayNode):

@@ -18,6 +18,8 @@ var keywords = {
 	"func": Token.Type.FUNC,
 	"while": Token.Type.WHILE,
 	"return": Token.Type.RETURN,
+	"break": Token.Type.BREAK,
+	"continue": Token.Type.CONTINUE,
 	"if": Token.Type.IF,
 	"else": Token.Type.ELSE,
 	"and": Token.Type.LOGIC_AND,
