@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b86cw6wcgldnq"
-path="res://.godot/imported/Jetpackfarmer_placeholder.png-aa34ecb74033dbc4130d2fb6db4adcf7.ctex"
+uid="uid://7b83v1bonxv4"
+path="res://.godot/imported/Tilled_Dirt_Wide.png-fcbb3ec1d6179e6850084f3d405a5f92.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/player/Jetpackfarmer_placeholder.png"
-dest_files=["res://.godot/imported/Jetpackfarmer_placeholder.png-aa34ecb74033dbc4130d2fb6db4adcf7.ctex"]
+source_file="res://assets/tilesets/Sprout Lands - Sprites - Basic pack/Tilesets/Tilled_Dirt_Wide.png"
+dest_files=["res://.godot/imported/Tilled_Dirt_Wide.png-fcbb3ec1d6179e6850084f3d405a5f92.ctex"]
 
 [params]
 

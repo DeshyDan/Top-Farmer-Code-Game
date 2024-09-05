@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb4nra15qsqdl"
-path="res://.godot/imported/player_actions.png-8712ccf9310e33e773b64535e61879c4.ctex"
+uid="uid://c1a0yg668qelx"
+path="res://.godot/imported/Fences.png-0e39aaea8f8ab36a4850d542a683b4d7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilesets/player/player_actions.png"
-dest_files=["res://.godot/imported/player_actions.png-8712ccf9310e33e773b64535e61879c4.ctex"]
+source_file="res://assets/tilesets/Sprout Lands - Sprites - Basic pack/Tilesets/Fences.png"
+dest_files=["res://.godot/imported/Fences.png-0e39aaea8f8ab36a4850d542a683b4d7.ctex"]
 
 [params]
 

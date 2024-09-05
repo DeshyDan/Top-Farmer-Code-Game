@@ -134,7 +134,8 @@ func update_tick_rate():
 
 func _on_window_run_button_pressed():
 	window.reset_console()
-	
+	farm.reset()
+	reset_score()
 	if player_save:
 		player_save.update_level_source(3, window.get_source_code())
 	
@@ -159,8 +160,6 @@ func _on_window_kill_button_pressed():
 	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
-	farm.reset()
-	reset_score()
 
 func _on_timer_tick():
 	# TODO: check for victory here

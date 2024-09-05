@@ -48,9 +48,6 @@ func get_data():
 func get_index(coord:Vector2i):
 	return (coord.x * height) + coord.y
 	
-func get_plant_at_coord(coord:Vector2i):
+func get_item_at_coord(coord:Vector2i):
 	return grid_map[get_index(coord)]
 	
-func remove_all_plants():
-	for i in range(grid_map.size()):
-		grid_map[i] = null
