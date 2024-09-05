@@ -1,18 +1,18 @@
 class_name Obstacle
 extends FarmItem
 
-var visibility:String
+var translucent:bool
 
-func _init(id:int , texture_source_id:int , visibility:String ):
+func _init(id:int , texture_source_id:int , translucent:bool ):
 	self.id = id
-	self.visibility = visibility
+	self.translucent = translucent
 	self.texture_source_id = texture_source_id
 
 static func ROCK():
-	return Obstacle.new(0, 3, "#ffffff")
+	return Obstacle.new(0, 3, false)
 
 static func WATER():
-	return Obstacle.new(1, 4,"#ffffff")
+	return Obstacle.new(1, 4,false)
 	
 func get_id():
 	return self.id
@@ -20,8 +20,8 @@ func get_id():
 func get_source_id():
 	return self.texture_source_id
 	
-func get_visibility():
-	return self.visibility
+func is_translucent():
+	return self.translucent
 	
-func set_visibility(new_visibility:String):
-	self.visibility = new_visibility
+func set_translucent(new_translucent:bool):
+	self.translucent = new_translucent
