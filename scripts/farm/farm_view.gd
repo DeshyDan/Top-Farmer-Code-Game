@@ -1,6 +1,11 @@
 class_name FarmView
 extends Node2D
 
+signal move_completed(successful:bool)
+signal plant_completed(successful:bool)
+signal harvest_completed(successful:bool)
+
+
 @onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
@@ -88,7 +93,9 @@ func harvest():
 		
 		if farm_model.is_harvestable(robot_coords):
 			store(robot_coords)
+			harvest_completed.emit(true)
 		farm_model.remove(robot_coords)
+		harvest_completed.emit(false)
 
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
@@ -115,7 +122,9 @@ func plant(plant_id:int=1):
 			
 			dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
 			farm_model.add_farm_item(plant_type, robot_tile_coords)
+			plant_completed.emit(true)
 		else:
+			plant_completed.emit(false)
 			print("Cannot place here")
 
 func get_plant_type(plant_id:int):
@@ -126,8 +135,26 @@ func get_plant_type(plant_id:int):
 			return Plant.TOMATO()
 
 func move(dir): 
-	robot_tile_coords = robot.move(dir)
-	
+	var vec: Vector2i
+	match dir:
+		Const.Direction.NORTH:
+			vec = Vector2i.UP
+		Const.Direction.SOUTH:
+			vec = Vector2i.DOWN
+		Const.Direction.EAST:
+			vec = Vector2i.RIGHT
+		Const.Direction.WEST:
+			vec = Vector2i.LEFT
+			
+	if (is_out_of_bounds(robot_tile_coords + vec)) or (farm_model.is_obstacle(robot_tile_coords + vec)):
+		move_completed.emit(false)
+		return
+	robot_tile_coords = robot.move(vec)
+	move_completed.emit(true)
+
+func is_out_of_bounds(coords: Vector2i):
+	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
+
 func get_tile_position(coords: Vector2i):
 	return dirt_terrain.map_to_local(coords)
 

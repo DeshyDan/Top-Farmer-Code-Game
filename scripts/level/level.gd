@@ -212,3 +212,15 @@ func _on_level_completed_retry():
 func _on_window_ui_exec_speed_changed(value):
 	tick_rate = value
 	update_tick_rate()
+
+
+func _on_farm_move_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_harvest_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_plant_completed(successful):
+	pass # Replace with function body.
