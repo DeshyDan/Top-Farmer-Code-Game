@@ -82,18 +82,18 @@ func set_level(lvl_skeleton,goal_harvest):
 				pass
 			elif item == "s":
 				var rock = Obstacle.ROCK()
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "r":
 				var rock = Obstacle.ROCK()
 				rock.set_transparency(255)
-				farm_model.add_obstacle(rock,coord)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "l":
 				var water = Obstacle.WATER()
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			elif item == "w":
 				var water = Obstacle.WATER()
 				water.set_transparency(255)
-				farm_model.add_obstacle(water,coord)
+				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
 	
@@ -134,7 +134,8 @@ func update_tick_rate():
 
 func _on_window_run_button_pressed():
 	window.reset_console()
-	
+	farm.reset()
+	reset_score()
 	if player_save:
 		player_save.update_level_source(3, window.get_source_code())
 	
@@ -159,8 +160,6 @@ func _on_window_kill_button_pressed():
 	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
-	farm.reset()
-	reset_score()
 
 func _on_timer_tick():
 	# TODO: check for victory here
@@ -213,3 +212,15 @@ func _on_level_completed_retry():
 func _on_window_ui_exec_speed_changed(value):
 	tick_rate = value
 	update_tick_rate()
+
+
+func _on_farm_move_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_harvest_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_plant_completed(successful):
+	pass # Replace with function body.
