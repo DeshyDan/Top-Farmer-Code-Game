@@ -167,7 +167,7 @@ func reset():
 	robot.position = get_tile_position(robot.get_coords())
 	robot.idle()
 	
-	farm_model.remove_all_plants()
+	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
 	
