@@ -75,24 +75,29 @@ func visit_while_loop(node: WhileLoop):
 			break
 		if call_stack.peek().should_continue:
 			call_stack.peek().reset_continue()
-			continue
 		await visit(node.block)
 
 func visit_for_loop(node: ForLoop):
 	var identifier: Var = node.identifier
 	var ar = call_stack.peek()
+	var new_ar = ActivationRecord.new(
+		"for@" + ar.name,
+		ActivationRecord.ARType.FOR_LOOP,
+		ar.nesting_level + 1,
+		ar,
+		ar.token
+	)
 	for item in (await visit(node.iterable)):
 		await tracepoint_reached(node)
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_continue:
+			call_stack.peek().reset_continue()
+		ar.set_item(identifier.name, item)
+		var result = await visit(node.block)
 		if call_stack.peek().should_break:
 			call_stack.peek().reset_break()
 			break
-		if call_stack.peek().should_continue:
-			call_stack.peek().reset_continue()
-			continue
-		ar.set_item(identifier.name, item)
-		var result = await visit(node.block)
 
 func visit_array_literal(node: ArrayNode):
 	var result = []
@@ -217,6 +222,8 @@ func visit_block(node: Block):
 			return ret_val
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_break or call_stack.peek().should_continue:
+			return
 		await visit(child)
 
 func visit_return_statement(node: ReturnStatement):

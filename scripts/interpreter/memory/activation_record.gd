@@ -3,7 +3,8 @@ extends RefCounted
 
 enum ARType {
 	PROGRAM,
-	FUNCTION_CALL
+	FUNCTION_CALL,
+	FOR_LOOP
 }
 
 var name
@@ -39,18 +40,33 @@ func set_return(val):
 
 func set_break():
 	should_break = true
+	if enclosing_ar != null:
+		enclosing_ar.set_break()
 
 func set_continue():
 	should_continue = true
+	if enclosing_ar != null:
+		enclosing_ar.set_continue()
 
 func reset_break():
 	should_break = false
+	if enclosing_ar != null:
+		enclosing_ar.reset_break()
 
 func reset_continue():
 	should_continue = false
+	if enclosing_ar != null:
+		enclosing_ar.set_continue()
 
-func set_item(key, value):
-	members[key] = value
+func set_item(key, value, _members=members):
+	if members.has(key):
+		members[key] = value
+	else:
+		if enclosing_ar == null:
+			_members[key] = value	# original ar members
+			return
+		enclosing_ar.set_item(key,value,_members)
+	
 
 func get_item(key):
 	var result = members.get(key)
