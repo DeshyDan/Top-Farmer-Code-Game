@@ -177,6 +177,8 @@ func reset():
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
+	robot.idle()
+	
 	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()

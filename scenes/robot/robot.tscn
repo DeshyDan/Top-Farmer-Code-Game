@@ -10,5 +10,5 @@ script = ExtResource("1_kwdwu")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
 sprite_frames = ExtResource("2_775mp")
-animation = &"move_sideways"
+animation = &"idle"
 autoplay = "idle"
