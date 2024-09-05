@@ -42,12 +42,20 @@ func plot_farm(farm_model:FarmModel):
 			if (farm_item is Obstacle):
 				#water
 				if farm_item.get_id() == 1:
+					dirt_terrain.set_cells_terrain_connect(
+						TRANSLUCENT_LAYER,
+						[Vector2i(x, y)],
+						0,
+						WATER_TERRAIN, 
+						false
+					)
 					var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else SOIL_LAYER
 					dirt_terrain.set_cells_terrain_connect(
 						layer,
 						[Vector2i(x, y)],
 						0,
-						WATER_TERRAIN
+						WATER_TERRAIN, 
+						false
 					)
 					continue
 				#rocks
