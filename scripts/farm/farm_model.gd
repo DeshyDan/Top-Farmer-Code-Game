@@ -16,8 +16,6 @@ func is_empty(coord: Vector2i)->bool:
 	
 func add_farm_item(farm_item: FarmItem, coord: Vector2i):
 	grid_map[get_index(coord)] = farm_item
-	print(get_data())
-	
 
 func get_height():
 	return height
