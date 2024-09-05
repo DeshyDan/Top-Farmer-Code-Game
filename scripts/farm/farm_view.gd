@@ -18,7 +18,7 @@ const PLANT_LAYER = 0
 const SOIL_LAYER = 1
 const ROCK_LAYER = 2
 const SOIL_TERRAIN = 0
-const WATER_TERRAIN = 0
+const WATER_TERRAIN = 1
 const TRANSLUCENT_LAYER = 3
 const OBSTACLES_LAYER = 1
 
@@ -79,16 +79,7 @@ func redraw_farm():
 	for x in farm_model.width:
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
-			if (farm_item is Obstacle):
-				if farm_item.get_id() == 1:
-					dirt_terrain.set_cells_terrain_connect(OBSTACLES_LAYER, [Vector2i(x, y)], WATER_TERRAIN, 1)
-					
-					continue
-				var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else ROCK_LAYER
-				dirt_terrain.set_cell(layer, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
-				
-					
-			elif (farm_item is Plant):
+			if (farm_item is Plant):
 				var atlas_x = min(farm_item.age, 3)
 				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
 				
