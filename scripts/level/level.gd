@@ -73,6 +73,7 @@ func set_level(lvl_skeleton,goal_harvest,level):
 	original_farm_model = _create_farm_model(lvl_array)
 	
 	self.goal_harvest = goal_harvest
+	camera.fit_zoom_to_farm(farm)
 
 func _create_farm_model(data:Dictionary):
 
