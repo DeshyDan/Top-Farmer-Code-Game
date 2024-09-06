@@ -136,7 +136,7 @@ func plant(plant_id:int=1):
 			farm_model.add_farm_item(plant_type, robot_tile_coords)
 			plant_completed.emit(true)
 		else:
-			plant_completed.emit(false)
+			plant_completed.emit(false)	
 			print("Cannot place here")
 
 func get_plant_type(plant_id:int):

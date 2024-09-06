@@ -1,0 +1,3 @@
+for dir in [UP, LEFT,DOWN, DOWN,RIGHT,RIGHT, UP, RIGHT ]:
+	move(dir)
+
