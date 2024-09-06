@@ -106,6 +106,10 @@ func newline(make_token: bool, add_line: bool = true):
 		line_number += 1
 		col_number = 0
 
+func skip_comment():
+	while current_char != '\n' and current_char != null:
+		advance()
+
 func skip_whitespace():
 	
 	if pending_indents != 0:
@@ -134,7 +138,8 @@ func skip_whitespace():
 				advance()
 				newline(!is_line_begin)
 				check_indent()
-
+			"#":
+				skip_comment()
 			_:
 				return
 

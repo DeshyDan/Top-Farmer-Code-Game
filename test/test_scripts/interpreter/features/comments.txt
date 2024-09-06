@@ -1,0 +1,17 @@
+# comment at start
+# comment above decl
+func add(x:int,y:int):	# comment in block start
+	#comment in block
+	return x + y	# comment on block line
+	#comment after indent block
+#comment after indent block end
+print(add(1,2))# comment close
+
+
+
+# comment far
+print(add(1,2))
+# comment at end
+#expect
+3
+3

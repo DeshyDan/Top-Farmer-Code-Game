@@ -67,6 +67,7 @@ auto_brace_completion_enabled = true
 auto_brace_completion_highlight_matching = true
 script = ExtResource("2_80csa")
 executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
+comment_color = Color(0.458824, 0.470588, 0.490196, 1)
 error_box = NodePath("../../../ErrorBoxHolder/ErrorBox")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
