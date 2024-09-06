@@ -10,7 +10,7 @@ func before_each():
 	lvl = level_scene.instantiate() as Level
 	add_child(lvl)
 	
-	var file_path = "res://assets/levels/demo_lvl.txt"
+	var file_path = "res://test/test_levels/demo_lvl.txt"
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
 	
 	var goal_harvest = {
