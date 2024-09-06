@@ -51,7 +51,7 @@ func _init(text: String):
 		current_char == null
 	else:
 		current_char = self.text[pos]
-	lexer_error = LexerError.new(LexerError.ErrorCode.OK)
+	lexer_error = LexerError.new(LexerError.ErrorCode.OK, null, "OK")
 
 func reset():
 	pos = 0
@@ -138,8 +138,12 @@ func skip_whitespace():
 				advance()
 				newline(!is_line_begin)
 				check_indent()
+
 			"#":
 				skip_comment()
+				advance() # consume \n
+				newline(!is_line_begin)
+				check_indent()
 			_:
 				return
 
@@ -213,20 +217,31 @@ func check_indent():
 			mixed = mixed or space != current_indent_char;
 			advance()
 			
-	
+		if is_at_end():
+			# Reached the end with an empty line, so just dedent as much as needed.
+			pending_indents -= indent_level()
+			indent_stack.clear()
+			return
+
 		var previous_indent = 0
 		if current_char == '\n':
 			# Empty line, keep going.
 			advance();
 			newline(false);
 			continue;
+
+		if current_char == '#':
+			skip_comment()
 		
-		if is_at_end():
-			# Reached the end with an empty line, so just dedent as much as needed.
-			pending_indents -= indent_level()
-			indent_stack.clear()
-			return
-		
+			if is_at_end():
+				# Reached the end with an empty line, so just dedent as much as needed.
+				pending_indents -= indent_level()
+				indent_stack.clear()
+				return
+			
+			advance()
+			newline(false)
+			continue
 		
 		if indent_level() > 0:
 			previous_indent = indent_stack.back();
