@@ -71,7 +71,9 @@ func test_move():
 
 	level._on_window_run_button_pressed()
 	
-	await yield_to(level.interpreter_client, "finished",15)
+	if not await wait_for_signal(level.interpreter_client.finished, 15):
+		fail_test("Interpreter took too long")
+
 	
 	# CHECK MOVE LEVEL FOR MORE CLARITY
 	# FARMERS MOVEMENTS: [UP, LEFT, DOWN, DOWN,RIGHT,RIGHT, UP, RIGHT]
@@ -91,7 +93,9 @@ func test_harvestables():
 	
 	level._on_window_run_button_pressed()
 	
-	await yield_to(level.interpreter_client, "finished",15)
+	if not await wait_for_signal(level.interpreter_client.finished, 15):
+		fail_test("Interpreter took too long")
+
 	
 	for i in level.farm.get_harvestables():
 		match i:
@@ -105,7 +109,8 @@ func test_reset():
 
 	level._on_window_run_button_pressed()
 	
-	await yield_to(level.interpreter_client, "finished",15)
+	if not await wait_for_signal(level.interpreter_client.finished, 15):
+		fail_test("Interpreter took too long")
 	
 	var source = FileAccess.get_file_as_string("")
 	level.window.code_edit.text = source

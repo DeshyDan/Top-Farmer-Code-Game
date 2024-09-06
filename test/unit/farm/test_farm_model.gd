@@ -17,10 +17,10 @@ func test_is_empty():
 
 func test_add_farm_item():
 	var farm_items = FarmItem.new(0,0)
-	farm_model.add_farm_item(farm_items, Vector2i(0,0))
+	farm_model.add_farm_item(farm_items, Vector2i(1,2))
 	
 	for i in range(WIDTH * HEIGHT):
-		if (i ==0 ):
+		if (i == 7 ):
 			assert_eq(farm_model.get_data()[i], farm_items)
 			continue
 		assert_null(farm_model.get_data()[i])
