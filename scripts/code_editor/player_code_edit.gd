@@ -31,7 +31,7 @@ func highlight_line(lineno):
 	var tween = create_tween()
 	tween.tween_method(
 		func (color):
-			set_line_background_color(lineno,color), 
+			set_line_background_color(lineno-1,color), 
 		executing_color, 
 		_background_color, 
 		executing_highlight_length

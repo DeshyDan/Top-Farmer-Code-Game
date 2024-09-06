@@ -224,7 +224,7 @@ func _on_wait_call(args: Array):
 
 # the interpreter client has reached a line, we should highlight it
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
-	window.highlight_tracepoint.bind(node, call_stack).call_deferred()
+	window.highlight_tracepoint.call_deferred(node, call_stack)
 
 func _on_interpreter_client_finished():
 	print("INTERPRETER FINISHED")
