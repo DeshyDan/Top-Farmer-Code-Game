@@ -17,9 +17,11 @@ var score = 0
 var count = 0
 var level = 0
 var paused = false
-var lvl_skeleton_data
+var lvl_array
 var farm_model:FarmModel
+var level_loader: LevelLoader
 var original_farm_model:FarmModel
+
 var goal_harvest:Dictionary
 
 signal victory
@@ -61,81 +63,77 @@ func is_goal_harvest():
 func set_level(lvl_skeleton,goal_harvest,level):
 	self.level = level
 	
-	lvl_skeleton_data = lvl_skeleton.get_as_text()
+	var lvl_skeleton_data = lvl_skeleton.get_as_text()
 	
-	original_farm_model = _create_farm_model(lvl_skeleton_data)
+	level_loader = LevelLoader.new()
+	add_child(level_loader)
+	
+	lvl_array = level_loader.create(lvl_skeleton_data)
+	
+	original_farm_model = _create_farm_model(lvl_array)
 	
 	self.goal_harvest = goal_harvest
 
-func _create_farm_model(data:String):
-	var lvl_array = []
-	var lines = data.split("\n")
-	
-	for line in lines:
-		if line != "":
-			var items = line.split(",")
-			lvl_array.append(items)
-			width = len(items)
-			height += 1
+func _create_farm_model(data:Dictionary):
 
-	farm_model = FarmModel.new(width,height)
+	farm_model = FarmModel.new(data["width"],data["height"])
+	var array = data["FarmArray"]
 	
-	for i in range(0,height):
-		for j in range(0,width):
-			var item = lvl_array[i][j]
-			# # -> bare land
-			# s -> translucent rock
-			# r -> rock
-			# l -> translucent water
-			# w -> water
-			## TODO: use some kind of enum to map symbol to obstacle name
+	for i in range(0,data["height"]):
+		for j in range(0,data["width"]):
+			var item = array[i][j]
 			var coord: Vector2i = Vector2i(j, i)
-			if item == "#":
+			if item == null:
 				pass
-			elif item == "r":
-				var rock = Obstacle.ROCK()
-				farm_model.add_farm_item(rock,coord)
-			elif item == "s":
-				var rock = Obstacle.ROCK()
-				rock.set_translucent(true)
-				farm_model.add_farm_item(rock,coord)
-			elif item == "w":
-				var water = Obstacle.WATER()
-				farm_model.add_farm_item(water,coord)
-			elif item == "l":
-				var water = Obstacle.WATER()
-				water.set_translucent(true)
-				farm_model.add_farm_item(water,coord)
+			else:
+				farm_model.add_farm_item(item,coord)
 			
 	farm.plot_farm(farm_model)
-	return farm_model
-	
 	self.goal_harvest = goal_harvest
 	camera.fit_zoom_to_farm(farm)
-
-func _randomize(data:String):
-	var lines = data.strip_edges().split("\n")
-	var transformed_lines = []
 	
-	for line in lines:
-			if "s" in line:
-				var transformed_line = ""
-				for c in line:
-					if c == "s":
-						transformed_line += "r" if randf() < 0.5 else "#"
-					else:
-						transformed_line += c
-				transformed_lines.append(transformed_line)
-			elif "l" in line:
-
-				if randf() < 0.5:
-					transformed_lines.append("w".repeat(line.length()))
-				else:
-					transformed_lines.append("#".repeat(line.length()))
-			else:
-				transformed_lines.append(line)
+	return farm_model
 	
-	_create_farm_model("\n".join(transformed_lines))
+func _randomize(data:Dictionary):
+		var transformed_data = data["FarmArray"] 
+		var rock_candidates = []
+		var water_row_candidates = []
+	
+  
+		for i in range(transformed_data.size()):
+			for j in range(transformed_data[i].size()):
+				var item = transformed_data[i][j]
+				if item == null: 
+					continue
+				if item.get_id() == 0 and item.is_translucent():
+					rock_candidates.append([i,j])
+				elif item.get_id() == 1 and item.is_translucent():
+					if j == 0:
+						water_row_candidates.append(i)
+	
+
+		for i in range(min(2, rock_candidates.size())):
+			if rock_candidates.size() > 0:
+				var index = randi() % rock_candidates.size()
+				var rock_index = rock_candidates[index]
+				transformed_data[rock_index[0]][rock_index[1]].set_translucent(false)
+				rock_candidates.pop_at(index)
+	
+   
+		if water_row_candidates.size() > 0:
+			var row = water_row_candidates.pick_random()
+			
+			for i in range(transformed_data.size()):
+				for j in range(transformed_data[i].size()):
+					if i == row:
+						var item = transformed_data[i][j]
+						item.set_translucent(false)
+						transformed_data[i][j] = item
+			
+	
+		_create_farm_model({"FarmArray": transformed_data,
+		"width":data["width"],
+		"height":data["height"]})
 
 func add_points():
 	# Increase the score by a certain number of points
@@ -165,15 +163,16 @@ func _on_window_run_button_pressed():
 	window.reset_console()
 	farm.reset()
 	reset_score()
-	
+
 	if level == 3 and paused == false:
-		randomize()
+		_randomize(lvl_array)
+
 	if player_save:
 		player_save.update_level_source(3, window.get_source_code())
 	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
-	interpreter_client.start() 
+	interpreter_client.start()
 	var tick_length = 1.0/(float(tick_rate) + 0.00001)
 	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
@@ -194,7 +193,7 @@ func _on_window_kill_button_pressed():
 	interpreter_client.kill()
 	reset_score()
 	paused = false
-	farm.reset(original_farm_model)
+	farm.reset()
 	
 
 func _on_timer_tick():

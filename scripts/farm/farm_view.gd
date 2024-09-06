@@ -20,7 +20,7 @@ const ROCK_LAYER = 2
 const SOIL_TERRAIN = 0
 const WATER_TERRAIN = 1
 const TRANSLUCENT_LAYER = 3
-const OBSTACLES_LAYER = 1
+const OBSTACLES_LAYER = 2
 
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
@@ -28,14 +28,21 @@ const CAN_PLACE_SEEDS = "can_place_seeds"
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
+var original_farm_model:FarmModel
 
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
+	
+	if original_farm_model == null:
+		self.original_farm_model = farm_model
+		
 	var height = farm_model.get_height()
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
 
 	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
+	dirt_terrain.clear_layer(ROCK_LAYER)
+	dirt_terrain.clear_layer(TRANSLUCENT_LAYER)
 	for x in farm_model.width:
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
@@ -173,7 +180,7 @@ func get_tile_position(coords: Vector2i):
 func get_harvestables():
 	return harvestables
 	
-func reset(original_farm_model : FarmModel):
+func reset():
 	self.farm_model = original_farm_model
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
@@ -183,7 +190,8 @@ func reset(original_farm_model : FarmModel):
 	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
-	
+		
+	plot_farm(original_farm_model)
 func remove_all_plants():
 	for x in farm_model.width:
 		for y in farm_model.height:

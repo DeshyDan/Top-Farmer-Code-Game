@@ -22,10 +22,14 @@ func get_width():
 	return width
 	
 func is_harvestable(coord):
-	var plant = grid_map[get_index(coord)]
-	if plant == null:
+	var item = grid_map[get_index(coord)]
+	
+	if item == null:
 		return false
-	return plant.is_harvestable()
+	elif item is Plant:
+		return item.is_harvestable()
+	else:
+		return false
 
 func is_obstacle(coord):
 	return grid_map[get_index(coord)] is Obstacle
