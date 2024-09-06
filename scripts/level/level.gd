@@ -9,6 +9,7 @@ extends Node2D
 @export var tick_rate = 4
 
 @onready var score_label = $CanvasLayer/Score
+@onready var camera = $camera
 
 var timer: Timer
 var robot_wait_tick = 0
@@ -83,32 +84,35 @@ func _create_farm_model(data:String):
 		for j in range(0,width):
 			var item = lvl_array[i][j]
 			# # -> bare land
-			# s -> transparent rock
+			# s -> translucent rock
 			# r -> rock
-			# l -> transparent water
+			# l -> translucent water
 			# w -> water
 			## TODO: use some kind of enum to map symbol to obstacle name
 			var coord: Vector2i = Vector2i(j, i)
 			if item == "#":
-				pass 
-			elif item == "s":
-				var rock = Obstacle.ROCK()
-				farm_model.add_farm_item(rock,coord)
+				pass
 			elif item == "r":
 				var rock = Obstacle.ROCK()
-				rock.set_transparency(255)
 				farm_model.add_farm_item(rock,coord)
-			elif item == "l":
-				var water = Obstacle.WATER()
-				farm_model.add_farm_item(water,coord)
+			elif item == "s":
+				var rock = Obstacle.ROCK()
+				rock.set_translucent(true)
+				farm_model.add_farm_item(rock,coord)
 			elif item == "w":
 				var water = Obstacle.WATER()
-				water.set_transparency(255)
+				farm_model.add_farm_item(water,coord)
+			elif item == "l":
+				var water = Obstacle.WATER()
+				water.set_translucent(true)
 				farm_model.add_farm_item(water,coord)
 			
 	farm.plot_farm(farm_model)
 	return farm_model
 	
+	self.goal_harvest = goal_harvest
+	camera.fit_zoom_to_farm(farm)
+
 func _randomize(data:String):
 	var lines = data.strip_edges().split("\n")
 	var transformed_lines = []
@@ -159,6 +163,8 @@ func update_tick_rate():
 
 func _on_window_run_button_pressed():
 	window.reset_console()
+	farm.reset()
+	reset_score()
 	
 	if level == 3 and paused == false:
 		randomize()
@@ -177,13 +183,13 @@ func _on_window_run_button_pressed():
 	timer.start(tick_length)
 
 func _on_window_pause_button_pressed():
-	if not timer:
+	if not is_instance_valid(timer):
 		return
 	paused = true
 	timer.paused = not timer.paused
 
 func _on_window_kill_button_pressed():
-	if timer and timer.is_inside_tree():
+	if is_instance_valid(timer) and timer.is_inside_tree():
 		remove_child(timer)
 	interpreter_client.kill()
 	reset_score()
@@ -230,6 +236,7 @@ func _on_interpreter_client_finished():
 
 func _on_interpreter_client_error(err: GError):
 	window.set_error(err)
+	farm.robot.error()
 
 func _on_level_completed_next_level():
 	pass
@@ -242,3 +249,15 @@ func _on_level_completed_retry():
 func _on_window_ui_exec_speed_changed(value):
 	tick_rate = value
 	update_tick_rate()
+
+
+func _on_farm_move_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_harvest_completed(successful):
+	pass # Replace with function body.
+
+
+func _on_farm_plant_completed(successful):
+	pass # Replace with function body.

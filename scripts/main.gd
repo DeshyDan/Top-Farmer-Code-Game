@@ -5,7 +5,7 @@ var player_save: PlayerSave
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	var player_save = PlayerSave.new()
+	player_save = PlayerSave.new()
 	player_save.load_progress()
 	
 	# Instantiate the loaded scene

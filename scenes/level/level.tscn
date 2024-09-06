@@ -31,10 +31,16 @@ uppercase = true
 size_flags_horizontal = 8
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
-offset_left = 17.0
-offset_top = 17.0
-offset_right = -661.0
-offset_bottom = -273.0
+anchors_preset = -1
+anchor_left = 0.007
+anchor_top = 0.006
+anchor_right = 0.411
+anchor_bottom = 0.803
+offset_left = 0.04
+offset_top = -0.32
+offset_right = -0.0800171
+offset_bottom = -0.160034
+metadata/_edit_use_anchors_ = true
 
 [node name="LevelCompleted" parent="CanvasLayer" instance=ExtResource("4_ogycu")]
 visible = false
@@ -44,7 +50,7 @@ position = Vector2(725, 175)
 scale = Vector2(1.5, 1.5)
 
 [node name="camera" parent="." instance=ExtResource("5_o6pwp")]
-position = Vector2(639, 360)
+position = Vector2(725, 175)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
@@ -55,6 +61,9 @@ script = ExtResource("3_1ed4d")
 [connection signal="run_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_run_button_pressed"]
 [connection signal="next_level" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_next_level"]
 [connection signal="retry" from="CanvasLayer/LevelCompleted" to="." method="_on_level_completed_retry"]
+[connection signal="harvest_completed" from="Farm" to="." method="_on_farm_harvest_completed"]
+[connection signal="move_completed" from="Farm" to="." method="_on_farm_move_completed"]
+[connection signal="plant_completed" from="Farm" to="." method="_on_farm_plant_completed"]
 [connection signal="error" from="InterpreterClient" to="." method="_on_interpreter_client_error"]
 [connection signal="finished" from="InterpreterClient" to="." method="_on_interpreter_client_finished"]
 [connection signal="harvest_requested" from="InterpreterClient" to="." method="_on_harvest_call"]

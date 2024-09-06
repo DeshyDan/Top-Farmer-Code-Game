@@ -21,7 +21,7 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
-[node name="CodeEditorUI" type="PanelContainer"]
+[node name="CodeEditorUI" type="PanelContainer" node_paths=PackedStringArray("player_code_edit", "console")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -32,6 +32,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 theme = ExtResource("1_pxwf1")
 script = ExtResource("2_2nwbc")
+player_code_edit = NodePath("MarginContainer/VSplitContainer/Robot1")
+console = NodePath("MarginContainer/VSplitContainer/HBoxContainer/PanelContainer/RichTextLabel")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -52,6 +54,7 @@ text = "for cycle in [0,1]:
 		else:
 			harvest()
 		move(dir)"
+wrap_mode = 1
 syntax_highlighter = ExtResource("3_g1itb")
 highlight_current_line = true
 draw_tabs = true
@@ -123,6 +126,7 @@ offset_right = 410.0
 offset_bottom = 33.0
 grow_vertical = 1
 
+[connection signal="code_completion_requested" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_code_completion_requested"]
 [connection signal="text_changed" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_text_changed"]
 [connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/Run" to="." method="_on_run_pressed"]
 [connection signal="pressed" from="MarginContainer/VSplitContainer/HBoxContainer/GridContainer/HBoxContainer/Pause" to="." method="_on_pause_pressed"]
