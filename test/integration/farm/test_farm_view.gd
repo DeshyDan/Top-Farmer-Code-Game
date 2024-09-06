@@ -80,9 +80,9 @@ func test_move():
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],2) # DOWN | LAND
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],3) # DOWN |OUT OF BOUNDS
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],4) # RIGHT | LAND
-	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],5) # RIGHT |WATER
-	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],6) # UP | LAND 
-	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],7) # RIGHT |ROCK
+	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],5) # RIGHT |WATER
+	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],6) # UP | ROCK 
+	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],7) # RIGHT | OUT OF BOUNDS
 
 func test_harvestables():
 	setup_level(PLANT_LEVEL, MATURE_HARVEST_SCRIPT)

@@ -157,11 +157,12 @@ func move(dir):
 			vec = Vector2i.RIGHT
 		Const.Direction.WEST:
 			vec = Vector2i.LEFT
-			
-	if (is_out_of_bounds(robot_tile_coords + vec)) or (farm_model.is_obstacle(robot_tile_coords + vec)):
+	var next_move = robot_tile_coords + vec
+	if (is_out_of_bounds(next_move)) or (farm_model.is_obstacle(next_move) and !farm_model.is_water(next_move)):
 		move_completed.emit(false)
 		return
 	robot_tile_coords = robot.move(vec)
+	print(robot_tile_coords)
 	move_completed.emit(true)
 
 func is_out_of_bounds(coords: Vector2i):

@@ -32,6 +32,9 @@ func is_harvestable(coord):
 func is_obstacle(coord):
 	return grid_map[get_index(coord)] is Obstacle
 
+func is_water(coord):
+	var farm_item = grid_map[get_index(coord)] 
+	return farm_item is Obstacle and farm_item.id == 1
 func set_harvestable(coord:Vector2i):
 	if not grid_map[get_index(coord)]:
 		return
