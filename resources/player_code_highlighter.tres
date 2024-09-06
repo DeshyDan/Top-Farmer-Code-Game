@@ -5,3 +5,6 @@ number_color = Color(0.627451, 1, 0.878431, 1)
 symbol_color = Color(0.670588, 0.788235, 1, 1)
 function_color = Color(0.4, 0.901961, 1, 1)
 member_variable_color = Color(1, 0.439216, 0.521569, 1)
+color_regions = {
+"#": Color(0.458824, 0.470588, 0.490196, 1)
+}
