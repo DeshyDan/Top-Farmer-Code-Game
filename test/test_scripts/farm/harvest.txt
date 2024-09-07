@@ -1,0 +1,9 @@
+for cycle in [0,1]:
+	for dir in [RIGHT, DOWN, LEFT, UP]:
+		if cycle == 0:
+			if dir >= 2:
+				plant(GRAPE)
+			plant(CORN)
+		else:
+			harvest()
+		move(dir)

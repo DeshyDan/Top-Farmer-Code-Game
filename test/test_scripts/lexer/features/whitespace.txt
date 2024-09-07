@@ -1,14 +1,14 @@
-func normal_block():
+func 			normal_block():
 	a
 	b
-	if deeply_nested:
-		if like_very_deeply_nested:
+	if 	deeply_nested:
+		if like_very_deeply_nested:	
 			return
 
 while at_root:
 	b
 
-if at_eof:
+if 	at_eof:
 	if lexer_works:
 		cleanup
 #expect
