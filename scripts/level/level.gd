@@ -96,14 +96,21 @@ func _create_farm_model(data:Dictionary):
 	return farm_model
 	
 func _randomize(data:Dictionary):
-		var transformed_data = data["FarmArray"] 
+		var transformed_data = []
 		var rock_candidates = []
 		var water_row_candidates = []
+		
+		var default_value = null
+		for y in range(data["height"]):
+			var row = []
+			for x in range(data["width"]):
+				row.append(default_value)
+			transformed_data.append(row)
 	
   
-		for i in range(transformed_data.size()):
-			for j in range(transformed_data[i].size()):
-				var item = transformed_data[i][j]
+		for i in range(data["FarmArray"].size()):
+			for j in range(data["FarmArray"][i].size()):
+				var item = data["FarmArray"][i][j]
 				if item == null: 
 					continue
 				if item.get_id() == 0 and item.is_translucent():
@@ -117,19 +124,17 @@ func _randomize(data:Dictionary):
 			if rock_candidates.size() > 0:
 				var index = randi() % rock_candidates.size()
 				var rock_index = rock_candidates[index]
-				transformed_data[rock_index[0]][rock_index[1]].set_translucent(false)
+				transformed_data[rock_index[0]][rock_index[1]] = Obstacle.ROCK()
 				rock_candidates.pop_at(index)
 	
    
 		if water_row_candidates.size() > 0:
 			var row = water_row_candidates.pick_random()
 			
-			for i in range(transformed_data.size()):
-				for j in range(transformed_data[i].size()):
+			for i in range(data["FarmArray"].size()):
+				for j in range(data["FarmArray"][i].size()):
 					if i == row:
-						var item = transformed_data[i][j]
-						item.set_translucent(false)
-						transformed_data[i][j] = item
+						transformed_data[i][j] = Obstacle.WATER()
 			
 	
 		_create_farm_model({"FarmArray": transformed_data,
