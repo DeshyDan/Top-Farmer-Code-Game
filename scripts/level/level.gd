@@ -116,8 +116,7 @@ func _randomize(data:Dictionary):
 				if item.get_id() == 0 and item.is_translucent():
 					rock_candidates.append([i,j])
 				elif item.get_id() == 1 and item.is_translucent():
-					if j == 0:
-						water_row_candidates.append(i)
+					water_row_candidates.append([i,j])
 	
 
 		for i in range(min(2, rock_candidates.size())):
