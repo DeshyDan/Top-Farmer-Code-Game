@@ -6,10 +6,12 @@ var level: Node
 var farm_view:FarmView
 
 const TICK_RATE = 30
-
-const HARVEST_LEVEL = "res://test/test_levels/farm_view_testers/test_harvesting.txt"
-const MOVE_LEVEL = "res://test/test_levels/farm_view_testers/test_robot_movement.txt"
-const PLANT_LEVEL = "res://test/test_levels/farm_view_testers/test_planting.txt"
+#1
+const HARVEST_LEVEL = 1
+#3
+const MOVE_LEVEL = 3
+#2
+const PLANT_LEVEL = 2
 
 const MATURE_HARVEST_SCRIPT = "res://test/test_scripts/farm/harvest.txt"
 const PREMATURE_HARVEST_SCRIPT = "res://test/test_scripts/farm/premature_harvest.txt"
@@ -20,14 +22,13 @@ func before_each():
 	level = level_scene.instantiate() as Level
 	add_child(level)
 	
-func setup_level(level_skeleton_file_path:String,test_script:String):
-	var level_skeleton = FileAccess.open(level_skeleton_file_path, FileAccess.READ)
+func setup_level(level_to_test:int,test_script:String):
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4, 
 		Const.PlantType.PLANT_GRAPE:4
 	}
-	level.set_level(level_skeleton, goal_harvest)
+	level.set_level(goal_harvest,level_to_test,1)
 	watch_signals(level.farm)
 	level = level as Level
 	var source = FileAccess.get_file_as_string(test_script)

@@ -10,13 +10,13 @@ func before_each():
 	lvl = level_scene.instantiate() as Level
 	add_child(lvl)
 	
-	var level = 4
+	var level: int = 4
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4
 	}
 	
-	lvl.set_level(goal_harvest,level)
+	lvl.set_level(goal_harvest,level,0)
 
 func test_demo_unoptimized():
 	lvl = lvl as Level

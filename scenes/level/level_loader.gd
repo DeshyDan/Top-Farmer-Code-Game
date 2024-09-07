@@ -7,9 +7,14 @@ var lvl_array_items:Array
 var count = 0
 var original_data : Dictionary
 
-func create(level:int):
+func create(level:int,mode:int):
+	var file_path = ""
 	
-	var file_path = "res://assets/levels/lvl_" + str(level) + ".txt"
+	if mode == 0:
+		file_path = "res://assets/levels/lvl_" + str(level) + ".txt"
+	else:
+		file_path = "res://test/test_levels/farm_view_testers/test_"+str(level)+".txt"
+		
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
 	
 	var lvl_skeleton_data = lvl_skeleton.get_as_text()

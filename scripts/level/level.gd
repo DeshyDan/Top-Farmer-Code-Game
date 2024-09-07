@@ -61,7 +61,7 @@ func is_goal_harvest():
 
 	return true
 	
-func set_level(goal_harvest,level):
+func set_level(goal_harvest,level,mode):
 	self.level = level
 	
 	level_loader = LevelLoader.new()
@@ -69,10 +69,10 @@ func set_level(goal_harvest,level):
 	
 	
 	if count == 0:
-		original_farm_model = level_loader.create(level)
-		count += 0
+		original_farm_model = level_loader.create(level,mode)
+		count += 1
 
-	farm_model = level_loader.create(level)
+	farm_model = level_loader.create(level,mode)
 	
 	farm.plot_farm(farm_model)
 	camera.fit_zoom_to_farm(farm)
