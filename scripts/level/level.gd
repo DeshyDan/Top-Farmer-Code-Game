@@ -116,7 +116,7 @@ func _randomize(data:Dictionary):
 				if item.get_id() == 0 and item.is_translucent():
 					rock_candidates.append([i,j])
 				elif item.get_id() == 1 and item.is_translucent():
-					water_row_candidates.append([i,j])
+					water_row_candidates.append(i)
 	
 
 		for i in range(min(2, rock_candidates.size())):
@@ -127,13 +127,14 @@ func _randomize(data:Dictionary):
 				rock_candidates.pop_at(index)
 	
    
-		if water_row_candidates.size() > 0:
-			var row = water_row_candidates.pick_random()
-			
-			for i in range(data["FarmArray"].size()):
-				for j in range(data["FarmArray"][i].size()):
-					if i == row:
-						transformed_data[i][j] = Obstacle.WATER()
+		if water_row_candidates.size()>0:
+			var river_row = water_row_candidates.pick_random()
+			for j in data["width"]:
+				var item = data["FarmArray"][river_row][j]
+				if not (item is Obstacle and item.get_id() == 1):
+					continue
+				transformed_data[river_row][j] = Obstacle.WATER()
+		
 			
 	
 		_create_farm_model({"FarmArray": transformed_data,
