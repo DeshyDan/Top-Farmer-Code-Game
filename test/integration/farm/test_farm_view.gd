@@ -21,13 +21,12 @@ func before_each():
 	add_child(level)
 	
 func setup_level(level_skeleton_file_path:String,test_script:String):
-	var level_skeleton = FileAccess.open(level_skeleton_file_path, FileAccess.READ)
-	
+
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4, 
 		Const.PlantType.PLANT_GRAPE:4
 	}
-	level.set_level(level_skeleton, goal_harvest)
+	level.set_level(level_skeleton_file_path, goal_harvest)
 	watch_signals(level.farm)
 	level = level as Level
 	var source = FileAccess.get_file_as_string(test_script)
