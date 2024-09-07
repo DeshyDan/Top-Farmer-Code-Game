@@ -14,16 +14,13 @@ func _ready():
 	# Add the instance to the current scene
 	add_child(lvl)
 	
-	#needed to add noide to differentiate from tests and gane play, 1 is more more testing farm_view
-	var mode = 0
-	
-	var level = 5
+	var file_path = "res://assets/levels/lvl_3.txt"
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4,
 		Const.PlantType.PLANT_GRAPE: 4
 	}
 	
-	lvl.set_level(goal_harvest,level,0)
+	lvl.set_level(file_path,goal_harvest)
 	lvl.set_player_save(player_save)
 	lvl.set_source_code(player_save.get_level_source(3))

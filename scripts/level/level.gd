@@ -15,13 +15,9 @@ var timer: Timer
 var robot_wait_tick = 0
 var score = 0
 var count = 0
-var level = 0
 var paused = false
-var lvl_array
 var farm_model:FarmModel
 var level_loader: LevelLoader
-var farm_model_count = 0
-var original_farm_model:FarmModel
 
 var goal_harvest:Dictionary
 
@@ -32,12 +28,10 @@ var width = 0
 var height = 0
 
 var player_save: PlayerSave
-# TODO: make it so that an arbitrary farm goal and farm start state
-# can be set
 
 func set_player_save(save: PlayerSave):
 	player_save = save
-
+	
 func set_source_code(source: String):
 	window.code_edit.text = source
 
@@ -47,7 +41,7 @@ func check_victory():
 		victory.emit()
 		level_completed.show()
 		window.hide()
-			
+
 func is_goal_harvest():
 	if farm.harvestables.size() != goal_harvest.size():
 		return false
@@ -61,18 +55,11 @@ func is_goal_harvest():
 
 	return true
 	
-func set_level(goal_harvest,level,mode):
-	self.level = level
-	
+func set_level(level_script,goal_harvest):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
-	
-	
-	if count == 0:
-		original_farm_model = level_loader.create(level,mode)
-		count += 1
 
-	farm_model = level_loader.create(level,mode)
+	farm_model = level_loader.create(level_script)
 	
 	farm.plot_farm(farm_model)
 	camera.fit_zoom_to_farm(farm)
@@ -108,10 +95,9 @@ func _on_window_run_button_pressed():
 	farm.reset()
 	reset_score()
 
-	if level == 5 and paused == false:
-		farm_model = level_loader._randomize()
-		farm.plot_farm(farm_model)
-		camera.fit_zoom_to_farm(farm)
+	farm_model = level_loader._randomize()
+	farm.plot_farm(farm_model)
+	camera.fit_zoom_to_farm(farm)
 
 	if player_save:
 		player_save.update_level_source(3, window.get_source_code())

@@ -7,13 +7,7 @@ var lvl_array_items:Array
 var count = 0
 var original_data : Dictionary
 
-func create(level:int,mode:int):
-	var file_path = ""
-	
-	if mode == 0:
-		file_path = "res://assets/levels/lvl_" + str(level) + ".txt"
-	else:
-		file_path = "res://test/test_levels/farm_view_testers/test_"+str(level)+".txt"
+func create(file_path:String):
 		
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
 	
@@ -92,10 +86,13 @@ func _create_farm_model(data:Dictionary):
 	
 	return farm_model
 	
+
 func _randomize():
 		var transformed_data = []
 		var rock_candidates = []
 		var water_row_candidates = []
+		
+		var translucent_level = false
 		
 		var max_stones = 2
 		var max_rivers = 1
@@ -115,9 +112,16 @@ func _randomize():
 					continue
 				if item.get_id() == 0 and item.is_translucent():
 					rock_candidates.append([i,j])
+					translucent_level = true
 				elif item.get_id() == 1 and item.is_translucent():
 					water_row_candidates.append(i)
+					translucent_level = true
 	
+		if not translucent_level:
+			var data = {"FarmArray": original_data["FarmArray"],
+		"width":original_data["width"],
+		"height":original_data["height"]}
+			return _create_farm_model(data)
 
 		for i in range(min(max_stones, rock_candidates.size())):
 			if rock_candidates.size() > 0:
