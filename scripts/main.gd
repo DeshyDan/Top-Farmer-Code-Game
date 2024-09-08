@@ -14,7 +14,7 @@ func _ready():
 	# Add the instance to the current scene
 	add_child(lvl)
 	
-	var file_path = "res://assets/levels/lvl_3.txt"
+	var file_path = "res://assets/levels/lvl_1.txt"
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4,
