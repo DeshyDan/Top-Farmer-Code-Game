@@ -1,6 +1,8 @@
 class_name Level
 extends Node2D
 
+signal level_finished
+
 @export var window: CodeWindow
 @export var farm: FarmView
 @export var interpreter_client: InterpreterClient
@@ -28,6 +30,9 @@ var width = 0
 var height = 0
 
 var player_save: PlayerSave
+
+func _ready():
+	camera.make_current()
 
 func set_player_save(save: PlayerSave):
 	player_save = save
@@ -170,8 +175,7 @@ func _on_interpreter_client_error(err: GError):
 	farm.robot.error()
 
 func _on_level_completed_next_level():
-	pass
-
+	level_finished.emit()
 
 func _on_level_completed_retry():
 	get_tree().reload_current_scene()

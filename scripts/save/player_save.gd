@@ -1,7 +1,7 @@
 class_name PlayerSave
 extends Resource
 
-const DEFAULT_LEVEL = 3.0
+const DEFAULT_LEVEL = 1.0
 
 static var save_path = "user://code_game/save_file.save"
 
@@ -32,7 +32,7 @@ func update_level_source(level, source: String):
 
 func unlock_level(level):
 	if level in _unlocked_levels:
-		push_error("level already unlocked for this save")
+		push_warning("level already unlocked for this save")
 		return
 
 	_unlocked_levels.append(level)
