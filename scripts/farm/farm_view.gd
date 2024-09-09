@@ -25,8 +25,7 @@ const OBSTACLES_LAYER = 2
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
 
-const GRID_NODE_PATH = "/root/Main/Level/Farm"
-
+@export var farm_node:Node
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
@@ -133,7 +132,7 @@ func store(plant_coord:Vector2i):
 	
 func animate_pickup( init_pos:Vector2i, harvested_plant:Plant):
 	instantiate_pickup( init_pos, harvested_plant)
-	var plant = get_node(GRID_NODE_PATH+"/pickup"+str(init_pos))
+	var plant = farm_node.get_node("pickup"+str(init_pos))
 	setup_pickup_tween(plant)
 	pickup_tween.play()
 	
@@ -164,7 +163,8 @@ func instantiate_pickup(init_pos, harvested_plant:Plant):
 	pickup.load_texture(harvested_plant.get_id())
 	pickup.position = Vector2(init_pos)*16
 	pickup.name += str(init_pos)
-	get_node(GRID_NODE_PATH).add_child(pickup)
+	farm_node.add_child(pickup)
+
 func end_pickup_animation(plant):
 	plant.queue_free()
 

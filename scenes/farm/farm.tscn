@@ -5,9 +5,10 @@
 [ext_resource type="TileSet" uid="uid://dkivxugfrllw6" path="res://resources/farm_tile_set.tres" id="2_qam0v"]
 [ext_resource type="PackedScene" uid="uid://bgjp81bcq4m6c" path="res://scenes/robot/robot.tscn" id="3_iavny"]
 
-[node name="Farm" type="Node2D"]
+[node name="Farm" type="Node2D" node_paths=PackedStringArray("farm_node")]
 texture_filter = 1
 script = ExtResource("1_irbmt")
+farm_node = NodePath(".")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
