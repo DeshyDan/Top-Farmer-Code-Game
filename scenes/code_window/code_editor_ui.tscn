@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://l1gdp5ne82s6"]
+[gd_scene load_steps=8 format=3 uid="uid://l1gdp5ne82s6"]
 
 [ext_resource type="Theme" uid="uid://slu1u53svf6n" path="res://resources/code_theme.tres" id="1_pxwf1"]
 [ext_resource type="Script" path="res://scripts/code_editor/code_editor_ui.gd" id="2_2nwbc"]
 [ext_resource type="Script" path="res://scripts/code_editor/player_code_edit.gd" id="2_80csa"]
 [ext_resource type="Script" path="res://scripts/code_editor/console.gd" id="3_6fi8a"]
 [ext_resource type="CodeHighlighter" uid="uid://pew04qufu47c" path="res://resources/player_code_highlighter.tres" id="3_g1itb"]
-[ext_resource type="PackedScene" uid="uid://ds5a0h25he8vt" path="res://scenes/code_window/error_box.tscn" id="5_0l53v"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_td1fi"]
 bg_color = Color(0.247059, 0.443137, 0.584314, 1)
@@ -43,7 +42,7 @@ size_flags_vertical = 3
 [node name="VSplitContainer" type="VSplitContainer" parent="MarginContainer"]
 layout_mode = 2
 
-[node name="Robot1" type="CodeEdit" parent="MarginContainer/VSplitContainer" node_paths=PackedStringArray("error_box")]
+[node name="Robot1" type="CodeEdit" parent="MarginContainer/VSplitContainer"]
 texture_filter = 2
 layout_mode = 2
 size_flags_vertical = 3
@@ -68,7 +67,6 @@ auto_brace_completion_highlight_matching = true
 script = ExtResource("2_80csa")
 executing_color = Color(0.294118, 0.294118, 0.294118, 0.321569)
 comment_color = Color(0.458824, 0.470588, 0.490196, 1)
-error_box = NodePath("../../../ErrorBoxHolder/ErrorBox")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VSplitContainer"]
 layout_mode = 2
@@ -111,21 +109,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_styles/normal = SubResource("StyleBoxFlat_2egim")
 text = "Kill"
-
-[node name="ErrorBoxHolder" type="Control" parent="."]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="ErrorBox" parent="ErrorBoxHolder" instance=ExtResource("5_0l53v")]
-visible = false
-layout_mode = 0
-anchors_preset = 0
-anchor_top = 0.0
-anchor_bottom = 0.0
-offset_top = 0.0
-offset_right = 410.0
-offset_bottom = 33.0
-grow_vertical = 1
 
 [connection signal="code_completion_requested" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_code_completion_requested"]
 [connection signal="text_changed" from="MarginContainer/VSplitContainer/Robot1" to="MarginContainer/VSplitContainer/Robot1" method="_on_text_changed"]
