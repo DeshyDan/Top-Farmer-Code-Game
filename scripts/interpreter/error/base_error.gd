@@ -22,12 +22,14 @@ enum ErrorCode {
 var error_code: ErrorCode
 var token: Token
 var message: String
+var raw_message: String
 
 func _init(error_code: ErrorCode, 
 			token: Token = null,
 			message: String = "Unknown Error"):
 	self.error_code = error_code
 	self.token = token
+	raw_message = message
 	# add exception class name before the message
 	if token:
 		self.message = "{0}: [{1}:{2}]: {3}".format([str(self),token.lineno,token.colno,message])

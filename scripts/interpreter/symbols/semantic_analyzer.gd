@@ -30,6 +30,14 @@ func visit_return_statement(node: ReturnStatement):
 	if current_scope.enclosing_scope == null:
 		error("Return statement in main body", GError.ErrorCode.UNEXPECTED_TOKEN, node.token)
 
+func visit_break(node: Break):
+	if current_scope.enclosing_scope == null:
+		error("Break statement in main body", GError.ErrorCode.UNEXPECTED_TOKEN, node.token)
+
+func visit_continue(node: Continue):
+	if current_scope.enclosing_scope == null:
+		error("Continue statement in main body", GError.ErrorCode.UNEXPECTED_TOKEN, node.token)
+
 func visit_var_decl(node: VarDecl):
 	var type_name = node.type_node.type_name
 	var type_symbol = current_scope.lookup(type_name)

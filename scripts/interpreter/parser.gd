@@ -100,10 +100,10 @@ func literal():
 		return Number.new(token)
 	elif token.type == Token.Type.TRUE:
 		eat(Token.Type.TRUE)
-		return Number.new(token) #TODO: bool literal leaf node
+		return Boolean.new(token)
 	elif token.type == Token.Type.FALSE:
 		eat(Token.Type.FALSE)
-		return Number.new(token) #TODO: bool literal leaf node
+		return Boolean.new(token)
 	elif token.type == Token.Type.NULL:
 		eat(Token.Type.NULL)
 		return NoOp.new() # TODO: null leaf node
@@ -292,6 +292,10 @@ func statement():
 		return if_statement()
 	elif current_token.type == Token.Type.RETURN:
 		return return_statement()
+	elif current_token.type == Token.Type.BREAK:
+		return break_statement()
+	elif current_token.type == Token.Type.CONTINUE:
+		return continue_statement()
 	elif current_token.type == Token.Type.END or current_token.type == Token.Type.EOF:
 		return empty()
 	else:
@@ -308,6 +312,20 @@ func return_statement():
 		right_node = expr()
 	eat(Token.Type.NL, "Expected new line after return statement")
 	return ReturnStatement.new(right_node, ret_token)
+
+func break_statement():
+	var token = current_token
+	eat(Token.Type.BREAK)
+	eat(Token.Type.NL, "Expected new line after break statement")
+	return Break.new(token)
+
+func continue_statement():
+	var token = current_token
+	eat(Token.Type.CONTINUE)
+	eat(Token.Type.NL, "Expected new line after continue statement")
+	print(token)
+	print(token.lineno)
+	return Continue.new(token)
 
 func assignment():
 	# 2

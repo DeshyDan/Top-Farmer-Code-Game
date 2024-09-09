@@ -1,21 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://bgjp81bcq4m6c"]
+[gd_scene load_steps=3 format=3 uid="uid://bgjp81bcq4m6c"]
 
 [ext_resource type="Script" path="res://scripts/robot/robot.gd" id="1_kwdwu"]
 [ext_resource type="SpriteFrames" uid="uid://b633heijf0big" path="res://resources/robot.tres" id="2_775mp"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cihdw"]
-size = Vector2(11.43, 19.45)
-
-[node name="Robot" type="CharacterBody2D"]
+[node name="Robot" type="Node2D"]
 z_index = 4096
-position = Vector2(80, 16)
-collision_layer = 2
 script = ExtResource("1_kwdwu")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-1.25, -0.8)
-shape = SubResource("RectangleShape2D_cihdw")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
 sprite_frames = ExtResource("2_775mp")
 animation = &"idle"
+autoplay = "idle"

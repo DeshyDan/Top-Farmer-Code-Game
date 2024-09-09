@@ -1,7 +1,7 @@
 extends PanelContainer
 
-@onready var player_code_edit = $MarginContainer/VSplitContainer/Robot1
-@onready var console = $MarginContainer/VSplitContainer/HBoxContainer/PanelContainer/RichTextLabel
+@export var player_code_edit: PlayerEdit
+@export var console: RichTextLabel
 
 signal run_pressed
 signal pause_pressed

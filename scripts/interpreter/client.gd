@@ -3,7 +3,7 @@ extends Node
 
 signal finished
 signal tracepoint_reached(node: AST, call_stack: CallStack)
-signal error(message: String)
+signal error(err: GError)
 
 signal print_requested(args: Array)
 signal move_requested(args: Array)
@@ -22,21 +22,24 @@ var DEFAULT_BUILTIN_FUNCS = {
 var interpreter: Interpreter
 # TODO: pass builtins to the lexer, parser, semantic analyser etc.
 var builtin_funcs = DEFAULT_BUILTIN_FUNCS
+var last_valid_symbol_table: SymbolTable
+
+func _ready():
+	MessageBus.code_completion_requested.connect(_on_code_completion_requested)
 
 func load_source(source: String):
 	var lexer = Lexer.new(source)
 	var parser = Parser.new(lexer)
 	var tree = parser.parse()
 	if parser.parser_error.error_code:
-		show_error(parser.parser_error.message)
+		show_error(parser.parser_error)
 		return false
 	var sem = SemanticAnalyzer.new()
 	sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
 	sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
 	sem.visit(tree)
 	if sem.semantic_error.error_code:
-		show_error(sem.semantic_error.message)
-		#window.set_error_line(sem.semantic_error.token.lineno, sem.semantic_error.token.colno)
+		show_error(sem.semantic_error)
 		return false
 	interpreter = Interpreter.new(tree)
 	interpreter.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
@@ -60,8 +63,8 @@ func tick():
 func kill():
 	interpreter = null
 
-func show_error(message: String):
-	error.emit(message)
+func show_error(err: GError):
+	error.emit(err)
 
 func print_call(args):
 	print_requested.emit(args)
@@ -82,7 +85,7 @@ func _on_interpreter_finished():
 	finished.emit()
 
 func _on_runtime_error(err: RuntimeError):
-	show_error(err.message)
+	show_error(err)
 	interpreter = null
 	finished.emit()
 
@@ -91,3 +94,55 @@ func _on_builtin_func_call(func_name: String, args: Array):
 
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	tracepoint_reached.emit(node, call_stack)
+
+func _on_code_completion_requested(source: String):
+	var options: Array[CodeCompletionOption] = []
+	for builtin_func_name in builtin_funcs.keys():
+		options.append(CodeCompletionOption.func_option(builtin_func_name, true))
+	for builtin_const_name in Const.DEFAULT_BUILTIN_CONSTS.keys():
+		options.append(CodeCompletionOption.const_option(builtin_const_name, true))
+		
+	var symboltable = last_valid_symbol_table
+	
+	var lexer = Lexer.new(source)
+	
+	for keyword in lexer.keywords:
+		if keyword == "int":
+			# int conflicts with print so skip it
+			# TODO: fix this
+			continue
+		options.append(CodeCompletionOption.keyword_option(keyword))
+	MessageBus.set_code_completion_options(options)
+	
+	# uncomment this when the interpreter is stable enough 
+	# to parse on every keystroke
+	
+	# make a best effort to parse the current program and add player
+	# defined symbols to the code completion options, otherwise fall
+	# back to last valid symbol table
+	
+	# TODO: change symbols based on the scope enclosing the caret
+	
+	#var parser = Parser.new(lexer)
+	#var tree = parser.parse()
+	#
+	#if not parser.parser_error.error_code:
+		#var sem = SemanticAnalyzer.new()
+		#sem.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
+		#sem.set_builtin_funcs(DEFAULT_BUILTIN_FUNCS)
+		#sem.visit(tree)
+		#if not sem.semantic_error.error_code:
+			#symboltable = sem.current_scope
+			#last_valid_symbol_table = symboltable
+	#
+	#if not symboltable:
+		#MessageBus.set_code_completion_options(options)
+		#return
+	
+	#for symbol_name in symboltable._symbols.keys():
+		#var symbol = symboltable.lookup(symbol_name)
+		#if symbol is FunctionSymbol:
+			#options.append(CodeCompletionOption.func_option(symbol_name))
+		#if symbol is VarSymbol:
+			#options.append(CodeCompletionOption.var_option(symbol_name))
+	

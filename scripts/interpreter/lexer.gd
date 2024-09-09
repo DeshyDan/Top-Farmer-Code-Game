@@ -18,6 +18,8 @@ var keywords = {
 	"func": Token.Type.FUNC,
 	"while": Token.Type.WHILE,
 	"return": Token.Type.RETURN,
+	"break": Token.Type.BREAK,
+	"continue": Token.Type.CONTINUE,
 	"if": Token.Type.IF,
 	"else": Token.Type.ELSE,
 	"and": Token.Type.LOGIC_AND,
@@ -49,7 +51,7 @@ func _init(text: String):
 		current_char == null
 	else:
 		current_char = self.text[pos]
-	lexer_error = LexerError.new(LexerError.ErrorCode.OK)
+	lexer_error = LexerError.new(LexerError.ErrorCode.OK, null, "OK")
 
 func reset():
 	pos = 0
@@ -104,6 +106,10 @@ func newline(make_token: bool, add_line: bool = true):
 		line_number += 1
 		col_number = 0
 
+func skip_comment():
+	while current_char != '\n' and current_char != null:
+		advance()
+
 func skip_whitespace():
 	
 	if pending_indents != 0:
@@ -133,6 +139,11 @@ func skip_whitespace():
 				newline(!is_line_begin)
 				check_indent()
 
+			"#":
+				skip_comment()
+				advance() # consume \n
+				newline(!is_line_begin)
+				check_indent()
 			_:
 				return
 
@@ -206,20 +217,31 @@ func check_indent():
 			mixed = mixed or space != current_indent_char;
 			advance()
 			
-	
+		if is_at_end():
+			# Reached the end with an empty line, so just dedent as much as needed.
+			pending_indents -= indent_level()
+			indent_stack.clear()
+			return
+
 		var previous_indent = 0
 		if current_char == '\n':
 			# Empty line, keep going.
 			advance();
 			newline(false);
 			continue;
+
+		if current_char == '#':
+			skip_comment()
 		
-		if is_at_end():
-			# Reached the end with an empty line, so just dedent as much as needed.
-			pending_indents -= indent_level()
-			indent_stack.clear()
-			return
-		
+			if is_at_end():
+				# Reached the end with an empty line, so just dedent as much as needed.
+				pending_indents -= indent_level()
+				indent_stack.clear()
+				return
+			
+			advance()
+			newline(false)
+			continue
 		
 		if indent_level() > 0:
 			previous_indent = indent_stack.back();
@@ -270,9 +292,9 @@ func make_token(token_type: Token.Type,
 	if value != null:
 		length = len(str(value))
 	if token_type == Token.Type.TRUE:
-		value = 1
+		value = true
 	if token_type == Token.Type.FALSE:
-		value = 0
+		value = false
 	return Token.new(token_type, value, lineno, colno, length)
 
 func get_next_token():
