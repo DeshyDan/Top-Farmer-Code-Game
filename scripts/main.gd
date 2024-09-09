@@ -3,15 +3,16 @@ extends Node
 var player_save: PlayerSave
 var level_scene: PackedScene
 var current_level: Node
-var levels_to_load = range(4, 6)
+var levels_to_load = range(1, 4)
 
 func _ready():
 	player_save = PlayerSave.new()
-	player_save.load_progress()
 	level_scene = preload("res://scenes/level/level.tscn")
 	load_next_level()
 
 func load_next_level():
+	player_save.load_progress()
+	
 	if levels_to_load.is_empty():
 		print("All levels loaded")
 		return
