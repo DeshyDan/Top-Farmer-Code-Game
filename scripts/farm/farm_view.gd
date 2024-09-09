@@ -25,7 +25,7 @@ const OBSTACLES_LAYER = 2
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
 
-const GRID_NODE_PATH = "/root/Main/Level"
+const GRID_NODE_PATH = "/root/Main/Level/Farm"
 
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
@@ -122,30 +122,48 @@ func harvest():
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
-	animate_pickup(plant_coord+Vector2i(global_position.x,global_position.y))
+
+	animate_pickup(plant_coord)
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
 		harvestables[plant_id] = old_val + 1
 	else:
 		harvestables[plant_id] = 1
 	inventory.store(plant_id,harvestables[plant_id])
-
-func instantiate_pickup(init_pos):
-	var pickup:Node = pickup_scene.instantiate()
-	pickup.global_position = init_pos
-	pickup.name += str(init_pos)
-	get_node(GRID_NODE_PATH).add_child(pickup)
 	
 func animate_pickup( init_pos:Vector2i):
-	pickup_tween = get_tree().create_tween()
 	instantiate_pickup( init_pos)
 	var plant = get_node(GRID_NODE_PATH+"/pickup"+str(init_pos))
-	
-	print(inventory.global_position)
-	pickup_tween.tween_property(plant, "position", inventory.position ,0.5)
-	pickup_tween.finished.connect(end_pickup_animation.bind(plant))
+	setup_pickup_tween(plant)
 	pickup_tween.play()
+	
+func setup_pickup_tween(plant):
+	pickup_tween = get_tree().create_tween()
+	pickup_tween.set_parallel(true)
+	pickup_tween.set_trans(Tween.TRANS_SINE)  
+	pickup_tween.set_ease(Tween.EASE_OUT)  
+	
+	var init_pos = plant.position
+	var end_pos = init_pos + Vector2(0, -50) 
 
+	pickup_tween.tween_property(plant, "position", end_pos, 0.4).set_delay(0.3)
+
+	pickup_tween.tween_property(plant, "scale", Vector2(1.2, 1.2), 0.2)
+	pickup_tween.tween_property(plant, "scale", Vector2(1, 1), 0.3).set_delay(0.2)
+
+	var random_rotation = randf_range(-0.2, 0.2)
+	pickup_tween.tween_property(plant, "rotation", random_rotation, 0.3)
+	pickup_tween.tween_property(plant, "rotation", 0, 0.4).set_delay(0.3)
+
+	pickup_tween.tween_property(plant, "modulate:a", 0.0, 0.4).set_delay(0.3)
+
+	pickup_tween.finished.connect(end_pickup_animation.bind(plant))
+	
+func instantiate_pickup(init_pos):
+	var pickup:Node = pickup_scene.instantiate()
+	pickup.position = Vector2(init_pos)*16
+	pickup.name += str(init_pos)
+	get_node(GRID_NODE_PATH).add_child(pickup)
 func end_pickup_animation(plant):
 	plant.queue_free()
 

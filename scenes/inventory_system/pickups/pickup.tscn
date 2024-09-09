@@ -3,6 +3,6 @@
 [ext_resource type="Texture2D" uid="uid://cwgrt7ih7y58n" path="res://assets/textures/objects/CornIcon.png" id="1_8ibyg"]
 
 [node name="pickup" type="TextureRect"]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 20.0
+offset_bottom = 19.0
 texture = ExtResource("1_8ibyg")
