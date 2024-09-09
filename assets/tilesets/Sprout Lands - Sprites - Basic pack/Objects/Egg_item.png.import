@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6hynyc53xd0f"
-path="res://.godot/imported/basic_Furniture.png-19739f6f6a7a375fce043ac5f938de9d.ctex"
+uid="uid://culeej2r0hosl"
+path="res://.godot/imported/Egg_item.png-9385de056527c5751c9ac2acb30c25c4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/objects/basic_Furniture.png"
-dest_files=["res://.godot/imported/basic_Furniture.png-19739f6f6a7a375fce043ac5f938de9d.ctex"]
+source_file="res://assets/tilesets/Sprout Lands - Sprites - Basic pack/Objects/Egg_item.png"
+dest_files=["res://.godot/imported/Egg_item.png-9385de056527c5751c9ac2acb30c25c4.ctex"]
 
 [params]
 

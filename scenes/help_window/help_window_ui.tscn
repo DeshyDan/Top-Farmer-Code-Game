@@ -14,7 +14,7 @@ grow_vertical = 2
 theme = ExtResource("1_ciyua")
 script = ExtResource("1_buopv")
 help_contents = NodePath("PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer/Tree")
-help_text = NodePath("PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/ScrollContainer2/HelpText/RichTextLabel")
+help_text = NodePath("PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/HelpText/RichTextLabel")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -30,10 +30,8 @@ layout_mode = 2
 [node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-split_offset = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
-custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -47,16 +45,24 @@ layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 
-[node name="AspectRatioContainer" type="AspectRatioContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2"]
 layout_mode = 2
 size_flags_horizontal = 0
-alignment_horizontal = 0
-alignment_vertical = 0
 
-[node name="HelpWindowCloseButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/AspectRatioContainer"]
+[node name="HelpWindowCloseButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 text = "X"
 icon_alignment = 1
+
+[node name="ZoomOutButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+text = "zoom out"
+
+[node name="ZoomInButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "zoom in"
 
 [node name="MarginContainer" type="MarginContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents"]
 layout_mode = 2
@@ -66,6 +72,7 @@ theme_override_constants/margin_top = 5
 
 [node name="Tree" type="Tree" parent="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer"]
 layout_mode = 2
+mouse_force_pass_scroll_events = false
 theme = ExtResource("1_ciyua")
 hide_root = true
 script = ExtResource("1_f1sko")
@@ -80,24 +87,22 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="ScrollContainer2" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="HelpText" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/ScrollContainer2"]
+[node name="HelpText" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/ScrollContainer2/HelpText"]
+[node name="RichTextLabel" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/HelpText"]
 layout_mode = 2
 size_flags_vertical = 3
 focus_mode = 2
+mouse_force_pass_scroll_events = false
 bbcode_enabled = true
 text = "Select an item in the contents tab to show help"
-fit_content = true
 selection_enabled = true
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/AspectRatioContainer/HelpWindowCloseButton" to="." method="_on_help_window_close_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer/HelpWindowCloseButton" to="." method="_on_help_window_close_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer/ZoomOutButton" to="." method="_on_zoom_out_button_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer2/HBoxContainer/ZoomInButton" to="." method="_on_zoom_in_button_pressed"]
 [connection signal="help_contents_item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/ScrollContainer/HelpContents/MarginContainer/Tree" to="." method="_on_help_contents_item_selected"]
-[connection signal="meta_clicked" from="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/ScrollContainer2/HelpText/RichTextLabel" to="." method="_on_keyword_clicked"]
+[connection signal="meta_clicked" from="PanelContainer/VBoxContainer/HSplitContainer/MarginContainer/HelpText/RichTextLabel" to="." method="_on_keyword_clicked"]

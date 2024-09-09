@@ -4,12 +4,14 @@ extends CodeEdit
 @export var keyword_data_path: = "res://keywords.json"
 
 @export var executing_color: Color
+@export var comment_color: Color
 @export var executing_highlight_length: float = 1
 
 @export var error_box: Control
 
 var _background_color: Color
 var _tweening_lines = []
+
 # Called when the node enters the scene tree for the first time.
 func _init():
 	var keyword_data = FileAccess.get_file_as_string(keyword_data_path)
@@ -22,7 +24,8 @@ func _ready():
 	_background_color = get_theme_color("background_color")
 	for key in Const.DEFAULT_BUILTIN_CONSTS:
 		syntax_highlighter.keyword_colors[key] = Color.AQUAMARINE
-	#syntax_highlighter.add_color_region("#","", comment_color)
+	syntax_highlighter.add_color_region("#","", comment_color)
+	
 	# have to do this otherwise random godot functions show up
 	update_code_completion_options(true)
 	MessageBus.code_completion_set.connect(_on_code_completion_set)
@@ -31,7 +34,7 @@ func highlight_line(lineno):
 	var tween = create_tween()
 	tween.tween_method(
 		func (color):
-			set_line_background_color(lineno,color), 
+			set_line_background_color(lineno-1,color), 
 		executing_color, 
 		_background_color, 
 		executing_highlight_length

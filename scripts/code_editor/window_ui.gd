@@ -50,7 +50,7 @@ func highlight_tracepoint(node: AST, call_stack: CallStack):
 		return
 	var lineno = node.token.get("lineno")
 	if lineno != null:
-		highlight_line(lineno -1)
+		highlight_line(lineno)
 	if call_stack.peek().enclosing_ar == null:
 		return
 	var enclosing_ar = call_stack.peek().enclosing_ar
@@ -58,7 +58,7 @@ func highlight_tracepoint(node: AST, call_stack: CallStack):
 	var func_decl: FunctionDecl = enclosing_ar.get_item(call_stack.peek().name)
 	var caller_lineno = caller_token.get("lineno")
 	if caller_lineno:
-		highlight_line(caller_lineno - 1)
+		highlight_line(caller_lineno)
 	else:
 		print("NO LINENO")
 	call_stack.pop()
@@ -66,6 +66,10 @@ func highlight_tracepoint(node: AST, call_stack: CallStack):
 	highlight_tracepoint(func_decl, call_stack) 
 
 func _on_run_button_pressed():
+	if not code_edit.text.ends_with("\n"):
+		# have to do this to avoid bugged errors from code edit node
+		code_edit.text += "\n"
+		
 	run_button_pressed.emit()
 
 func _on_pause_pressed():

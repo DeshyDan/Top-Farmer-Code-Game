@@ -9,6 +9,7 @@ const test_errors_path = "res://test/test_scripts/interpreter/errors/"
 var interpreter: Interpreter
 var mut = Mutex.new()
 var ticker_thread: Thread
+var output: String = ""
 
 func before_all():
 	for path in [test_errors_path,test_features_path]:
@@ -36,6 +37,23 @@ func before_all():
 		else:
 			params_errors = params
 
+func before_each():
+	output = ""
+
+func autotick(_n, _c):
+	_autotick.call_deferred()
+
+func _autotick():
+	interpreter.tick.emit()
+
+func save_output(func_name, args):
+	if func_name == "print":
+		_save_output.call_deferred(args)
+
+func _save_output(args):
+	var out = str(args[0])
+	output += out + "\n"
+
 func test_interpreter_features(params=use_parameters(params_features)):
 	var lexer = Lexer.new(params.source)
 	var parser = Parser.new(lexer)
@@ -45,20 +63,13 @@ func test_interpreter_features(params=use_parameters(params_features)):
 	var expected_index = 0
 	var expected_str = params.expected as String
 	#print(tree_str)
-	var expected_print = expected_str.split("\n")
+	var expected_print = expected_str
 	interpreter = Interpreter.new(tree)
-	interpreter.tracepoint.connect(func (_n,_c): interpreter.tick.emit())
-	interpreter.builtin_func_call.connect(
-		func (func_name, args):
-			if func_name != "print":
-				return
-			var out = args.get(0) as String
-			out = out.trim_suffix("\n")
-			assert_ne(len(expected_print), 0, "Unexpected print")
-			assert_eq(expected_print.pop_front(), args.get(0), "Incorrect print")
-	)
-	interpreter.start()
-	wait_for_signal(interpreter.finished, 5, "waiting for interpreter to finish")
+	interpreter.tracepoint.connect(autotick)
+	interpreter.builtin_func_call.connect(save_output)
+	await interpreter.start()
+	#await wait_for_signal(interpreter.finished, 5, "waiting for interpreter to finish")
+	assert_eq_deep(output.c_escape(), expected_print.c_escape())
 
 func test_interpreter_errors(params=use_parameters(params_errors)):
 	var lexer = Lexer.new(params.source)
@@ -69,7 +80,7 @@ func test_interpreter_errors(params=use_parameters(params_errors)):
 	var expected_index = 0
 	var expected_str = params.expected as String
 	#print(tree_str)
-	var expected_print = expected_str.split("\n")
+	var expected_print = expected_str
 	interpreter = Interpreter.new(tree)
 	interpreter.start()
 	await wait_until(check_error, 15)

@@ -67,17 +67,34 @@ func visit_while_loop(node: WhileLoop):
 	while await visit(node.condition):
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_break:
+			call_stack.peek().reset_break()
+			break
+		if call_stack.peek().should_continue:
+			call_stack.peek().reset_continue()
 		await visit(node.block)
 
 func visit_for_loop(node: ForLoop):
 	var identifier: Var = node.identifier
 	var ar = call_stack.peek()
+	var new_ar = ActivationRecord.new(
+		"for@" + ar.name,
+		ActivationRecord.ARType.FOR_LOOP,
+		ar.nesting_level + 1,
+		ar,
+		ar.token
+	)
 	for item in (await visit(node.iterable)):
 		await tracepoint_reached(node)
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_continue:
+			call_stack.peek().reset_continue()
 		ar.set_item(identifier.name, item)
 		var result = await visit(node.block)
+		if call_stack.peek().should_break:
+			call_stack.peek().reset_break()
+			break
 
 func visit_array_literal(node: ArrayNode):
 	var result = []
@@ -191,6 +208,9 @@ func visit_unary_op(node: UnaryOp):
 func visit_number(node: Number):
 	return node.value
 
+func visit_boolean(node: Boolean):
+	return node.value
+
 func visit_assignment(node: Assignment):
 	var left_name = node.left.name
 	var var_value = await visit(node.right)
@@ -208,6 +228,8 @@ func visit_block(node: Block):
 			return ret_val
 		if call_stack.peek().should_return:
 			return call_stack.peek().return_val
+		if call_stack.peek().should_break or call_stack.peek().should_continue:
+			return
 		await visit(child)
 
 func visit_return_statement(node: ReturnStatement):
@@ -216,6 +238,18 @@ func visit_return_statement(node: ReturnStatement):
 	ar.set_return(result)
 	await tracepoint_reached(node)
 	return result
+
+func visit_break(node: Break):
+	var ar = call_stack.peek()
+	ar.set_break()
+	await tracepoint_reached(node)
+	return
+
+func visit_continue(node: Continue):
+	var ar = call_stack.peek()
+	ar.set_continue()
+	await tracepoint_reached(node)
+	return
 
 func visit_var_decl(node: VarDecl):
 	return await tracepoint_reached(node)

@@ -42,5 +42,4 @@ func _init_builtins():
 	define(BuiltinSymbol.new("int"))
 	define(BuiltinSymbol.new("float"))
 	define(BuiltinSymbol.new("true"))
-	
 	define(BuiltinSymbol.new("false"))

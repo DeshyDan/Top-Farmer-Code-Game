@@ -1,18 +1,26 @@
 class_name FarmView
 extends Node2D
 
+signal move_completed(successful:bool)
+signal plant_completed(successful:bool)
+signal harvest_completed(successful:bool)
 
-@onready var dirt_terrain =$Grid
+
+@onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
-@onready var draggable:Button = $Grid/draggable
+
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
 @export_range(2,15) var height:int = 5
 
 const PLANT_LAYER = 0
 const SOIL_LAYER = 1
-const SOIL_TERRAIN_SET = 0
+const ROCK_LAYER = 2
+const SOIL_TERRAIN = 0
+const WATER_TERRAIN = 1
+const TRANSLUCENT_LAYER = 3
+const OBSTACLES_LAYER = 2
 
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
@@ -20,30 +28,47 @@ const CAN_PLACE_SEEDS = "can_place_seeds"
 var farm_model:FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
-var dragging = false
-var drag_offset = Vector2(0,0)
-
-func _process(delta):
-	if dragging:
-		dirt_terrain.position = get_local_mouse_position() - drag_offset
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_MIDDLE:
-			if event.is_pressed():
-				_on_drag()
-			else:
-				_on_drop()
+var original_farm_model:FarmModel
 
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
+	
+	if original_farm_model == null:
+		self.original_farm_model = farm_model
+		
 	var height = farm_model.get_height()
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
-	
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, SOIL_TERRAIN_SET, 0)
-	draggable.set_size(Vector2(width * 16 , height * 16))
-	
+
+	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
+	dirt_terrain.clear_layer(ROCK_LAYER)
+	dirt_terrain.clear_layer(TRANSLUCENT_LAYER)
+	for x in farm_model.width:
+		for y in farm_model.height:
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Obstacle):
+				#water
+				if farm_item.get_id() == 1:
+					dirt_terrain.set_cells_terrain_connect(
+						TRANSLUCENT_LAYER,
+						[Vector2i(x, y)],
+						0,
+						WATER_TERRAIN, 
+						false
+					)
+					var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else SOIL_LAYER
+					dirt_terrain.set_cells_terrain_connect(
+						layer,
+						[Vector2i(x, y)],
+						0,
+						WATER_TERRAIN, 
+						false
+					)
+					continue
+				#rocks
+				var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else ROCK_LAYER
+				dirt_terrain.set_cell(layer, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
 	robot.set_boundaries(width,height)
@@ -55,7 +80,6 @@ func set_terrain_path(width: int, height: int):
 			map.append(Vector2i(x, y))
 
 	return map
-
 
 func tick():
 	for farm_item: FarmItem in farm_model.get_data():
@@ -69,12 +93,11 @@ func tick():
 func redraw_farm():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			var farm_item: FarmItem = farm_model.get_plant_at_coord(Vector2i(x,y))
-			if not (farm_item is Plant):
-				continue
-			var atlas_x = min(farm_item.age, 3)
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
-
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Plant):
+				var atlas_x = min(farm_item.age, 3)
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
+				
 func wait():
 	robot.wait()
 
@@ -83,20 +106,18 @@ func harvest():
 	var robot_coords:Vector2i = robot.get_coords()
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
 
-	if tile_data:
+	if tile_data and farm_model.get_item_at_coord(robot_coords) is Plant:
 		robot.harvest()
 		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
 		
 		if farm_model.is_harvestable(robot_coords):
 			store(robot_coords)
-			MessageBus.send_input(true)
-		else:
-			MessageBus.send_input(false)
+			harvest_completed.emit(true)
 		farm_model.remove(robot_coords)
-		
+		harvest_completed.emit(false)
 
 func store(plant_coord:Vector2i):
-	var harvested_plant:Plant = farm_model.get_plant_at_coord(plant_coord)
+	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
@@ -120,10 +141,10 @@ func plant(plant_id:int=1):
 			
 			dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
 			farm_model.add_farm_item(plant_type, robot_tile_coords)
-			MessageBus.send_input(true)
+			plant_completed.emit(true)
 		else:
+			plant_completed.emit(false)	
 			print("Cannot place here")
-			MessageBus.send_input(false)
 
 func get_plant_type(plant_id:int):
 	match(plant_id):
@@ -133,8 +154,27 @@ func get_plant_type(plant_id:int):
 			return Plant.TOMATO()
 
 func move(dir): 
-	robot_tile_coords = robot.move(dir)
-	
+	var vec: Vector2i
+	match dir:
+		Const.Direction.NORTH:
+			vec = Vector2i.UP
+		Const.Direction.SOUTH:
+			vec = Vector2i.DOWN
+		Const.Direction.EAST:
+			vec = Vector2i.RIGHT
+		Const.Direction.WEST:
+			vec = Vector2i.LEFT
+	var next_move = robot_tile_coords + vec
+	if (is_out_of_bounds(next_move)) or (farm_model.is_obstacle(next_move) and !farm_model.is_water(next_move)):
+		move_completed.emit(false)
+		return
+	robot_tile_coords = robot.move(vec)
+	print(robot_tile_coords)
+	move_completed.emit(true)
+
+func is_out_of_bounds(coords: Vector2i):
+	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
+
 func get_tile_position(coords: Vector2i):
 	return dirt_terrain.map_to_local(coords)
 
@@ -142,23 +182,24 @@ func get_harvestables():
 	return harvestables
 	
 func reset():
+	self.farm_model = original_farm_model
 	robot_tile_coords = Vector2i(0,0) 
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
+	robot.idle()
 	
-	farm_model.remove_all_plants()
+	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
-	
+		
+	plot_farm(original_farm_model)
+func remove_all_plants():
 	for x in farm_model.width:
 		for y in farm_model.height:
-			dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			if (farm_item is Plant):
+				farm_model.remove(Vector2i(x,y))
+				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
 
-func _on_drag():
-	dragging = true
-	drag_offset = get_local_mouse_position() - dirt_terrain.position
-
-func _on_drop():
-	dragging = false
 
 
