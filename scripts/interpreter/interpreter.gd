@@ -9,6 +9,8 @@ var call_stack: CallStack
 
 var ast: AST
 
+var input_mode = false
+
 signal tick
 signal tracepoint(node: AST, call_stack: CallStack)
 signal finished
@@ -117,15 +119,16 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			args.append(await visit(arg))
 		builtin_func_call.emit(node.name.name, args)
-		var input_data = await input
-		print(input_data)
+		var input_data = null
+		if input_mode:
+			input_data = await input
 		await tracepoint_reached(node)
 		if input_data == null:
 			return
 		if input_data is int:
 			return input_data
 		elif input_data is bool:
-			return input_data as int
+			return input_data
 		else:
 			return
 	

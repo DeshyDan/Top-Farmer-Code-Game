@@ -105,16 +105,16 @@ func harvest():
 
 	var robot_coords:Vector2i = robot.get_coords()
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
-
+	var did_harvest = false
 	if tile_data and farm_model.get_item_at_coord(robot_coords) is Plant:
 		robot.harvest()
 		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
 		
 		if farm_model.is_harvestable(robot_coords):
 			store(robot_coords)
-			harvest_completed.emit(true)
+			did_harvest = true
 		farm_model.remove(robot_coords)
-		harvest_completed.emit(false)
+	harvest_completed.emit(did_harvest)
 
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
