@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://007gvxol2m3y"]
+[gd_scene load_steps=3 format=3 uid="uid://007gvxol2m3y"]
 
 [ext_resource type="Texture2D" uid="uid://cwgrt7ih7y58n" path="res://assets/textures/objects/CornIcon.png" id="1_8ibyg"]
+[ext_resource type="Script" path="res://scenes/inventory_system/pickups/pickup.gd" id="2_2x0mv"]
 
 [node name="pickup" type="TextureRect"]
 offset_right = 20.0
 offset_bottom = 19.0
 texture = ExtResource("1_8ibyg")
+script = ExtResource("2_2x0mv")

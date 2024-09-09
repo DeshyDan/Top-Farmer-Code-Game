@@ -123,7 +123,7 @@ func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 
-	animate_pickup(plant_coord)
+	animate_pickup(plant_coord, harvested_plant)
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
 		harvestables[plant_id] = old_val + 1
@@ -131,8 +131,8 @@ func store(plant_coord:Vector2i):
 		harvestables[plant_id] = 1
 	inventory.store(plant_id,harvestables[plant_id])
 	
-func animate_pickup( init_pos:Vector2i):
-	instantiate_pickup( init_pos)
+func animate_pickup( init_pos:Vector2i, harvested_plant:Plant):
+	instantiate_pickup( init_pos, harvested_plant)
 	var plant = get_node(GRID_NODE_PATH+"/pickup"+str(init_pos))
 	setup_pickup_tween(plant)
 	pickup_tween.play()
@@ -159,8 +159,9 @@ func setup_pickup_tween(plant):
 
 	pickup_tween.finished.connect(end_pickup_animation.bind(plant))
 	
-func instantiate_pickup(init_pos):
+func instantiate_pickup(init_pos, harvested_plant:Plant):
 	var pickup:Node = pickup_scene.instantiate()
+	pickup.load_texture(harvested_plant.get_id())
 	pickup.position = Vector2(init_pos)*16
 	pickup.name += str(init_pos)
 	get_node(GRID_NODE_PATH).add_child(pickup)
