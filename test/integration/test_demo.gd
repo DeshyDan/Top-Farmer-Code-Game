@@ -10,7 +10,7 @@ func before_each():
 	lvl = level_scene.instantiate() as Level
 	add_child(lvl)
 	
-	var level = "res://assets/levels/lvl_4.txt"
+	var level = "res://test/test_levels/demo_lvl.txt"
 	
 	var goal_harvest = {
 		Const.PlantType.PLANT_CORN: 4

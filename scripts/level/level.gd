@@ -34,7 +34,7 @@ func set_player_save(save: PlayerSave):
 	
 func set_source_code(source: String):
 	window.code_edit.text = source
-
+	
 
 func check_victory():
 	if(is_goal_state()):
@@ -189,3 +189,9 @@ func _on_farm_harvest_completed(successful):
 
 func _on_farm_plant_completed(successful):
 	interpreter_client.input.call_deferred(successful)
+
+
+func _on_farm_goal_pos_met():
+		victory.emit()
+		level_completed.show()
+		window.hide()

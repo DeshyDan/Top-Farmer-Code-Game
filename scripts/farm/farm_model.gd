@@ -4,6 +4,7 @@ extends RefCounted
 var grid_map = []
 var width:int
 var height:int 
+var goal_pos : Vector2i
 
 func _init(width:int , height:int):
 	grid_map.resize(width * height)

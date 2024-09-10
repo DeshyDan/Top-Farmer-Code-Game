@@ -3,7 +3,7 @@ extends Node
 var player_save: PlayerSave
 var level_scene: PackedScene
 var current_level: Node
-var levels_to_load = range(1, 4)
+var levels_to_load = range(1, 11)
 
 func _ready():
 	player_save = PlayerSave.new()
@@ -25,10 +25,7 @@ func load_next_level():
 	current_level = lvl
 
 	var file_path = "res://assets/levels/lvl_" + str(i) + ".txt"
-	var goal_harvest = {
-		Const.PlantType.PLANT_CORN:Const.LEVEL_GOALS["level "+str(i)]["corn"],
-		Const.PlantType.PLANT_GRAPE:  Const.LEVEL_GOALS["level "+str(i)]["grape"]
-	}
+	var goal_harvest = Const.LEVEL_GOALS["level "+str(i)]
 
 	lvl.set_level(file_path, goal_harvest)
 	lvl.set_player_save(player_save)
