@@ -12,6 +12,29 @@ enum Direction {
 	WEST,
 }
 
+var LEVEL_GOALS = {
+	"level 1": {
+		"corn": 1,
+		"grape": 1
+	},
+	"level 2": {
+		"corn": 1,
+		"grape": 1
+	},
+	"level 3": {
+		"corn": 1,
+		"grape": 1
+	},
+	"level 4": {
+		"corn": 4,
+		"grape": 4
+	},
+	"level 5": {
+		"corn": 1,
+		"grape": 1
+	}
+}
+
 var DEFAULT_BUILTIN_CONSTS = {
 	"NORTH": Const.Direction.NORTH,
 	"SOUTH": Const.Direction.SOUTH,

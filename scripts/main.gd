@@ -8,6 +8,7 @@ var levels_to_load = range(1, 4)
 func _ready():
 	player_save = PlayerSave.new()
 	level_scene = preload("res://scenes/level/level.tscn")
+	#iterate throgh text file and create a dictionary of the level gaols and use the key to store the goal inside
 	load_next_level()
 
 func load_next_level():
@@ -25,8 +26,8 @@ func load_next_level():
 
 	var file_path = "res://assets/levels/lvl_" + str(i) + ".txt"
 	var goal_harvest = {
-		Const.PlantType.PLANT_CORN: 4,
-		#Const.PlantType.PLANT_GRAPE: 4
+		Const.PlantType.PLANT_CORN:Const.LEVEL_GOALS["level "+str(i)]["corn"],
+		Const.PlantType.PLANT_GRAPE:  Const.LEVEL_GOALS["level "+str(i)]["grape"]
 	}
 
 	lvl.set_level(file_path, goal_harvest)
