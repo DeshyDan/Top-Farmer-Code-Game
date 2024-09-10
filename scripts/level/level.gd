@@ -44,16 +44,10 @@ func check_victory():
 		window.hide()
 
 func is_goal_state():
-	if farm.harvestables.size() != goal_state.size():
-		return false
-
 	for key in goal_state:
-		if not farm.harvestables.has(key):
-			return false
-
-		if farm.harvestables[key] < goal_state[key]:
-			return false
-
+		if goal_state[key] != 0:
+			if not farm.harvestables.has(key) or farm.harvestables[key] < goal_state[key]:
+				return false
 	return true
 	
 func set_level(level_script,goal_state):
