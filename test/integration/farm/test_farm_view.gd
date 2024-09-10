@@ -73,7 +73,7 @@ func test_move():
 	if not await wait_for_signal(level.interpreter_client.finished, 15):
 		fail_test("Interpreter took too long")
 
-	
+	#can hover over water but not rocks and is bounded by edge
 	# CHECK MOVE LEVEL FOR MORE CLARITY
 	# FARMERS MOVEMENTS: [UP, LEFT, DOWN, DOWN,RIGHT,RIGHT, UP, RIGHT]
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],0) # UP | OUT OF BOUNDS
@@ -83,7 +83,8 @@ func test_move():
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],4) # RIGHT | LAND
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],5) # RIGHT |WATER
 	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],6) # UP | ROCK 
-	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],7) # RIGHT | OUT OF BOUNDS
+	assert_signal_emitted_with_parameters(level.farm,"move_completed", [true],7) # RIGHT | lAND
+	assert_signal_emitted_with_parameters(level.farm,"move_completed", [false],8) # RIGHT | OUT OF BOUNDS
 
 func test_harvestables():
 	setup_level(PLANT_LEVEL, MATURE_HARVEST_SCRIPT)

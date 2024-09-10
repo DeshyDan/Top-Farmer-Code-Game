@@ -7,23 +7,41 @@ var lvl_array_items:Array
 var count = 0
 var original_data : Dictionary
 
-func create(file_path:String):
-		
+func create(file_path: String):
+	if not FileAccess.file_exists(file_path):
+		return null
+
 	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
-	
+	if lvl_skeleton == null:
+		return null
+
 	var lvl_skeleton_data = lvl_skeleton.get_as_text()
-	
+	lvl_skeleton.close()
+
+	if lvl_skeleton_data.strip_edges() == "":
+		return null
+
 	var lines = lvl_skeleton_data.split("\n")
 	var height = 0
 	var width = 0
 	
 	for line in lines:
-		if line != "":
+		if line.strip_edges() != "":
 			var items = line.split(",")
+			if items.size() == 0:
+				return null
 			lvl_array.append(items)
-			width = len(items)
+			width = max(width, len(items))
 			height += 1
+	
+	for i in range(lvl_array.size()):
+		if not lvl_array[i].size() == width:
+			return null
+	
+	if height == 0 or width == 0:
+		return null
 
+	# Rest of the function remains the same
 	var default_value = null
 	for y in range(height):
 		var row = []
@@ -31,15 +49,9 @@ func create(file_path:String):
 			row.append(default_value)
 		lvl_array_items.append(row)
 	
-	for i in range(0,height):
-		for j in range(0,width):
+	for i in range(0, height):
+		for j in range(0, width):
 			var item = lvl_array[i][j]
-			# # -> bare land
-			# s -> translucent rock
-			# r -> rock
-			# l -> translucent water
-			# w -> water
-			## TODO: use some kind of enum to map symbol to obstacle name
 			var coord: Vector2i = Vector2i(j, i)
 			if item == "#":
 				lvl_array_items[i][j] = null
@@ -51,17 +63,22 @@ func create(file_path:String):
 				rock.set_translucent(true)
 				lvl_array_items[i][j] = rock
 			elif item == "w":
+				if i == 0 or i == (height-1) or j == (width-1) or j == 0:
+					return null
 				var water = Obstacle.WATER()
 				lvl_array_items[i][j] = water
 			elif item == "l":
+				if i == 0 or i == (height-1) or j == (width-1) or j == 0:
+					return null
 				var water = Obstacle.WATER()
 				water.set_translucent(true)
 				lvl_array_items[i][j] = water
-				
+			
 	var data = {
-		"FarmArray":lvl_array_items,
-		"width":width,
-		"height":height}
+		"FarmArray": lvl_array_items,
+		"width": width,
+		"height": height
+	}
 		
 	if count == 0:
 		original_data = data
