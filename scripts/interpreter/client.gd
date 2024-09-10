@@ -42,6 +42,7 @@ func load_source(source: String):
 		show_error(sem.semantic_error)
 		return false
 	interpreter = Interpreter.new(tree)
+	interpreter.input_mode = true
 	interpreter.set_builtin_consts(Const.DEFAULT_BUILTIN_CONSTS)
 	interpreter.builtin_func_call.connect(_on_builtin_func_call)
 	interpreter.tracepoint.connect(_on_tracepoint_reached)
@@ -68,6 +69,7 @@ func show_error(err: GError):
 
 func print_call(args):
 	print_requested.emit(args)
+	input.call_deferred(null)
 
 func move_call(args: Array):
 	move_requested.emit(args)
@@ -80,6 +82,7 @@ func harvest_call(args: Array):
 
 func wait_call(args: Array):
 	wait_requested.emit(args)
+	input.call_deferred(null)
 
 func _on_interpreter_finished():
 	finished.emit()
@@ -95,6 +98,11 @@ func _on_builtin_func_call(func_name: String, args: Array):
 func _on_tracepoint_reached(node: AST, call_stack: CallStack):
 	tracepoint_reached.emit(node, call_stack)
 
+func input(data: Variant):
+	if not is_instance_valid(interpreter):
+		push_error("tried to add interpreter input while interpreter not running")
+	interpreter.input.emit(data)
+	
 func _on_code_completion_requested(source: String):
 	var options: Array[CodeCompletionOption] = []
 	for builtin_func_name in builtin_funcs.keys():

@@ -1,10 +1,6 @@
 class_name Interpreter
 extends NodeVisitor
 
-signal print_requested(arg_list)
-signal move_requested(move)
-signal plant_requested(plant)
-signal harvest_requested
 signal builtin_func_call(func_name, args)
 
 var error_pos = 0
@@ -13,11 +9,14 @@ var call_stack: CallStack
 
 var ast: AST
 
+var input_mode = false
+
 signal tick
 signal tracepoint(node: AST, call_stack: CallStack)
 signal finished
 signal runtime_error(runtime_error: RuntimeError)
 signal never
+signal input(data: Variant)
 
 const MAX_RECURSION = 100
 
@@ -120,8 +119,18 @@ func visit_function_call(node: FunctionCall):
 		for arg in node.args:
 			args.append(await visit(arg))
 		builtin_func_call.emit(node.name.name, args)
+		var input_data = null
+		if input_mode:
+			input_data = await input
 		await tracepoint_reached(node)
-		return	# TODO: await input
+		if input_data == null:
+			return
+		if input_data is int:
+			return input_data
+		elif input_data is bool:
+			return input_data
+		else:
+			return
 	
 	#await tracepoint_reached(function_decl)
 	var new_ar = ActivationRecord.new(
