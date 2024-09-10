@@ -1,7 +1,7 @@
 class_name Level
 extends Node2D
 
-signal level_finished
+signal level_complete
 
 @export var window: CodeWindow
 @export var farm: FarmView
@@ -13,6 +13,7 @@ signal level_finished
 @onready var score_label = $CanvasLayer/Score
 @onready var camera = $camera
 
+var id: int
 var timer: Timer
 var robot_wait_tick = 0
 var score = 0
@@ -106,7 +107,7 @@ func _on_window_run_button_pressed():
 	camera.fit_zoom_to_farm(farm)
 
 	if player_save:
-		player_save.update_level_source(3, window.get_source_code())
+		player_save.update_level_source(id, window.get_source_code())
 	
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
@@ -175,10 +176,8 @@ func _on_interpreter_client_error(err: GError):
 	window.set_error(err)
 	farm.robot.error()
 
-signal level_complete
-
 func _on_level_completed_next_level():
-	level_finished.emit()
+	level_complete.emit()
 
 func _on_level_completed_retry():
 	get_tree().reload_current_scene()
