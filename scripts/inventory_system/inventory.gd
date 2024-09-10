@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 @onready var corn_quantity = $inventoryWindow/GridContainer/CornSlot/QuantityText
 @onready var tomato_quantity = $inventoryWindow/GridContainer/TomatoSlot/QuantityText

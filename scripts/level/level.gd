@@ -40,6 +40,7 @@ func set_player_save(save: PlayerSave):
 func set_source_code(source: String):
 	window.code_edit.text = source
 
+
 func check_victory():
 	if(is_goal_harvest()):
 		timer.stop()
@@ -174,6 +175,8 @@ func _on_interpreter_client_error(err: GError):
 	window.set_error(err)
 	farm.robot.error()
 
+signal level_complete
+
 func _on_level_completed_next_level():
 	level_finished.emit()
 
@@ -187,12 +190,12 @@ func _on_window_ui_exec_speed_changed(value):
 
 
 func _on_farm_move_completed(successful):
-	pass # Replace with function body.
+	interpreter_client.input.call_deferred(successful)
 
 
 func _on_farm_harvest_completed(successful):
-	pass # Replace with function body.
+	interpreter_client.input.call_deferred(successful)
 
 
 func _on_farm_plant_completed(successful):
-	pass # Replace with function body.
+	interpreter_client.input.call_deferred(successful)
