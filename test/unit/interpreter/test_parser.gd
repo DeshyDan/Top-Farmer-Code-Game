@@ -44,8 +44,10 @@ func test_parser_features(params=use_parameters(params_features)):
 	var expected_print = expected_str.split("\n")
 	var interpreter = Interpreter.new(tree)
 	interpreter.tracepoint.connect(func (_n,_c): interpreter.tick.emit())
-	interpreter.print_requested.connect(
-		func (args):
+	interpreter.builtin_func_call.connect(
+		func (func_name, args):
+			if func_name != "print":
+				return
 			var out = args.get(0) as String
 			out = out.trim_suffix("\n")
 			assert_ne(len(expected_print), 0, "Unexpected print")

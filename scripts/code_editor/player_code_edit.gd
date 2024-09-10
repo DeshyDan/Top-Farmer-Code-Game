@@ -26,7 +26,6 @@ func _ready():
 	
 	if not syntax_highlighter.has_color_region("#"):
 		syntax_highlighter.add_color_region("#","", comment_color)
-	
 	# have to do this otherwise random godot functions show up
 	update_code_completion_options(true)
 	MessageBus.code_completion_set.connect(_on_code_completion_set)
