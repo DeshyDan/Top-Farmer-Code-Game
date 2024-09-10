@@ -4,6 +4,7 @@ extends Node2D
 signal move_completed(successful:bool)
 signal plant_completed(successful:bool)
 signal harvest_completed(successful:bool)
+signal goal_pos_met
 
 
 @onready var dirt_terrain: TileMap =$Grid
@@ -214,6 +215,8 @@ func move(dir):
 	robot_tile_coords = robot.move(vec)
 	print(robot_tile_coords)
 	move_completed.emit(true)
+	if vec == farm_model.goal_pos:
+		goal_pos_met.emit()
 
 func is_out_of_bounds(coords: Vector2i):
 	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
