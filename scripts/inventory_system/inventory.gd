@@ -10,7 +10,7 @@ func store(plant_id:int, quantity: int  ):
 			corn_quantity.text = str(quantity)
 		1:
 			tomato_quantity.text = str(quantity)
-
+func set_goal_harvest_quantiy
 func clear():
-	corn_quantity.text = "0"
-	tomato_quantity.text = "0"
+	corn_quantity.text = "0"+ "/" + harvest
+	tomato_quantity.text = "0" "/" + harvest
