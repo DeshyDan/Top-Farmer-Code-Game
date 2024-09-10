@@ -170,9 +170,10 @@ func _on_interpreter_client_error(err: GError):
 	window.set_error(err)
 	farm.robot.error()
 
-func _on_level_completed_next_level():
-	pass
+signal level_complete
 
+func _on_level_completed_next_level():
+	emit_signal("level_complete")
 
 func _on_level_completed_retry():
 	get_tree().reload_current_scene()
