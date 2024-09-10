@@ -2,14 +2,12 @@ extends Control
 
 enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
 
-@onready var level_scene:PackedScene = preload("res://scenes/level/level.tscn")
 @export var main_menu: Node
 @export var level_select: Node
 @export var menu_cam: Camera2D
 
 var player_save: PlayerSave
 var level_scene: PackedScene
-var current_level: Node
 var levels_to_load = range(1, 4)
 
 var current_level: Level
@@ -29,7 +27,7 @@ func enter_state(state):
 		LEVEL_SELECT:
 			menu_cam.make_current()
 			level_select.visible = true
-			select_level()
+			#select_level()
 		_:
 			return
 
@@ -53,15 +51,12 @@ func load_next_level():
 	current_level = lvl
 
 	var file_path = "res://assets/levels/lvl_" + str(i) + ".txt"
-	var goal_harvest = {
-		Const.PlantType.PLANT_CORN:Const.LEVEL_GOALS["level "+str(i)]["corn"],
-		Const.PlantType.PLANT_GRAPE:  Const.LEVEL_GOALS["level "+str(i)]["grape"]
-	}
+	var goal_harvest = Const.LEVEL_GOALS["level " + str(i)]
 
 	lvl.set_level(file_path, goal_harvest)
 	lvl.set_player_save(player_save)
 	lvl.set_source_code(player_save.get_level_source(3))
-	lvl.level_finished.connect(_on_level_finished.bind(level))
+	lvl.level_finished.connect(_on_level_exited.bind(i))
 	current_level = lvl
 
 	lvl.connect("level_complete", Callable(self, "_on_level_completed"))
@@ -71,6 +66,14 @@ func _on_level_completed():
 	await get_tree().process_frame
 	load_next_level()
 
-func _on_level_finished(level):
+func _on_level_exited(level):
 	player_save.unlock_level(level + 1)
 	enter_state(LEVEL_SELECT)
+
+
+func _on_main_menu_play_button_pressed():
+	enter_state(LEVEL_SELECT)
+
+
+func _on_level_select_level_selected(level):
+	enter_state(LEVEL_PLAY)

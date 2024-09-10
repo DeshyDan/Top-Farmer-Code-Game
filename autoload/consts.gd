@@ -14,24 +14,24 @@ enum Direction {
 
 var LEVEL_GOALS = {
 	"level 1": {
-		"corn": 1,
-		"grape": 1
+		PlantType.PLANT_CORN: 1,
+		PlantType.PLANT_GRAPE: 1
 	},
 	"level 2": {
-		"corn": 1,
-		"grape": 1
+		PlantType.PLANT_CORN: 1,
+		PlantType.PLANT_GRAPE: 1
 	},
 	"level 3": {
-		"corn": 1,
-		"grape": 1
+		PlantType.PLANT_CORN: 1,
+		PlantType.PLANT_GRAPE: 1
 	},
 	"level 4": {
-		"corn": 4,
-		"grape": 4
+		PlantType.PLANT_CORN: 1,
+		PlantType.PLANT_GRAPE: 1
 	},
 	"level 5": {
-		"corn": 1,
-		"grape": 1
+		PlantType.PLANT_CORN: 1,
+		PlantType.PLANT_GRAPE: 1
 	}
 }
 
