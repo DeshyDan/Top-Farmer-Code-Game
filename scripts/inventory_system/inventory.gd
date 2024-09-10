@@ -21,7 +21,7 @@ func set_goal_state(goal_state):
 				# TODO: Make "/" a separe label
 				corn_goal.text = "/" + str(goal_state[i])
 			Const.PlantType.PLANT_GRAPE:
-				corn_goal.text = "/" + str(goal_state[i])
+				tomato_goal.text = "/" + str(goal_state[i])
 				
 func clear():
 	corn_quantity.text = "0"
