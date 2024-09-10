@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://dk0cr6etdeome"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_ldv2m"]
+
+[resource]
+script = ExtResource("1_ldv2m")
+category = "Tips and tricks"
+title = "Camera Controls"
+content = "[b]For Mouse users:[/b]
+[ul]
+Use left button to move the farm around the viewport
+Use scroll wheel to zoom in & out the farm
+[/ul]
+
+[b]For Trackpad users:[/b]
+[ul]
+Click and grad to move the farm around the viewport
+Zooming gesture zooms in & out the farm
+[/ul]"
