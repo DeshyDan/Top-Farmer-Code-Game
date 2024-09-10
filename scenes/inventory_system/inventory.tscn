@@ -6,18 +6,22 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_g3yl8"]
 
-[node name="inventory" type="Control"]
+[node name="inventory" type="Control" node_paths=PackedStringArray("corn_quantity", "corn_goal", "tomato_quantity", "tomato_goal")]
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_876d8")
+corn_quantity = NodePath("inventoryWindow/GridContainer/CornSlot/HBoxContainer/QuantityText")
+corn_goal = NodePath("inventoryWindow/GridContainer/CornSlot/HBoxContainer/GoalState")
+tomato_quantity = NodePath("inventoryWindow/GridContainer/TomatoSlot/HBoxContainer/QuantityText")
+tomato_goal = NodePath("inventoryWindow/GridContainer/TomatoSlot/HBoxContainer/GoalState")
 
 [node name="inventoryWindow" type="Panel" parent="."]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -143.0
-offset_bottom = 78.0
+offset_left = -181.0
+offset_bottom = 104.0
 grow_horizontal = 0
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -29,34 +33,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -51.0
-offset_top = -24.0
-offset_right = 51.0
-offset_bottom = 24.0
+offset_left = -68.0
+offset_top = -30.0
+offset_right = 68.0
+offset_bottom = 30.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/h_separation = 6
 columns = 2
 
 [node name="TomatoSlot" type="Panel" parent="inventoryWindow/GridContainer"]
-custom_minimum_size = Vector2(48, 48)
+custom_minimum_size = Vector2(70, 60)
 layout_mode = 2
-
-[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/TomatoSlot"]
-layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -40.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "0"
-label_settings = SubResource("LabelSettings_g3yl8")
-horizontal_alignment = 2
-vertical_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="inventoryWindow/GridContainer/TomatoSlot"]
 layout_mode = 1
@@ -65,34 +53,46 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_8y1yf")
 expand_mode = 1
 
-[node name="CornSlot" type="Panel" parent="inventoryWindow/GridContainer"]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-
-[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/CornSlot"]
+[node name="HBoxContainer" type="HBoxContainer" parent="inventoryWindow/GridContainer/TomatoSlot"]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -40.0
+offset_left = -30.0
 offset_top = -23.0
 grow_horizontal = 0
 grow_vertical = 0
+
+[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/TomatoSlot/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 text = "0"
 label_settings = SubResource("LabelSettings_g3yl8")
 horizontal_alignment = 2
 vertical_alignment = 2
+
+[node name="GoalState" type="Label" parent="inventoryWindow/GridContainer/TomatoSlot/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "/0"
+label_settings = SubResource("LabelSettings_g3yl8")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="CornSlot" type="Panel" parent="inventoryWindow/GridContainer"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="inventoryWindow/GridContainer/CornSlot"]
 layout_mode = 1
@@ -101,11 +101,39 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("4_phhff")
 expand_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="inventoryWindow/GridContainer/CornSlot"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -30.0
+offset_top = -23.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="QuantityText" type="Label" parent="inventoryWindow/GridContainer/CornSlot/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0"
+label_settings = SubResource("LabelSettings_g3yl8")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="GoalState" type="Label" parent="inventoryWindow/GridContainer/CornSlot/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "/0"
+label_settings = SubResource("LabelSettings_g3yl8")
+horizontal_alignment = 2
+vertical_alignment = 2

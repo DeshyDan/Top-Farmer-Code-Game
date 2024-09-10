@@ -8,7 +8,7 @@ enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
 
 var player_save: PlayerSave
 var level_scene: PackedScene = preload("res://scenes/level/level.tscn")
-var levels_to_load = range(1, 4)
+var levels_to_load = range(1, 11)
 
 var current_level: Level
 
@@ -27,7 +27,7 @@ func enter_state(state):
 		LEVEL_SELECT:
 			menu_cam.make_current()
 			level_select.visible = true
-			levels_to_load = range(1,4)
+			levels_to_load = range(1,11)
 			show_level_select()
 		LEVEL_PLAY:
 			if is_instance_valid(current_level) and current_level.is_inside_tree():
@@ -72,6 +72,7 @@ func load_level(i):
 	lvl.set_source_code(player_save.get_level_source(i))
 	lvl.id = i
 	lvl.level_complete.connect(_on_level_completed)
+	lvl.retry_requested.connect(_on_level_retry)
 	current_level = lvl
 
 	enter_state(LEVEL_PLAY)
@@ -80,6 +81,12 @@ func _on_level_completed():
 	current_level.queue_free()
 	await get_tree().process_frame
 	load_next_level()
+
+func _on_level_retry():
+	var to_load = current_level.id
+	current_level.queue_free()
+	await get_tree().process_frame
+	load_level(to_load)
 
 func _on_main_menu_play_button_pressed():
 	enter_state(LEVEL_SELECT)

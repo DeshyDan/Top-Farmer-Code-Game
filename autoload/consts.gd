@@ -14,25 +14,46 @@ enum Direction {
 
 var LEVEL_GOALS = {
 	"level 1": {
-		PlantType.PLANT_CORN: 1,
-		PlantType.PLANT_GRAPE: 1
+		PlantType.PLANT_CORN: 0,
+		PlantType.PLANT_GRAPE: 0
+		
 	},
 	"level 2": {
 		PlantType.PLANT_CORN: 1,
-		PlantType.PLANT_GRAPE: 1
+		PlantType.PLANT_GRAPE: 0
 	},
 	"level 3": {
-		PlantType.PLANT_CORN: 1,
-		PlantType.PLANT_GRAPE: 1
+		PlantType.PLANT_CORN: 3,
+		PlantType.PLANT_GRAPE: 3
 	},
 	"level 4": {
-		PlantType.PLANT_CORN: 1,
-		PlantType.PLANT_GRAPE: 1
+		PlantType.PLANT_CORN: 3,
+		PlantType.PLANT_GRAPE: 2
 	},
 	"level 5": {
-		PlantType.PLANT_CORN: 1,
-		PlantType.PLANT_GRAPE: 1
-	}
+		PlantType.PLANT_CORN: 4,
+		PlantType.PLANT_GRAPE: 0
+	},
+	"level 6": {
+		PlantType.PLANT_CORN: 10,
+		PlantType.PLANT_GRAPE: 0
+	},
+	"level 7": {
+		PlantType.PLANT_CORN: 0,
+		PlantType.PLANT_GRAPE: 5
+	},
+	"level 8": {
+		PlantType.PLANT_CORN: 9,
+		PlantType.PLANT_GRAPE: 9
+	},
+	"level 9": {
+		PlantType.PLANT_CORN: 11,
+		PlantType.PLANT_GRAPE: 11
+	},
+	"level 10": {
+		PlantType.PLANT_CORN: 27,
+		PlantType.PLANT_GRAPE: 27
+	},
 }
 
 var DEFAULT_BUILTIN_CONSTS = {

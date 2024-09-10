@@ -2,6 +2,7 @@ class_name Level
 extends Node2D
 
 signal level_complete
+signal retry_requested
 
 @export var window: CodeWindow
 @export var farm: FarmView
@@ -22,7 +23,7 @@ var paused = false
 var farm_model:FarmModel
 var level_loader: LevelLoader
 
-var goal_harvest:Dictionary
+var goal_state:Dictionary
 
 signal victory
 signal failure
@@ -40,38 +41,33 @@ func set_player_save(save: PlayerSave):
 	
 func set_source_code(source: String):
 	window.code_edit.text = source
-
+	
 
 func check_victory():
-	if(is_goal_harvest()):
+	if(is_goal_state()):
 		timer.stop()
 		victory.emit()
 		level_completed.show()
 		window.hide()
 
-func is_goal_harvest():
-	if farm.harvestables.size() != goal_harvest.size():
-		return false
-
-	for key in goal_harvest:
-		if not farm.harvestables.has(key):
-			return false
-
-		if farm.harvestables[key] < goal_harvest[key]:
-			return false
-
+func is_goal_state():
+	for key in goal_state:
+		if goal_state[key] != 0:
+			if not farm.harvestables.has(key) or farm.harvestables[key] < goal_state[key]:
+				return false
 	return true
 	
-func set_level(level_script,goal_harvest):
+func set_level(level_script, goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
 
 	farm_model = level_loader.create(level_script)
 	
 	farm.plot_farm(farm_model)
+	farm.set_goal_state(goal_state)
 	camera.fit_zoom_to_farm(farm)
 	
-	self.goal_harvest = goal_harvest
+	self.goal_state = goal_state
 
 func add_points():
 	# Increase the score by a certain number of points
@@ -180,7 +176,7 @@ func _on_level_completed_next_level():
 	level_complete.emit()
 
 func _on_level_completed_retry():
-	get_tree().reload_current_scene()
+	retry_requested.emit()
 
 
 func _on_window_ui_exec_speed_changed(value):
@@ -198,3 +194,9 @@ func _on_farm_harvest_completed(successful):
 
 func _on_farm_plant_completed(successful):
 	interpreter_client.input.call_deferred(successful)
+
+
+func _on_farm_goal_pos_met():
+		victory.emit()
+		level_completed.show()
+		window.hide()

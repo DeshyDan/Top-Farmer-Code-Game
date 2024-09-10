@@ -4,6 +4,7 @@ extends Node2D
 signal move_completed(successful:bool)
 signal plant_completed(successful:bool)
 signal harvest_completed(successful:bool)
+signal goal_pos_met
 
 
 @onready var dirt_terrain: TileMap =$Grid
@@ -118,6 +119,9 @@ func harvest():
 		farm_model.remove(robot_coords)
 	harvest_completed.emit(did_harvest)
 
+func set_goal_state(goal_state):
+	inventory.set_goal_state(goal_state)
+
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
@@ -214,6 +218,8 @@ func move(dir):
 	robot_tile_coords = robot.move(vec)
 	print(robot_tile_coords)
 	move_completed.emit(true)
+	if vec == farm_model.goal_pos:
+		goal_pos_met.emit()
 
 func is_out_of_bounds(coords: Vector2i):
 	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
@@ -236,13 +242,9 @@ func reset():
 	inventory.clear()
 		
 	plot_farm(original_farm_model)
+
 func remove_all_plants():
-	for x in farm_model.width:
-		for y in farm_model.height:
-			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
-			if (farm_item is Plant):
-				farm_model.remove(Vector2i(x,y))
-				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+	dirt_terrain.clear_layer(PLANT_LAYER)
 
 
 
