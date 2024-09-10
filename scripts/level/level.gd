@@ -19,7 +19,7 @@ var paused = false
 var farm_model:FarmModel
 var level_loader: LevelLoader
 
-var goal_harvest:Dictionary
+var goal_state:Dictionary
 
 signal victory
 signal failure
@@ -36,35 +36,36 @@ func set_source_code(source: String):
 	window.code_edit.text = source
 
 func check_victory():
-	if(is_goal_harvest()):
+	if(is_goal_state()):
 		timer.stop()
 		victory.emit()
 		level_completed.show()
 		window.hide()
 
-func is_goal_harvest():
-	if farm.harvestables.size() != goal_harvest.size():
+func is_goal_state():
+	if farm.harvestables.size() != goal_state.size():
 		return false
 
-	for key in goal_harvest:
+	for key in goal_state:
 		if not farm.harvestables.has(key):
 			return false
 
-		if farm.harvestables[key] < goal_harvest[key]:
+		if farm.harvestables[key] < goal_state[key]:
 			return false
 
 	return true
 	
-func set_level(level_script,goal_harvest):
+func set_level(level_script,goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
 
 	farm_model = level_loader.create(level_script)
 	
 	farm.plot_farm(farm_model)
+	farm.set_goal_state(goal_state)
 	camera.fit_zoom_to_farm(farm)
 	
-	self.goal_harvest = goal_harvest
+	self.goal_state = goal_state
 
 func add_points():
 	# Increase the score by a certain number of points

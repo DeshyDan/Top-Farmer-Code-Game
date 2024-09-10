@@ -116,6 +116,8 @@ func harvest():
 		farm_model.remove(robot_coords)
 		harvest_completed.emit(false)
 
+func set_goal_state(goal_state):
+	inventory.set_goal_state(goal_state)
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
