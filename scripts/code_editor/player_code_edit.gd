@@ -24,7 +24,8 @@ func _ready():
 	_background_color = get_theme_color("background_color")
 	for key in Const.DEFAULT_BUILTIN_CONSTS:
 		syntax_highlighter.keyword_colors[key] = Color.AQUAMARINE
-	syntax_highlighter.add_color_region("#","", comment_color)
+	
+	syntax_highlighter.color_regions["#"] = comment_color
 	
 	# have to do this otherwise random godot functions show up
 	update_code_completion_options(true)
