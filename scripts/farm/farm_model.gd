@@ -16,6 +16,8 @@ func is_empty(coord: Vector2i)->bool:
 	
 func add_farm_item(farm_item: FarmItem, coord: Vector2i):
 	grid_map[get_index(coord)] = farm_item
+	if farm_item is Goal:
+		goal_pos = coord
 func get_height():
 	return height
 	
@@ -55,4 +57,14 @@ func get_index(coord:Vector2i):
 	
 func get_item_at_coord(coord:Vector2i):
 	return grid_map[get_index(coord)]
+
+func _find_goal():
+	for i in range(width):
+		for j in range (height):
+			var coord = Vector2i(i,j)
+			if get_item_at_coord(coord) is Goal:
+				return true
+	
+	return false
+
 	

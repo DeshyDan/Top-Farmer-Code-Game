@@ -56,8 +56,7 @@ func load_next_level():
 	load_level(i)
 
 func load_level(i):
-	while levels_to_load.pop_front() != i and not levels_to_load.is_empty():
-		continue
+	levels_to_load = range(i + 1, 11)
 
 	var lvl = level_scene.instantiate()
 	lvl.position = Vector2(0, 0)
@@ -73,6 +72,7 @@ func load_level(i):
 	lvl.id = i
 	lvl.level_complete.connect(_on_level_completed)
 	lvl.retry_requested.connect(_on_level_retry)
+	lvl.exit_requested.connect(_on_level_exited)
 	current_level = lvl
 
 	enter_state(LEVEL_PLAY)
@@ -81,6 +81,11 @@ func _on_level_completed():
 	current_level.queue_free()
 	await get_tree().process_frame
 	load_next_level()
+
+func _on_level_exited():
+	current_level.queue_free()
+	await get_tree().process_frame
+	enter_state(LEVEL_SELECT)
 
 func _on_level_retry():
 	var to_load = current_level.id

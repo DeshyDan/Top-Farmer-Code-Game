@@ -3,6 +3,7 @@ extends Node2D
 
 signal level_complete
 signal retry_requested
+signal exit_requested
 
 @export var window: CodeWindow
 @export var farm: FarmView
@@ -22,6 +23,7 @@ var count = 0
 var paused = false
 var farm_model:FarmModel
 var level_loader: LevelLoader
+var first_lvl
 
 var goal_state:Dictionary
 
@@ -44,7 +46,9 @@ func set_source_code(source: String):
 	window.code_edit.clear_undo_history()
 
 func check_victory():
-	if(is_goal_state()):
+	if first_lvl:
+		pass
+	elif (is_goal_state()):
 		timer.stop()
 		victory.emit()
 		level_completed.show()
@@ -62,12 +66,16 @@ func set_level(level_script, goal_state):
 	add_child(level_loader)
 
 	farm_model = level_loader.create(level_script)
+
+	first_lvl = farm_model._find_goal()
 	
 	farm.plot_farm(farm_model)
 	farm.set_goal_state(goal_state)
 	camera.fit_zoom_to_farm(farm)
 	
 	self.goal_state = goal_state
+	
+	
 
 func add_points():
 	# Increase the score by a certain number of points
@@ -198,6 +206,14 @@ func _on_farm_plant_completed(successful):
 
 
 func _on_farm_goal_pos_met():
-		victory.emit()
-		level_completed.show()
-		window.hide()
+	if is_instance_valid(timer):
+		timer.stop()
+	victory.emit()
+	level_completed.show()
+	window.hide()
+
+
+func _on_back_button_pressed():
+	if is_instance_valid(timer):
+		timer.queue_free()
+	exit_requested.emit()

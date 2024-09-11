@@ -71,6 +71,8 @@ func plot_farm(farm_model:FarmModel):
 				#rocks
 				var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else ROCK_LAYER
 				dirt_terrain.set_cell(layer, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+			if farm_item is Goal:
+				dirt_terrain.set_cell(ROCK_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
 	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
@@ -133,13 +135,14 @@ func store(plant_coord:Vector2i):
 	else:
 		harvestables[plant_id] = 1
 	inventory.store(plant_id,harvestables[plant_id])
-	
+
+
 func animate_pickup( init_pos:Vector2i, harvested_plant:Plant):
-	instantiate_pickup( init_pos, harvested_plant)
-	var plant = farm_node.get_node("pickup"+str(init_pos))
+	var plant = instantiate_pickup( init_pos, harvested_plant)
+	
 	setup_pickup_tween(plant)
 	pickup_tween.play()
-	
+
 func setup_pickup_tween(plant):
 	pickup_tween = get_tree().create_tween()
 	pickup_tween.set_parallel(true)
@@ -159,20 +162,15 @@ func setup_pickup_tween(plant):
 	pickup_tween.tween_property(plant, "rotation", 0, 0.4).set_delay(0.3)
 
 	pickup_tween.tween_property(plant, "modulate:a", 0.0, 0.4).set_delay(0.3)
-
-	pickup_tween.finished.connect(end_pickup_animation.bind(plant))
+	pickup_tween.finished.connect(plant.queue_free)
 	
-func instantiate_pickup(init_pos, harvested_plant:Plant):
+func instantiate_pickup(init_pos, harvested_plant:Plant) -> Node:
 	var pickup:Node = pickup_scene.instantiate()
 	pickup.load_texture(harvested_plant.get_id())
 	pickup.position = Vector2(init_pos)*16
-	pickup.name += str(init_pos)
 	farm_node.add_child(pickup)
+	return pickup
 
-func end_pickup_animation(plant):
-	plant.queue_free()
-
-		
 func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)
