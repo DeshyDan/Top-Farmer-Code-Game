@@ -71,6 +71,8 @@ func plot_farm(farm_model:FarmModel):
 				#rocks
 				var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else ROCK_LAYER
 				dirt_terrain.set_cell(layer, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+			if farm_item is Goal:
+				dirt_terrain.set_cell(ROCK_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
 	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())

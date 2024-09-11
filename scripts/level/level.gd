@@ -211,3 +211,9 @@ func _on_farm_goal_pos_met():
 	victory.emit()
 	level_completed.show()
 	window.hide()
+
+
+func _on_back_button_pressed():
+	if is_instance_valid(timer):
+		timer.queue_free()
+	exit_requested.emit()
