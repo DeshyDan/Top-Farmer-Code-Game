@@ -172,7 +172,6 @@ func instantiate_pickup(init_pos, harvested_plant:Plant):
 func end_pickup_animation(plant):
 	plant.queue_free()
 
-		
 func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)

@@ -3,6 +3,7 @@ extends Node2D
 
 signal level_complete
 signal retry_requested
+signal exit_requested
 
 @export var window: CodeWindow
 @export var farm: FarmView
@@ -201,3 +202,7 @@ func _on_farm_goal_pos_met():
 		victory.emit()
 		level_completed.show()
 		window.hide()
+
+
+func _on_back_button_pressed():
+	exit_requested.emit()
