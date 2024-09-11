@@ -59,7 +59,7 @@ func load_level(i):
 	levels_to_load = range(i + 1, 11)
 
 	var lvl = level_scene.instantiate()
-	lvl.position = Vector2(0, 0)
+
 	add_child(lvl)
 	current_level = lvl
 

@@ -50,7 +50,7 @@ func fit_zoom_to_farm(farm: FarmView):
 	#TODO: use nice api
 	var farm_width = farm.dirt_terrain.tile_set.tile_size.x * farm.farm_model.get_width() * farm.dirt_terrain.global_scale.x
 	var viewport_width = get_viewport_rect().size.x
-	var target_relative_size = 0.5
+	var target_relative_size = 0.4
 	var relative_size = farm_width / viewport_width
 	var zoom_factor = (target_relative_size / relative_size) / 1.5
 	position = Vector2(farm.position.x - farm_width / 4, farm.position.y + farm_width / 4)
