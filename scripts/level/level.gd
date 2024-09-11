@@ -41,7 +41,7 @@ func set_player_save(save: PlayerSave):
 	
 func set_source_code(source: String):
 	window.code_edit.text = source
-	
+	window.code_edit.clear_undo_history()
 
 func check_victory():
 	if(is_goal_state()):
@@ -105,6 +105,7 @@ func _on_window_run_button_pressed():
 	if player_save:
 		player_save.update_level_source(id, window.get_source_code())
 	
+	interpreter_client.kill()
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
 	interpreter_client.start()
