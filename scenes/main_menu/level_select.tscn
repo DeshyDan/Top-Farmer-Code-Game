@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://qvy3t568l45h"]
+
+[ext_resource type="FontFile" uid="uid://bwh1s8dvqtycl" path="res://assets/fonts/JetBrainsMono-Bold.ttf" id="1_gjcvn"]
+[ext_resource type="Script" path="res://scripts/main_menu/level_select.gd" id="1_i8qno"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ghv0v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qpb7w"]
+
+[node name="LevelSelect" type="MarginContainer" node_paths=PackedStringArray("level_buttons")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+script = ExtResource("1_i8qno")
+level_buttons = NodePath("Control/HBoxContainer/LevelButtons")
+
+[node name="Control" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_ghv0v")
+
+[node name="HBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("1_gjcvn")
+theme_override_font_sizes/normal_font_size = 20
+text = "Select a level:"
+fit_content = true
+
+[node name="VSeparator3" type="VSeparator" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_qpb7w")
+
+[node name="LevelButtons" type="VBoxContainer" parent="Control/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 300

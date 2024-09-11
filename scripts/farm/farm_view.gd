@@ -121,6 +121,7 @@ func harvest():
 
 func set_goal_state(goal_state):
 	inventory.set_goal_state(goal_state)
+
 func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
@@ -241,13 +242,9 @@ func reset():
 	inventory.clear()
 		
 	plot_farm(original_farm_model)
+
 func remove_all_plants():
-	for x in farm_model.width:
-		for y in farm_model.height:
-			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
-			if (farm_item is Plant):
-				farm_model.remove(Vector2i(x,y))
-				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), -1)
+	dirt_terrain.clear_layer(PLANT_LAYER)
 
 
 

@@ -343,6 +343,18 @@ func var_decl():
 	if not eat(Token.Type.COLON, "Expected ':' after variable declaration"):
 		return
 	var type = type_spec()
+	if current_token.type == Token.Type.ASSIGN:
+		var assign_token = current_token
+		eat(Token.Type.ASSIGN)
+		var value = expr()
+		if not eat(Token.Type.NL, "Expected new line after variable declaration"):
+			return
+		var block = Block.new()
+		block.children = [
+			VarDecl.new(variable,type),
+			Assignment.new(variable, value, assign_token)
+		]
+		return block
 	if not eat(Token.Type.NL, "Expected new line after variable declaration"):
 		return
 	return VarDecl.new(variable,type)
