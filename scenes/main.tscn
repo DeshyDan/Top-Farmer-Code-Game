@@ -1,6 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://dnl3yqk1ltmrs"]
+[gd_scene load_steps=4 format=3 uid="uid://dnl3yqk1ltmrs"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_0in5c"]
+[ext_resource type="PackedScene" uid="uid://t885ipey2h11" path="res://scenes/main_menu/main_menu.tscn" id="2_u83og"]
+[ext_resource type="PackedScene" uid="uid://qvy3t568l45h" path="res://scenes/main_menu/level_select.tscn" id="3_mnwid"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Control" node_paths=PackedStringArray("main_menu", "level_select", "menu_cam")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_0in5c")
+main_menu = NodePath("MainMenu")
+level_select = NodePath("LevelSelect")
+menu_cam = NodePath("Camera2D")
+
+[node name="MainMenu" parent="." instance=ExtResource("2_u83og")]
+layout_mode = 1
+
+[node name="LevelSelect" parent="." instance=ExtResource("3_mnwid")]
+visible = false
+layout_mode = 1
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(642, 360)
+
+[connection signal="play_button_pressed" from="MainMenu" to="." method="_on_main_menu_play_button_pressed"]
+[connection signal="level_selected" from="LevelSelect" to="." method="_on_level_select_level_selected"]

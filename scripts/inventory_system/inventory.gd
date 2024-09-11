@@ -1,10 +1,10 @@
 extends Control
 
-@onready var corn_quantity = $inventoryWindow/GridContainer/CornSlot/QuantityText
-@onready var corn_goal = $inventoryWindow/GridContainer/CornSlot/GoalState
+@export var corn_quantity: Label
+@export var corn_goal: Label
 
-@onready var tomato_quantity = $inventoryWindow/GridContainer/TomatoSlot/QuantityText
-@onready var tomato_goal = $inventoryWindow/GridContainer/TomatoSlot/GoalState
+@export var tomato_quantity: Label
+@export var tomato_goal: Label
 
 # TODO: MAKE THIS INVENTORY LOGIC MORE DYNAMIC
 

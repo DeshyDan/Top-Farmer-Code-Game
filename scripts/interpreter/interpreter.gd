@@ -188,6 +188,8 @@ func visit_binary_op(node: BinaryOP):
 			return l < r
 		Token.Type.IS_EQUAL:
 			return l == r
+		Token.Type.IS_NOT_EQUAL:
+			return l != r
 		Token.Type.LT_OR_EQ:
 			return l <= r
 		Token.Type.GREATER_THAN:

@@ -1,6 +1,9 @@
 class_name Level
 extends Node2D
 
+signal level_complete
+signal retry_requested
+
 @export var window: CodeWindow
 @export var farm: FarmView
 @export var interpreter_client: InterpreterClient
@@ -11,6 +14,7 @@ extends Node2D
 @onready var score_label = $CanvasLayer/Score
 @onready var camera = $camera
 
+var id: int
 var timer: Timer
 var robot_wait_tick = 0
 var score = 0
@@ -29,12 +33,15 @@ var height = 0
 
 var player_save: PlayerSave
 
+func _ready():
+	camera.make_current()
+
 func set_player_save(save: PlayerSave):
 	player_save = save
 	
 func set_source_code(source: String):
 	window.code_edit.text = source
-
+	window.code_edit.clear_undo_history()
 
 func check_victory():
 	if(is_goal_state()):
@@ -50,7 +57,7 @@ func is_goal_state():
 				return false
 	return true
 	
-func set_level(level_script,goal_state):
+func set_level(level_script, goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
 
@@ -96,8 +103,9 @@ func _on_window_run_button_pressed():
 	camera.fit_zoom_to_farm(farm)
 
 	if player_save:
-		player_save.update_level_source(3, window.get_source_code())
+		player_save.update_level_source(id, window.get_source_code())
 	
+	interpreter_client.kill()
 	if not interpreter_client.load_source(window.get_source_code()):
 		return
 	interpreter_client.start()
@@ -165,13 +173,11 @@ func _on_interpreter_client_error(err: GError):
 	window.set_error(err)
 	farm.robot.error()
 
-signal level_complete
-
 func _on_level_completed_next_level():
-	emit_signal("level_complete")
+	level_complete.emit()
 
 func _on_level_completed_retry():
-	get_tree().reload_current_scene()
+	retry_requested.emit()
 
 
 func _on_window_ui_exec_speed_changed(value):
@@ -189,3 +195,9 @@ func _on_farm_harvest_completed(successful):
 
 func _on_farm_plant_completed(successful):
 	interpreter_client.input.call_deferred(successful)
+
+
+func _on_farm_goal_pos_met():
+		victory.emit()
+		level_completed.show()
+		window.hide()
