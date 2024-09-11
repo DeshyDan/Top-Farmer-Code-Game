@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://t885ipey2h11"]
+
+[ext_resource type="FontFile" uid="uid://bwh1s8dvqtycl" path="res://assets/fonts/JetBrainsMono-Bold.ttf" id="1_bbme0"]
+[ext_resource type="Script" path="res://scripts/main_menu/main_menu.gd" id="1_i8a4q"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6nt72"]
+
+[node name="MainMenu" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 200
+theme_override_constants/margin_top = 200
+theme_override_constants/margin_right = 200
+theme_override_constants/margin_bottom = 100
+script = ExtResource("1_i8a4q")
+
+[node name="Control" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_fonts/normal_font = ExtResource("1_bbme0")
+theme_override_font_sizes/normal_font_size = 61
+text = "Top Farmer"
+fit_content = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_top = 300
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="PlayButton" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="VSeparator" type="VSeparator" parent="Control/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_6nt72")
+
+[node name="Button2" type="Button" parent="Control/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+text = "Level Select"
+
+[node name="VSeparator2" type="VSeparator" parent="Control/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxEmpty_6nt72")
+
+[connection signal="pressed" from="Control/MarginContainer/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]

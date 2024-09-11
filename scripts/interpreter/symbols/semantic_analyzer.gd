@@ -92,13 +92,14 @@ func visit_function_call(node: FunctionCall):
 					)
 		return
 	if len(node.args) != len(func_symbol.params):
-		error("Arg count mismatch",
+		error("Function \"{0}\" expects {1} argument(s)".format([node.name.name, len(func_symbol.params)]),
 				GError.ErrorCode.UNEXPECTED_TOKEN,
 				node.token
 				)
 		return
 	for arg in node.args:
 		visit(arg)
+
 
 func visit_program(node):
 	visit(node.block)

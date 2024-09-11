@@ -28,6 +28,7 @@ func _ready():
 		syntax_highlighter.add_color_region("#","", comment_color)
 	# have to do this otherwise random godot functions show up
 	update_code_completion_options(true)
+
 	MessageBus.code_completion_set.connect(_on_code_completion_set)
 
 func highlight_line(lineno):

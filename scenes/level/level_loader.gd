@@ -73,6 +73,8 @@ func create(file_path: String):
 				var water = Obstacle.WATER()
 				water.set_translucent(true)
 				lvl_array_items[i][j] = water
+			elif item == "g":
+				lvl_array_items[i][j] = "g"
 			
 	var data = {
 		"FarmArray": lvl_array_items,
@@ -97,7 +99,9 @@ func _create_farm_model(data:Dictionary):
 			var item = array[i][j]
 			var coord: Vector2i = Vector2i(j, i)
 			if item == null:
-				pass
+				continue
+			elif item is String:
+				farm_model.goal_pos = coord
 			else:
 				farm_model.add_farm_item(item,coord)
 	
@@ -126,6 +130,8 @@ func _randomize():
 			for j in range(original_data["FarmArray"][i].size()):
 				var item = original_data["FarmArray"][i][j]
 				if item == null: 
+					continue
+				if item is String:
 					continue
 				if item.get_id() == 0 and item.is_translucent():
 					rock_candidates.append([i,j])
