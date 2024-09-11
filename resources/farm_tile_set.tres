@@ -1,9 +1,10 @@
-[gd_resource type="TileSet" load_steps=11 format=3 uid="uid://dkivxugfrllw6"]
+[gd_resource type="TileSet" load_steps=13 format=3 uid="uid://dkivxugfrllw6"]
 
 [ext_resource type="Texture2D" uid="uid://britl573x21xd" path="res://assets/tilesets/Tilled_Dirt.png" id="1_cy814"]
 [ext_resource type="Texture2D" uid="uid://cnbm26b7a2rdf" path="res://assets/textures/objects/corn.png" id="2_o75xr"]
 [ext_resource type="Texture2D" uid="uid://dlb7t1yjbtwth" path="res://assets/textures/objects/tomato.png" id="3_y1gex"]
 [ext_resource type="Texture2D" uid="uid://budm20jygblmp" path="res://assets/textures/objects/rock.png" id="4_j7dor"]
+[ext_resource type="Texture2D" uid="uid://i73bjojlv5tk" path="res://assets/textures/objects/flag.png" id="5_5k13u"]
 [ext_resource type="Texture2D" uid="uid://dultgulpn8mkt" path="res://assets/tilesets/Sprout Lands - Sprites - Basic pack/Tilesets/WaterDirtTileMap.png" id="5_b08uk"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ysnlc"]
@@ -603,6 +604,13 @@ texture = ExtResource("3_y1gex")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mvvj6"]
 texture = ExtResource("4_j7dor")
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2x0qj"]
+texture = ExtResource("5_5k13u")
+texture_region_size = Vector2i(16, 23)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 0:0/0/physics_layer_0/angular_velocity = 0.0
@@ -1406,3 +1414,4 @@ sources/0 = SubResource("TileSetAtlasSource_ysnlc")
 sources/2 = SubResource("TileSetAtlasSource_5acy2")
 sources/3 = SubResource("TileSetAtlasSource_mvvj6")
 sources/9 = SubResource("TileSetAtlasSource_ksn34")
+sources/4 = SubResource("TileSetAtlasSource_2x0qj")

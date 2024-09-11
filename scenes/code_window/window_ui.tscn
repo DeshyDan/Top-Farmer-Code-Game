@@ -1,10 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://cxmx1dbvlr6w2"]
+[gd_scene load_steps=4 format=3 uid="uid://cxmx1dbvlr6w2"]
 
 [ext_resource type="Script" path="res://scripts/code_editor/window_ui.gd" id="1_l7ydm"]
 [ext_resource type="PackedScene" uid="uid://l1gdp5ne82s6" path="res://scenes/code_window/code_editor_ui.tscn" id="2_517op"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fw7d5"]
-size = Vector2(20, 1)
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_14rbk"]
 size = Vector2(20, 1)
@@ -43,8 +40,8 @@ theme_override_constants/margin_bottom = 10
 layout_mode = 2
 
 [node name="SlowIcon" type="TextureRect" parent="WindowBar/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
-texture = SubResource("PlaceholderTexture2D_fw7d5")
 
 [node name="ExecSpeedSlider" type="HSlider" parent="WindowBar/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(100, 0)
@@ -58,6 +55,7 @@ tick_count = 4
 ticks_on_borders = true
 
 [node name="FastIcon" type="TextureRect" parent="WindowBar/MarginContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 texture = SubResource("PlaceholderTexture2D_14rbk")
 
