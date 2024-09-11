@@ -46,11 +46,10 @@ metadata/_edit_use_anchors_ = true
 visible = false
 
 [node name="Farm" parent="." instance=ExtResource("2_qaq0c")]
-position = Vector2(725, 175)
-scale = Vector2(1.5, 1.5)
+position = Vector2(732, 305)
 
 [node name="camera" parent="." instance=ExtResource("5_o6pwp")]
-position = Vector2(725, 175)
+position = Vector2(732, 305)
 
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
