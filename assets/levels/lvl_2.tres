@@ -8,5 +8,14 @@ id = 2
 name = "Level 2"
 corn_goal = 1
 grape_goal = 0
-farm_string = "#"
-level_hint = ""
+farm_string = "#
+"
+level_hint = "Try using the [url=plant(]plant[/url], [url=wait]wait[/url], and  [url=harvest]harvest[/url] functions to reach the goal!
+
+In the top right, you can see how many crops the farmer has harvested vs. the number of crops the farmer needs to harvest to reach the goal."
+source_code = "plant(CORN)
+wait()
+harvest()
+"
+dev_score = 125
+dev_tick_count = 8

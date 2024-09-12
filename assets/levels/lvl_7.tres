@@ -6,8 +6,30 @@
 script = ExtResource("1_pdsan")
 id = 7
 name = "Level 7"
-corn_goal = 0
-grape_goal = 5
+corn_goal = 5
+grape_goal = 0
+
 farm_string = "#,r,#
-#,#,#"
-level_hint = ""
+#,#,#
+"
+
+level_hint = "Rocks are a special tile that don't allow the farmer to [url=move]move[/url] onto them. Try using the value of [url=move]move[/url] to check whether the farmer bumped into something!"
+source_code = "var dir:int
+dir = DOWN
+
+while true:
+	plant(GRAPE)
+	if not move(RIGHT):
+		if not move(dir):
+			break
+		dir = UP
+
+dir = DOWN
+while true:
+	harvest()
+	if not move(LEFT):
+		if not move(dir):
+			break
+		dir = UP"
+dev_score = 31
+dev_tick_count = 32

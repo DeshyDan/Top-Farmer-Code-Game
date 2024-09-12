@@ -9,4 +9,10 @@ name = "Level 1"
 corn_goal = 0
 grape_goal = 0
 farm_string = "#,g"
-level_hint = "No hint for this level... Good luck!"
+level_hint = "Try using the [url=move]move[/url] function!
+
+Note: you can click any underlined text in the hint window to bring up a help window that shows everything the farmer can do!"
+source_code = "move(RIGHT)
+"
+dev_score = 1000
+dev_tick_count = 1

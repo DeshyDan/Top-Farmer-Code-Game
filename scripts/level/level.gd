@@ -44,7 +44,7 @@ func set_player_save(save: PlayerSave):
 func set_source_code(source: String):
 	window.code_edit.text = source
 	window.code_edit.clear_undo_history()
-
+	
 func check_victory():
 	if first_lvl:
 		pass
@@ -71,8 +71,6 @@ func set_level(farm_model_passed, goal_state):
 	camera.fit_zoom_to_farm(farm)
 	
 	self.goal_state = goal_state
-	
-	
 
 func add_points():
 	# Increase the score by a certain number of points

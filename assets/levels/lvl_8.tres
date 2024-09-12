@@ -14,5 +14,51 @@ farm_string = "#,#,#,r,r,r
 r,r,#,#,#,r
 r,w,#,#,#,r
 r,w,#,#,#,r
-r,r,r,r,r,r"
-level_hint = ""
+r,r,r,r,r,r
+"
+
+level_hint = "You can use [url=custom]custom functions[/url] to reuse your code! Try using these function signatures:
+[code]
+func plant_square(crop:int):
+	# Your code here
+
+func harvest_square():
+	# Your code here
+[/code]"
+source_code = "
+func plant_square(type:int):
+	var dir:int
+	dir = RIGHT
+	for x in [0,1,2]:
+		for y in [0,1]:
+			plant(type)
+			move(dir)
+		plant(type)
+		move(DOWN)
+		if dir == LEFT:
+			dir = RIGHT
+		else:
+			dir = LEFT
+	
+
+func harvest_square():
+	var dir:int
+	dir = LEFT
+	for x in [0,1,2]:
+		for y in [0,1]:
+			harvest()
+			move(dir)
+		harvest()
+		move(UP)
+		if dir == LEFT:
+			dir = RIGHT
+		else:
+			dir = LEFT
+
+plant_square(CORN)
+plant_square(GRAPE)
+harvest_square()
+harvest_square()
+"
+dev_score = 7
+dev_tick_count = 141

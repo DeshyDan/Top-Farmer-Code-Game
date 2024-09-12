@@ -6,12 +6,61 @@
 script = ExtResource("1_ygmup")
 id = 9
 name = "Level 9"
-corn_goal = 11
-grape_goal = 11
+corn_goal = 8
+grape_goal = 8
 farm_string = "#,#,#,#,#
 #,l,l,l,#
 #,l,l,l,#
 #,l,l,l,#
 #,#,#,#,#
 "
-level_hint = ""
+
+level_hint = "Transparent obstacles are randomised when you press go! In this level, you can use the value of [url=plant(]plant[/url] and [url=harvest]harvest[/url] to check whether the farmer was successful or not.
+
+If not successful, you know you're on a water tile and can [url=move]move[/url] until the end of the row without planting/harvesting. This way, you can save time and get a higher score!"
+source_code = "var dir:int = RIGHT
+var cobs:int
+cobs = 0
+var crop:int
+crop = CORN
+
+func move_till_wall(dir:int):
+	while move(dir):
+		continue
+
+while true:
+	if not plant(crop):
+		move_till_wall(dir)
+		if dir == RIGHT:
+			dir = LEFT
+		else:
+			dir = RIGHT
+	else:
+		cobs = cobs + 1
+		if cobs >= 11:
+			crop = GRAPE
+	if not move(dir):
+		if not move(DOWN):
+			break
+		if dir == RIGHT:
+			dir = LEFT
+		else:
+			dir = RIGHT
+
+dir = LEFT
+while true:
+	if not harvest():
+		move_till_wall(dir)
+		if dir == RIGHT:
+			dir = LEFT
+		else:
+			dir = RIGHT
+	if not move(dir):
+		move(UP)
+		if dir == RIGHT:
+			dir = LEFT
+		else:
+			dir = RIGHT
+"
+dev_score = 4
+dev_tick_count = 216

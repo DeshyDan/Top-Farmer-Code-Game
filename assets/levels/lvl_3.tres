@@ -8,5 +8,30 @@ id = 3
 name = "Level 3"
 corn_goal = 3
 grape_goal = 3
-farm_string = "#"
-level_hint = ""
+
+farm_string = "#
+"
+
+level_hint = "Try using a [url=while]while loop[/url] to plant, wait and harvest multiple times!
+
+You can count how many crops you have collected so far using a [url=var]variable[/url].
+
+"
+source_code = "var grapes:int
+grapes = 1
+
+plant(GRAPE)
+while move(RIGHT):
+	if grapes < 2:
+		plant(GRAPE)
+		grapes = grapes + 1
+	else:
+		plant(CORN)
+
+wait()
+while true:
+	harvest()
+	move(LEFT)
+"
+dev_score = 16
+dev_tick_count = 60
