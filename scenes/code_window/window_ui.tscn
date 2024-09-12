@@ -131,6 +131,7 @@ text = "Show hint"
 flat = true
 
 [node name="HintPage" type="PanelContainer" parent="HintPopup"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_i41u0")
