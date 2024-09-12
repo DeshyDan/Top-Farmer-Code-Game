@@ -17,3 +17,6 @@ extends Resource
 
 @export_category("Hint")
 @export_multiline var level_hint: String = "No hint for this level... Good luck!"
+
+@export_category("Developer Solution")
+@export_multiline var source_code: String = ""

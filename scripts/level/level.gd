@@ -44,7 +44,7 @@ func set_player_save(save: PlayerSave):
 func set_source_code(source: String):
 	window.code_edit.text = source
 	window.code_edit.clear_undo_history()
-
+	
 func check_victory():
 	if first_lvl:
 		pass
@@ -60,7 +60,7 @@ func is_goal_state():
 			if not farm.harvestables.has(key) or farm.harvestables[key] < goal_state[key]:
 				return false
 	return true
-	
+
 func set_level(level_script, goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
@@ -74,8 +74,6 @@ func set_level(level_script, goal_state):
 	camera.fit_zoom_to_farm(farm)
 	
 	self.goal_state = goal_state
-	
-	
 
 func add_points():
 	# Increase the score by a certain number of points

@@ -27,3 +27,38 @@ func plant_square(crop:int):
 func harvest_square():
 	# Your code here
 [/code]"
+source_code = "
+func plant_square(type:int):
+	var dir:int
+	dir = RIGHT
+	for x in [0,1,2]:
+		for y in [0,1]:
+			plant(type)
+			move(dir)
+		plant(type)
+		move(DOWN)
+		if dir == LEFT:
+			dir = RIGHT
+		else:
+			dir = LEFT
+	
+
+func harvest_square():
+	var dir:int
+	dir = LEFT
+	for x in [0,1,2]:
+		for y in [0,1]:
+			harvest()
+			move(dir)
+		harvest()
+		move(UP)
+		if dir == LEFT:
+			dir = RIGHT
+		else:
+			dir = LEFT
+
+plant_square(CORN)
+plant_square(GRAPE)
+harvest_square()
+harvest_square()
+"

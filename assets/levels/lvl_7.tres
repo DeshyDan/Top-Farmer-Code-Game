@@ -15,3 +15,20 @@ farm_string = "#,r,#
 max_random_rocks = 0
 max_random_rivers = 0
 level_hint = "Rocks are a special tile that don't allow the farmer to [url=move]move[/url] onto them. Try using the value of [url=move]move[/url] to check whether the farmer bumped into something!"
+source_code = "var dir:int
+dir = DOWN
+
+while true:
+	plant(GRAPE)
+	if not move(RIGHT):
+		if not move(dir):
+			break
+		dir = UP
+
+dir = DOWN
+while true:
+	harvest()
+	if not move(LEFT):
+		if not move(dir):
+			break
+		dir = UP"

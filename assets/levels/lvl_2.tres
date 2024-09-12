@@ -16,3 +16,7 @@ max_random_rivers = 0
 level_hint = "Try using the [url=plant(]plant[/url], [url=wait]wait[/url], and  [url=harvest]harvest[/url] functions to reach the goal!
 
 In the top right, you can see how many crops the farmer has harvested vs. the number of crops the farmer needs to harvest to reach the goal."
+source_code = "plant(CORN)
+wait()
+harvest()
+"

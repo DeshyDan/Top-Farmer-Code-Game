@@ -37,11 +37,11 @@ func highlight_line(lineno):
 		func (color):
 			if lineno == _error_line:
 				return
-			set_line_background_color(lineno-1,color), 
-		executing_color, 
-		_background_color, 
+			set_line_background_color(lineno-1,color),
+		executing_color,
+		_background_color,
 		executing_highlight_length
-		).set_ease(Tween.EASE_IN)
+	).set_ease(Tween.EASE_IN)
 
 func draw_error(lineno, colno, raw_message):
 	set_line_background_color(lineno - 1, Color.RED * 0.4)

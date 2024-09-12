@@ -30,3 +30,15 @@ for dir in [RIGHT, DOWN, LEFT, UP]:
 			# You can use break to exit loops at any time
 			break
 [/code]"
+source_code = "for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		plant(CORN)
+		if not move(dir):
+			break
+
+for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		harvest()
+		if not move(dir):
+			break
+"
