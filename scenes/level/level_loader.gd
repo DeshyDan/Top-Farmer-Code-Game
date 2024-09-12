@@ -6,6 +6,32 @@ var lvl_array_items:Array
 
 var count = 0
 var original_data : Dictionary
+var level_resources = {}
+
+static var level_dir = "res://assets/levels/"
+
+func _init():
+	var dir = DirAccess.open(level_dir)
+	if not dir:
+		return
+	var file_paths = dir.get_files()
+	
+	for i in len(file_paths):
+		if not file_paths[i].ends_with(".tres"):
+			continue
+		var level_resource = load(level_dir + file_paths[i])
+		level_resource.id = i
+		level_resources[i] = level_resource
+	
+	print(level_resources)
+
+func get_level_data_by_name(name: String):
+	for level_resource in level_resources.values():
+		if level_resource.name == name:
+			return level_resource
+
+func get_level_data_by_id(id):
+	return level_resources.get(id)
 
 func create(file_path: String):
 	if not FileAccess.file_exists(file_path):
