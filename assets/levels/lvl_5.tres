@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://bn8okriq80bth"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_tikge"]
+
+[resource]
+script = ExtResource("1_tikge")
+id = 5
+name = "Level 5"
+corn_goal = 4
+grape_goal = 0
+goal_position = Vector2i(0, 0)
+farm_string = "#,#
+#,#
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "Try using a [url=for]for loop[/url] to [url=move]move[/url] the farmer:
+[code]
+for dir in [RIGHT, DOWN, LEFT, UP]:
+	# Your code here
+[/code]"

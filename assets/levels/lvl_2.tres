@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://be3yg2euwsixe"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_qy1jl"]
+
+[resource]
+script = ExtResource("1_qy1jl")
+id = 2
+name = "default level name"
+corn_goal = 1
+grape_goal = 0
+goal_position = Vector2i(0, 0)
+farm_string = "#
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "Try using the [url=plant(]plant[/url], [url=wait]wait[/url], and  [url=harvest]harvest[/url] functions to reach the goal!
+
+In the top right, you can see how many crops the farmer has harvested vs. the number of crops the farmer needs to harvest to reach the goal."

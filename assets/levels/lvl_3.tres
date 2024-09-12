@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://ds1sjquob8rsc"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_hed1w"]
+
+[resource]
+script = ExtResource("1_hed1w")
+id = 3
+name = "Level 3"
+corn_goal = 3
+grape_goal = 3
+goal_position = Vector2i(0, 0)
+farm_string = "#
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "Try using a [url=while]while loop[/url] to plant, wait and harvest multiple times!
+
+You can count how many crops you have collected so far using a [url=var]variable[/url].
+
+"
