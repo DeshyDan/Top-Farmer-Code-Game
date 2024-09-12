@@ -244,5 +244,49 @@ func reset():
 func remove_all_plants():
 	dirt_terrain.clear_layer(PLANT_LAYER)
 
-
+func randomize_farm():
+	var width = original_farm_model.width
+	var height = original_farm_model.height
+	var result = FarmModel.new(width, height)
+	var max_rocks = 2
+	var max_rivers = 1
+	# collect rocks and water
+	var rocks = []
+	var rivers = []
+	for i in height:
+		for j in width:
+			var item = original_farm_model.get_item_at_coord(Vector2i(i,j))
+			if item == null:
+				continue
+			if item is Obstacle:
+				if not item.is_translucent():
+					result.add_farm_item(item, Vector2i(i,j))
+					continue
+				if item.get_id() == 0:
+					rocks.append([i,j])
+				elif item.get_id() == 1 and not rivers.has(j):
+					rivers.append(j)
+			else:
+				result.add_farm_item(item, Vector2i(i,j))
+	
+	# randomise here
+	while max_rocks > 0 and not rocks.is_empty():
+		var rock = rocks.pick_random()
+		var coords = Vector2i(rock[0],rock[1])
+		result.add_farm_item(Obstacle.ROCK(), coords)
+		rocks.erase(rock)
+		max_rocks -= 1
+	
+	while max_rivers > 0 and not rivers.is_empty():
+		var river_row = rivers.pick_random()
+		for j in width:
+			var coords = Vector2i(j, river_row)
+			var item = farm_model.get_item_at_coord(coords)
+			if not (item is Obstacle and item.get_id() == 1):
+				continue
+			result.add_farm_item(Obstacle.WATER(), coords)
+		rivers.erase(river_row)
+		max_rivers -= 1
+		
+	plot_farm(result)
 

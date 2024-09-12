@@ -7,7 +7,7 @@ enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
 @export var menu_cam: Camera2D
 
 var player_save: PlayerSave
-var level_scene: PackedScene = preload("res://scenes/level/level.tscn")
+var level_loader
 var levels_to_load = range(1, 11)
 
 var current_level: Level
@@ -15,6 +15,7 @@ var current_level: Level
 func _ready():
 	load_save()
 	enter_state(MAIN_SCREEN)
+	level_loader = LevelLoader.new()
 
 func enter_state(state):
 	for child in get_children():
@@ -57,19 +58,11 @@ func load_next_level():
 
 func load_level(i):
 	levels_to_load = range(i + 1, 11)
-
-	var lvl = level_scene.instantiate()
+	var level_to_get = "Level "+str(i)
+	var lvl = level_loader.get_level_by_name(level_to_get)
 
 	add_child(lvl)
-	current_level = lvl
-
-	var file_path = "res://assets/levels/lvl_" + str(i) + ".txt"
-	var goal_harvest = Const.LEVEL_GOALS["level " + str(i)]
-
-	lvl.set_level(file_path, goal_harvest)
-	lvl.set_player_save(player_save)
-	lvl.set_source_code(player_save.get_level_source(i))
-	lvl.id = i
+	
 	lvl.level_complete.connect(_on_level_completed)
 	lvl.retry_requested.connect(_on_level_retry)
 	lvl.exit_requested.connect(_on_level_exited)
