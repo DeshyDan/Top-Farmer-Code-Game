@@ -16,22 +16,26 @@ func _init():
 		return
 	var file_paths = dir.get_files()
 	
-	for i in len(file_paths):
-		if not file_paths[i].ends_with(".tres"):
+	for file_name in file_paths:
+		# On macos files are remapped for some reason
+		# https://forum.godotengine.org/t/error-loading-resource-files-in-game-build-in-godot-4/1392
+		file_name = file_name.trim_suffix(".remap")
+		
+		if not file_name.ends_with(".tres"):
 			continue
-		var level_resource = load(level_dir + file_paths[i])
-		level_resource.id = i
-		level_resources[i] = level_resource
-	
+		var level_resource = load(level_dir + file_name)
+		level_resources[level_resource.name] = level_resource
+		
 	print(level_resources)
 
 func get_level_data_by_name(name: String):
-	for level_resource in level_resources.values():
-		if level_resource.name == name:
-			return level_resource
+	return level_resources.get(name)
 
 func get_level_data_by_id(id):
-	return level_resources.get(id)
+	for level_resource in level_resources.values():
+		if level_resource.id == id:
+			return level_resource
+
 
 func create(file_path: String):
 	if not FileAccess.file_exists(file_path):
