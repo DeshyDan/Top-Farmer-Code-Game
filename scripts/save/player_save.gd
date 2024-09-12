@@ -78,7 +78,3 @@ func load_progress():
 			_level_high_scores[str(lvl)] = 0
 		push_error("Corrupted high scores, restoring to defaults")
 	
-	print("Loaded save:")
-	print(_unlocked_levels)
-	print(_level_high_scores)
-	print(_source_codes)

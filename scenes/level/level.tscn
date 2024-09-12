@@ -31,7 +31,6 @@ uppercase = true
 size_flags_horizontal = 8
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
-anchors_preset = -1
 anchor_left = 0.007
 anchor_top = 0.006
 anchor_right = 0.411

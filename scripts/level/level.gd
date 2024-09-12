@@ -38,6 +38,9 @@ var player_save: PlayerSave
 func _ready():
 	camera.make_current()
 
+func initialize(level_resource: LevelResource):
+	window.initialize(level_resource)
+
 func set_player_save(save: PlayerSave):
 	player_save = save
 	
@@ -64,6 +67,8 @@ func is_goal_state():
 func set_level(level_script, goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
+	
+	initialize(level_loader.get_level_data_by_name("Level 6"))
 
 	farm_model = level_loader.create(level_script)
 
@@ -74,8 +79,6 @@ func set_level(level_script, goal_state):
 	camera.fit_zoom_to_farm(farm)
 	
 	self.goal_state = goal_state
-	
-	
 
 func add_points():
 	# Increase the score by a certain number of points
