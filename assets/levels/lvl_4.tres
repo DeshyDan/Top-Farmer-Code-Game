@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://db3627rnbfbak"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_0nx83"]
+
+[resource]
+script = ExtResource("1_0nx83")
+id = 4
+name = "Level 4"
+corn_goal = 3
+grape_goal = 2
+farm_string = "#,#,#,#,#"
+level_hint = ""

@@ -22,7 +22,6 @@ var score = 0
 var count = 0
 var paused = false
 var farm_model:FarmModel
-var level_loader: LevelLoader
 var first_lvl
 
 var goal_state:Dictionary
@@ -61,11 +60,9 @@ func is_goal_state():
 				return false
 	return true
 	
-func set_level(level_script, goal_state):
-	level_loader = LevelLoader.new()
-	add_child(level_loader)
+func set_level(farm_model, goal_state):
 
-	farm_model = level_loader.create(level_script)
+	self.farm_model = farm_model
 
 	first_lvl = farm_model._find_goal()
 	
@@ -106,7 +103,7 @@ func _on_window_run_button_pressed():
 	farm.reset()
 	reset_score()
 
-	farm_model = level_loader._randomize()
+	farm_model._randomize()
 	farm.plot_farm(farm_model)
 	camera.fit_zoom_to_farm(farm)
 

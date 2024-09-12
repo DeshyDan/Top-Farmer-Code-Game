@@ -29,25 +29,21 @@ func get_level_data_by_name(name: String):
 	for level_resource in level_resources.values():
 		if level_resource.name == name:
 			return level_resource
+	return null
 
 func get_level_data_by_id(id):
 	return level_resources.get(id)
 
-func create(file_path: String):
-	if not FileAccess.file_exists(file_path):
+func get_level_by_name(name: String):
+	var lvl_data = get_level_data_by_name(name)
+	
+	if lvl_data == null:
 		return null
 
-	var lvl_skeleton = FileAccess.open(file_path, FileAccess.READ)
-	if lvl_skeleton == null:
+	if lvl_data.farm_string == "":
 		return null
 
-	var lvl_skeleton_data = lvl_skeleton.get_as_text()
-	lvl_skeleton.close()
-
-	if lvl_skeleton_data.strip_edges() == "":
-		return null
-
-	var lines = lvl_skeleton_data.split("\n")
+	var lines = lvl_data.farm_string.split("\n")
 	var height = 0
 	var width = 0
 	
@@ -108,12 +104,30 @@ func create(file_path: String):
 		"width": width,
 		"height": height
 	}
-		
-	if count == 0:
-		original_data = data
-		count += 1
 	
-	return _create_farm_model(data)
+	var farm_model = _create_farm_model(data)
+	
+	var player_save = PlayerSave.new()
+	player_save.load_progress()
+	
+	var level_scene: PackedScene = preload("res://scenes/level/level.tscn")
+	var lvl = level_scene.instantiate()
+	
+	var goal_harvest = {
+		Const.PlantType.PLANT_CORN: lvl_data.corn_goal,
+		Const.PlantType.PLANT_GRAPE: lvl_data.grape_goal
+	}
+	
+	lvl.set_level(farm_model,goal_harvest)
+	lvl.set_player_save(player_save)
+	lvl.set_source_code(player_save.get_level_source(lvl_data.id))
+	lvl.id = lvl_data.id
+	
+	return lvl
+	
+	
+	
+	
 
 
 func _create_farm_model(data:Dictionary):
@@ -131,68 +145,3 @@ func _create_farm_model(data:Dictionary):
 				farm_model.add_farm_item(item,coord)
 	
 	return farm_model
-	
-
-func _randomize():
-		var transformed_data = []
-		var rock_candidates = []
-		var water_row_candidates = []
-		
-		var translucent_level = false
-		
-		var max_stones = 2
-		var max_rivers = 1
-		
-		var default_value = null
-		for y in range(original_data["height"]):
-			var row = []
-			for x in range(original_data["width"]):
-				row.append(default_value)
-			transformed_data.append(row)
-	
-  
-		for i in range(original_data["FarmArray"].size()):
-			for j in range(original_data["FarmArray"][i].size()):
-				var item = original_data["FarmArray"][i][j]
-				if item == null: 
-					continue
-				if item is Goal:
-					continue
-				if item.get_id() == 0 and item.is_translucent():
-					rock_candidates.append([i,j])
-					translucent_level = true
-				elif item.get_id() == 1 and item.is_translucent():
-					water_row_candidates.append(i)
-					translucent_level = true
-	
-		if not translucent_level:
-			var data = {"FarmArray": original_data["FarmArray"],
-		"width":original_data["width"],
-		"height":original_data["height"]}
-			return _create_farm_model(data)
-
-		for i in range(min(max_stones, rock_candidates.size())):
-			if rock_candidates.size() > 0:
-				var index = randi() % rock_candidates.size()
-				var rock_index = rock_candidates[index]
-				transformed_data[rock_index[0]][rock_index[1]] = Obstacle.ROCK()
-				rock_candidates.pop_at(index)
-	
-   
-		while water_row_candidates.size()>0 and max_rivers > 0:
-			var river_row = water_row_candidates.pick_random()
-			for j in original_data["width"]:
-				var item = original_data["FarmArray"][river_row][j]
-				if not (item is Obstacle and item.get_id() == 1):
-					continue
-				transformed_data[river_row][j] = Obstacle.WATER()
-				water_row_candidates.erase(river_row)
-				max_rivers -= 1
-		
-			
-	
-		var data = {"FarmArray": transformed_data,
-		"width":original_data["width"],
-		"height":original_data["height"]}
-		
-		return _create_farm_model(data)

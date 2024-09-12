@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://da45202sssnnb"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_qlsam"]
+
+[resource]
+script = ExtResource("1_qlsam")
+id = 5
+name = "Level 5"
+corn_goal = 4
+grape_goal = 0
+farm_string = "#,#
+#,#"
+level_hint = ""

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://twvn1ekqhsbf"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_3y4jm"]
+
+[resource]
+script = ExtResource("1_3y4jm")
+id = 10
+name = "Level 10"
+corn_goal = 27
+grape_goal = 27
+farm_string = "#,#,#,s,#,#,#,#,#
+s,#,#,#,#,#,#,#,#
+#,l,l,l,l,l,l,l,#
+#,l,l,l,l,l,l,l,s
+#,#,#,#,s,#,#,#,#
+#,l,l,l,l,l,l,l,#
+#,#,#,#,#,#,#,#,#
+"
+level_hint = ""
