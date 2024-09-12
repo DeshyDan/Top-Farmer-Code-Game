@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://bb1nx3wqawdhp"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_718os"]
+
+[resource]
+script = ExtResource("1_718os")
+id = 9
+name = "Level 9"
+corn_goal = 8
+grape_goal = 8
+goal_position = Vector2i(0, 0)
+farm_string = "#,#,#,#,#
+#,l,l,l,#
+#,l,l,l,#
+#,l,l,l,#
+#,#,#,#,#
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "Transparent obstacles are randomised when you press go! In this level, you can use the value of [url=plant]plant[/url] and [url=harvest]harvest[/url] to check whether the farmer was successful or not.
+
+If not successful, you know you're on a water tile and can [url=move]move[/url] until the end of the row without planting/harvesting. This way, you can save time and get a higher score!"

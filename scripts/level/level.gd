@@ -68,7 +68,7 @@ func set_level(level_script, goal_state):
 	level_loader = LevelLoader.new()
 	add_child(level_loader)
 	
-	initialize(level_loader.get_level_data_by_name("Level 6"))
+	initialize(level_loader.get_level_data_by_id(id))
 
 	farm_model = level_loader.create(level_script)
 

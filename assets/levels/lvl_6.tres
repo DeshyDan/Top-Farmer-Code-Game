@@ -19,5 +19,14 @@ max_random_rivers = 0
 level_hint = "Water is a special tile that lets the farmer [url=move]move[/url] over it, but doesn't let the farmer [url=plant]plant[/url] over it. Try using this for loop to avoid the water and save time:
 [code]
 for dir in [RIGHT, DOWN, LEFT, UP]:
-	# Your code here
+	while true:
+		#	You can check the value of move to see 
+		#	whether the farmer was successful or not
+
+		if move(dir):			
+			# Your code here
+
+		else:
+			# You can use break to exit loops at any time
+			break
 [/code]"

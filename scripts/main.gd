@@ -66,10 +66,10 @@ func load_level(i):
 	var file_path = "res://assets/levels/lvl_" + str(i) + ".txt"
 	var goal_harvest = Const.LEVEL_GOALS["level " + str(i)]
 	
+	lvl.id = i
 	lvl.set_level(file_path, goal_harvest)
 	lvl.set_player_save(player_save)
 	lvl.set_source_code(player_save.get_level_source(i))
-	lvl.id = i
 	lvl.level_complete.connect(_on_level_completed)
 	lvl.retry_requested.connect(_on_level_retry)
 	lvl.exit_requested.connect(_on_level_exited)

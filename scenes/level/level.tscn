@@ -19,6 +19,7 @@ level_completed = NodePath("CanvasLayer/LevelCompleted")
 layer = 128
 
 [node name="Score" type="Label" parent="CanvasLayer"]
+texture_filter = 4
 offset_left = 848.0
 offset_top = 21.0
 offset_right = 947.0
@@ -28,6 +29,7 @@ text = "Score: 0"
 uppercase = true
 
 [node name="HelpWindow" parent="CanvasLayer" instance=ExtResource("6_y3t0h")]
+texture_filter = 4
 size_flags_horizontal = 8
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
@@ -44,6 +46,7 @@ offset_bottom = -0.160034
 visible = false
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
+texture_filter = 4
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0

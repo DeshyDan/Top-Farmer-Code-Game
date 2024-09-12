@@ -1,0 +1,29 @@
+[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://1d5qsuqvk4lx"]
+
+[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_xda7q"]
+
+[resource]
+script = ExtResource("1_xda7q")
+id = 8
+name = "Level 8"
+corn_goal = 9
+grape_goal = 9
+goal_position = Vector2i(0, 0)
+farm_string = "#,#,#,r,r,r
+#,#,#,r,w,r
+#,#,#,r,r,r
+r,r,#,#,#,r
+r,w,#,#,#,r
+r,w,#,#,#,r
+r,r,r,r,r,r
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "You can use [url=functions]functions[/url] to reuse your code! Try using these function signatures:
+[code]
+func plant_square(crop:int):
+	# Your code here
+
+func harvest_square():
+	# Your code here
+[/code]"

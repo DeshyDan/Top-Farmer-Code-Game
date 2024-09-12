@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cxmx1dbvlr6w2"]
+[gd_scene load_steps=8 format=3 uid="uid://cxmx1dbvlr6w2"]
 
 [ext_resource type="Script" path="res://scripts/code_editor/window_ui.gd" id="1_l7ydm"]
 [ext_resource type="PackedScene" uid="uid://l1gdp5ne82s6" path="res://scenes/code_window/code_editor_ui.tscn" id="2_517op"]
 [ext_resource type="Script" path="res://scripts/help_window/hint_popup.gd" id="3_mcc4n"]
+[ext_resource type="FontFile" uid="uid://efvswurhd1t0" path="res://assets/fonts/JetBrainsMono-Regular.ttf" id="4_eu0n7"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_14rbk"]
 size = Vector2(20, 1)
@@ -17,6 +18,7 @@ corner_radius_bottom_left = 3
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jrhee"]
 
 [node name="HBoxContainer" type="Control" node_paths=PackedStringArray("code_editor_ui", "hint_popup")]
+texture_filter = 4
 layout_mode = 3
 anchor_right = 0.383594
 anchor_bottom = 0.888889
@@ -92,15 +94,12 @@ layout_mode = 2
 size_flags_horizontal = 8
 
 [node name="HintPopup" type="VBoxContainer" parent="." node_paths=PackedStringArray("hint_page", "hint_text")]
-custom_minimum_size = Vector2(50, 50)
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = 3.0
-offset_right = 328.0
+anchors_preset = -1
+anchor_left = 1.00815
+anchor_right = 1.00815
+offset_right = 520.0
 offset_bottom = 609.0
-grow_horizontal = 0
 pivot_offset = Vector2(-114, 256)
 mouse_filter = 2
 script = ExtResource("3_mcc4n")
@@ -109,6 +108,7 @@ hint_text = NodePath("HintPage/MarginContainer/HintText")
 
 [node name="AspectRatioContainer" type="AspectRatioContainer" parent="HintPopup"]
 layout_mode = 2
+size_flags_horizontal = 0
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.17
 alignment_horizontal = 0
@@ -126,13 +126,13 @@ theme_override_constants/margin_bottom = 5
 
 [node name="HintButton" type="CheckButton" parent="HintPopup/AspectRatioContainer/PanelContainer/MarginContainer"]
 layout_mode = 2
+focus_mode = 0
 text = "Show hint"
 flat = true
 
 [node name="HintPage" type="PanelContainer" parent="HintPopup"]
-visible = false
 layout_mode = 2
-size_flags_vertical = 3
+size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_i41u0")
 
 [node name="MarginContainer" type="MarginContainer" parent="HintPopup/HintPage"]
@@ -144,11 +144,17 @@ theme_override_constants/margin_bottom = 5
 
 [node name="HintText" type="RichTextLabel" parent="HintPopup/HintPage/MarginContainer"]
 layout_mode = 2
+focus_mode = 2
+mouse_force_pass_scroll_events = false
+theme_override_colors/selection_color = Color(0.533333, 0.533333, 0.533333, 0.498039)
+theme_override_fonts/mono_font = ExtResource("4_eu0n7")
 bbcode_enabled = true
-text = "this is a hint. this is a clickable word: [url=variables]int[/url]"
+text = "this is a hint. this is a clickable word: [url=variables]int[/url]. this is a very long sentence ......."
 fit_content = true
+selection_enabled = true
 
 [node name="HSeparator" type="HSeparator" parent="HintPopup"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 3
 mouse_filter = 2

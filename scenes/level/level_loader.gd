@@ -20,8 +20,8 @@ func _init():
 		if not file_paths[i].ends_with(".tres"):
 			continue
 		var level_resource = load(level_dir + file_paths[i])
-		level_resource.id = i
-		level_resources[i] = level_resource
+		#level_resource.id = (i / 2) + 1
+		level_resources[level_resource.id] = level_resource
 	
 	print(level_resources)
 
