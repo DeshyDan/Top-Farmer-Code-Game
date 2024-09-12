@@ -32,3 +32,5 @@ for dir in [RIGHT,DOWN,LEFT,UP]:
 		if not move(dir):
 			break
 "
+dev_score = 43
+dev_tick_count = 23

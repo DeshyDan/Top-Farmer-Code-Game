@@ -36,7 +36,6 @@ func get_level_data_by_id(id):
 		if level_resource.id == id:
 			return level_resource
 
-
 func create(file_path: String):
 	if not FileAccess.file_exists(file_path):
 		return null

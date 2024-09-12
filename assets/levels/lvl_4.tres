@@ -29,3 +29,5 @@ while true:
 	harvest()
 	move(LEFT)
 "
+dev_score = 30
+dev_tick_count = 33

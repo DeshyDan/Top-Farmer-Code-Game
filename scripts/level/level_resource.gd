@@ -20,3 +20,5 @@ extends Resource
 
 @export_category("Developer Solution")
 @export_multiline var source_code: String = ""
+@export var dev_score: int = 0
+@export var dev_tick_count: int = 0

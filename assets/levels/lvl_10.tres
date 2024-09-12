@@ -75,3 +75,5 @@ while true:
 		count = count + 1
 
 "
+dev_score = 1
+dev_tick_count = 608

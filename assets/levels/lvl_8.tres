@@ -62,3 +62,5 @@ plant_square(GRAPE)
 harvest_square()
 harvest_square()
 "
+dev_score = 7
+dev_tick_count = 141

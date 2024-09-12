@@ -64,3 +64,5 @@ while true:
 		else:
 			dir = RIGHT
 "
+dev_score = 4
+dev_tick_count = 216

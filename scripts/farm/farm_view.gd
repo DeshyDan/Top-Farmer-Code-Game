@@ -230,7 +230,7 @@ func get_harvestables():
 	
 func reset():
 	self.farm_model = original_farm_model
-	robot_tile_coords = Vector2i(0,0) 
+	robot_tile_coords = Vector2i(0,0)
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
 	robot.idle()

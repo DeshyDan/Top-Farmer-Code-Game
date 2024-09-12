@@ -32,3 +32,5 @@ while true:
 		if not move(dir):
 			break
 		dir = UP"
+dev_score = 31
+dev_tick_count = 32
