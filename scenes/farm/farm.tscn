@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bxeid64nke54h"]
+[gd_scene load_steps=7 format=3 uid="uid://bxeid64nke54h"]
 
 [ext_resource type="Script" path="res://scripts/farm/farm_view.gd" id="1_irbmt"]
 [ext_resource type="PackedScene" uid="uid://nc5oh6noxx83" path="res://scenes/inventory_system/inventory.tscn" id="2_hxsj1"]
 [ext_resource type="TileSet" uid="uid://dkivxugfrllw6" path="res://resources/farm_tile_set.tres" id="2_qam0v"]
 [ext_resource type="PackedScene" uid="uid://bgjp81bcq4m6c" path="res://scenes/robot/robot.tscn" id="3_iavny"]
+[ext_resource type="Script" path="res://scripts/farm/farm_tilemap.gd" id="4_vh15f"]
+[ext_resource type="Script" path="res://scripts/farm/pickup_spawner.gd" id="5_e37ti"]
 
 [node name="Farm" type="Node2D"]
 texture_filter = 1
@@ -29,6 +31,10 @@ layer_2/tile_data = PackedInt32Array()
 layer_3/name = "Transluscent"
 layer_3/modulate = Color(1, 1, 1, 0.439216)
 layer_3/tile_data = PackedInt32Array()
+script = ExtResource("4_vh15f")
 
 [node name="Robot" parent="Grid" instance=ExtResource("3_iavny")]
 position = Vector2(8, 24)
+
+[node name="PickupSpawner" type="Node2D" parent="."]
+script = ExtResource("5_e37ti")

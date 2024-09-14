@@ -10,18 +10,13 @@ signal goal_pos_met
 @onready var dirt_terrain: TileMap =$Grid
 @onready var robot: Robot = $Grid/Robot
 @onready var inventory = $CanvasLayer/inventory
-@onready var pickup_scene = preload("res://scenes/inventory_system/pickups/pickup.tscn")
+@onready var pickup_spawner = $PickupSpawner
+
 @export_group("Farm Size")
 @export_range(2,15) var width:int = 5
 @export_range(2,15) var height:int = 5
 
-const PLANT_LAYER = 0
-const SOIL_LAYER = 1
-const ROCK_LAYER = 2
-const SOIL_TERRAIN = 0
-const WATER_TERRAIN = 1
-const TRANSLUCENT_LAYER = 3
-const OBSTACLES_LAYER = 2
+
 
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
@@ -29,7 +24,6 @@ const CAN_PLACE_SEEDS = "can_place_seeds"
 var farm_model: FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
-var pickup_tween: Tween 
 var original_farm_model:FarmModel
 
 func plot_farm(farm_model:FarmModel):
@@ -37,50 +31,28 @@ func plot_farm(farm_model:FarmModel):
 	
 	var height = farm_model.get_height()
 	var width = farm_model.get_width()
-	var path = set_terrain_path(width, height)
-
-	dirt_terrain.set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
-	dirt_terrain.clear_layer(ROCK_LAYER)
-	dirt_terrain.clear_layer(TRANSLUCENT_LAYER)
+	
+	dirt_terrain.fill_with_dirt(width, height)
+	
 	for x in farm_model.width:
 		for y in farm_model.height:
-			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
+			var coords = Vector2i(x,y)
+			var farm_item = farm_model.get_item_at_coord(coords)
 			if farm_item is Obstacle:
 				#water
 				if farm_item.get_id() == 1:
-					dirt_terrain.set_cells_terrain_connect(
-						TRANSLUCENT_LAYER,
-						[Vector2i(x, y)],
-						0,
-						WATER_TERRAIN, 
-						false
-					)
-					var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else SOIL_LAYER
-					dirt_terrain.set_cells_terrain_connect(
-						layer,
-						[Vector2i(x, y)],
-						0,
-						WATER_TERRAIN, 
-						false
-					)
+					dirt_terrain.set_water_tile(coords, farm_item)
 					continue
 				#rocks
-				var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else ROCK_LAYER
-				dirt_terrain.set_cell(layer, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+				dirt_terrain.set_rock_tile(coords, farm_item)
 			if farm_item is Goal:
-				dirt_terrain.set_cell(ROCK_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(0, 0))
+				dirt_terrain.set_goal(coords, farm_item)
 	redraw_farm()
 	
 	robot.position = get_tile_position(robot.get_coords())
 	robot.set_boundaries(width,height)
 
-func set_terrain_path(width: int, height: int):
-	var map = []
-	for x in range(width):
-		for y in range(height):
-			map.append(Vector2i(x, y))
 
-	return map
 
 func tick():
 	for farm_item: FarmItem in farm_model.get_data():
@@ -96,19 +68,18 @@ func redraw_farm():
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
 			if (farm_item is Plant):
-				var atlas_x = min(farm_item.age, 3)
-				dirt_terrain.set_cell(PLANT_LAYER, Vector2i(x,y), farm_item.get_source_id(), Vector2i(atlas_x, 0))
+				dirt_terrain.set_plant(Vector2i(x,y), farm_item)
 				
 func wait():
 	robot.wait()
 
 func harvest():
 	var robot_coords:Vector2i = robot.get_coords()
-	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
+	var tile_data: TileData = dirt_terrain.get_soil_data(robot_coords)
 	var did_harvest = false
 	if tile_data and farm_model.get_item_at_coord(robot_coords) is Plant:
 		robot.harvest()
-		dirt_terrain.set_cell(PLANT_LAYER, robot_coords,-1)
+		dirt_terrain.erase_plant(robot_tile_coords)
 		
 		if farm_model.is_harvestable(robot_coords):
 			store(robot_coords)
@@ -123,7 +94,8 @@ func store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 
-	animate_pickup(plant_coord, harvested_plant)
+	pickup_spawner.animate_pickup(plant_coord, harvested_plant)
+	
 	if plant_id in harvestables:
 		var old_val = harvestables[plant_id]
 		harvestables[plant_id] = old_val + 1
@@ -131,46 +103,11 @@ func store(plant_coord:Vector2i):
 		harvestables[plant_id] = 1
 	inventory.store(plant_id,harvestables[plant_id])
 
-
-func animate_pickup( init_pos:Vector2i, harvested_plant:Plant):
-	var plant = instantiate_pickup( init_pos, harvested_plant)
-	
-	setup_pickup_tween(plant)
-	pickup_tween.play()
-
-func setup_pickup_tween(plant):
-	pickup_tween = get_tree().create_tween()
-	pickup_tween.set_parallel(true)
-	pickup_tween.set_trans(Tween.TRANS_SINE)  
-	pickup_tween.set_ease(Tween.EASE_OUT)  
-	
-	var init_pos = plant.position
-	var end_pos = init_pos + Vector2(0, -50) 
-
-	pickup_tween.tween_property(plant, "position", end_pos, 0.4).set_delay(0.3)
-
-	pickup_tween.tween_property(plant, "scale", Vector2(1.2, 1.2), 0.2)
-	pickup_tween.tween_property(plant, "scale", Vector2(1, 1), 0.3).set_delay(0.2)
-
-	var random_rotation = randf_range(-0.2, 0.2)
-	pickup_tween.tween_property(plant, "rotation", random_rotation, 0.3)
-	pickup_tween.tween_property(plant, "rotation", 0, 0.4).set_delay(0.3)
-
-	pickup_tween.tween_property(plant, "modulate:a", 0.0, 0.4).set_delay(0.3)
-	pickup_tween.finished.connect(plant.queue_free)
-	
-func instantiate_pickup(init_pos, harvested_plant:Plant) -> Node:
-	var pickup:Node = pickup_scene.instantiate()
-	pickup.load_texture(harvested_plant.get_id())
-	pickup.position = Vector2(init_pos)*16
-	add_child(pickup)
-	return pickup
-
 func plant(plant_id:int=1):
 	
 	var atlas_coord: Vector2i = Vector2i(0, 0)
 	
-	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_tile_coords)
+	var tile_data: TileData = dirt_terrain.get_soil_data(robot_tile_coords)
 
 	if not tile_data:
 		return
@@ -181,7 +118,7 @@ func plant(plant_id:int=1):
 		robot.plant()
 		var plant_type:Plant = get_plant_type(plant_id)
 		
-		dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
+		dirt_terrain.set_plant(robot_tile_coords, plant_type)
 		farm_model.add_farm_item(plant_type, robot_tile_coords)
 		plant_completed.emit(true)
 	else:
@@ -242,7 +179,7 @@ func set_original_farm_model(farm_model: FarmModel):
 	original_farm_model = farm_model
 
 func remove_all_plants():
-	dirt_terrain.clear_layer(PLANT_LAYER)
+	dirt_terrain.clear_plants()
 	#farm_model.remove_all_plants()
 
 func clear_farm():
