@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://qls2gdf4cd8d"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://qls2gdf4cd8d"]
 
-[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_wiutt"]
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_wiutt"]
 
 [resource]
 script = ExtResource("1_wiutt")
@@ -9,10 +9,10 @@ name = "Level 6"
 corn_goal = 10
 grape_goal = 0
 goal_position = Vector2i(0, 0)
-farm_string = "#,#,#
-#,w,#
-#,w,#
-#,#,#
+farm_string = "###
+#w#
+#w#
+###
 "
 max_random_rocks = 0
 max_random_rivers = 0

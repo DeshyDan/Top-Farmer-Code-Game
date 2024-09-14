@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://bvgfey1lpeis0"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://bvgfey1lpeis0"]
 
-[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_kls5f"]
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_kls5f"]
 
 [resource]
 script = ExtResource("1_kls5f")
@@ -9,7 +9,7 @@ name = "Level 4"
 corn_goal = 3
 grape_goal = 2
 goal_position = Vector2i(0, 0)
-farm_string = "#,#,#,#,#"
+farm_string = "#####"
 max_random_rocks = 0
 max_random_rivers = 0
 level_hint = "Try using a [url=while]while loop[/url], [url=plant(]plant[/url] and [url=move]move[/url] together to keep planting on adjacent squares during the time it takes for your plants to grow. This way, the farmer doesn't waste time waiting in one spot for a crop to grow!"

@@ -16,32 +16,26 @@ const PREMATURE_HARVEST_SCRIPT = "res://test/test_scripts/farm/premature_harvest
 const PLANT_SCRIPT = "res://test/test_scripts/farm/plant.txt"
 const MOVE_SCRIPT = "res://test/test_scripts/farm/move.txt"
 
-func before_each():
+func before_all():
 	level = level_scene.instantiate() as Level
 	add_child(level)
 	
 func setup_level(level_skeleton_file_path:String,test_script:String):
-
-	var goal_harvest = {
-		Const.PlantType.PLANT_CORN: 4, 
-		Const.PlantType.PLANT_GRAPE:4
-	}
-	level.set_level(level_skeleton_file_path, goal_harvest)
+	var farm_string = FileAccess.get_file_as_string(level_skeleton_file_path)
+	var level_data = LevelData.new()
+	level_data.farm_string = farm_string
+	level_data.corn_goal = 4
+	level_data.grape_goal = 4
 	watch_signals(level.farm)
 	level = level as Level
+	level.initialize(level_data)
 	var source = FileAccess.get_file_as_string(test_script)
 
 	level.window.code_edit.text = source
 	level.tick_rate = TICK_RATE 
 	
-	
-func after_each():
-	remove_child(level)
-	level.free()
-	
 func test_plant():
 	setup_level(PLANT_LEVEL, PLANT_SCRIPT)
-
 	
 	level._on_window_run_button_pressed()
 
