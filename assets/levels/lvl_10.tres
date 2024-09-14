@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://bmou5h6ajv50r"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://bmou5h6ajv50r"]
 
-[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_mfs4l"]
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_mfs4l"]
 
 [resource]
 script = ExtResource("1_mfs4l")
@@ -9,13 +9,71 @@ name = "Level 10"
 corn_goal = 27
 grape_goal = 27
 goal_position = Vector2i(0, 0)
-farm_string = "#,#,#,s,#,#,#,#,#
-s,#,#,#,#,#,#,#,#
-#,l,l,l,l,l,l,l,#
-#,l,l,l,l,l,l,l,s
-#,#,#,#,s,#,#,#,#
-#,l,l,l,l,l,l,l,#
-#,#,#,#,#,#,#,#,#"
-max_random_rocks = 0
-max_random_rivers = 0
+farm_string = "#########
+##s##s###
+#lllllll#
+#lllllll#
+####s#s##
+#lllllll#
+#########"
+max_random_rocks = 2
+max_random_rivers = 1
 level_hint = "No hint for this level... Good luck!"
+source_code = "var harvesting: int = false
+
+func move_till_wall(dir:int):
+	while true:
+		if not move(dir):
+			return
+
+var dir:int = RIGHT
+
+var count:int = 0
+var crop:int
+var y_dir:int = DOWN
+var y_opp:int = UP
+crop = GRAPE
+plant(crop)
+while true:
+	if count == 26:
+		crop = CORN
+	
+	if not(move(dir)):
+		if not move(y_dir):
+			wait()
+			harvest()
+			harvesting = true
+			y_dir = UP
+			y_opp = DOWN
+			dir = LEFT
+			continue
+		if not move(dir):
+			if dir == RIGHT:
+				dir = LEFT
+			else:
+				dir = RIGHT
+			if harvesting:
+				harvest()
+			else:
+				plant(crop)
+			count = count + 1
+			continue
+		move(dir)
+		move(y_opp)
+	
+	if harvesting:
+		if not harvest():
+			move_till_wall(dir)
+			harvest()
+		continue
+	if not plant(crop):
+		move_till_wall(dir)
+		move(dir)
+		plant(crop)
+		count = count + 1
+	else:
+		count = count + 1
+
+"
+dev_score = 1
+dev_tick_count = 608

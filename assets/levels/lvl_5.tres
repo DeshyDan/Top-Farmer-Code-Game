@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://bn8okriq80bth"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://bn8okriq80bth"]
 
-[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_tikge"]
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_tikge"]
 
 [resource]
 script = ExtResource("1_tikge")
@@ -9,8 +9,8 @@ name = "Level 5"
 corn_goal = 4
 grape_goal = 0
 goal_position = Vector2i(0, 0)
-farm_string = "#,#
-#,#
+farm_string = "##
+##
 "
 max_random_rocks = 0
 max_random_rivers = 0
@@ -19,3 +19,18 @@ level_hint = "Try using a [url=for]for loop[/url] to [url=move]move[/url] the fa
 for dir in [RIGHT, DOWN, LEFT, UP]:
 	# Your code here
 [/code]"
+source_code = "
+for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		plant(CORN)
+		if not move(dir):
+			break
+
+for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		harvest()
+		if not move(dir):
+			break
+"
+dev_score = 43
+dev_tick_count = 23

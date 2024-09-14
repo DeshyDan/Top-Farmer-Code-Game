@@ -1,17 +1,21 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://qitu2mxcyco1"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://qitu2mxcyco1"]
 
-[ext_resource type="Script" path="res://scripts/level/level_resource.gd" id="1_vo1s1"]
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_nbkox"]
 
 [resource]
-script = ExtResource("1_vo1s1")
+script = ExtResource("1_nbkox")
 id = 1
 name = "Level 1"
 corn_goal = 0
 grape_goal = 0
 goal_position = Vector2i(1, 0)
-farm_string = "#,#"
+farm_string = "##"
 max_random_rocks = 0
 max_random_rivers = 0
 level_hint = "Try using the [url=move]move[/url] function!
 
 Note: you can click any underlined text in the hint window to bring up a help window that shows everything the farmer can do!"
+source_code = "move(RIGHT)
+"
+dev_score = 1000
+dev_tick_count = 1

@@ -1,7 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://ds5a0h25he8vt"]
+[gd_scene load_steps=5 format=3 uid="uid://cp5lg6n4kp32g"]
 
-[ext_resource type="Script" path="res://scenes/code_window/error_box.gd" id="1_j10j8"]
 [ext_resource type="Texture2D" uid="uid://6wra5rxmfsrl" path="res://addons/gut/gui/arrow.png" id="1_jmhxu"]
+
+[sub_resource type="GDScript" id="GDScript_di3ee"]
+script/source = "extends HBoxContainer
+
+@export var label: RichTextLabel
+
+func set_text(text: String):
+	label.text = \"\"
+	label.clear()
+	label.append_text(text)
+"
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_jdl7e"]
 color = Color(1, 0, 0, 1)
@@ -21,7 +31,7 @@ offset_right = 241.0
 offset_bottom = 14.5
 grow_vertical = 2
 theme_override_constants/separation = 0
-script = ExtResource("1_j10j8")
+script = SubResource("GDScript_di3ee")
 label = NodePath("PanelContainer/MarginContainer/ErrorBox")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]

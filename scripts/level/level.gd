@@ -1,7 +1,7 @@
 class_name Level
 extends Node2D
 
-signal level_complete
+signal next_level_requested
 signal retry_requested
 signal exit_requested
 
@@ -9,6 +9,7 @@ signal exit_requested
 @export var farm: FarmView
 @export var interpreter_client: InterpreterClient
 @export var level_completed: Node
+@export var ui_canvas_layer: CanvasLayer
 
 @export var tick_rate = 4
 
@@ -33,52 +34,49 @@ signal failure
 var width = 0
 var height = 0
 
-var player_save: PlayerSave
+var player_save: PlayerSave = PlayerSave.new()
 
-func _ready():
+func initialize(level_data: LevelData):
+	id = level_data.id
+	player_save.load_progress()
+	set_player_save(player_save)
+	set_source_code(player_save.get_level_source(id))
+	window.show()
+	farm_model = level_data.get_farm_model()
+	goal_state = level_data.get_goal_state()
+	farm.set_original_farm_model(level_data.get_farm_model()) # call get_farm_model again to avoid shared references
+	farm.plot_farm(farm_model)
+	farm.set_goal_state(goal_state)
+	camera.fit_zoom_to_farm(farm)
 	camera.make_current()
+	reset()
 
-func initialize(level_resource: LevelResource):
-	window.initialize(level_resource)
+func reset():
+	level_completed.hide()
+	farm.clear_farm()
+	farm.reset()
 
 func set_player_save(save: PlayerSave):
 	player_save = save
-	
-func set_source_code(source: String):
-	window.code_edit.text = source
-	window.code_edit.clear_undo_history()
 
+func set_source_code(source: String):
+	window.set_source_code(source)
+	
 func check_victory():
-	if first_lvl:
-		pass
-	elif (is_goal_state()):
+	if (is_goal_state()):
 		timer.stop()
 		victory.emit()
 		level_completed.show()
 		window.hide()
 
 func is_goal_state():
+	if farm_model.goal_pos:
+		return farm_model.goal_pos == farm.robot_tile_coords
 	for key in goal_state:
 		if goal_state[key] != 0:
 			if not farm.harvestables.has(key) or farm.harvestables[key] < goal_state[key]:
 				return false
 	return true
-	
-func set_level(level_script, goal_state):
-	level_loader = LevelLoader.new()
-	add_child(level_loader)
-	
-	initialize(level_loader.get_level_data_by_id(id))
-
-	farm_model = level_loader.create(level_script)
-
-	first_lvl = farm_model._find_goal()
-	
-	farm.plot_farm(farm_model)
-	farm.set_goal_state(goal_state)
-	camera.fit_zoom_to_farm(farm)
-	
-	self.goal_state = goal_state
 
 func add_points():
 	# Increase the score by a certain number of points
@@ -109,8 +107,7 @@ func _on_window_run_button_pressed():
 	farm.reset()
 	reset_score()
 
-	farm_model = level_loader._randomize()
-	farm.plot_farm(farm_model)
+	farm.plot_farm(farm_model.randomized())
 	camera.fit_zoom_to_farm(farm)
 
 	if player_save:
@@ -141,7 +138,6 @@ func _on_window_kill_button_pressed():
 	reset_score()
 	paused = false
 	farm.reset()
-	
 
 func _on_timer_tick():
 	# TODO: check for victory here
@@ -185,7 +181,7 @@ func _on_interpreter_client_error(err: GError):
 	farm.robot.error()
 
 func _on_level_completed_next_level():
-	level_complete.emit()
+	next_level_requested.emit()
 
 func _on_level_completed_retry():
 	retry_requested.emit()
@@ -220,3 +216,12 @@ func _on_back_button_pressed():
 	if is_instance_valid(timer):
 		timer.queue_free()
 	exit_requested.emit()
+
+
+func _on_visibility_changed():
+	if not is_node_ready():
+		await ready
+
+	for level_ui_layer in get_tree().get_nodes_in_group("level_ui_layers"):
+		level_ui_layer.visible = visible
+	

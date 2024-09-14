@@ -67,9 +67,14 @@ func error():
 
 func get_coords():
 	return robot_tile_coords
+
 func set_coords(coords:Vector2i):
 	robot_tile_coords = coords
 
 func set_boundaries(width:int , height:int):
 	x_max_boundary = width
 	y_max_boundary = height
+
+func reset():
+	if move_tween:
+		move_tween.kill()

@@ -26,19 +26,15 @@ const OBSTACLES_LAYER = 2
 const CORN_SOURCE_ID = 1
 const CAN_PLACE_SEEDS = "can_place_seeds"
 
-@export var farm_node:Node
-var farm_model:FarmModel
+var farm_model: FarmModel
 var robot_tile_coords: Vector2i = Vector2i(0,0)
 var harvestables = {}
-var pickup_tween:Tween 
+var pickup_tween: Tween 
 var original_farm_model:FarmModel
 
 func plot_farm(farm_model:FarmModel):
 	self.farm_model = farm_model
 	
-	if original_farm_model == null:
-		self.original_farm_model = farm_model
-		
 	var height = farm_model.get_height()
 	var width = farm_model.get_width()
 	var path = set_terrain_path(width, height)
@@ -107,7 +103,6 @@ func wait():
 	robot.wait()
 
 func harvest():
-
 	var robot_coords:Vector2i = robot.get_coords()
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_coords)
 	var did_harvest = false
@@ -168,7 +163,7 @@ func instantiate_pickup(init_pos, harvested_plant:Plant) -> Node:
 	var pickup:Node = pickup_scene.instantiate()
 	pickup.load_texture(harvested_plant.get_id())
 	pickup.position = Vector2(init_pos)*16
-	farm_node.add_child(pickup)
+	add_child(pickup)
 	return pickup
 
 func plant(plant_id:int=1):
@@ -214,7 +209,6 @@ func move(dir):
 		move_completed.emit(false)
 		return
 	robot_tile_coords = robot.move(vec)
-	print(robot_tile_coords)
 	move_completed.emit(true)
 	if vec == farm_model.goal_pos:
 		goal_pos_met.emit()
@@ -229,20 +223,24 @@ func get_harvestables():
 	return harvestables
 	
 func reset():
-	self.farm_model = original_farm_model
-	robot_tile_coords = Vector2i(0,0) 
+	farm_model = original_farm_model
+	robot_tile_coords = Vector2i(0,0)
 	robot.set_coords(robot_tile_coords)
 	robot.position = get_tile_position(robot.get_coords())
+	robot.reset()
 	robot.idle()
 	
 	remove_all_plants()
 	harvestables.clear()
 	inventory.clear()
 		
-	plot_farm(original_farm_model)
+	plot_farm(farm_model)
+
+func set_original_farm_model(farm_model: FarmModel):
+	original_farm_model = farm_model
 
 func remove_all_plants():
 	dirt_terrain.clear_layer(PLANT_LAYER)
 
-
-
+func clear_farm():
+	dirt_terrain.clear()

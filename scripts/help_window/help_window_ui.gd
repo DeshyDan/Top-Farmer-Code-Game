@@ -18,6 +18,9 @@ func load_help_pages(dirname: String) -> Array[HelpItem]:
 	var dir = DirAccess.open(dirname)
 	if dir:
 		for file_name in dir.get_files():
+			# On macos files are remapped for some reason
+			# https://forum.godotengine.org/t/error-loading-resource-files-in-game-build-in-godot-4/1392
+			file_name = file_name.trim_suffix(".remap")
 			var help_item = ResourceLoader.load(dirname + "/" + file_name, "HelpItem")
 			if help_item is HelpItem:
 				result.append(help_item)
