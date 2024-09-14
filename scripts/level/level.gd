@@ -40,7 +40,7 @@ func initialize(level_data: LevelData):
 	id = level_data.id
 	player_save.load_progress()
 	set_player_save(player_save)
-	set_source_code(player_save.get_level_source(id))
+	window.initialize(level_data, player_save.get_level_source(id))
 	window.show()
 	farm_model = level_data.get_farm_model()
 	goal_state = level_data.get_goal_state()
@@ -58,9 +58,6 @@ func reset():
 
 func set_player_save(save: PlayerSave):
 	player_save = save
-
-func set_source_code(source: String):
-	window.set_source_code(source)
 	
 func check_victory():
 	if (is_goal_state()):

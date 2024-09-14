@@ -9,13 +9,14 @@ var newPosition = Vector2()
 var resizing = false
 var mouse_in_resize = false
 
-@onready var resize_panel = $ResizePanel
+
 
 var code_edit: PlayerEdit
 var console: Console
 
 @export var code_editor_ui: Node
 @export var hint_popup: Node
+@export var resize_panel: Control
 
 @export_multiline var default_text: String
 
@@ -28,6 +29,11 @@ func _ready():
 	code_edit = code_editor_ui.get_code_edit()
 	console = code_editor_ui.get_console()
 	code_edit.text = default_text
+
+func initialize(level_data: LevelData, source_code: String):
+	hint_popup.set_hint_text(level_data.level_hint)
+	hint_popup.toggle_popup(false)
+	set_source_code(source_code)
 
 func get_source_code() -> String:
 	return code_edit.text
