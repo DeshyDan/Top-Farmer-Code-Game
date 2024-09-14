@@ -61,7 +61,6 @@ func randomized() -> FarmModel:
 	var rock_candidates = []
 	var river_candidates = []
 	var rock_id = Obstacle.ROCK().id
-	var water_id = Obstacle.WATER().id
 	
 	for x in width:
 		for y in height:
@@ -87,7 +86,6 @@ func randomized() -> FarmModel:
 		var row = river_candidates.pick_random()
 		for x in width:
 			var coords = Vector2i(x, row)
-			var item = get_item_at_coord(coords)
 			if is_water(coords):
 				result.add_farm_item(Obstacle.WATER(), coords)
 		river_count += 1

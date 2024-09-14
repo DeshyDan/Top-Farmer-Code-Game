@@ -20,6 +20,10 @@ config/icon="res://assets/textures/icon.svg"
 Const="*res://autoload/consts.gd"
 MessageBus="*res://autoload/message_bus.gd"
 
+[debug]
+
+gdscript/warnings/shadowed_variable=0
+
 [display]
 
 window/size/viewport_width=1280
