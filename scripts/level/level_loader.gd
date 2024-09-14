@@ -31,7 +31,8 @@ func _init():
 func get_level_data_by_name(name: String):
 	return level_resources.get(name)
 
-func get_level_data_by_id(id):
+func get_level_data_by_id(id) -> LevelData:
 	for level_resource in level_resources.values():
 		if level_resource.id == id:
 			return level_resource
+	return null

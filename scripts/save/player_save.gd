@@ -44,6 +44,9 @@ func save_progress():
 		return
 
 	var file = FileAccess.open(save_path,FileAccess.WRITE)
+	if not file:
+		return
+	
 	file.store_line(JSON.stringify(_unlocked_levels))
 	file.store_line(JSON.stringify(_source_codes))
 	file.store_line(JSON.stringify(_level_high_scores))

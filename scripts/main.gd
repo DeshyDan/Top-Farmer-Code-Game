@@ -1,3 +1,4 @@
+class_name Main
 extends Control
 
 enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
