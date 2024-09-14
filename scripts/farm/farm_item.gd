@@ -14,3 +14,8 @@ func get_id():
 func get_source_id():
 	return self.texture_source_id
 
+func is_empty():
+	return id == 0 and texture_source_id == 0
+
+static func EMPTY() -> FarmItem:
+	return FarmItem.new(0, 0)

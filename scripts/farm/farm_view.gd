@@ -45,7 +45,7 @@ func plot_farm(farm_model:FarmModel):
 	for x in farm_model.width:
 		for y in farm_model.height:
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
-			if (farm_item is Obstacle):
+			if farm_item is Obstacle:
 				#water
 				if farm_item.get_id() == 1:
 					dirt_terrain.set_cells_terrain_connect(
@@ -172,19 +172,21 @@ func plant(plant_id:int=1):
 	
 	var tile_data: TileData = dirt_terrain.get_cell_tile_data(SOIL_LAYER, robot_tile_coords)
 
-	if tile_data:
-		var can_place_seed = tile_data.get_custom_data(CAN_PLACE_SEEDS)
+	if not tile_data:
+		return
+	
+	var can_place_seed = tile_data.get_custom_data(CAN_PLACE_SEEDS)
+	
+	if can_place_seed and farm_model.is_empty(robot_tile_coords):
+		robot.plant()
+		var plant_type:Plant = get_plant_type(plant_id)
 		
-		if can_place_seed and farm_model.is_empty(robot_tile_coords):
-			robot.plant()
-			var plant_type:Plant = get_plant_type(plant_id)
-			
-			dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
-			farm_model.add_farm_item(plant_type, robot_tile_coords)
-			plant_completed.emit(true)
-		else:
-			plant_completed.emit(false)	
-			print("Cannot place here")
+		dirt_terrain.set_cell(PLANT_LAYER, robot_tile_coords, plant_type.get_source_id(), atlas_coord)
+		farm_model.add_farm_item(plant_type, robot_tile_coords)
+		plant_completed.emit(true)
+	else:
+		plant_completed.emit(false)	
+		print("Cannot place here")
 
 func get_plant_type(plant_id:int):
 	match(plant_id):
@@ -241,6 +243,7 @@ func set_original_farm_model(farm_model: FarmModel):
 
 func remove_all_plants():
 	dirt_terrain.clear_layer(PLANT_LAYER)
+	#farm_model.remove_all_plants()
 
 func clear_farm():
 	dirt_terrain.clear()

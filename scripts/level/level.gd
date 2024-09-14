@@ -5,12 +5,14 @@ signal next_level_requested
 signal retry_requested
 signal exit_requested
 
+signal victory
+signal failure
+
 @export var window: CodeWindow
 @export var farm: FarmView
 @export var interpreter_client: InterpreterClient
 @export var level_completed: Node
 @export var ui_canvas_layer: CanvasLayer
-
 @export var tick_rate = 4
 
 @onready var score_label = $CanvasLayer/Score
@@ -23,13 +25,8 @@ var score = 0
 var count = 0
 var paused = false
 var farm_model:FarmModel
-var level_loader: LevelLoader
-var first_lvl
 
 var goal_state:Dictionary
-
-signal victory
-signal failure
 
 var width = 0
 var height = 0
@@ -39,7 +36,6 @@ var player_save: PlayerSave = PlayerSave.new()
 func initialize(level_data: LevelData):
 	id = level_data.id
 	player_save.load_progress()
-	set_player_save(player_save)
 	set_source_code(player_save.get_level_source(id))
 	window.show()
 	farm_model = level_data.get_farm_model()
@@ -55,9 +51,6 @@ func reset():
 	level_completed.hide()
 	farm.clear_farm()
 	farm.reset()
-
-func set_player_save(save: PlayerSave):
-	player_save = save
 
 func set_source_code(source: String):
 	window.set_source_code(source)
