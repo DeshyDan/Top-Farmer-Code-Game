@@ -18,21 +18,17 @@ level_hint = "Try using a [url=while]while loop[/url] to plant, wait and harvest
 You can count how many crops you have collected so far using a [url=var]variable[/url].
 
 "
-source_code = "var grapes:int
-grapes = 1
+source_code = "var count:int = 0
 
-plant(GRAPE)
-while move(RIGHT):
-	if grapes < 2:
+while true:
+	if count < 3:
 		plant(GRAPE)
-		grapes = grapes + 1
 	else:
 		plant(CORN)
-
-wait()
-while true:
+		
+	wait()
 	harvest()
-	move(LEFT)
+	count = count + 1
 "
 dev_score = 16
 dev_tick_count = 60
