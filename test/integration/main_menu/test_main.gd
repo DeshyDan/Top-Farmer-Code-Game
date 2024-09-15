@@ -36,4 +36,18 @@ func test_load_level_select_screen_from_main():
 	
 	## Optimistic approach -> There will always be a level. It a game after all...actaully don't know what I'm doing LOL
 	assert_true(main.level_select.level_buttons.get_child_count() == 10)
+
+func test_load_level_select_screen_from_levels():
+	main.main_menu._on_play_button_pressed()
 	
+	watch_signals(main.level_node)
+	for i in range(1, main.level_select.level_buttons.get_child_count()+1):
+
+		main._on_level_select_level_selected("Level "+ str(i))
+		main.level_node._on_back_button_pressed()
+		
+		await yield_to(main.level_node, "exit_requested", 1)
+		
+		assert_signal_emitted(main.level_node ,"exit_requested")
+		
+		
