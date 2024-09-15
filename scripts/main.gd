@@ -1,3 +1,4 @@
+class_name Main
 extends Control
 
 enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
@@ -54,9 +55,9 @@ func load_next_level():
 	load_level(id)
 
 func load_level(id):
-	levels_to_load = range(id + 1, 11)
+	#levels_to_load = range(id + 1, 11)
 
-	var level_data = level_loader.get_level_data_by_id(id)
+	var level_data = level_loader.get_level_data_by_name(id)
 	level_node.initialize(level_data)
 	enter_state(LEVEL_PLAY)
 
