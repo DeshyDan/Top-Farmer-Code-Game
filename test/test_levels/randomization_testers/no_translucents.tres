@@ -13,8 +13,8 @@ farm_string = "#rr#
 #ww#
 ####
 "
-max_random_rocks = 0
-max_random_rivers = 0
+max_random_rocks = 2
+max_random_rivers = 1
 level_hint = "No hint for this level... Good luck!"
 source_code = ""
 dev_score = 0
