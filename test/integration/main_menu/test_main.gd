@@ -6,10 +6,14 @@ extends GutTest
 const TEST_LEVELS_PATH = "res://test/test_levels/runthrough_testers/"
 var main:Node
 
-func before_all():
-	main = main_scene.instantiate() as Main
+func before_each():
+	main = main_scene.instantiate() 
 	add_child(main)
-
+	
+func after_each():
+	remove_child(main)
+	main.free()
+	
 func test_load_main_screen():
 	assert_true(main.main_menu.visible)
 	
@@ -30,7 +34,7 @@ func test_load_level_select_screen_from_levels():
 	main.main_menu._on_play_button_pressed()
 	
 	watch_signals(main.level_node)
-	for i in range(1, main.level_select.level_buttons.get_child_count()+1):
+	for i in range(1, main.level_select.level_buttons.get_child_count()):
 
 		main._on_level_select_level_selected(i)
 		main.level_node._on_back_button_pressed()
