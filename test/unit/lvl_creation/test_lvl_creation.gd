@@ -29,27 +29,3 @@ func test_valid_level():
 
 func test_invalid_level():
 	pass
-	#
-#func test_original_against_randomized():
-	#var result = level_loader.create(VALID_FARM)
-	#var result_compare = level_loader._randomize()
-	#
-	#assert_ne(result.grid_map,result_compare.grid_map, "Grid maps should not be the same")
-	#
-#func test_no_translucents_no_randomize():
-	#var result = level_loader.create(NO_TRANSLUCENTS)
-	#var result_compare = level_loader._randomize()
-	#
-	#assert_eq(result.grid_map,result_compare.grid_map, "Grid maps should be the same")
-#
-#func test_no_translucents_in_randomized():
-#
-	#var result = level_loader.create(VALID_FARM)
-	#result = level_loader._randomize()
-	#
-	#for j in range(result.height):
-		#for i in range(result.width):
-			#var item = result.get_item_at_coord(Vector2i(j,i))
-			#
-			#if item is Obstacle:
-				#assert_false(item.is_translucent(), "No translucent items should be in the farm model")
