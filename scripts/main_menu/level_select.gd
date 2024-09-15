@@ -8,7 +8,7 @@ func add_level(level):
 	var button = Button.new()
 	button.text = "Level " + str(level)
 	level_buttons.add_child(button)
-	button.pressed.connect(_on_level_selected.bind(level))
+	button.pressed.connect(_on_level_selected.bind(button.text))
 
 func reset():
 	for node in level_buttons.get_children():
