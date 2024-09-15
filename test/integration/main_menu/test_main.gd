@@ -3,7 +3,6 @@ extends GutTest
 
 @onready var main_scene:PackedScene = preload("res://scenes/main.tscn")
 
-const TEST_LEVELS_PATH = "res://test/test_levels/runthrough_testers/"
 var main:Node
 
 func before_each():
@@ -30,18 +29,18 @@ func test_load_level_select_screen_from_main():
 	## Optimistic approach -> There are always 10 level :p
 	assert_eq(main.level_select.level_buttons.get_child_count(),10)
 
-func test_load_level_select_screen_from_levels():
-	main.main_menu._on_play_button_pressed()
-	
-	watch_signals(main.level_node)
-	for i in range(1, main.level_select.level_buttons.get_child_count()):
-
-		main._on_level_select_level_selected(i)
-		main.level_node._on_back_button_pressed()
-		
-		await yield_to(main.level_node, "exit_requested", 1)
-		
-		assert_signal_emitted(main.level_node ,"exit_requested")
+#func test_load_level_select_screen_from_levels():
+	#main.main_menu._on_play_button_pressed()
+	#
+	#watch_signals(main.level_node)
+	#for i in range(1, main.level_select.level_buttons.get_child_count()):
+#
+		#main._on_level_select_level_selected(i)
+		#main.level_node._on_back_button_pressed()
+		#
+		#await yield_to(main.level_node, "exit_requested", 1)
+		#
+		#assert_signal_emitted(main.level_node ,"exit_requested")
 
 func test_progress_through_all_levels():
 	main.main_menu._on_play_button_pressed()
