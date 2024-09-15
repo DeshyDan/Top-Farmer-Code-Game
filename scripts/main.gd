@@ -55,9 +55,9 @@ func load_next_level():
 	load_level(id)
 
 func load_level(id):
-	#levels_to_load = range(id + 1, 11)
-
-	var level_data = level_loader.get_level_data_by_name(id)
+	levels_to_load = range(id + 1, 11)
+	var level_name = "Level "+ str(id)
+	var level_data = level_loader.get_level_data_by_name(level_name)
 	level_node.initialize(level_data)
 	enter_state(LEVEL_PLAY)
 
