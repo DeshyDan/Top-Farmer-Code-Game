@@ -8,14 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://cv0ij7py5kg50" path="res://scenes/camera/camera.tscn" id="5_o6pwp"]
 [ext_resource type="PackedScene" uid="uid://c51c32vmgquan" path="res://scenes/help_window/help_window.tscn" id="6_y3t0h"]
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed", "ui_canvas_layer")]
 script = ExtResource("1_bo5t6")
 window = NodePath("CanvasLayer/WindowUi")
 farm = NodePath("Farm")
 interpreter_client = NodePath("InterpreterClient")
 level_completed = NodePath("CanvasLayer/LevelCompleted")
+ui_canvas_layer = NodePath("CanvasLayer")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." groups=["level_ui_layers"]]
 layer = 128
 
 [node name="Score" type="Label" parent="CanvasLayer"]
@@ -62,6 +63,7 @@ position = Vector2(732, 305)
 [node name="InterpreterClient" type="Node" parent="."]
 script = ExtResource("3_1ed4d")
 
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="exec_speed_changed" from="CanvasLayer/WindowUi" to="." method="_on_window_ui_exec_speed_changed"]
 [connection signal="kill_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_kill_button_pressed"]
 [connection signal="pause_button_pressed" from="CanvasLayer/WindowUi" to="." method="_on_window_pause_button_pressed"]

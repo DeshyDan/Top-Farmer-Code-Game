@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://qls2gdf4cd8d"]
+
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_wiutt"]
+
+[resource]
+script = ExtResource("1_wiutt")
+id = 6
+name = "Level 6"
+corn_goal = 10
+grape_goal = 0
+goal_position = Vector2i(0, 0)
+farm_string = "###
+#w#
+#w#
+###
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "Water is a special tile that lets the farmer [url=move]move[/url] over it, but doesn't let the farmer [url=plant(]plant[/url] over it. Try using this for loop to avoid the water and save time:
+[code]
+for dir in [RIGHT, DOWN, LEFT, UP]:
+	while true:
+		#	You can check the value of move to see 
+		#	whether the farmer was successful or not
+
+		if move(dir):			
+			# Your code here
+
+		else:
+			# You can use break to exit loops at any time
+			break
+[/code]"
+source_code = "for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		plant(CORN)
+		if not move(dir):
+			break
+
+for dir in [RIGHT,DOWN,LEFT,UP]:
+	while true:
+		harvest()
+		if not move(dir):
+			break
+"
+dev_score = 14
+dev_tick_count = 68

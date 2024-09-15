@@ -31,6 +31,15 @@ func _ready():
 func get_source_code() -> String:
 	return code_edit.text
 
+func set_source_code(source: String):
+	code_edit.cancel_code_completion()
+	code_edit.clear()
+	code_edit.set_caret_line(0)
+	code_edit.set_caret_column(0)
+	code_edit.text = source
+	code_edit.clear_undo_history()
+	reset_console()
+
 func print_to_console(to_print: Variant):
 	console.print_to_player_console([to_print])
 

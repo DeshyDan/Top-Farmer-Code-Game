@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://8laq6ao2hxsw"]
+
+[ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_acqwv"]
+
+[resource]
+script = ExtResource("1_acqwv")
+id = -1
+name = "valid_level"
+corn_goal = 0
+grape_goal = 0
+goal_position = Vector2i(0, 0)
+farm_string = "#rs#
+#wl#
+####
+"
+max_random_rocks = 0
+max_random_rivers = 0
+level_hint = "No hint for this level... Good luck!"
+source_code = ""
+dev_score = 0
+dev_tick_count = 0
