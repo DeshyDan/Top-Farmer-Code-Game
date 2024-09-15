@@ -8,18 +8,18 @@
 [ext_resource type="PackedScene" uid="uid://cv0ij7py5kg50" path="res://scenes/camera/camera.tscn" id="5_o6pwp"]
 [ext_resource type="PackedScene" uid="uid://c51c32vmgquan" path="res://scenes/help_window/help_window.tscn" id="6_y3t0h"]
 
-[node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed", "ui_canvas_layer")]
+[node name="Level" type="Node2D" node_paths=PackedStringArray("window", "farm", "interpreter_client", "level_completed")]
 script = ExtResource("1_bo5t6")
 window = NodePath("CanvasLayer/WindowUi")
 farm = NodePath("Farm")
 interpreter_client = NodePath("InterpreterClient")
 level_completed = NodePath("CanvasLayer/LevelCompleted")
-ui_canvas_layer = NodePath("CanvasLayer")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." groups=["level_ui_layers"]]
 layer = 128
 
 [node name="Score" type="Label" parent="CanvasLayer"]
+texture_filter = 4
 offset_left = 848.0
 offset_top = 21.0
 offset_right = 947.0
@@ -29,10 +29,10 @@ text = "Score: 0"
 uppercase = true
 
 [node name="HelpWindow" parent="CanvasLayer" instance=ExtResource("6_y3t0h")]
+texture_filter = 4
 size_flags_horizontal = 8
 
 [node name="WindowUi" parent="CanvasLayer" instance=ExtResource("3_8s5ws")]
-anchors_preset = -1
 anchor_left = 0.007
 anchor_top = 0.006
 anchor_right = 0.411
@@ -46,6 +46,7 @@ offset_bottom = -0.160034
 visible = false
 
 [node name="BackButton" type="Button" parent="CanvasLayer"]
+texture_filter = 4
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
