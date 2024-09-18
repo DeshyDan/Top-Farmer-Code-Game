@@ -1,3 +1,4 @@
+class_name Main
 extends Control
 
 enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
@@ -12,6 +13,7 @@ var player_save: PlayerSave
 var levels_to_load = range(1, 11)
 
 func _ready():
+	menu_cam.make_current()
 	load_save()
 	enter_state(MAIN_SCREEN)
 
