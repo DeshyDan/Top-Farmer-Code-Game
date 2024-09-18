@@ -11,6 +11,7 @@ const HELP_PAGE_DIR = "res://resources/help_pages/"
 func _ready():
 	var help_pages = load_help_pages(HELP_PAGE_DIR)
 	help_contents.update_tree(help_pages)
+	MessageBus.hint_clicked.connect(_on_keyword_clicked)
 
 func load_help_pages(dirname: String) -> Array[HelpItem]:
 	var result: Array[HelpItem] = []

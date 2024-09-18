@@ -46,6 +46,7 @@ layout_mode = 2
 texture_filter = 2
 layout_mode = 2
 size_flags_vertical = 3
+mouse_force_pass_scroll_events = false
 text = "for cycle in [0,1]:
 	for dir in [RIGHT, DOWN, LEFT, UP]:
 		if cycle == 0:

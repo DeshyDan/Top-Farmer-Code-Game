@@ -54,7 +54,7 @@ func get_farm_model() -> FarmModel:
 			var item: FarmItem
 			match farm_char:
 				"#":
-					continue
+					item = FarmItem.EMPTY()
 				"r":
 					item = Obstacle.ROCK()
 					

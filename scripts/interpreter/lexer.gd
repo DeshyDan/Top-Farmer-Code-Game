@@ -48,7 +48,7 @@ func _init(text: String):
 	self.text = text
 	pos = 0
 	if text == "":
-		current_char == null
+		current_char = null
 	else:
 		current_char = self.text[pos]
 	lexer_error = LexerError.new(LexerError.ErrorCode.OK, null, "OK")

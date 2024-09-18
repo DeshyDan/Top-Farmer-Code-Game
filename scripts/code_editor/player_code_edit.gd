@@ -8,7 +8,6 @@ extends CodeEdit
 @export var executing_highlight_length: float = 1
 
 var _background_color: Color
-var _tweening_lines = []
 var _error_line = -1
 
 # Called when the node enters the scene tree for the first time.

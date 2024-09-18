@@ -113,6 +113,6 @@ func test_reset():
 	assert_eq(level.farm.get_harvestables(), {})
 
 	for i in level.farm.farm_model.get_data():
-		assert_true((i is Obstacle) or (i == null))
+		assert_true((i is Obstacle) or (i.is_empty()))
 
 	
