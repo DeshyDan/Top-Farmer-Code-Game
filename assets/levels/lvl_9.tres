@@ -13,8 +13,7 @@ farm_string = "#####
 #lll#
 #lll#
 #lll#
-#####
-"
+#####"
 max_random_rocks = 0
 max_random_rivers = 1
 level_hint = "Transparent obstacles are randomised when you press go! In this level, you can use the value of [url=plant(]plant[/url] and [url=harvest]harvest[/url] to check whether the farmer was successful or not.

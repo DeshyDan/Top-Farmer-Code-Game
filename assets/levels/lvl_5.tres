@@ -10,8 +10,7 @@ corn_goal = 4
 grape_goal = 0
 goal_position = Vector2i(0, 0)
 farm_string = "##
-##
-"
+##"
 max_random_rocks = 0
 max_random_rivers = 0
 level_hint = "Try using a [url=for]for loop[/url] to [url=move]move[/url] the farmer:
