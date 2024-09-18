@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnpw6ixt31sap"]
+
+[ext_resource type="PackedScene" uid="uid://dnl3yqk1ltmrs" path="res://scenes/main.tscn" id="1_m1w13"]
+[ext_resource type="Script" path="res://test/perf/perf_test.gd" id="2_gquys"]
+
+[node name="Main" instance=ExtResource("1_m1w13")]
+script = ExtResource("2_gquys")

@@ -3,7 +3,9 @@ extends GutTest
 const MAIN = preload("res://scenes/main.tscn")
 const TEST_SAVE_PATH = "user://code_game/test_save.save"
 var main: Main
-signal never
+
+var fps_data = []
+var frame_time_data = []
 
 func before_all():
 	LevelLoader.level_dir = "res://assets/levels/"
@@ -12,6 +14,10 @@ func before_all():
 	add_child(main)
 	if not main.is_node_ready():
 		await main.ready
+
+func _process(delta):
+	fps_data.push_back(Performance.get_monitor(Performance.TIME_FPS))
+	frame_time_data.push_back(Performance.get_monitor(Performance.TIME_PROCESS))
 
 func test_full_runthrough():
 	assert_true(main.main_menu.visible)
@@ -46,3 +52,12 @@ func run_level(id, level_data):
 	main.level_node._on_window_run_button_pressed()
 	await wait_for_signal(level.victory, 30, "Level %d took too long to succeed with dev solution" % id)
 	main.level_node._on_level_completed_next_level()
+
+func after_all():
+	remove_child(main)
+	var file_access = FileAccess.open("res://test/test_data.csv", FileAccess.WRITE)
+	if not file_access:
+		push_error("unable to store perf test data")
+		return
+	for i in min(len(frame_time_data), len(fps_data)):
+		file_access.store_csv_line([i,fps_data[i], frame_time_data[i]])
