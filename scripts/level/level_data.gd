@@ -60,12 +60,18 @@ func get_farm_model() -> FarmModel:
 					
 				"w":
 					item = Obstacle.WATER()
+					
 				"s":
 					item = Obstacle.ROCK()
 					item.set_translucent(true)
 				"l":
 					item = Obstacle.WATER()
 					item.set_translucent(true)
+			
+			if item is Obstacle and item.id == Obstacle.WATER().id:
+				if x == 0 or y == 0 or x == width-1 or y == height-1:
+					continue	# no water tiles on the edge because the tileset doesn't support it
+			
 			result.add_farm_item(item, coords)
 	
 	if goal_position != Vector2i.ZERO:

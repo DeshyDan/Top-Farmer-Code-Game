@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelResource" load_steps=2 format=3 uid="uid://be3yg2euwsixe"]
+[gd_resource type="Resource" script_class="LevelData" load_steps=2 format=3 uid="uid://be3yg2euwsixe"]
 
 [ext_resource type="Script" path="res://scripts/level/level_data.gd" id="1_qy1jl"]
 
@@ -9,8 +9,7 @@ name = "Level 2"
 corn_goal = 1
 grape_goal = 0
 goal_position = Vector2i(0, 0)
-farm_string = "#
-"
+farm_string = "#"
 max_random_rocks = 0
 max_random_rivers = 0
 level_hint = "Try using the [url=plant(]plant[/url], [url=wait]wait[/url], and  [url=harvest]harvest[/url] functions to reach the goal!
