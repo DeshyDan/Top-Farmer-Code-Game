@@ -32,7 +32,7 @@ func _ready():
 
 func initialize(level_data: LevelData, source_code: String):
 	hint_popup.set_hint_text(level_data.level_hint)
-	hint_popup.toggle_popup(false)
+	hint_popup.toggle_popup(true)
 	set_source_code(source_code)
 
 func get_source_code() -> String:
