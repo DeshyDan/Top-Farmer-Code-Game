@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://rm6g3ocu6b43"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_d6yhk"]
+
+[resource]
+script = ExtResource("1_d6yhk")
+category = "Game elements"
+title = "Inventory "
+content = "The inventory component on the top right shows the amount of crops you have harvested over the harvest goal.
+"
