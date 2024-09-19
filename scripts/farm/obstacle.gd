@@ -1,5 +1,6 @@
 class_name Obstacle
 extends FarmItem
+# This class represents a farm item that hinders a Robot from moving
 
 var translucent:bool
 

@@ -1,5 +1,7 @@
 class_name Main
 extends Control
+# Class acts as a coordinator for navigation between screens.
+# It also ensures that users are routed to the correct levels
 
 enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
 

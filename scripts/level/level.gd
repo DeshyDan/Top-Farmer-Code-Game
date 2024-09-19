@@ -1,5 +1,8 @@
 class_name Level
 extends Node2D
+# Class acts as a coordinator between the modules
+# It provides the functionality of accepting requests from CodeWindow and InterpreterClient and
+# providing the necessary responses
 
 signal next_level_requested
 signal retry_requested
