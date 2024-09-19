@@ -42,7 +42,7 @@ Follow the steps below in order to run the game
 
 - Navigate to `Project` > `Export` as shows in the picture below
   ![Play Button](docs/export_nav.png)
-- Add MacOs Runner
+
 - Set the bundle identifier to `com.codegi` as shown in the picture below
   ![Play Button](docs/macos_bundle_id.png)
 - Click Export
@@ -53,6 +53,7 @@ Follow the steps below in order to run the game
 
 - Navigate to `Project` > `Export` as shown in picture the below
   ![Play Button](docs/export_nav_windows.png)
+  
 - Click Export
 
 ## Viewing the source code:
