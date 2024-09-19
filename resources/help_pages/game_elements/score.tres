@@ -6,6 +6,6 @@
 script = ExtResource("1_irmhy")
 category = "Game elements"
 title = "Score"
-content = "The score measures how good you solution is.  The higher the score, the better the solution
+content = "The score measures how good your solution is.  The higher the score, the better the solution
 
-Note: Your score is affected by the number of instruction your code does. "
+Note: Your score is affected by the number of instruction your code runs. "

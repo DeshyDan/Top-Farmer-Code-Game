@@ -10,4 +10,4 @@ content = "You can use [code]harvest()[/code] to harvest the tile directly under
 
 Note: using [code]harvest()[/code] on a plant that hasn't finished growing yet removes your plant but doesn't collect any resources!
 
-This function return true when a plant is successfully harvested otherwise false"
+This function returns true when a plant is successfully harvested otherwise false"

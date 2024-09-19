@@ -6,7 +6,7 @@
 script = ExtResource("1_av1fo")
 category = "Game Controls"
 title = "Code Editor Controls"
-content = "Press GO button to execute the code in the edior
+content = "Press GO button to execute the code in the editor
 
 Press PAUSE button to pause the game. Use GO to continue.
 
