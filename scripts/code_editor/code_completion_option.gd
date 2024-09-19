@@ -1,5 +1,6 @@
 class_name CodeCompletionOption
 extends RefCounted
+# Class handles logic for code completion
 
 var kind: CodeEdit.CodeCompletionKind
 var display: String

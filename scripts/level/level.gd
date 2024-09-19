@@ -67,8 +67,8 @@ func check_victory():
 		window.hide()
 
 func is_goal_state():
-	if farm_model.goal_pos:
-		return farm_model.goal_pos == farm.robot_tile_coords
+	if farm_model.get_goal_pos():
+		return farm_model.get_goal_pos() == farm.robot_tile_coords
 	for key in goal_state:
 		if goal_state[key] != 0:
 			if not farm.harvestables.has(key) or farm.harvestables[key] < goal_state[key]:

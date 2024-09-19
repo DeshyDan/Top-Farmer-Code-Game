@@ -15,14 +15,14 @@ func test_original_against_randomized():
 	var original_farm_model = result.get_farm_model()
 	var randomized_farm_model = original_farm_model.randomized()
 	
-	assert_ne(original_farm_model.grid_map,randomized_farm_model.grid_map, "Grid maps should not be the same")
+	assert_ne(original_farm_model.get_data(),randomized_farm_model.get_data(), "Grid maps should not be the same")
 	
 func test_no_translucents_no_randomize():
 	var result = level_loader.get_level_data_by_name(NO_TRANSLUCENTS)
 	var original_farm_model = result.get_farm_model()
 	var randomized_farm_model = original_farm_model.randomized()
 	
-	assert_eq(original_farm_model.grid_map,randomized_farm_model.grid_map, "Grid maps should be the same")
+	assert_eq(original_farm_model.get_data(),randomized_farm_model.get_data(), "Grid maps should be the same")
 #
 func test_no_translucents_in_randomized():
 
@@ -30,8 +30,8 @@ func test_no_translucents_in_randomized():
 	var original_farm_model = result.get_farm_model()
 	var randomized_farm_model = original_farm_model.randomized()
 	
-	for i in range(randomized_farm_model.width):
-		for j in range(randomized_farm_model.height):
+	for i in range(randomized_farm_model.get_width()):
+		for j in range(randomized_farm_model.get_height()):
 			var item = randomized_farm_model.get_item_at_coord(Vector2i(i,j))
 			if item is Obstacle:
 				print(item.is_translucent())

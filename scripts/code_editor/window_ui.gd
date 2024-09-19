@@ -1,5 +1,6 @@
 class_name CodeWindow
 extends Control
+# Class acts as a coordinator between the modules related to the code editor
 
 var dragging = false
 var mouse_in = false

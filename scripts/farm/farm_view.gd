@@ -37,8 +37,8 @@ func plot_farm(farm_model:FarmModel):
 	
 	farm_tilemap.fill_with_dirt(width, height)
 	
-	for x in farm_model.width:
-		for y in farm_model.height:
+	for x in farm_model.get_width():
+		for y in farm_model.get_height():
 			var coords = Vector2i(x,y)
 			var farm_item = farm_model.get_item_at_coord(coords)
 			if farm_item is Obstacle:
@@ -66,8 +66,8 @@ func tick():
 	redraw_farm()
 
 func redraw_farm():
-	for x in farm_model.width:
-		for y in farm_model.height:
+	for x in farm_model.get_width():
+		for y in farm_model.get_height():
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
 			if (farm_item is Plant):
 				farm_tilemap.set_plant(Vector2i(x,y), farm_item)
@@ -149,7 +149,7 @@ func move(dir):
 		return
 	robot_tile_coords = robot.move(vec)
 	move_completed.emit(true)
-	if vec == farm_model.goal_pos:
+	if vec == farm_model.get_goal_pos():
 		goal_pos_met.emit()
 
 func _is_out_of_bounds(coords: Vector2i):

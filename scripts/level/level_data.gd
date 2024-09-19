@@ -78,10 +78,10 @@ func get_farm_model() -> FarmModel:
 			result.add_farm_item(item, coords)
 	
 	if goal_position != Vector2i.ZERO:
-		result.goal_pos = goal_position
+		result.set_goal_pos(goal_position) 
 		result.add_farm_item(Goal.GOAL(), goal_position)
 	
-	result.max_random_rivers = max_random_rivers
-	result.max_random_rocks = max_random_rocks
+	result.set_max_random_rivers(max_random_rivers)
+	result.set_max_random_rocks(max_random_rocks)
 	
 	return result
