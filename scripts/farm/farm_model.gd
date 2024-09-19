@@ -43,7 +43,7 @@ func is_obstacle(coord):
 
 func is_water(coord):
 	var farm_item = grid_map[get_index(coord)] 
-	return farm_item is Obstacle and farm_item.id == 1
+	return farm_item is Obstacle and farm_item.get_id() == 1
 
 func set_harvestable(coord:Vector2i):
 	if grid_map[get_index(coord)] is Plant:
@@ -65,14 +65,14 @@ func randomized() -> FarmModel:
 	var result = FarmModel.new(width,height)
 	var rock_candidates = []
 	var river_candidates = []
-	var rock_id = Obstacle.ROCK().id
+	var rock_id = Obstacle.ROCK().get_id()
 	
 	for x in width:
 		for y in height:
 			var coords = Vector2i(x,y)
 			var item = get_item_at_coord(coords)
 			if is_obstacle(coords) and item.is_translucent():
-				if item.id == rock_id:
+				if item.get_id() == rock_id:
 					rock_candidates.append(coords)
 				elif is_water(coords) and not coords.y in river_candidates:
 					river_candidates.append(coords.y)

@@ -11,7 +11,7 @@ const SOIL_TERRAIN = 0
 const WATER_TERRAIN = 1
 const TRANSLUCENT_LAYER = 3
 
-func fill_with_dirt(width:int, height:int):
+func fill_with_dirt(width: int, height: int):
 	var path = make_rect_path(width, height)
 	
 	set_cells_terrain_connect(SOIL_LAYER, path, 0, SOIL_TERRAIN)
@@ -48,7 +48,7 @@ func set_water_tile(coords: Vector2i, farm_item: FarmItem):
 						TRANSLUCENT_LAYER,
 						[coords],
 						0,
-						WATER_TERRAIN, 
+						WATER_TERRAIN,
 						false
 					)
 	var layer = TRANSLUCENT_LAYER if farm_item.is_translucent() else SOIL_LAYER
@@ -56,7 +56,7 @@ func set_water_tile(coords: Vector2i, farm_item: FarmItem):
 						layer,
 						[coords],
 						0,
-						WATER_TERRAIN, 
+						WATER_TERRAIN,
 						false
 					)
 

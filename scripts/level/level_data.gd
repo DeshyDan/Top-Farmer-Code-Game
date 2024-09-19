@@ -71,7 +71,7 @@ func get_farm_model() -> FarmModel:
 					item = Obstacle.WATER()
 					item.set_translucent(true)
 			
-			if item is Obstacle and item.id == Obstacle.WATER().id:
+			if item is Obstacle and item.get_id() == Obstacle.WATER().get_id():
 				if x == 0 or y == 0 or x == width-1 or y == height-1:
 					continue	# no water tiles on the edge because the tileset doesn't support it
 			

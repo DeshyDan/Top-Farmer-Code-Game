@@ -71,7 +71,7 @@ func redraw_farm():
 			var farm_item = farm_model.get_item_at_coord(Vector2i(x,y))
 			if (farm_item is Plant):
 				farm_tilemap.set_plant(Vector2i(x,y), farm_item)
-				
+
 func wait():
 	robot.wait()
 
@@ -84,7 +84,7 @@ func harvest():
 		farm_tilemap.erase_plant(robot_tile_coords)
 		
 		if farm_model.is_harvestable(robot_coords):
-			store(robot_coords)
+			_store(robot_coords)
 			did_harvest = true
 		farm_model.remove(robot_coords)
 	harvest_completed.emit(did_harvest)
@@ -92,7 +92,7 @@ func harvest():
 func set_goal_state(goal_state):
 	inventory.set_goal_state(goal_state)
 
-func store(plant_coord:Vector2i):
+func _store(plant_coord:Vector2i):
 	var harvested_plant:Plant = farm_model.get_item_at_coord(plant_coord)
 	var plant_id = harvested_plant.get_id()
 
@@ -144,7 +144,7 @@ func move(dir):
 		Const.Direction.WEST:
 			vec = Vector2i.LEFT
 	var next_move = robot_tile_coords + vec
-	if (is_out_of_bounds(next_move)) or (farm_model.is_obstacle(next_move) and !farm_model.is_water(next_move)):
+	if (_is_out_of_bounds(next_move)) or (farm_model.is_obstacle(next_move) and !farm_model.is_water(next_move)):
 		move_completed.emit(false)
 		return
 	robot_tile_coords = robot.move(vec)
@@ -152,7 +152,7 @@ func move(dir):
 	if vec == farm_model.goal_pos:
 		goal_pos_met.emit()
 
-func is_out_of_bounds(coords: Vector2i):
+func _is_out_of_bounds(coords: Vector2i):
 	return coords.x >= farm_model.get_width() or coords.x < 0 or coords.y >= farm_model.get_height() or coords.y < 0	
 
 func get_tile_position(coords: Vector2i):
