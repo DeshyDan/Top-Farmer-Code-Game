@@ -1,6 +1,8 @@
 class_name ReturnStatement
 extends AST
 
+# AST node representing a return statement
+
 var token: Token
 var right: AST
 

@@ -1,13 +1,18 @@
 class_name Parser
 extends RefCounted
 
+# Recursive descent parser that processes the tokens
+# returned by a lexer into an AST.
+# Each function represents a single grammar rule.
+# Calling parse() will generate the AST from the 
+# Lexer instance passed to the constructor.
+
 var lexer: Lexer
 var current_token: Token
 
 var parser_error: GError
 var error_pos = 0
 
-# TODO: cleanup!!!
 
 func _init(lexer: Lexer):
 	self.lexer = lexer

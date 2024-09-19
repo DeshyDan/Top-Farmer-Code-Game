@@ -1,6 +1,9 @@
 class_name UnaryOp
 extends AST
 
+# AST node representing an unary operation
+# e.g: -1
+
 var op: Token
 var right: AST
 

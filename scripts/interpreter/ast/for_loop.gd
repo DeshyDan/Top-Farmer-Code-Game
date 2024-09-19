@@ -1,6 +1,8 @@
 class_name ForLoop
 extends AST
 
+# AST node representing a for loop
+
 var identifier
 var iterable
 var block

@@ -1,6 +1,9 @@
 class_name BinaryOP
 extends AST
 
+# AST node representing a binary operation
+# e.g. a + 1
+
 var left: AST
 var op: Token
 var token: Token

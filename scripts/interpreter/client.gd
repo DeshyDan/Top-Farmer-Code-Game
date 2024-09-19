@@ -1,6 +1,11 @@
 class_name InterpreterClient
 extends Node
 
+# This class encapsulates the interpreter and its dependencies
+# into a single node that exposes functionality to other in
+# game objects. If you want to start an interpreter,
+# you call load_source() followed by start(). 
+
 signal finished
 signal tracepoint_reached(node: AST, call_stack: CallStack)
 signal error(err: GError)

@@ -1,6 +1,10 @@
 class_name CallStack
 extends RefCounted
 
+# Class that encapsulates an array of ActivationRecords
+# into a stack like object. Pushing or popping from the
+# stack represents entering a new block during execution.
+
 var _items: Array[ActivationRecord]
 
 func set_error(runtime_error: RuntimeError):
