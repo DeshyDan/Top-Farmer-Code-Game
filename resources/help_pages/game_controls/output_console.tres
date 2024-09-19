@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://ej5xgrpcn4xu"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_q0ix7"]
+
+[resource]
+script = ExtResource("1_q0ix7")
+category = "Game elements"
+title = "Output Console"
+content = "The output console displays runtime errors and  return values of functions 
+
+Note: Use print() to display the value returned by a function"
