@@ -3,3 +3,6 @@
 export
 *.tmp
 .DS_STORE
+*.csv
+*.csv.import
+*.translation
