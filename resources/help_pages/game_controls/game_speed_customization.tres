@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://53f0fqsba4ay"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_ufch5"]
+
+[resource]
+script = ExtResource("1_ufch5")
+category = "Game Controls"
+title = "Game Speed"
+content = "Use the slide picker on top of the editor to set the game speed"

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://cx5y5frpgkf1q"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_464sl"]
+
+[resource]
+script = ExtResource("1_464sl")
+category = "Loops"
+title = "For Loops"
+content = "You can make a loop using the [code]for[/code] keyword followed by a block of code. The lines inside a [code]for[/code] loop will be run over and over until the expression after the [code]for[/code] keyword fails:
+[code]
+for i in [1, 2, 3]:
+	print(i)
+[/code]
+This should iterate over the array and print the values in it. When it is done, the loop will exit.
+This should print:
+[code]1
+2
+3
+[/code]"

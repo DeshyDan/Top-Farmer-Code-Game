@@ -6,7 +6,7 @@
 script = ExtResource("1_trap5")
 category = "Functions"
 title = "plant(crop:int)"
-content = "You can use [code]plant[/code] to plant a specified crop directly underneath the farmer. You can use a [url=Plants]builtin plant[/url] to easily specify which type of crop to plant:
+content = "You can use [code]plant[/code] to plant a specified crop directly underneath the farmer. You can use a [url=Plants]builtin plant[/url] to easily specify which type of crop to plant. The function returns true when a plant is planted on a vacant plot of land otherwise false:
 [code]
 plant(CORN)
 [/code]

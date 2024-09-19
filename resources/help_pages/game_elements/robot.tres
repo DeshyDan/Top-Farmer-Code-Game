@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://betndy2rjaghx"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_st4mx"]
+
+[resource]
+script = ExtResource("1_st4mx")
+category = "Game elements"
+title = "Farmer"
+content = "The [url=move]move()[/url] function moves the farmer. 
+
+The farmer can move over water and plants but not over rocks or go out of bounds."

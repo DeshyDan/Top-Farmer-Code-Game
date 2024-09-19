@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://bjellphmgjfco"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_1o314"]
+
+[resource]
+script = ExtResource("1_1o314")
+category = "Tips and tricks"
+title = "Hints"
+content = "Use the hint toggle to turn hints on and off"
