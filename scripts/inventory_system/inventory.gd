@@ -1,4 +1,7 @@
 extends Control
+# This class contains the logic for creating a visual representaion of the amount
+# of harvestable Plants collected during gameplay.
+# It also shows the harvest goal for the level during gameplay
 
 @export var corn_quantity: Label
 @export var corn_goal: Label

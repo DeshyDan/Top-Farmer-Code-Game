@@ -1,5 +1,7 @@
 class_name Robot
 extends Node2D
+# Class represents a robot used to perfom farming actions in the farm.
+# It also handles the logic related to movement and animations
 
 const _STEP_MAX = 99999999
 

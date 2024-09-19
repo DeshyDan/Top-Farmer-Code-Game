@@ -1,4 +1,6 @@
 extends Camera2D
+# This class is used to oonlyshow the area covered by the camera in the viewport.
+# It provides functionality like zooming and panning into an in the game  
 
 const MIN_ZOOM: float = 0.1
 const MAX_ZOOM: float = 12.0

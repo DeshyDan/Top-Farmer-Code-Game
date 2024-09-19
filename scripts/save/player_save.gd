@@ -1,5 +1,6 @@
 class_name PlayerSave
 extends Resource
+# Class handles saving and loading game state
 
 const DEFAULT_LEVEL = 1.0
 
