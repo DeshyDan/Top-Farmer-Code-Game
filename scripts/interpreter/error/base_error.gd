@@ -1,6 +1,11 @@
 class_name GError
 extends RefCounted
 
+# Base error class from which all Error
+# types inherit from. Has to be named GError
+# since Error is already taken by an engine 
+# enum.
+
 enum ErrorCode {
 	OK = 0,
 	# lexer errors

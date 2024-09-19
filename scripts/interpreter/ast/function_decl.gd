@@ -1,6 +1,8 @@
 class_name FunctionDecl
 extends AST
 
+# AST node representing a function declaration
+
 var name: Var
 var args: Array[VarDecl]
 var block: Block

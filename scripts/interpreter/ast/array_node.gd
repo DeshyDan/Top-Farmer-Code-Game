@@ -1,6 +1,9 @@
 class_name ArrayNode
 extends AST
 
+# AST node representing an array literal. 
+# e.g. [0, 1+1, my_var]
+
 var items = []
 
 func node_string(indent: int):

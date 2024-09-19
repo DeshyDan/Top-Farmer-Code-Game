@@ -1,6 +1,10 @@
 class_name AttributeAccess
 extends AST
 
+# Class representing attribute access
+# e.g. instance.function()
+# Currently unused
+
 var parent: AST
 var member: AST
 var token: Token

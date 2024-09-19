@@ -1,6 +1,11 @@
 class_name Lexer
 extends RefCounted
 
+# Lexical analyzer (also known as scanner or tokenizer).
+# Pass a source code string into the constructor and call
+# get_next_token() to get the next token object in the 
+# source code.
+
 var pos: int
 var text: String
 var current_char: Variant
@@ -8,7 +13,12 @@ var current_char: Variant
 var lexer_error: LexerError
 var error_pos = 0
 
+# Indentation stack is used
+# to push/pop indentation levels.
 var indent_stack = []
+
+# Number of indents we have to
+# return before finding the next token
 var pending_indents = 0
 
 var keywords = {
@@ -148,7 +158,7 @@ func skip_whitespace():
 				return
 
 func number():
-	#"""Return a (multidigit) integer consumed from the input."""
+	# Return a (multidigit) integer consumed from the input.
 	var result = ''
 	var token: Token
 	while current_char != null and current_char.is_valid_int():
@@ -188,7 +198,6 @@ func name() -> Token:
 	return make_token(Token.Type.IDENT, result)
 
 func check_indent():
-	#print("indenting")
 	
 	var current_indent_char = current_char #tabs or spaces?
 	if is_at_end(): # add missing dedents at end of file
@@ -266,13 +275,7 @@ func check_indent():
 			if (indent_level() > 0 and indent_stack.back() != indent_count) or (indent_level() == 0 and indent_count != 0):
 				# Mismatched indentation alignment.
 				error("Unindent doesn't match the previous indentation level.")
-				#Token error = make_error("Unindent doesn't match the previous indentation level.");
-				#error.start_line = line;
-				#error.start_column = 1;
-				#error.leftmost_column = 1;
-				#error.end_column = column + 1;
-				#error.rightmost_column = column + 1;
-				#push_error(error);
+				
 				# Still, we'll be lenient and keep going, so keep this level in the stack.
 				indent_stack.push_back(indent_count)
 		break
@@ -298,11 +301,7 @@ func make_token(token_type: Token.Type,
 	return Token.new(token_type, value, lineno, colno, length)
 
 func get_next_token():
-	#"""Lexical analyzer (also known as scanner or tokenizer)
-#
-	#This method is responsible for breaking a sentence
-	#apart into tokens.
-	#"""
+	
 	skip_whitespace()
 	
 	if pending_newline:

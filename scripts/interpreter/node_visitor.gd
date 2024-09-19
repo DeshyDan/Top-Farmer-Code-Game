@@ -1,6 +1,8 @@
 class_name NodeVisitor
 extends RefCounted
 
+# Base visitor class for traversing the AST
+
 func visit(ast_node: AST):
 	# a = 2
 	if ast_node is Program:

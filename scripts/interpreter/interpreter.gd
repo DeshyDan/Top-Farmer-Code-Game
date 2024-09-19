@@ -1,6 +1,12 @@
 class_name Interpreter
 extends NodeVisitor
 
+# Class that represents a "tree-walk" interpreter.
+# start() will traverse and execute the
+# AST passed into the constructor until it encounters
+# a tracepoint, which yields execution. To continue
+# execution, call tick().
+
 signal builtin_func_call(func_name, args)
 
 var error_pos = 0

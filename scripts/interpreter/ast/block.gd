@@ -1,6 +1,8 @@
 class_name Block
 extends AST
 
+# AST node representing a list of sequential statements
+
 var children = []
 
 func node_string(indent: int):

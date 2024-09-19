@@ -1,6 +1,10 @@
 class_name SemanticAnalyzer
 extends NodeVisitor
 
+# Visitor class that traverses the AST, ensuring that
+# symbols are declared before being used, and that symbols
+# are not accessed outside of their scope.
+
 var current_scope: SymbolTable
 var semantic_error: SemanticError
 

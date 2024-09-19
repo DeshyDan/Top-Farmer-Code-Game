@@ -1,6 +1,8 @@
 class_name Program
 extends AST
 
+# AST node representing a program
+
 var block: Block
 
 func _init(block: Block):
