@@ -5,7 +5,7 @@ extends GutTest
 var level: Node
 var farm_view:FarmView
 
-const TICK_RATE = 30
+const TICK_RATE = 1000
 
 const HARVEST_LEVEL = "res://test/test_levels/farm_view_testers/test_harvesting.txt"
 const MOVE_LEVEL = "res://test/test_levels/farm_view_testers/test_robot_movement.txt"
@@ -112,7 +112,7 @@ func test_reset():
 	
 	assert_eq(level.farm.get_harvestables(), {})
 
-	for i in level.farm.farm_model.get_data():
+	for i in level.farm.get_farm_model().get_data():
 		assert_true((i is Obstacle) or (i.is_empty()))
 
 	

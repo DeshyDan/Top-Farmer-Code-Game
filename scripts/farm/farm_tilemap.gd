@@ -30,7 +30,7 @@ func get_soil_data(coords: Vector2i):
 	return get_cell_tile_data(SOIL_LAYER, coords)
 
 func set_plant(coords: Vector2i, farm_item: FarmItem):
-	var atlas_x = min(farm_item.age, 3)
+	var atlas_x = min(farm_item.get_age(), 3)
 	set_cell(PLANT_LAYER, coords, farm_item.get_source_id(), Vector2i(atlas_x, 0))
 
 func erase_plant(coords: Vector2i):
