@@ -1,5 +1,6 @@
 extends Node
 class_name LevelLoader
+# Class handles the logic for loading a level from a data source.
 
 var lvl_array:Array
 var lvl_array_items:Array

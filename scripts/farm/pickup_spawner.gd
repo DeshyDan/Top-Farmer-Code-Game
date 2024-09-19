@@ -1,4 +1,6 @@
 extends Node2D
+# class contains the logic for spawning the pickup animation of a Plant at
+# a specified position
 
 @onready var pickup_scene = preload("res://scenes/inventory_system/pickups/pickup.tscn")
 var pickup_tween: Tween 

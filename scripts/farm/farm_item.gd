@@ -1,5 +1,7 @@
 class_name FarmItem
 extends RefCounted
+# Class provides the blueprint for creating elements that will be placed in
+# a FarmModel. 
 
 var texture_source_id:int
 var id: int

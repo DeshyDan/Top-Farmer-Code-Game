@@ -1,5 +1,6 @@
 class_name HelpContents
 extends Tree
+# Class Creates a tree data structure for storing and managing help items
 
 var categories = {}
 signal help_contents_item_selected(help_item: HelpItem)

@@ -1,6 +1,6 @@
 class_name HelpItem
-
 extends Resource
+# Class contains help categories used in the help window
 
 @export_enum(
 	"Basic syntax",

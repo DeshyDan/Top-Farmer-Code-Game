@@ -1,4 +1,5 @@
 extends ColorRect
+# Class handles events emitted from LevelCompleted Component
 
 signal retry()
 signal next_level()

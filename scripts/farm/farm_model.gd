@@ -1,5 +1,10 @@
 class_name FarmModel
 extends RefCounted
+# Class represents the data structure used to store FarmItems for a farm.
+# It provides functionality like adding, getting, searching and modifying a farm 
+# item.
+# Addionally, it exposes a function that allows users of this class to randomise
+# the stored FarmItems.
 
 var grid_map = [] 
 var width:int

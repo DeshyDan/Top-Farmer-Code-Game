@@ -1,5 +1,7 @@
 class_name HelpWindow
 extends Control
+# Class creates a visual representation of HelpContents
+# It also handles the events emitted during interaction with the Help Window
 
 @export var help_contents: HelpContents
 @export var help_text: RichTextLabel

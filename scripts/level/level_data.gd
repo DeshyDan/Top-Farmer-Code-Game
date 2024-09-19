@@ -1,5 +1,8 @@
 class_name LevelData
 extends Resource
+# Class defines the data structure of a Level
+# It also provides functionality of accessing and setting different attributes of
+# a level
 
 const MAX_WIDTH = 100
 const MAX_HEIGHT = 100

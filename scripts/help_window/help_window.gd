@@ -1,4 +1,5 @@
 extends MarginContainer
+# Class handles events emitted in the help window
 
 @export var help_window_ui: Control
 @export var help_button: Control
