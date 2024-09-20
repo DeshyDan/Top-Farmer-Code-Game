@@ -1,6 +1,11 @@
 class_name Assignment
 extends AST
 
+# AST node representing an assignment 
+# statement. left and right correspond to
+# the expressions left and right of the 
+# "=" operator.
+
 var left: Var
 var right: AST
 var token: Token

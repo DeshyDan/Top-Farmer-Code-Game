@@ -1,6 +1,8 @@
 class_name WhileLoop
 extends AST
 
+# AST node representing a while loop
+
 var condition: AST
 var block: Block
 

@@ -1,6 +1,8 @@
 class_name FunctionCall
 extends AST
 
+# AST node representing a function call
+
 var name: Var
 var args = []
 var token: Token

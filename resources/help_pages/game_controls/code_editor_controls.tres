@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="HelpItem" load_steps=2 format=3 uid="uid://dp2h06bfsa2e3"]
+
+[ext_resource type="Script" path="res://scripts/help_window/help_page.gd" id="1_av1fo"]
+
+[resource]
+script = ExtResource("1_av1fo")
+category = "Game Controls"
+title = "Code Editor Controls"
+content = "Press GO button to execute the code in the editor
+
+Press PAUSE button to pause the game. Use GO to continue.
+
+Press KILL button to stop and reset the game."

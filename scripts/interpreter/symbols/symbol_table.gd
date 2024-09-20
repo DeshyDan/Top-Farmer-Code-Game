@@ -1,6 +1,10 @@
 class_name SymbolTable
 extends RefCounted
 
+# A SymbolTable represents all the declared 
+# symbols inside a given scope. May be enclosed
+# by another SymbolTable instance.
+
 var _symbols = {}
 var scope_name: String
 var scope_level: int

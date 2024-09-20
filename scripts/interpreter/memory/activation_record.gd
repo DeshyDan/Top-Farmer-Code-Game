@@ -1,6 +1,9 @@
 class_name ActivationRecord
 extends RefCounted
 
+# Class representing a single element of the call stack,
+# functions as program memory during execution.
+
 enum ARType {
 	PROGRAM,
 	FUNCTION_CALL,

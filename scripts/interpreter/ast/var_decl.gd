@@ -1,6 +1,9 @@
 class_name VarDecl
 extends AST
 
+# AST node representing a variable declaration
+# statement, e.g: var x:int
+
 var var_node: Var
 var type_node: Type
 var token: Token

@@ -1,6 +1,9 @@
 class_name IndexOp
 extends AST
 
+# AST node representing an index operation
+# e.g: left[index]
+
 var left: AST
 var token: Token
 var index: AST

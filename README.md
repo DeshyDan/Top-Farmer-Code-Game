@@ -1,29 +1,62 @@
-## A simple programming game
+# Code Gi, The Tech Farmer
 
-You should be able to use loops, variables and
-if statements to plant and harvest four crops
-from the 2x2 grid. The syntax is very similar to
-gdscript, so check https://docs.godotengine.org/en/stable/tutorials/scripting/gdscript/gdscript_basics.html for info 
-on how to program in the game. You
-also need to declare variables before using them (for now).
+## Table of Contents 
 
-### Running the game:
+- [Overview](#overview)
+- [Technologies Used](#technologies-used)
+- [How to run the game](#how-to-run-the-game)
+- [How to build and export the game](#how-to-build-and-export-the-game)
+- [Source Code Guide](#viewing-the-source-code)
 
+## Overview 
+Code Gi is a farming game for players who want to learn programming. In the game, you program a farmer using a simple beginner friendly language to fully automate various farming tasks.
+
+## Technologies Used
+
+### Development 
+- Godot
+- Docker
+- Gitlab
+
+### Testing 
+- GODOT (Godot Unit Tesing)
+
+## How to run the game
 You need Godot for this step. Download Godot at
 https://godotengine.org/download/. Make sure you get v4.2.2.
 
-You can load project.godot file into Godot and press
-the play button. More info in the viewing the source code section.
+Follow the steps below in order to run the game
+1. Load the project.godot file for this project. This can simply be done by clicking on the file
+2. Press the play button as shown in the picture below
+   ![Play Button](docs/play_button.png)
+3. Play the game an feel the satisfaction of simply pressing "GO"
 
-### Building from source:
+## How to build and export the game
 
-Follow this tutorial to export the source code into an executable:
+### For MACOS
 
-https://docs.godotengine.org/en/4.2/tutorials/export/exporting_projects.html
+#### Requirements 
+- Download the Godot export templates. Use the Godot menu: `Editor` > `Manage Export Templates` as shown in the picture below. Ensure you are downloading from `Best available mirror`.
 
-You might need to download an export preset.
+#### Steps to build and export
 
-### Viewing the source code:
+- Navigate to `Project` > `Export` as shows in the picture below
+  ![Play Button](docs/export_nav.png)
+
+- Set the bundle identifier to `com.codegi` as shown in the picture below
+  ![Play Button](docs/macos_bundle_id.png)
+- Click Export
+
+### For WINDOWS
+
+#### Steps to build and export
+
+- Navigate to `Project` > `Export` as shown in picture the below
+  ![Play Button](docs/export_nav_windows.png)
+  
+- Click Export
+
+## Viewing the source code:
 
 We recommend using Godot to view the source code. 
 

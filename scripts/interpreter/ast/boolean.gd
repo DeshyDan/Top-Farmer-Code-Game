@@ -1,6 +1,9 @@
 class_name Boolean
 extends AST
 
+# AST node representing a boolean literal:
+# e.g. true
+
 var token: Token
 var value: bool
 

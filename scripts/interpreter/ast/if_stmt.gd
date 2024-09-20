@@ -1,6 +1,9 @@
 class_name IfStatement
 extends AST
 
+# AST node representing an if statement and its
+# corresponding else block (if any)
+
 var condition: AST
 var block: Block
 var else_block: Block

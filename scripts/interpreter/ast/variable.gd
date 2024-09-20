@@ -1,6 +1,9 @@
 class_name Var
 extends AST
 
+# AST node representing a variable
+# e.g: my_var
+
 var token: Token
 var name: String
 

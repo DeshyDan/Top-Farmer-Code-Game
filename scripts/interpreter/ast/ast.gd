@@ -1,6 +1,8 @@
 class_name AST
 extends RefCounted
 
+# Base class for abstract syntax tree nodes.
+
 func _to_string():
 	return node_string(0)
 

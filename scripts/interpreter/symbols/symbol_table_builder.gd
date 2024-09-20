@@ -1,6 +1,10 @@
 class_name SymbolTableBuilder
 extends NodeVisitor
 
+# Visitor class that traverses the AST and keeps track of
+# what variables have been declared, and which scope they
+# belong to.
+
 var symtab: SymbolTable
 
 func _init():

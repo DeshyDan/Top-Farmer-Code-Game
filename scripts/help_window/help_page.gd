@@ -9,7 +9,10 @@ extends Resource
 	"Builtin constants",
 	"Operators",
 	"Control flow",
-	"Tips and tricks"
+	"Game elements",
+	"Game Controls",
+	"Tips and tricks", 
+	
 ) var category: String
 
 @export var title: String

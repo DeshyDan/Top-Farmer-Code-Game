@@ -6,8 +6,4 @@
 script = ExtResource("1_1r8lf")
 category = "Builtin constants"
 title = "Plants"
-content = "Here are the types of plants:
-[code]
-CORN,
-GRAPE
-[/code]"
+content = "You can use CORN, GRAPE as  plants in the [url=plant(crop:int)]plant()[/url] "

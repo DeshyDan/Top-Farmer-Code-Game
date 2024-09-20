@@ -6,6 +6,6 @@
 script = ExtResource("1_esasj")
 category = "Functions"
 title = "wait()"
-content = "You can use [code]wait()[/code] to stop the farmer for a while. This is useful if you know the plant you want to [url=harvest][code]harvest()[/code][/url] isn't finished growing yet.
+content = "You can use [code]wait()[/code] to stop the farmer for a while. This is useful if you know the plant you want to [url=harvest][code]harvest()[/code][/url] isn't finished growing yet. The function returns Null when executed
 
 Note: while waiting, your score still decreases. So try to avoid using [code]wait()[/code] if you're going for a highscore!"

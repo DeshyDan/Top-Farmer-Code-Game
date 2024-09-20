@@ -1,6 +1,14 @@
 class_name Token
-
 extends RefCounted
+
+# Token class representing a single 
+# keyword, operator or identifier.
+
+var type
+var value
+var lineno
+var colno
+var length
 
 enum Type {
 	VAR,
@@ -106,11 +114,6 @@ const TYPE_STRINGS =  {
 	Type.EOF : "EOF"
 }
 
-var type
-var value
-var lineno
-var colno
-var length
 
 func _init(type: Token.Type, value: Variant, lineno=null, colno=null, length=1):
 	self.type = type

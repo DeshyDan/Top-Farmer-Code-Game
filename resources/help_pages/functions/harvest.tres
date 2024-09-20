@@ -8,4 +8,6 @@ category = "Functions"
 title = "harvest()"
 content = "You can use [code]harvest()[/code] to harvest the tile directly underneath the farmer and collect the resource growing there.
 
-Note: using [code]harvest()[/code] on a plant that hasn't finished growing yet removes your plant but doesn't collect any resources!"
+Note: using [code]harvest()[/code] on a plant that hasn't finished growing yet removes your plant but doesn't collect any resources!
+
+This function returns true when a plant is successfully harvested otherwise false"

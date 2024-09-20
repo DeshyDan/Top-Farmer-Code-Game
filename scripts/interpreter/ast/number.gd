@@ -1,6 +1,8 @@
 class_name Number
 extends AST
 
+# AST node representing a float or int literal
+
 var token: Token
 var value
 
