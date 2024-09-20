@@ -11,8 +11,8 @@ enum { MAIN_SCREEN, LEVEL_SELECT, LEVEL_PLAY }
 @export var level_node: Level
 @export var level_loader: LevelLoader
 
-var _player_save: PlayerSave
-var _levels_to_load = range(1, 11)
+var player_save: PlayerSave
+var levels_to_load = range(1, 11)
 
 func _ready():
 	menu_cam.make_current()
@@ -32,7 +32,7 @@ func enter_state(state):
 		LEVEL_SELECT:
 			menu_cam.make_current()
 			level_select.visible = true
-			_levels_to_load = range(1,11)
+			levels_to_load = range(1,11)
 			show_level_select()
 			
 		LEVEL_PLAY:
@@ -41,24 +41,24 @@ func enter_state(state):
 
 func show_level_select():
 	level_select.reset()
-	for i in _levels_to_load:
+	for i in levels_to_load:
 		level_select.add_level(i)
 
 func load_save():
-	_player_save = PlayerSave.new()
-	_player_save.load_progress()
+	player_save = PlayerSave.new()
+	player_save.load_progress()
 
 func load_next_level():
-	if _levels_to_load.is_empty():
+	if levels_to_load.is_empty():
 		print("All levels loaded")
 		enter_state(MAIN_SCREEN)
 		return
 
-	var id = _levels_to_load.pop_front()
+	var id = levels_to_load.pop_front()
 	load_level(id)
 
 func load_level(id):
-	_levels_to_load = range(id + 1, 11)
+	levels_to_load = range(id + 1, 11)
 
 	var level_data = level_loader.get_level_data_by_id(id)
 	level_node.initialize(level_data)
@@ -86,4 +86,4 @@ func _on_next_level_requested():
 
 
 func _on_level_retry_requested():
-	load_level(level_node.get_id())
+	load_level(level_node.id)

@@ -1,6 +1,5 @@
 class_name PlayerEdit
 extends CodeEdit
-# Class handles the logic for handling managing visualizations on the code editor
 
 @export var keyword_data_path: = "res://keywords.json"
 

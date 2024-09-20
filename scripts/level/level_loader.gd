@@ -2,12 +2,12 @@ extends Node
 class_name LevelLoader
 # Class handles the logic for loading a level from a data source.
 
-var _lvl_array:Array
-var _lvl_array_items:Array
+var lvl_array:Array
+var lvl_array_items:Array
 
-var _count = 0
-var _original_data : Dictionary
-var _level_resources = {}
+var count = 0
+var original_data : Dictionary
+var level_resources = {}
 
 static var level_dir = "res://assets/levels/"
 
@@ -25,14 +25,15 @@ func _init():
 		if not file_name.ends_with(".tres"):
 			continue
 		var level_resource = load(level_dir + file_name)
-		_level_resources[level_resource.name] = level_resource
-
+		level_resources[level_resource.name] = level_resource
+		
+	print(level_resources)
 
 func get_level_data_by_name(name: String):
-	return _level_resources.get(name)
+	return level_resources.get(name)
 
 func get_level_data_by_id(id) -> LevelData:
-	for level_resource in _level_resources.values():
+	for level_resource in level_resources.values():
 		if level_resource.id == id:
 			return level_resource
 	return null
