@@ -5,22 +5,22 @@ extends Node2D
 
 const _STEP_MAX = 99999999
 
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+var x_max_boundary :int
+var y_max_boundary :int
 
-var _x_max_boundary :int
-var _y_max_boundary :int
-var _robot_tile_coords:Vector2i = Vector2i(0,0)
-var _move_tween: Tween
+var robot_tile_coords:Vector2i = Vector2i(0,0)
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+var move_tween: Tween
 
 func move(vec:Vector2i):
 	change_direction(vec)
-	self._robot_tile_coords += vec
-	return _robot_tile_coords
+	self.robot_tile_coords += vec
+	return robot_tile_coords
 	
 func change_direction(vec:Vector2i):
 	animated_sprite.flip_h = false
-	if _move_tween:
-		_move_tween.custom_step(_STEP_MAX)	# skip to target if too slow for now
+	if move_tween:
+		move_tween.custom_step(_STEP_MAX)	# skip to target if too slow for now
 	match vec:
 		Vector2i.UP:
 			animated_sprite.play("move_up")
@@ -36,9 +36,9 @@ func change_direction(vec:Vector2i):
 			animated_sprite.play("idle")
 	)
 	var target = position + Vector2(vec * 16)
-	_move_tween = create_tween()
-	_move_tween.tween_method(_move, position, target, 0.2).set_trans(Tween.TRANS_CUBIC)
-	_move_tween.tween_callback(_move.bind(target))
+	move_tween = create_tween()
+	move_tween.tween_method(_move, position, target, 0.2).set_trans(Tween.TRANS_CUBIC)
+	move_tween.tween_callback(_move.bind(target))
 
 func _move(pos: Vector2):
 	position = pos
@@ -68,15 +68,15 @@ func error():
 	)
 
 func get_coords():
-	return _robot_tile_coords
+	return robot_tile_coords
 
 func set_coords(coords:Vector2i):
-	_robot_tile_coords = coords
+	robot_tile_coords = coords
 
 func set_boundaries(width:int , height:int):
-	_x_max_boundary = width
-	_y_max_boundary = height
+	x_max_boundary = width
+	y_max_boundary = height
 
 func reset():
-	if _move_tween:
-		_move_tween.kill()
+	if move_tween:
+		move_tween.kill()

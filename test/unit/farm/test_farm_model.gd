@@ -32,7 +32,7 @@ func test_farm_dimensions():
 func test_is_harvestable():
 	var coord = Vector2i(0,0)
 
-	farm_model.add_farm_item(Plant.new(0,0), coord)
+	farm_model.add_farm_item(Plant.new(0,0,0), coord)
 	
 	assert_false(farm_model.is_harvestable(coord))
 	
@@ -47,7 +47,7 @@ func test_is_obstacle():
 	farm_model.add_farm_item(Obstacle.new(0,0,0), obstacle_coord)
 	assert_true(farm_model.is_obstacle(Vector2i(0,0)))
 	
-	farm_model.add_farm_item(Plant.new(0,0), plant_coord)
+	farm_model.add_farm_item(Plant.new(0,0,0), plant_coord)
 	assert_false(farm_model.is_obstacle(plant_coord))
 
 func test_remove():

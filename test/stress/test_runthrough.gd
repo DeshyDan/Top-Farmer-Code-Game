@@ -47,7 +47,7 @@ func run_level(id, level_data):
 	for char in level_data.source_code:
 		code_edit.insert_text_at_caret(char)
 	code_edit.end_action()
-	level.tick_rate = 100000
+	level.tick_rate = 50
 	level.update_tick_rate()
 	main.level_node._on_window_run_button_pressed()
 	await wait_for_signal(level.victory, 30, "Level %d took too long to succeed with dev solution" % id)

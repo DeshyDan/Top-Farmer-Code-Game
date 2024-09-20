@@ -8,38 +8,42 @@ extends FarmItem
 const FINAL_SEED_LEVEL = 3
 
 var plant_type: int
-var _age: int
-var _harvestable: bool
+var age: int
+var max_age: int
+var harvestable: bool
+var growth_factor: int
 
-func _init(id:int , texture_source_id:int):
-	self._id = id
-	self._texture_source_id = texture_source_id
-	self._harvestable = false
-	self._age = 0 
+func _init(id:int , texture_source_id:int , growth_factor:int ):
+	self.id = id
+	self.growth_factor = growth_factor
+	self.texture_source_id = texture_source_id
+	self.harvestable = false
+	self.age = 0 
 
 static func CORN():
-	return Plant.new(0, 1)
+	return Plant.new(0, 1, 4)
 	
 static func TOMATO():
-	return Plant.new(1, 2)
+	return Plant.new(1, 2, 4)
 	
 func get_id():
-	return self._id
+	return self.id
+	
+func get_growth_factor():
+	return growth_factor
 
 func get_source_id():
-	return self._texture_source_id
-	
+	return self.texture_source_id
 func get_age():
-	return _age
+	return age
 	
 func grow():
-	_age += 1
-
+	age += age
 func get_final_seed_level():
 	return FINAL_SEED_LEVEL
 
 func is_harvestable():
-	return self._harvestable
+	return self.harvestable
 	
 func set_harvestable():
-	self._harvestable = true
+	self.harvestable = true

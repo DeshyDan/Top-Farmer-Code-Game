@@ -1,5 +1,4 @@
 extends PanelContainer
-# Class represents the signals emited by edit control components
 
 @export var player_code_edit: PlayerEdit
 @export var console: RichTextLabel

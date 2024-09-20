@@ -20,10 +20,10 @@ func test_demo_unoptimized():
 	lvl.window.code_edit.text = source
 	lvl.tick_rate = 10
 	lvl._on_window_run_button_pressed()
-	lvl._timer.timeout.connect(func(): tick_count_unoptimized += 1)
+	lvl.timer.timeout.connect(func(): tick_count_unoptimized += 1)
 	if not await wait_for_signal(lvl.victory, 15.0):
 		fail_test("level took too long")
-	assert_true(lvl.farm.get_inventory().corn_quantity.text == "4")
+	assert_true(lvl.farm.inventory.corn_quantity.text == "4")
 	
 
 func test_demo_optimized():
@@ -32,10 +32,10 @@ func test_demo_optimized():
 	lvl.window.code_edit.text = source
 	lvl.tick_rate = 10
 	lvl._on_window_run_button_pressed()
-	lvl._timer.timeout.connect(func(): tick_count_optimized += 1)
+	lvl.timer.timeout.connect(func(): tick_count_optimized += 1)
 	if not await wait_for_signal(lvl.victory, 15.0):
 		fail_test("level took too long")
-	assert_true(lvl.farm.get_inventory().corn_quantity.text == "4")
+	assert_true(lvl.farm.inventory.corn_quantity.text == "4")
 
 func after_each():
 	remove_child(lvl)

@@ -20,8 +20,8 @@ func test_non_existent_file():
 func test_empty_file():
 	var result = level_loader.get_level_data_by_name(EMPTY_FILE)
 	var farm_model = result.get_farm_model()
-	assert_eq(farm_model.get_width(), 0, "Should return empty farm")
-	assert_eq(farm_model.get_height(), 0, "Should return empty farm")
+	assert_eq(farm_model.width, 0, "Should return empty farm")
+	assert_eq(farm_model.height, 0, "Should return empty farm")
 	
 func test_valid_level():
 	var result = level_loader.get_level_data_by_name(VALID_FARM)

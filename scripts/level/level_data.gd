@@ -71,17 +71,17 @@ func get_farm_model() -> FarmModel:
 					item = Obstacle.WATER()
 					item.set_translucent(true)
 			
-			if item is Obstacle and item.get_id() == Obstacle.WATER().get_id():
+			if item is Obstacle and item.id == Obstacle.WATER().id:
 				if x == 0 or y == 0 or x == width-1 or y == height-1:
 					continue	# no water tiles on the edge because the tileset doesn't support it
 			
 			result.add_farm_item(item, coords)
 	
 	if goal_position != Vector2i.ZERO:
-		result.set_goal_pos(goal_position) 
+		result.goal_pos = goal_position
 		result.add_farm_item(Goal.GOAL(), goal_position)
 	
-	result.set_max_random_rivers(max_random_rivers)
-	result.set_max_random_rocks(max_random_rocks)
+	result.max_random_rivers = max_random_rivers
+	result.max_random_rocks = max_random_rocks
 	
 	return result
