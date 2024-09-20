@@ -1,6 +1,6 @@
 class_name FarmView
 extends Node2D
-# This class takes in requests from Level and forwards it to the FarmModel,
+# Class takes in requests from Level and forwards it to the FarmModel,
 # Robot and Inventory and updates the view whenever a change is made. It then 
 # sends a response back to Level 
 # It also provides the logic for determining the service to forward the request

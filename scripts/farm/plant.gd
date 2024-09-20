@@ -1,6 +1,6 @@
 class_name Plant
 extends FarmItem
-# This class represents a plant, a collectable FarmItem that can be placed in
+# Class represents a plant, a collectable FarmItem that can be placed in
 # the FarmModel.
 # It also contains to the logic for creating the types of Plant to be used
 # in game as well as fuctions to modify their attributes

@@ -1,5 +1,5 @@
 extends TileMap
-# This class contains the logic for creating a visual representing of a FarmModel
+# Class contains the logic for creating a visual representing of a FarmModel
 # It provides functionality like setting the layers in which FarmItems should be 
 # placed as well as their textures.
 # It also provides functions for obtaining data about a tile

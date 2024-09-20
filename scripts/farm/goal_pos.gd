@@ -1,6 +1,6 @@
 class_name Goal
 extends FarmItem
-# This class represents a collectable farm item needed to complete a level
+# Class represents a collectable farm item needed to complete a level
 
 func _init(id:int , texture_source_id:int ):
 	self.id = id

@@ -1,4 +1,5 @@
 extends VBoxContainer
+# Class allows the user to view hints related a level
 
 @export var hint_page: Control
 @export var hint_text: RichTextLabel
