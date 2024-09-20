@@ -1,5 +1,7 @@
 # Code Gi, The Tech Farmer
 
+# Hosted at https://gitlab.cs.uct.ac.za/code-game-group/test-project
+
 ## Table of Contents 
 
 - [Overview](#overview)
