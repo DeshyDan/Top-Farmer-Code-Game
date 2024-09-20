@@ -3,21 +3,21 @@ extends RefCounted
 # Class provides the blueprint for creating elements that will be placed in
 # a FarmModel. 
 
-var texture_source_id:int
-var id: int
+var _texture_source_id:int
+var _id: int
 
 func _init(id:int , texture_source_id:int):
-	self.id = id
-	self.texture_source_id = texture_source_id
+	self._id = id
+	self._texture_source_id = texture_source_id
 	
 func get_id():
-	return self.id
+	return self._id
 	
 func get_source_id():
-	return self.texture_source_id
+	return self._texture_source_id
 
 func is_empty():
-	return id == 0 and texture_source_id == 0
+	return _id == 0 and _texture_source_id == 0
 
 static func EMPTY() -> FarmItem:
 	return FarmItem.new(0, 0)
